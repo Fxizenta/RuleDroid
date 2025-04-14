@@ -26,7 +26,7 @@ def save_page_content(url, content):
         file_name = "index.html"
     else:
         path_parts = parsed_url.path.strip("/").split("/")
-        folder = os.path.join("/data/fxizenta/doc", *path_parts[:-1]) if len(path_parts) > 1 else "/data/fxizenta/doc"
+        folder = os.path.join(folder, *path_parts[:-1]) if len(path_parts) > 1 else "/data/fxizenta/doc"
         file_name = path_parts[-1] or "index.html"
         if not file_name.endswith(".html"):
             file_name += ".html"
