@@ -1,0 +1,1237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="277"
+    android:versionName="4.85.1"
+    android:installLocation="auto"
+    package="jp.co.recruit.mtl.android.hotpepper">
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="26"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
+        android:maxSdkVersion="22"/>
+    <uses-permission
+        android:name="android.permission.MANAGE_ACCOUNTS"
+        android:maxSdkVersion="22"/>
+    <uses-permission
+        android:name="android.permission.USE_CREDENTIALS"
+        android:maxSdkVersion="22"/>
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+    <permission
+        android:name="jp.co.recruit.mtl.android.hotpepper.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="jp.co.recruit.mtl.android.hotpepper.permission.MAPS_RECEIVE"/>
+    <supports-screens
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="true"/>
+    <uses-permission android:name="jp.co.recruit.mtl.android.hotpepper.permission.C2D_MESSAGE"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <permission
+        android:name="jp.co.recruit.mtl.android.hotpepper.permission.C2D_MESSAGE"
+        android:protectionLevel="signature"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.location.network"
+        android:required="false"/>
+    <uses-feature
+        android:glEsVersion="0x20000"
+        android:required="true"/>
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE"/>
+    <application
+        android:theme="@style/HotpepperTheme"
+        android:label="@string/app_name"
+        android:icon="@drawable/icon"
+        android:name="jp.co.recruit.mtl.android.hotpepper.app.HotpepperApplication"
+        android:allowBackup="false"
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        android:resizeableActivity="false"
+        android:supportsPictureInPicture="false"
+        android:appComponentFactory="android.support.v4.app.CoreComponentFactory">
+        <meta-data
+            android:name="PP_SANDBOX"
+            android:value="false"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="d6aaea7412dfc17b2c8b51fbc0292df7e5002b36"/>
+        <uses-library
+            android:name="com.google.android.maps"
+            android:required="true"/>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme"
+            android:label="@string/app_name"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.app.AppFirstBootActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="jp.recruit.hotpepper.gourmet"
+                    android:host="boot"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/intent_relation_scheme"/>
+                <data android:host="@string/intent_relation_host_air_wallet"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme.Translucent"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.app.AppIndexActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="@string/intent_relation_scheme_appindexing"
+                    android:host="@string/intent_relation_host_appindexing"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.app.ConsentAgreementActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:allowTaskReparenting="true"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.app.TopActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme"
+            android:label="@string/label_special_search"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.special.SpecialTopActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/intent_relation_scheme"/>
+                <data android:host="theme"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme.NonAnimation"
+            android:label="@string/label_bookmark"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.bookmark.BookmarkTabActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/intent_relation_scheme"/>
+                <data android:host="@string/intent_relation_host_bookmark"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.currentlocation.CurrentLocationMapActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="jp.co.recruit.mtl.android.hotpepper.mapsearch"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.directreserve.DirectReserveMapActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.directreserve.DirectReserveConditionActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.currentlocation.CurrentLocationConditionActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme"
+            android:label="@string/label_search_condition_detail_title"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.search.SearchConditionPanelActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme"
+            android:label="@string/label_change_condition_title"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.search.SearchConditionFilterPanelActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.app.WebRedirectActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme.Translucent.LargeFontMenu"
+            android:label="@string/label_condition_search_run"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.app.FreewordActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@style/HotpepperTotTheme"
+            android:label=""
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.app.TopOfTopActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/intent_relation_scheme"/>
+                <data android:host="top"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="hpgbrowserjack"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.search.PlaceActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.search.LargeAreaActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.search.MiddleAreaActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.search.MiddleAreaActivityAb31459"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.search.SmallAreaActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/label_day_search_title"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.daysearch.DaySearchActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.daysearch.DaySearchMiddleAreaActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.daysearch.DaySearchSmallAreaActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.daysearch.DateSelectCalendarActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/category_name_genre"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.search.GenreActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.search.BudgetWheelActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.search.KodawariActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.search.KodawariPanelActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/menu_shop_detail_coupon"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.coupon.ShopDetailCouponActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/menu_shop_detail_coupon"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.coupon.SuguponCouponDetailActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/menu_shop_detail_coupon"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.coupon.CouponBookmarkActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/navigation_course_detail"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.shopdetail.menu.ShopDetailMenuCourseActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/category_name_kuchikomi_osusume_detail"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.shopdetail.kuchikomi.ShopDetailKuchikomiActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/label_shop_detail_kuchikomi_menu_title"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.shopdetail.kuchikomi.ShopDetailKuchikomiPostMenuActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/category_name_kuchikomi_osusume_detail"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.shopdetail.kuchikomi.ShopDetailMenuKuchikomiActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.shopdetail.kuchikomi.ShopDetailKuchikomiListTabActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/Theme.RecommendEnlarge"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.shopdetail.ShopDetailRecommendEnlargeActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/Theme.RecommendEnlarge"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.shopdetail.ShopDetailMenuFoodPhotoActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/HotpepperShopDetailActionBarTheme"
+            android:label=""
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.shopdetail.ShopDetailActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter android:label="@string/label_shop_detail_intent_chooser_title">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="http"/>
+                <data android:scheme="https"/>
+                <data android:host="www.hotpepper.jp"/>
+                <data android:pathPattern="/strJ.*/"/>
+            </intent-filter>
+            <intent-filter android:label="@string/label_shop_detail_intent_chooser_title">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="http"/>
+                <data android:scheme="https"/>
+                <data android:host="www.hotpepper.jp"/>
+                <data android:pathPattern="/strJ.*/scoupon/"/>
+            </intent-filter>
+            <intent-filter android:label="@string/label_shop_detail_intent_chooser_title">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="http"/>
+                <data android:scheme="https"/>
+                <data android:host="g.rmix.jp"/>
+                <data android:pathPrefix="/"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/intent_relation_scheme"/>
+                <data android:host="shop_detail"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="jp.co.recruit.mtl.android.hotpepper.SHOP"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:label=""
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.shopdetail.wedding.WeddingPartyActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/intent_relation_scheme"/>
+                <data android:host="wedding_detail"/>
+            </intent-filter>
+            <intent-filter android:label="@string/label_shop_detail_intent_chooser_title">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="http"/>
+                <data android:scheme="https"/>
+                <data android:host="www.hotpepper.jp"/>
+                <data android:pathPattern="/strJ.*/wedding/"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/navigation_corse_ichiran"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.shopdetail.wedding.WeddingPartyCourseListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/navigation_course_detail"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.shopdetail.wedding.WeddingPartyCourseActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/wedding_photo_gallery_btn"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.shopdetail.wedding.WeddingPartyPhotoGalleryActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/category_name_wedding_party_layout"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.shopdetail.wedding.WeddingPartyLayoutPhotoActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/navigation_shop_map"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.shopdetail.ShopDetailMapActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme.NonAnimation"
+            android:label="@string/label_view_history"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.history.HistoryTabActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/intent_relation_scheme"/>
+                <data android:host="@string/intent_relation_host_history"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/category_name_setting"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.app.SettingActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/category_name_feedback"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.app.FeedbackActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.search.RailwayAreaActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.search.RailwayActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.search.StationActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.web.WebPageActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.search.OtherSelectionActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.app.SplashActivity"
+            android:exported="true"
+            android:finishOnTaskLaunch="true"
+            android:screenOrientation="portrait"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="@string/intent_relation_scheme"
+                    android:host="splash"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/label_area"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.special.SpecialActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/SlideUp"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.special.SpecialNarrowActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/SlideUp"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.special.SubSiteThemeListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:label="@string/label_area"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.special.SpecialLargeAreaActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="jp.co.recruit.mtl.android.hotpepper.sp_large_area"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/SlideUp"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.special.SpecialMiddleAreaActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.special.SpecialMiddleAreaNoAnimationActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/SlideUp"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.special.SpecialMiddleAreaOnlyActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.currentlocation.CurrentLocationGenreActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/label_coupon_reminder_title"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.coupon.CouponReminderActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/SlideUp"
+            android:label="@string/label_login"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.my.LoginActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:theme="@style/SlideUp"
+            android:label="@string/label_login"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.my.OidcLoginActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme.NonAnimation"
+            android:label="@string/label_mypage"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.my.MyPageActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/intent_relation_scheme"/>
+                <data android:host="@string/intent_relation_host_my_page"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme.NonAnimation"
+            android:label="@string/label_reserve_list"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.reserve.ReserveListActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/intent_relation_scheme"/>
+                <data android:host="@string/intent_relation_host_reserve_list"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/label_reserve_detail_navi_title"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.reserve.ReserveDetailActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme.Translucent"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.other.TipsBookmarkActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme.Translucent"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.other.TipBookmarkSyncActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/label_search_freeword"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.search.SearchFreewordTabActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.RedirectActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/intent_relation_scheme"/>
+                <data android:host="@string/intent_relation_host_shop"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/SlideUp"
+            android:label="@string/favorite_service_area_navigation_bar_title"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.favorite.FavoriteServiceAreaActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.search.CouponTypeActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.search.CouponTypePanelActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.app.ReviewActivity"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.web.CampaignWebPageActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme.SlideUp"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.web.ModalCampaignWebPageActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.web.FirstPageWebPageActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/intent_relation_scheme"/>
+                <data android:host="@string/intent_relation_host_campaign_web_view"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/label_reserve_input_navi_title"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.reserve.RequestReserveInputActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/intent_relation_scheme"/>
+                <data android:host="@string/intent_relation_host_fax_form"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/label_reserve_complete_title"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.reserve.RequestReserveCompleteActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme"
+            android:label=""
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.web.AirWalletWebActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.app.WsSettings"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/label_search_history"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.history.HistoryActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.shopdetail.ShopDetailPhotoGalleryActivity"
+            android:exported="false"
+            android:configChanges="orientation"/>
+        <activity
+            android:label="@string/label_searchresult"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.coupon.SuguponSearchResultActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.shoplist.v2.ShopListV2Activity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="jp.co.recruit.mtl.android.hotpepper.SHOP_LIST"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/intent_relation_scheme"/>
+                <data android:host="@string/intent_relation_host_shop_list"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/HotpepperTheme"
+            android:label="@string/tot_research_panel_condition"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.special.pkgbundle.PackageBundleSearchConditionActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@style/SlideUp"
+            android:label="@string/label_imr_reserve_calendar_title"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.imr.ImrCalendarActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/label_imr_date_time_selection_title"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.imr.DateFirstReserveActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/label_imr_date_time_selection_title"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.imr.PersonFirstReserveActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/label_imr_date_time_selection_title"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.imr.CourseFirstReserveActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/SlideUp"
+            android:label="@string/label_imr_reserve_seat_title"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.imr.ImrSeatActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/SlideUp"
+            android:label="@string/label_imr_reserve_course_list_title"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.imr.ImrCourseListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/label_imr_reserve_input_navi_title"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.imr.ImrReserveInputActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/intent_relation_scheme"/>
+                <data android:host="@string/intent_relation_host_imr_reserve"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/label_direct_reserve_confirm_title"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.imr.DirectReserveInputActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:label="@string/label_imr_reserve_complete_title"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.imr.ImrReserveCompleteActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/SlideUp"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.special.SpecialSmallAreaActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.GeoOptionDialogActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme"
+            android:label="@string/label_info"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.app.NotificationActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/label_message"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.shopMessage.ShopMessageTabActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/label_message"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.app.ShopMessagesActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/label_middlearea"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.special.pkgbundle.PackageBundleMiddleAreaActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.special.pkgbundle.PackageBundleSmallAreaActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.special.pkgbundle.PackageBundleLargeAreaActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/SlideUp"
+            android:label="ポイント"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.shopdetail.ShopDetailPointActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.app.WalkThroughLoginActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/HotpepperTheme.Translucent"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.GeoFenceRedirectActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/intent_relation_scheme"/>
+                <data android:host="pp_push"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/HotpepperTheme.Translucent"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.PushRedirectActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/intent_relation_scheme"/>
+                <data android:host="@string/intent_relation_host_exbrowser"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/SlideUp"
+            android:label="@string/label_imr_reserve_seat_title"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.reserve.RequestReserveSeatActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/HotpepperNoActionBarTheme.Translucent.LargeFontMenu"
+            android:label="@string/label_condition_search_run"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.freeword.MultiSuggestFreeWordActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:label=""
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.shoplist.RecommendedShopListActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/intent_relation_scheme"/>
+                <data android:host="@string/intent_relation_host_recommended_shop_list"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/ridsso_add_account_actionbar_title"
+            android:name="jp.co.recruit.mtl.android.hotpepper.activity.AppWebViewClientFlowActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/Theme.RIDSSO.Dialog"
+            android:name="jp.co.recruit_tech.ridsso.view.chooseaccount.RSOChooseAccountActivity"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/HotpepperTheme"
+            android:name="jp.co.recruit_tech.ridsso.view.addaccount.RSOAddAccountActivity"
+            android:exported="true"/>
+        <activity
+            android:theme="@style/Theme.RIDSSO.Dialog"
+            android:name="jp.co.recruit_tech.ridsso.view.fingerprint.RSOFingerprintActivity"
+            android:exported="true"/>
+        <provider
+            android:name="jp.co.recruit.mtl.android.hotpepper.provider.MasterDataContentProvider"
+            android:exported="false"
+            android:authorities="jp.co.recruit.mtl.android.hotpepper.provider.MasterDataContentProvider"/>
+        <provider
+            android:name="jp.co.recruit.mtl.android.hotpepper.provider.NotificationProvider"
+            android:exported="false"
+            android:multiprocess="true"
+            android:authorities="jp.co.recruit.mtl.android.hotpepper.provider.NotificationProvider"/>
+        <provider
+            android:name="jp.co.recruit.mtl.android.hotpepper.provider.ReserveContentProvider"
+            android:exported="false"
+            android:authorities="jp.co.recruit.mtl.android.hotpepper.provider.ReserveContentProvider"/>
+        <provider
+            android:name="jp.co.recruit.mtl.android.hotpepper.provider.FreewordSearchRecentSuggestionsProvider"
+            android:exported="false"
+            android:authorities="jp.co.recruit.mtl.android.hotpepper.suggest.currentlocationmap"
+            android:syncable="false"/>
+        <provider
+            android:name="jp.co.recruit.mtl.android.hotpepper.provider.AirWalletSupportShopListFreewordSearchRecentSuggestionsProvider"
+            android:exported="false"
+            android:authorities="jp.co.recruit.mtl.android.hotpepper.suggest.airwalletsupportshoplist"
+            android:syncable="false"/>
+        <provider
+            android:name="jp.co.recruit.mtl.android.hotpepper.provider.BookmarkContentProvider"
+            android:exported="false"
+            android:authorities="jp.co.recruit.mtl.android.hotpepper.provider.bookmarkcontentprovider"/>
+        <provider
+            android:name="jp.co.recruit.mtl.android.hotpepper.provider.CouponContentProvider"
+            android:exported="false"
+            android:authorities="jp.co.recruit.mtl.android.hotpepper.provider.couponcontentprovider"/>
+        <provider
+            android:name="jp.co.recruit.mtl.android.hotpepper.provider.SearchFreewordAllContentProvider"
+            android:exported="false"
+            android:authorities="jp.co.recruit.mtl.android.hotpepper.provider.SearchFreewordAllContentProvider"/>
+        <provider
+            android:name="jp.co.recruit.mtl.android.hotpepper.provider.SearchFreewordAreaContentProvider"
+            android:exported="false"
+            android:authorities="jp.co.recruit.mtl.android.hotpepper.provider.SearchFreewordAreaContentProvider"/>
+        <provider
+            android:name="jp.co.recruit.mtl.android.hotpepper.provider.SearchFreewordStationContentProvider"
+            android:exported="false"
+            android:authorities="jp.co.recruit.mtl.android.hotpepper.provider.SearchFreewordStationContentProvider"/>
+        <provider
+            android:name="jp.co.recruit.mtl.android.hotpepper.provider.TempProvider"
+            android:exported="false"
+            android:authorities="jp.co.recruit.mtl.android.hotpepper.provider.TempProvider"/>
+        <provider
+            android:name="jp.co.recruit.mtl.android.hotpepper.provider.HistoryContentProvider"
+            android:exported="false"
+            android:authorities="jp.co.recruit.mtl.android.hotpepper.provider.HistoryContentProvider"/>
+        <provider
+            android:name="jp.co.recruit.mtl.android.hotpepper.provider.CouponViewHistoryContentProvider"
+            android:exported="false"
+            android:authorities="jp.co.recruit.mtl.android.hotpepper.provider.CouponViewHistoryContentProvider"/>
+        <service
+            android:name="jp.co.recruit.mtl.android.hotpepper.service.CouponAlarmService"
+            android:exported="false"/>
+        <service android:name="jp.co.recruit.mtl.android.hotpepper.service.firebaseMessaging.HotpepperFirebaseMessageManageService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+            <meta-data
+                android:name="notification_event"
+                android:value="jp.co.recruit.mtl.android.hotpepper.service.firebaseMessaging.HotpepperFirebaseUrlMessaging$UrlHandleNotificationService"/>
+        </service>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="INFORMATION"/>
+        <service
+            android:name="jp.co.recruit.mtl.android.hotpepper.service.firebaseMessaging.HotpepperFirebaseUrlMessaging.UrlHandleNotificationService"
+            android:exported="false"/>
+        <service
+            android:name="jp.co.recruit_tech.ridsso.account.RSOAccountAuthenticatorService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/ridsso_authenticator"/>
+        </service>
+        <receiver
+            android:name="jp.co.recruit.mtl.android.hotpepper.receiver.CouponAlarmReceiver"
+            android:exported="false"/>
+        <receiver
+            android:name="jp.co.recruit.mtl.android.hotpepper.receiver.HotpepperInstallReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending. INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="jp.co.recruit.mtl.android.hotpepper.receiver.NotificationServiceStarter"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <action android:name="android.intent.action.PACKAGE_CHANGED"/>
+                <action android:name="android.intent.action.PACKAGE_DATA_CLEARED"/>
+                <action android:name="android.intent.action.PACKAGE_INSTALL"/>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.PACKAGE_RESTARTED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="r2android.pusna.rs.DefaultGcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="jp.co.recruit.mtl.android.hotpepper"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
+                <category android:name="jp.co.recruit.mtl.android.hotpepper"/>
+            </intent-filter>
+            <meta-data
+                android:name="MESSAGE_SERVICE"
+                android:value="jp.co.recruit.mtl.android.hotpepper.service.HotpepperPusnaRsService"/>
+        </receiver>
+        <service
+            android:name="jp.co.recruit.mtl.android.hotpepper.service.ShopBookmarkAddService"
+            android:exported="false"/>
+        <service
+            android:name="jp.co.recruit.mtl.android.hotpepper.service.HotpepperPusnaRsService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <service
+            android:name="r2android.pusna.rs.PusnaRsIntentService"
+            android:exported="false"/>
+        <meta-data
+            android:name="APP_ID"
+            android:value="cc63638e-b2c3-497e-a607-952bc0efc7f6"/>
+        <meta-data
+            android:name="CLIENT_PACKAGE"
+            android:value="jp.co.recruit.mtl.android.hotpepper"/>
+        <meta-data
+            android:name="com.nec.android.dualscreen.runsOnSecondaryDisplay"
+            android:value="true"/>
+        <meta-data
+            android:name="R2_SDS_SERVER_URL"
+            android:value="@string/sds_server_url"/>
+        <meta-data
+            android:name="r2android.pusna.rs.R2_PUSNA_RS_URL"
+            android:value="@string/pusna_rs_server_url"/>
+        <meta-data
+            android:name="r2android.pusna.rs.R2_PUSNA_RS_SENDER_ID"
+            android:value="@string/sender_id"/>
+        <meta-data
+            android:name="R2_RID_AUTH_SERVER_URL"
+            android:value="https://gate.point.recruit.co.jp/api/gate/oauth/sandwichSmpAppAuth/"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/google_map_v2_api_key"/>
+        <meta-data
+            android:name="search-engine"
+            android:resource="@xml/noindex"/>
+        <meta-data
+            android:name="R2_RID_LOG_SERVER_URL"
+            android:value="@string/sds_log_server_url"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+        <receiver
+            android:name="jp.co.recruit.mtl.android.hotpepper.receiver.GeoFenceReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="jp.profilepassport.android.GEOAREA"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="jp.profilepassport.android.tasks.PPScheduleReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_SET"/>
+                <action android:name="android.intent.action.LOCALE_CHANGED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.location.PROVIDERS_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="jp.profilepassport.android.notification.time.PPTimeNotificationReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
+                <category android:name="jp.co.recruit.mtl.android.hotpepper"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="jp.profilepassport.android.geoarea.service.PPGeoAreaService"
+            android:exported="false"/>
+        <service
+            android:name="jp.profilepassport.android.notification.time.PPTimeNotificationService"
+            android:exported="false"/>
+        <service
+            android:name="jp.profilepassport.android.notification.PPNotificationService"
+            android:exported="false"/>
+        <receiver
+            android:name="jp.profilepassport.android.logger.PPLoggerReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="jp.profilepassport.android.logger.action.PP_LOGGER_ACTION"/>
+                <action android:name="android.intent.action.TIME_SET"/>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <service android:name="jp.co.recruit.lifestyle.android.firebase.messaging.MetisPushMessagingService">
+            <intent-filter android:priority="-100">
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="jp.co.recruit.lifestyle.android.firebase.messaging.MetisNotificationActionService"
+            android:exported="false"/>
+        <provider
+            android:name="jp.co.recruit.smdkibanlib.UuidContentProvider"
+            android:enabled="true"
+            android:exported="true"
+            android:multiprocess="false"
+            android:authorities="jp.co.recruit.mtl.android.hotpepper.jp.co.recruit.smdkibanlib.provider"/>
+        <receiver
+            android:name="com.google.android.gms.analytics.AnalyticsReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.analytics.AnalyticsService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.analytics.AnalyticsJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:exported="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <provider
+            android:name="com.squareup.picasso.PicassoProvider"
+            android:exported="false"
+            android:authorities="jp.co.recruit.mtl.android.hotpepper.com.squareup.picasso"/>
+        <service
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:exported="false">
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.iid.Registrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+        </service>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver"
+            android:permission="android.permission.INSTALL_PACKAGES"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.firebase.iid.FirebaseInstanceIdService"
+            android:exported="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"/>
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:exported="false"
+            android:authorities="jp.co.recruit.mtl.android.hotpepper.firebaseinitprovider"
+            android:initOrder="100"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent"
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:exported="false"
+            android:configChanges="smallestScreenSize|screenSize|uiMode|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <meta-data
+            android:name="android.support.VERSION"
+            android:value="26.1.0"/>
+        <activity
+            android:theme="@style/com_facebook_activity_theme"
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <activity android:name="com.facebook.CustomTabMainActivity"/>
+        <provider
+            android:name="com.facebook.internal.FacebookInitProvider"
+            android:exported="false"
+            android:authorities="jp.co.recruit.mtl.android.hotpepper.FacebookInitProvider"/>
+    </application>
+</manifest>

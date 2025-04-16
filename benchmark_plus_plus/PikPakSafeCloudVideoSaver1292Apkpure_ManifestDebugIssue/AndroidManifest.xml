@@ -1,0 +1,1310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="10119"
+    android:versionName="1.29.2"
+    android:compileSdkVersion="31"
+    android:compileSdkVersionCodename="12"
+    package="com.pikcloud.pikpak"
+    platformBuildVersionCode="31"
+    platformBuildVersionName="12">
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="31"/>
+    <uses-feature
+        android:name="android.software.leanback"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.faketouch"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.microphone"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.sensor"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.screen.portrait"
+        android:required="false"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <queries>
+        <package android:name="com.zhiliaoapp.musically"/>
+        <package android:name="com.eg.android.AlipayGphone"/>
+        <package android:name="com.google.android.gm"/>
+        <package android:name="com.whatsapp"/>
+        <package android:name="com.facebook.orca"/>
+        <package android:name="org.telegram.messenger"/>
+        <package android:name="org.thunderdog.challegram"/>
+        <package android:name="com.snapchat.android"/>
+        <package android:name="org.thoughtcrime.securesms"/>
+        <package android:name="jp.naver.line.android"/>
+        <package android:name="com.kakao.talk"/>
+        <package android:name="com.discord"/>
+        <package android:name="com.Slack"/>
+        <package android:name="com.skype.raider"/>
+        <package android:name="com.facebook.katana"/>
+        <package android:name="com.instagram.android"/>
+        <package android:name="com.pinterest"/>
+        <package android:name="com.reddit.frontpage"/>
+        <package android:name="com.twitter.android"/>
+        <package android:name="com.vkontakte.android"/>
+        <package android:name="com.medium.reader"/>
+        <package android:name="com.tumblr"/>
+        <package android:name="com.tencent.mm"/>
+        <package android:name="com.tencent.mobileqq"/>
+        <package android:name="com.qzone"/>
+        <package android:name="com.sina.weibo"/>
+        <package android:name="com.alibaba.android.rimet"/>
+        <package android:name="com.zhiliaoapp.musically"/>
+        <package android:name="com.ss.android.ugc.trill"/>
+        <package android:name="com.zhiliaoapp.musically.go"/>
+        <package android:name="com.android.chrome"/>
+    </queries>
+    <meta-data
+        android:name="com.google.android.gms.wallet.api.enabled"
+        android:value="true"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER"/>
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"/>
+    <uses-permission android:name="com.asus.msa.SupplementaryDID.ACCESS"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+    <uses-permission android:name="com.fingerprints.service.ACCESS_FINGERPRINT_MANAGER"/>
+    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE"/>
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-feature
+        android:glEsVersion="0x20000"
+        android:required="true"/>
+    <supports-screens
+        android:anyDensity="true"
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:resizeable="true"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
+    <application
+        android:theme="@style/AppTheme"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:name="com.pikcloud.app.XCloudApplication"
+        android:persistent="true"
+        android:allowBackup="false"
+        android:hardwareAccelerated="true"
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        android:banner="@drawable/tv_banner"
+        android:usesCleartextTraffic="true"
+        android:resizeableActivity="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:requestLegacyExternalStorage="true"
+        android:allowNativeHeapPointerTagging="false"
+        android:preserveLegacyExternalStorage="true">
+        <activity
+            android:theme="@style/AppTheme.Splash"
+            android:name="com.pikcloud.app.SplashActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:configChanges="screenSize|screenLayout|orientation">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/AppTheme.Splash.Tv"
+            android:label="@string/app_name"
+            android:name="com.pikcloud.app.TVLaunchActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape">
+            <meta-data
+                android:name="android.notch_support"
+                android:value="true"/>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.pikcloud.pikpak.tv.main.TVMainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.pikpak.tv.TvLogintActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.pikpak.tv.login.TvPhoneLoginActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.pikpak.tv.login.TvEmailLoginActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:theme="@style/common_dialog_translucent_dim_activity"
+            android:name="com.pikcloud.pikpak.tv.TVPayLimitDialogActivity"
+            android:screenOrientation="landscape"/>
+        <activity
+            android:name="com.pikcloud.pikpak.tv.TVXPayActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:theme="@style/VodPlayerTheme"
+            android:name="com.pikcloud.pikpak.tv.vodplayer.activity.TVVideoActivity"
+            android:taskAffinity="com.pikcloud.pictureinpicture"
+            android:launchMode="standard"
+            android:screenOrientation="landscape"
+            android:configChanges="smallestScreenSize|screenSize|uiMode|screenLayout|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden"
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"/>
+        <activity
+            android:name="com.pikcloud.pikpak.tv.vodplayer.activity.TVAudioActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="smallestScreenSize|screenSize|uiMode|screenLayout|orientation|keyboardHidden"/>
+        <activity
+            android:name="com.pikcloud.pikpak.tv.vodplayer.activity.TVPhotoActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="smallestScreenSize|screenSize|uiMode|screenLayout|orientation|keyboardHidden"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.main.activity.LogUploadActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:name="com.pikcloud.xpan.xpan.pan.activity.ShareRestoreResultForH5Activity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.pan.activity.ShareRestoreResultActivity"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.pan.activity.ShareListActivity"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.pan.activity.ShareUnderTakeActivity"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.pan.activity.ShareDetailActivity"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.main.activity.DarkModeSettingActivity"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity android:name="com.pikcloud.xpan.xpan.main.filechoose.MultiSDCardActivity"/>
+        <activity android:name="com.pikcloud.xpan.xpan.main.filechoose.LocalFileChooseActivity"/>
+        <activity android:name="com.pikcloud.xpan.xpan.pan.activity.XPanReportActivity"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.pan.activity.XPanHistoryActivity"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.main.activity.PhotoListActivity"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:theme="@style/download_transparent"
+            android:name="com.pikcloud.xpan.xpan.main.activity.XPanAppSelectActivity"/>
+        <activity
+            android:theme="@style/common_dialog_translucent_activity"
+            android:name="com.pikcloud.xpan.xpan.pan.dialog.XPanBottomMoreDialogActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.pan.activity.XPanCreateUrlTaskActivity"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:theme="@style/download_transparent"
+            android:name="com.pikcloud.xpan.xpan.pan.activity.XPanAddBtActivity"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:theme="@style/download_transparent"
+            android:name="com.pikcloud.xpan.xpan.pan.activity.XPanGlobalAddTaskActivity"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.pan.activity.XPanFileBrowserActivity"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.pan.activity.XPanFileSelectActivity"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.pan.recyclebin.XPanRecycleBinActivity"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.pan.activity.XPanFileSearchActivity"
+            android:launchMode="singleTask"
+            android:configChanges="screenSize|screenLayout|orientation"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.pan.activity.XPanFileFetchActivity"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.main.activity.XPanSettingActivity"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.main.activity.TransSettingActivity"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.main.activity.DownloadSettingActivity"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.main.activity.AppLockSetActivity"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.main.activity.LockTimeSettingActivity"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.main.activity.lock.LockPassCodedActivity"
+            android:launchMode="singleInstance"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.main.activity.lock.LockFingerPrintActivity"
+            android:launchMode="singleInstance"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.main.activity.lock.LockPwdAndFingerdActivity"
+            android:launchMode="singleInstance"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.main.activity.SetPasswordActivity"
+            android:launchMode="singleTask"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.main.activity.AboutActivity"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.main.activity.PreminumGiftActivity"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.account.SubGuideActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|screenLayout|orientation">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="pikpakguide"
+                    android:host="alipay"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.main.activity.XPanLangSettingActivity"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.main.activity.ShortVideoSettingActivity"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.main.activity.MagnetSettingActivity"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.main.activity.XPanProfileActivity"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.translist.LiXianBtSubTasksActivity"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.main.MainTabActivity"
+            android:launchMode="singleTask"
+            android:configChanges="screenSize|screenLayout|orientation"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:theme="@style/common_dialog_translucent_dim_activity"
+            android:name="com.pikcloud.xpan.clipboard.ClipboardAddUrlActivity"
+            android:launchMode="singleInstance"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/CaptureTheme"
+            android:name="com.pikcloud.xpan.xpan.main.activity.BaseCaptureActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:theme="@style/CaptureTheme"
+            android:name="com.pikcloud.xpan.xpan.main.activity.qrcode.QrCodeActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.main.activity.qrcode.QrCodeResultActivity"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.main.activity.qrcode.QrCodeLoginActivity"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.tvmanage.TVManageAddFileActivity"
+            android:launchMode="singleTask"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.tvmanage.TVManageFileListActivity"
+            android:launchMode="singleTask"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.xpan.xpan.tvmanage.TVManageGuideActivity"
+            android:launchMode="singleTask"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:theme="@style/common_dialog_translucent_dim_activity"
+            android:name="com.pikcloud.xpan.xpan.pan.activity.ShareWatchDialogActivity"
+            android:screenOrientation="portrait"/>
+        <provider
+            android:name="com.pikcloud.xpan.upload.UploadProvider"
+            android:exported="false"
+            android:authorities="com.pikcloud.pikpak.uploadprovider"/>
+        <activity
+            android:name="com.pikcloud.web.ProcessWebViewActivity"
+            android:process=":tools"
+            android:launchMode="singleTask"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/common_dialog_translucent_dim_activity"
+            android:name="com.pikcloud.account.XPayDialogActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:theme="@style/common_dialog_translucent_dim_activity"
+            android:name="com.pikcloud.account.XPremiumDialogActivity"
+            android:launchMode="singleInstance"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.pikcloud.account.XPayActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize|screenLayout|orientation">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="pikpak"
+                    android:host="alipay"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.pikcloud.account.login.LoginActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.account.login.PhoneLoginActivity"
+            android:launchMode="singleTask"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.account.login.EmailSignUpActivity"
+            android:launchMode="singleTask"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.account.login.EmailLoginActivity"
+            android:launchMode="singleTask"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.account.RedemptionSuccessActivity"
+            android:launchMode="singleTask"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.download.DownloadTaskListActivity"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.download.DownloadGroupSubTasksActivity"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.audioplayer.ui.AudioPlayerActivity"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:theme="@style/VodPlayerTheme"
+            android:name="com.pikcloud.vodplayer.vodmix.MixPlayerActivity"
+            android:taskAffinity="com.pikcloud.pictureinpicture"
+            android:launchMode="standard"
+            android:configChanges="smallestScreenSize|screenSize|uiMode|screenLayout|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden"
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"/>
+        <activity
+            android:theme="@style/VodPlayerTheme"
+            android:name="com.pikcloud.vodplayer.vodshort.VodPlayerShortActivity"
+            android:launchMode="singleTop"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/VodPlayerTheme"
+            android:name="com.pikcloud.vodplayer.lelink.ui.VodPlayerDLNAActivity"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|screenLayout|orientation"
+            android:hardwareAccelerated="true"/>
+        <service
+            android:name="com.pikcloud.vodplayer.lelink.impl.LelinkConnectService"
+            android:exported="false"/>
+        <service
+            android:name="com.pikcloud.audioplayer.service.AudioPlayerNotificationService"
+            android:exported="false"/>
+        <activity
+            android:name="com.pikcloud.android.module.guide.AddFileGuideActivity"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:name="com.pikcloud.router.InstallReferrerTestActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:theme="@style/AppTheme.Splash"
+            android:name="com.pikcloud.router.share.SystemShareActivity"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:configChanges="screenSize|screenLayout|orientation"
+            android:noHistory="true">
+            <intent-filter android:label="Save to PikPak">
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="*/*"/>
+            </intent-filter>
+            <intent-filter android:label="Save to PikPak">
+                <action android:name="android.intent.action.SEND_MULTIPLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="*/*"/>
+            </intent-filter>
+            <intent-filter android:label="Save to PikPak">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="content"/>
+                <data android:scheme="file"/>
+                <data android:mimeType="audio/*"/>
+                <data android:mimeType="video/*"/>
+                <data android:mimeType="image/*"/>
+                <data android:mimeType="application/mp4"/>
+                <data android:mimeType="*/rmvb"/>
+                <data android:mimeType="*/avi"/>
+                <data android:mimeType="*/mkv"/>
+            </intent-filter>
+            <intent-filter android:label="Save to PikPak">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="ftp"/>
+                <data android:scheme="thunder"/>
+                <data android:scheme="ed2k"/>
+                <data android:scheme="magnet"/>
+                <data android:scheme="http"/>
+                <data android:scheme="https"/>
+            </intent-filter>
+            <intent-filter android:label="Save to PikPak">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="content"/>
+                <data android:scheme="file"/>
+                <data android:mimeType="application/x-bittorrent"/>
+            </intent-filter>
+            <intent-filter android:label="Save to PikPak">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="content"/>
+                <data android:scheme="file"/>
+                <data android:mimeType="application/force-download"/>
+            </intent-filter>
+            <intent-filter android:label="Save to PikPak">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="content"/>
+                <data android:scheme="file"/>
+                <data android:mimeType="application/octet-stream"/>
+            </intent-filter>
+            <intent-filter android:label="Save to PikPak">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="application/x-bittorrent"/>
+                <data android:mimeType="*/*"/>
+                <data
+                    android:scheme="file"
+                    android:host="*"
+                    android:pathPattern=".*\\.torrent"/>
+                <data
+                    android:scheme="file"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\.torrent"/>
+                <data
+                    android:scheme="file"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\.torrent"/>
+                <data
+                    android:scheme="file"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\.torrent"/>
+                <data
+                    android:scheme="file"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\.torrent"/>
+                <data
+                    android:scheme="file"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.torrent"/>
+                <data
+                    android:scheme="file"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent"/>
+                <data
+                    android:scheme="file"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent"/>
+                <data
+                    android:scheme="file"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent"/>
+                <data
+                    android:scheme="file"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent"/>
+                <data
+                    android:scheme="content"
+                    android:host="*"
+                    android:pathPattern=".*\\.torrent"/>
+                <data
+                    android:scheme="content"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\.torrent"/>
+                <data
+                    android:scheme="content"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\.torrent"/>
+                <data
+                    android:scheme="content"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\.torrent"/>
+                <data
+                    android:scheme="content"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\.torrent"/>
+                <data
+                    android:scheme="content"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.torrent"/>
+                <data
+                    android:scheme="content"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent"/>
+                <data
+                    android:scheme="content"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent"/>
+                <data
+                    android:scheme="content"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent"/>
+                <data
+                    android:scheme="content"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent"/>
+                <data
+                    android:scheme="content"
+                    android:host="*"
+                    android:pathPattern=".*\\.TORRENT"/>
+                <data
+                    android:scheme="content"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\.TORRENT"/>
+                <data
+                    android:scheme="content"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\.TORRENT"/>
+                <data
+                    android:scheme="content"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\.TORRENT"/>
+                <data
+                    android:scheme="content"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\.TORRENT"/>
+                <data
+                    android:scheme="content"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.TORRENT"/>
+                <data
+                    android:scheme="content"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.TORRENT"/>
+                <data
+                    android:scheme="content"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.TORRENT"/>
+                <data
+                    android:scheme="content"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.TORRENT"/>
+                <data
+                    android:scheme="content"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.TORRENT"/>
+                <data
+                    android:scheme="file"
+                    android:host="*"
+                    android:pathPattern=".*\\.TORRENT"/>
+                <data
+                    android:scheme="file"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\.TORRENT"/>
+                <data
+                    android:scheme="file"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\.TORRENT"/>
+                <data
+                    android:scheme="file"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\.TORRENT"/>
+                <data
+                    android:scheme="file"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\.TORRENT"/>
+                <data
+                    android:scheme="file"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.TORRENT"/>
+                <data
+                    android:scheme="file"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.TORRENT"/>
+                <data
+                    android:scheme="file"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.TORRENT"/>
+                <data
+                    android:scheme="file"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.TORRENT"/>
+                <data
+                    android:scheme="file"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.TORRENT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/AppTheme.Splash"
+            android:name="com.pikcloud.router.deeplink.DeepLinkingActivity"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:configChanges="screenSize|screenLayout|orientation"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="pikpakapp"
+                    android:host="*"/>
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="mypikpak.com"
+                    android:pathPrefix="/s/"/>
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="*.mypikpak.com"
+                    android:pathPrefix="/s/"/>
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="toapp.mypikpak.com"/>
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="http"
+                    android:host="pikpak.page.link"/>
+                <data
+                    android:scheme="https"
+                    android:host="pikpak.page.link"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/PikPakTheme.Dialog"
+            android:name="com.pikcloud.downloadlib.export.base.dialog.XLNetworkAccessDlgActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="behind"/>
+        <activity android:name="com.pikcloud.downloadlib.export.download.fileexplore.XLFileExploreActivity"/>
+        <meta-data
+            android:name="com.pikcloud.download.APP_KEY"
+            android:value="DmPYNjA2NjsxNjI1MTIwNjg3LjgzNTAwMA&amp;&amp;xEQg==0b1fc42^0e5^11^ac4dbeccdde597f023b2979f0==5C387A6ED767AABFCAC8ED7ABCE9A425"/>
+        <meta-data
+            android:name="com.pikcloud.download.APP_KEY1"
+            android:value="DmPYNjA2NjsxNjI1MTIwNjg3LjgzNTAwMA&amp;&amp;xEQg==0b1fc42^0e5^11^ac4dbeccdde597f023b2979f0==F^8419663B^62A694648CC0F9026935A"/>
+        <meta-data
+            android:name="com.pikcloud.download.RECOMMENDED_MAX_BYTES_OVER_MOBILE"
+            android:value="-1"/>
+        <meta-data
+            android:name="com.pikcloud.download.MAX_BYTES_OVER_MOBILE"
+            android:value="-1"/>
+        <meta-data
+            android:name="com.pikcloud.download.RECOMMENDED_MAX_CONCURRENT_DOWNLOADS"
+            android:value="5"/>
+        <meta-data
+            android:name="com.pikcloud.download.RECOMMENDED_MAX_CONCURRENT_BT_SUB_DOWNLOADS"
+            android:value="3"/>
+        <meta-data
+            android:name="com.pikcloud.download.RECOMMENDED_MAX_VOD_CONCURRENT_DOWNLOADS"
+            android:value="3"/>
+        <meta-data
+            android:name="com.pikcloud.download.SHOW_NOTIFY"
+            android:value="false"/>
+        <meta-data
+            android:name="com.pikcloud.download.SERVICE_START_COMMAND"
+            android:value="2"/>
+        <provider
+            android:name="com.android.providers.downloads.DownloadProvider"
+            android:exported="false"
+            android:authorities="com.pikcloud.pikpak"/>
+        <service
+            android:name="com.pikcloud.downloadlib.export.download.engine_new.service.UploadNotificationService"
+            android:enabled="true"
+            android:exported="true"/>
+        <service
+            android:name="com.pikcloud.downloadlib.export.download.engine_new.dataprocessor.preopen.APlayerService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.pikcloud.downloadlib.export.download.engine_new.service.DownloadNotificationService"
+            android:enabled="true"
+            android:exported="true"/>
+        <meta-data
+            android:name="com.google.sdk.acc.ServerClientId"
+            android:value="1016306462377-gacp3qbg1hp8ei82510fnmfgv1ug0oio.apps.googleusercontent.com"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="@string/facebook_client_token"/>
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true"
+            android:authorities="com.facebook.app.FacebookContentProvider3735547369906669"/>
+        <activity
+            android:theme="@style/com_facebook_activity_theme"
+            android:label="@string/app_name"
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/fb_login_protocol_scheme"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="fbconnect"
+                    android:host="cct.com.pikcloud.pikpak"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="cloud.xbase.sdk.act.google.GoogleLoginActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name="cloud.xbase.sdk.act.facebook.FacebookLoginActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="cloud.xbase.sdk.act.google.GooglePlayBillingActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name="cloud.xbase.sdk.act.ForgetOrChangePasswordActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:theme="@style/activityDialogStyle"
+            android:label="验证页面"
+            android:name="cloud.xbase.sdk.act.ReviewActivity"
+            android:launchMode="singleTop"/>
+        <service
+            android:name="com.pikcloud.firebase.message.MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_stat_ic_notification2"/>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent"/>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="default_channel_id"/>
+        <meta-data
+            android:name="firebase_messaging_auto_init_enabled"
+            android:value="true"/>
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="true"/>
+        <meta-data
+            android:name="firebase_performance_logcat_enabled"
+            android:value="true"/>
+        <activity
+            android:name="com.pikcloud.common.ui.activity.CommonEmptyActivity"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <service android:name="com.weblib.webview.aidl.mainpro.WebviewMainProcessService"/>
+        <service
+            android:name="com.weblib.webview.aidl.mainpro.ToolsService"
+            android:process=":tools"/>
+        <provider
+            android:name="com.pikcloud.common.XCloudFileProvider"
+            android:exported="false"
+            android:authorities="com.pikcloud.open.com.pikcloud.pikpak.provider"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/xl_file_paths"/>
+        </provider>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.pikcloud.common.widget.TransformActivity"
+            android:configChanges="screenSize|screenLayout|orientation"/>
+        <activity
+            android:theme="@style/permission_translucent"
+            android:name="com.pikcloud.common.permission.PermissionTranslucentActivity"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden"/>
+        <activity
+            android:name="com.pikcloud.common.battery.ui.BatteryGuideActivity"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/permission_translucent"
+            android:name="com.pikcloud.common.permission.PermissionActivity"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden"/>
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false"/>
+        <activity
+            android:name="com.stripe.android.payments.wechatpay.WeChatPayAuthActivity"
+            android:exported="true"
+            android:launchMode="singleTop"/>
+        <activity
+            android:theme="@style/StripePaymentSheetDefaultTheme"
+            android:name="com.stripe.android.paymentsheet.PaymentSheetActivity"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/StripePaymentSheetDefaultTheme"
+            android:name="com.stripe.android.paymentsheet.PaymentOptionsActivity"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/StripeDefaultTheme"
+            android:name="com.stripe.android.view.AddPaymentMethodActivity"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/StripeDefaultTheme"
+            android:name="com.stripe.android.view.PaymentMethodsActivity"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/StripeDefaultTheme"
+            android:name="com.stripe.android.view.PaymentFlowActivity"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/StripeDefaultTheme"
+            android:name="com.stripe.android.view.PaymentAuthWebViewActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@style/StripeTransparentTheme"
+            android:name="com.stripe.android.view.PaymentRelayActivity"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/StripeTransparentTheme"
+            android:name="com.stripe.android.payments.StripeBrowserLauncherActivity"
+            android:exported="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="stripesdk"
+                    android:host="payment_return_url"
+                    android:path="/com.pikcloud.pikpak"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/StripeDefaultTheme"
+            android:name="com.stripe.android.payments.core.authentication.threeds2.Stripe3ds2TransactionActivity"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/StripeGooglePayDefaultTheme"
+            android:name="com.stripe.android.googlepaylauncher.StripeGooglePayActivity"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/StripeGooglePayDefaultTheme"
+            android:name="com.stripe.android.googlepaylauncher.GooglePayLauncherActivity"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/StripeGooglePayDefaultTheme"
+            android:name="com.stripe.android.googlepaylauncher.GooglePayPaymentMethodLauncherActivity"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/PayLauncherDefaultTheme"
+            android:name="com.stripe.android.payments.paymentlauncher.PaymentLauncherConfirmationActivity"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/Stripe3DS2Theme"
+            android:name="com.stripe.android.stripe3ds2.views.ChallengeActivity"
+            android:exported="false"/>
+        <activity android:name="com.facebook.CustomTabMainActivity"/>
+        <provider
+            android:name="com.google.firebase.perf.provider.FirebasePerfProvider"
+            android:exported="false"
+            android:authorities="com.pikcloud.pikpak.firebaseperfprovider"
+            android:initOrder="101"/>
+        <service
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:exported="false"
+            android:directBootAware="true">
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.perf.FirebasePerfRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.dynamiclinks.internal.FirebaseDynamicLinkRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.crashlytics.ndk.CrashlyticsNdkRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.crashlytics.CrashlyticsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.remoteconfig.RemoteConfigRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.abt.component.AbtRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+        </service>
+        <provider
+            android:name="com.facebook.internal.FacebookInitProvider"
+            android:exported="false"
+            android:authorities="com.pikcloud.pikpak.FacebookInitProvider"/>
+        <receiver
+            android:name="com.facebook.CurrentAccessTokenExpirationBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.facebook.sdk.ACTION_CURRENT_ACCESS_TOKEN_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.facebook.AuthenticationTokenManager.CurrentAuthenticationTokenChangedBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.facebook.sdk.ACTION_CURRENT_AUTHENTICATION_TOKEN_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:exported="false"
+            android:directBootAware="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"/>
+        <service
+            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+            android:exported="true"
+            android:visibleToInstantApps="true"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.firebase.auth.internal.GenericIdpActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="genericidp"
+                    android:host="firebase.auth"
+                    android:path="/"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.firebase.auth.internal.RecaptchaActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="recaptcha"
+                    android:host="firebase.auth"
+                    android:path="/"/>
+            </intent-filter>
+        </activity>
+        <service
+            android:name="com.google.firebase.auth.api.fallback.service.FirebaseAuthFallbackService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.auth.api.gms.service.START"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </service>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"/>
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:exported="false"
+            android:authorities="com.pikcloud.pikpak.firebaseinitprovider"
+            android:initOrder="100"
+            android:directBootAware="true"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:exported="false"
+            android:authorities="com.pikcloud.pikpak.androidx-startup">
+            <meta-data
+                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+                android:value="androidx.startup"/>
+        </provider>
+        <receiver
+            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+            android:permission="android.permission.DUMP"
+            android:enabled="true"
+            android:exported="true"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE"/>
+            </intent-filter>
+        </receiver>
+        <provider
+            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+            android:exported="false"
+            android:multiprocess="true"
+            android:authorities="com.pikcloud.pikpak.lifecycle-process"/>
+        <service
+            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+            android:exported="false">
+            <meta-data
+                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+                android:value="cct"/>
+        </service>
+        <service
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+            android:exported="false"/>
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:exported="false"
+            android:configChanges="screenSize|orientation|navigation|keyboardHidden"/>
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:exported="false"
+            android:configChanges="screenSize|orientation|navigation|keyboardHidden"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.alipay.sdk.app.PayResultActivity"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:configChanges="screenSize|orientation|navigation|keyboardHidden">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.alipay.sdk.app.AlipayResultActivity"
+            android:exported="true"
+            android:launchMode="singleTask"/>
+        <activity
+            android:name="com.alipay.sdk.app.H5OpenAuthActivity"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:configChanges="screenSize|orientation|navigation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <service
+            android:name="com.hpplay.sdk.source.process.LelinkSdkService"
+            android:exported="false"
+            android:process=":lelinkps">
+            <intent-filter>
+                <action android:name="com.hpplay.sdk.source.LelinkSdkService.ACTION"/>
+            </intent-filter>
+        </service>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            android:name="com.hpplay.sdk.source.permission.PermissionBridgeActivity"
+            android:exported="false"
+            android:process=":lelinkps"
+            android:excludeFromRecents="true"/>
+        <receiver
+            android:name="com.hpplay.sdk.source.process.LelinkReceiver"
+            android:exported="false"
+            android:process=":lelinkps">
+            <intent-filter>
+                <action android:name="com.hpplay.source.service.close"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:name="com.google.android.play.core.missingsplits.PlayCoreMissingSplitsActivity"
+            android:enabled="false"
+            android:exported="false"
+            android:process=":playcore_missing_splits_activity"
+            android:stateNotNeeded="true"
+            android:launchMode="singleInstance"/>
+        <activity
+            android:theme="@style/Theme.PlayCore.Transparent"
+            android:name="com.google.android.play.core.common.PlayCoreDialogWrapperActivity"
+            android:enabled="false"
+            android:exported="false"
+            android:stateNotNeeded="true"/>
+        <service
+            android:name="com.google.android.play.core.assetpacks.AssetPackExtractionService"
+            android:enabled="false"
+            android:exported="true">
+            <meta-data
+                android:name="com.google.android.play.core.assetpacks.versionCode"
+                android:value="11000"/>
+        </service>
+        <service
+            android:name="com.google.android.play.core.assetpacks.ExtractionForegroundService"
+            android:enabled="false"
+            android:exported="false"/>
+        <meta-data
+            android:name="com.google.android.play.billingclient.version"
+            android:value="5.0.0"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.android.billingclient.api.ProxyBillingActivity"
+            android:exported="false"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <meta-data
+            android:name="com.android.dynamic.apk.fused.modules"
+            android:value="base"/>
+        <meta-data
+            android:name="com.android.stamp.source"
+            android:value="https://play.google.com/store"/>
+        <meta-data
+            android:name="com.android.stamp.type"
+            android:value="STAMP_TYPE_STANDALONE_APK"/>
+        <meta-data
+            android:name="com.android.vending.splits"
+            android:resource="@xml/splits0"/>
+        <meta-data
+            android:name="com.android.vending.derived.apk.id"
+            android:value="2"/>
+    </application>
+</manifest>

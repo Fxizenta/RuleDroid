@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="6021205"
+    android:versionName="6.2.12"
+    android:compileSdkVersion="33"
+    android:compileSdkVersionCodename="13"
+    package="jp.co.skylark.app.gusto"
+    platformBuildVersionCode="33"
+    platformBuildVersionName="13">
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="33"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:required="false"/>
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true"/>
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false"/>
+    <queries>
+        <package android:name="jp.co.rakuten.pointpartner.app"/>
+        <package android:name="com.nttdocomo.android.dpoint"/>
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="https"/>
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.BROWSABLE"/>
+            <data android:scheme="https"/>
+        </intent>
+    </queries>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE"/>
+    <permission
+        android:name="jp.co.skylark.app.gusto.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="jp.co.skylark.app.gusto.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.screen.landscape"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <application
+        android:theme="@style/AppTheme"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:name="jp.co.skylark.SkylarkApp"
+        android:allowBackup="false"
+        android:supportsRtl="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory">
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="false"/>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification"/>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent"/>
+        <service
+            android:name="jp.co.skylark.push.SkylarkMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <activity
+            android:theme="@style/AppTheme.Licence"
+            android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/AppTheme.Licence"
+            android:label="@string/oss_license_title"
+            android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.skylark.main.ui.MainActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize|orientation">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="@string/deep_link_scheme_https"
+                    android:host="@string/deep_link_host_https"
+                    android:pathPrefix="/app/main"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="@string/deep_link_scheme_sklgusto"
+                    android:host="main"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="jp.co.skylark.orderly.ui.WebECsiteOrthodoxViewActivity"
+            android:exported="false"/>
+        <activity
+            android:name="jp.co.skylark.orderly.ui.WebOrthodoxViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.skylark.coupon.ui.brand.BrandCouponActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.skylark.coupon.ui.detail.CouponDetailActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="@string/deep_link_scheme_https"
+                    android:host="@string/deep_link_host_https"
+                    android:pathPrefix="@string/deep_link_path_prefix_coupon"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="jp.co.skylark.coupon.ui.basket.CouponBasketActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.skylark.coupon.ui.oneday.OneDayCouponResultActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.skylark.account.ui.MemberInfoActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.skylark.account.ui.AccountUpdateActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.skylark.account.ui.InformationDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.skylark.account.ui.ContactActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.skylark.account.ui.UnsubscribeActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.skylark.account.ui.UnsubscribeCompleteActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/AppTheme.Launcher"
+            android:name="jp.co.skylark.launcher.ui.LauncherActivity"
+            android:exported="true"
+            android:launchMode="standard"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="@string/deep_link_scheme_https"
+                    android:host="@string/deep_link_host_https"
+                    android:pathPrefix="@string/deep_link_path_prefix_launch"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="jp.co.skylark.launcher.ui.ClickActionHandlingActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="campaign_detail"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="information_detail"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="coupon_detail_list"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="fair_detail"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="coupon_detail"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="jp.co.skylark.brand.ui.BrandSelectActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.skylark.campaign.ui.CampaignDetailActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="@string/deep_link_scheme_https"
+                    android:host="@string/deep_link_host_https"
+                    android:pathPrefix="@string/deep_link_path_prefix_campaign"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="jp.co.skylark.login.ui.LoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateVisible"/>
+        <activity
+            android:name="jp.co.skylark.login.ui.TermsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.skylark.point.card.ui.PointCardActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.skylark.point.card.ui.TPointActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.skylark.point.card.ui.TPointBarcodeActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.skylark.point.card.ui.TPointTermsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.skylark.tutorial.ui.NotificationSettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.skylark.tutorial.ui.TutorialActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.skylark.tutorial.ui.TutoTakeoutRialActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.skylark.tutorial.ui.TutoNewEcActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.skylark.maintenance.ui.MaintenanceActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="jp.co.skylark.update.force.ui.ForceUpdateActivity"/>
+        <provider
+            android:name="com.google.firebase.perf.provider.FirebasePerfProvider"
+            android:exported="false"
+            android:authorities="jp.co.skylark.app.gusto.firebaseperfprovider"
+            android:initOrder="101"/>
+        <service
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:exported="false"
+            android:directBootAware="true">
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.perf.FirebasePerfRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.inappmessaging.display.ktx.FirebaseInAppMessagingDisplayKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.inappmessaging.display.FirebaseInAppMessagingDisplayRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.dynamiclinks.internal.FirebaseDynamicLinkRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.crashlytics.CrashlyticsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.remoteconfig.RemoteConfigRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.inappmessaging.ktx.FirebaseInAppMessagingKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.inappmessaging.FirebaseInAppMessagingRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.ktx.FirebaseCommonKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.abt.component.AbtRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+        </service>
+        <receiver
+            android:name="org.altbeacon.beacon.startup.StartupBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:label="beacon"
+            android:name="org.altbeacon.beacon.service.BeaconService"
+            android:enabled="true"
+            android:exported="false"
+            android:isolatedProcess="false"/>
+        <service
+            android:name="org.altbeacon.beacon.BeaconIntentProcessor"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="org.altbeacon.beacon.service.ScanJob"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false">
+            <meta-data
+                android:name="immediateScanJobId"
+                android:value="208352939"/>
+            <meta-data
+                android:name="periodicScanJobId"
+                android:value="208352940"/>
+        </service>
+        <service
+            android:name="org.altbeacon.bluetooth.BluetoothTestJob"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false">
+            <meta-data
+                android:name="jobId"
+                android:value="1799803768"/>
+        </service>
+        <activity
+            android:theme="@android:style/Theme.NoDisplay"
+            android:label="@string/mcsdk_notification_activity_label"
+            android:name="com.salesforce.marketingcloud.notifications.NotificationOpenActivity"
+            android:taskAffinity="jp.co.skylark.app.gusto.NotificationOpenActivity"
+            android:launchMode="singleInstance"/>
+        <activity
+            android:theme="@style/McSdk.Modal"
+            android:label="@string/mcsdk_iam_activity_label"
+            android:name="com.salesforce.marketingcloud.messages.iam.IamModalActivity"/>
+        <activity
+            android:theme="@style/McSdk.Banner"
+            android:label="@string/mcsdk_iam_activity_label"
+            android:name="com.salesforce.marketingcloud.messages.iam.IamBannerActivity"/>
+        <activity
+            android:theme="@style/McSdk.Fullscreen"
+            android:label="@string/mcsdk_iam_activity_label"
+            android:name="com.salesforce.marketingcloud.messages.iam.IamFullscreenActivity"
+            android:configChanges="screenSize|orientation"/>
+        <activity
+            android:theme="@style/McSdk.Fullscreen"
+            android:label="@string/mcsdk_iam_activity_label"
+            android:name="com.salesforce.marketingcloud.messages.iam.IamFullImageFillActivity"
+            android:configChanges="screenSize|orientation"/>
+        <receiver
+            android:name="com.salesforce.marketingcloud.location.LocationReceiver"
+            android:exported="false"/>
+        <service
+            android:name="com.salesforce.marketingcloud.MCService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <service
+            android:name="com.salesforce.marketingcloud.NotificationOpenedService"
+            android:exported="false"/>
+        <receiver
+            android:name="com.salesforce.marketingcloud.MCReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.ACTION_SHUTDOWN"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+                <action android:name="jp.co.skylark.app.gusto.com.salesforce.marketingcloud.WAKE_FOR_ALARM"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.salesforce.marketingcloud.messages.push.MCFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter android:priority="-1">
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <provider
+            android:name="com.salesforce.marketingcloud.MCInitContentProvider"
+            android:enabled="true"
+            android:exported="false"
+            android:authorities="jp.co.skylark.app.gusto.com.salesforce.marketingcloud.initprovider"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.auth0.android.provider.AuthenticationActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <activity
+            android:name="com.auth0.android.provider.RedirectActivity"
+            android:exported="true">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="demo"
+                    android:host="@string/com_auth0_domain"
+                    android:pathPrefix="/android/jp.co.skylark.app.gusto/callback"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.firebase.auth.internal.GenericIdpActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="genericidp"
+                    android:host="firebase.auth"
+                    android:path="/"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.firebase.auth.internal.RecaptchaActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="recaptcha"
+                    android:host="firebase.auth"
+                    android:path="/"/>
+            </intent-filter>
+        </activity>
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:exported="false"
+            android:directBootAware="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"/>
+        <provider
+            android:name="com.salesforce.marketingcloud.sfmcsdk.SFMCSdkInitContentProvider"
+            android:enabled="true"
+            android:exported="false"
+            android:authorities="jp.co.skylark.app.gusto.com.salesforce.marketingcloud.sfmcsdk.initprovider"/>
+        <receiver
+            android:name="com.salesforce.marketingcloud.sfmcsdk.SFMCSdkReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.salesforce.marketingcloud.sfmcsdk.SFMCSdkJobIntentService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:exported="false"
+            android:authorities="jp.co.skylark.app.gusto.firebaseinitprovider"
+            android:initOrder="100"
+            android:directBootAware="true"/>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="false"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <uses-library
+            android:name="androidx.window.extensions"
+            android:required="false"/>
+        <uses-library
+            android:name="androidx.window.sidecar"
+            android:required="false"/>
+        <provider
+            android:name="com.squareup.picasso.PicassoProvider"
+            android:exported="false"
+            android:authorities="jp.co.skylark.app.gusto.com.squareup.picasso"/>
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:exported="false"
+            android:authorities="jp.co.skylark.app.gusto.androidx-startup">
+            <meta-data
+                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+                android:value="androidx.startup"/>
+            <meta-data
+                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+                android:value="androidx.startup"/>
+        </provider>
+        <activity
+            android:theme="@style/zxing_CaptureTheme"
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:clearTaskOnLaunch="true"
+            android:stateNotNeeded="true"
+            android:screenOrientation="sensorLandscape"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <service
+            android:name="androidx.room.MultiInstanceInvalidationService"
+            android:exported="false"
+            android:directBootAware="true"/>
+        <service
+            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+            android:exported="false">
+            <meta-data
+                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+                android:value="cct"/>
+        </service>
+        <service
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+            android:exported="false"/>
+        <activity
+            android:name="com.google.android.play.core.missingsplits.PlayCoreMissingSplitsActivity"
+            android:enabled="false"
+            android:exported="false"
+            android:process=":playcore_missing_splits_activity"
+            android:stateNotNeeded="true"
+            android:launchMode="singleInstance"/>
+        <activity
+            android:theme="@style/Theme.PlayCore.Transparent"
+            android:name="com.google.android.play.core.common.PlayCoreDialogWrapperActivity"
+            android:exported="false"
+            android:stateNotNeeded="true"/>
+        <service
+            android:name="com.google.android.play.core.assetpacks.AssetPackExtractionService"
+            android:enabled="false"
+            android:exported="true">
+            <meta-data
+                android:name="com.google.android.play.core.assetpacks.versionCode"
+                android:value="11003"/>
+        </service>
+        <service
+            android:name="com.google.android.play.core.assetpacks.ExtractionForegroundService"
+            android:enabled="false"
+            android:exported="false"/>
+        <meta-data
+            android:name="com.android.dynamic.apk.fused.modules"
+            android:value="base"/>
+        <meta-data
+            android:name="com.android.stamp.source"
+            android:value="https://play.google.com/store"/>
+        <meta-data
+            android:name="com.android.stamp.type"
+            android:value="STAMP_TYPE_STANDALONE_APK"/>
+        <meta-data
+            android:name="com.android.vending.splits"
+            android:resource="@xml/splits0"/>
+        <meta-data
+            android:name="com.android.vending.derived.apk.id"
+            android:value="2"/>
+    </application>
+</manifest>

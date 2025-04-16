@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="28"
+    android:versionName="1.8.7"
+    android:installLocation="auto"
+    android:compileSdkVersion="28"
+    android:compileSdkVersionCodename="9"
+    package="com.yodobashi.iShop">
+    <uses-sdk
+        android:minSdkVersion="17"
+        android:targetSdkVersion="28"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-feature
+        android:name="android.hardware.camera.any"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false"/>
+    <uses-feature android:name="android.hardware.screen.landscape"/>
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false"/>
+    <application
+        android:theme="@android:style/Theme.NoTitleBar"
+        android:label="@string/app_name"
+        android:icon="@drawable/ic_launcher"
+        android:launchMode="singleTask"
+        android:usesCleartextTraffic="true"
+        android:appComponentFactory="android.support.v4.app.CoreComponentFactory">
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false"/>
+        <activity
+            android:label="@string/title_activity_main"
+            android:name="com.yodobashi.iShop.YdMainActivity"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="yodobashi"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/title_activity_main"
+            android:name="com.yodobashi.iShop.YdWebViewActivity"
+            android:launchMode="singleTask"
+            android:configChanges="screenSize|orientation|keyboardHidden|keyboard"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:name="com.yodobashi.iShop.zxing.CaptureActivity"
+            android:clearTaskOnLaunch="true"
+            android:stateNotNeeded="true"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:name="com.yodobashi.iShop.zxing.setting.PriceCompareSettingActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name="com.yodobashi.iShop.zxing.setting.PriceCompareRuleActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name="com.yodobashi.iShop.zxing.setting.PriceCompareSettingStoreListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name="com.yodobashi.iShop.VersionInformationView"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name="com.yodobashi.iShop.YdAboutActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:exported="false"
+            android:authorities="com.yodobashi.iShop.provider"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider"/>
+        </provider>
+        <activity
+            android:name="io.card.payment.CardIOActivity"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name="io.card.payment.DataEntryActivity"/>
+    </application>
+</manifest>

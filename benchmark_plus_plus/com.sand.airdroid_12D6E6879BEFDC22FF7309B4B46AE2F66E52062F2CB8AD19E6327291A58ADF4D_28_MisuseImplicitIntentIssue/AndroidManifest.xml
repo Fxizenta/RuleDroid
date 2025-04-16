@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="28"
+    android:versionName="1.0.4 beta"
+    package="com.sand.airdroid">
+    <application
+        android:label="AirDroid"
+        android:icon="@drawable/icon"
+        android:name="com.sand.airdroid.SDApplication"
+        android:debuggable="false">
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/app_name"
+            android:name="Splash"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Black.NoTitleBar"
+            android:name="com.sand.airdroid.FileManagerActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:name="com.sand.airdroid.HelpViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@android:style/Theme.Black.NoTitleBar"
+            android:label="@string/main_ae_tasks"
+            android:name="MobileInfoActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Black.NoTitleBar"
+            android:name="ProcessManagerActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Black.NoTitleBar"
+            android:name="com.sand.airdroid.AppManagerActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Black.NoTitleBar"
+            android:name="AboutActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@android:style/Theme.Black.NoTitleBar"
+            android:name="SettingsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/app_name"
+            android:name="WebDaemonActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:alwaysRetainTaskState="true"/>
+        <service android:name="com.sand.airdroid.ServerService"/>
+        <receiver android:name="SmsSendedorReceivedReceiver">
+            <intent-filter android:priority="-1000">
+                <action android:name="ad.sms.sended"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.sand.airdroid.AppMngReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
+        <meta-data
+            android:name="channel"
+            android:value="beta"/>
+        <activity
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
+            android:name="com.sand.airdroid.HelperActivity"/>
+    </application>
+    <uses-sdk android:minSdkVersion="7"/>
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.WRITE_SMS"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.SET_WALLPAPER"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.RESTART_PACKAGES"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <supports-screens
+        android:anyDensity="true"
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"/>
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.screen.portrait"
+        android:required="false"/>
+</manifest>

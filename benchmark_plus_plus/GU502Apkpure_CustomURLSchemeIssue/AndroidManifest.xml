@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="149"
+    android:versionName="5.0.2"
+    android:compileSdkVersion="29"
+    android:compileSdkVersionCodename="10"
+    package="com.osharemaker"
+    platformBuildVersionCode="149"
+    platformBuildVersionName="5.0.2">
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="29"/>
+    <permission
+        android:name="com.osharemaker.permission.C2D_MESSAGE"
+        android:protectionLevel="signature"/>
+    <permission
+        android:name="com.osharemaker.permission.BROADCAST_SIGNATURE"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="com.osharemaker.permission.C2D_MESSAGE"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <uses-permission
+        android:name="com.osharemaker.permission.BROADCAST_SIGNATURE"
+        android:protectionLevel="signature"/>
+    <uses-feature
+        android:glEsVersion="0x20000"
+        android:required="true"/>
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.screen.landscape"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false"/>
+    <application
+        android:theme="@style/AppTheme"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:name="com.osharemaker.GUApplication"
+        android:allowBackup="false"
+        android:largeHeap="true"
+        android:fullBackupContent="@xml/backup"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:appComponentFactory="android.support.v4.app.CoreComponentFactory">
+        <meta-data
+            android:name="POPINFO_SKIP_INIT_AGREEMENT"
+            android:value="true"/>
+        <meta-data
+            android:name="POPINFO_APP_ID"
+            android:value="@string/popinfo_app_id"/>
+        <meta-data
+            android:name="POPINFO_SENDER_ID"
+            android:value="@string/popinfo_sender_id"/>
+        <meta-data
+            android:name="POPINFO_MAIN_ACTIVITY_CLASS"
+            android:value="auto"/>
+        <meta-data
+            android:name="POPINFO_LOCATION_SOURCES"
+            android:value="GPS,Wi-Fi"/>
+        <meta-data
+            android:name="POPINFO_USES_ANALYTICS"
+            android:value="false"/>
+        <meta-data
+            android:name="POPINFO_SHOW_SEGMENT_SETTINGS"
+            android:value="false"/>
+        <meta-data
+            android:name="POPINFO_SHOW_ON_LOCKSCREEN"
+            android:value="false"/>
+        <meta-data
+            android:name="POPINFO_DEBUG"
+            android:value="false"/>
+        <meta-data
+            android:name="POPINFO_CALLBACK_CLASS"
+            android:value="com.osharemaker.popinfo.GuPopinfoCallback"/>
+        <meta-data
+            android:name="POPINFO_USES_PUSH_ONLY"
+            android:value="false"/>
+        <receiver
+            android:name="com.appsflyer.MultipleInstallBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+        <provider
+            android:name="jp.iridge.popinfo.sdk.PopinfoMessageProvider"
+            android:exported="false"
+            android:authorities="com.osharemaker.popinfo"/>
+        <service android:name="com.osharemaker.service.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <activity
+            android:theme="@android:style/Theme.Dialog"
+            android:name="com.osharemaker.popinfo.GuPopinfoPopup"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="behind"/>
+        <service android:name="com.google.android.gms.analytics.CampaignTrackingService"/>
+        <receiver
+            android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:theme="@style/AppThemeNoActionBar"
+            android:label="@string/app_name"
+            android:name="com.osharemaker.activities.SplashActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="gu-japan"/>
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="www.gu-global.com"
+                    android:path="/jp/ja/"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="www.gu-global.com"
+                    android:path="/jp/ja/women/"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="www.gu-global.com"
+                    android:path="/jp/ja/men/"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="www.gu-global.com"
+                    android:path="/jp/ja/kids/"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="www.gu-global.com"
+                    android:pathPrefix="/jp/ja/feature/"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="www.gu-global.com"
+                    android:pathPrefix="/jp/ja/products/"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="www.gu-global.com"
+                    android:pathPrefix="/jp/ja/search"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="www.gu-global.com"
+                    android:pathPrefix="/jp/ja/category/"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="www.gu-global.com"
+                    android:pathPrefix="/jp/ja/lookbook/"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="www.gu-global.com"
+                    android:pathPrefix="/jp/ja/gustyle/"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="www.gu-global.com"
+                    android:pathPrefix="/jp/ja/service/history/item/"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="www.gu-global.com"
+                    android:pathPrefix="/jp/ja/service/recommend/item/"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="www.gu-global.com"
+                    android:pathPrefix="/jp/ja/styling/"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="www.gu-global.com"
+                    android:path="/jp/ja/women/index2.html"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="www.gu-global.com"
+                    android:path="/jp/ja/women/index3.html"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="www.gu-global.com"
+                    android:path="/jp/ja/men/index2.html"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="www.gu-global.com"
+                    android:path="/jp/ja/men/index3.html"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="www.gu-global.com"
+                    android:path="/jp/ja/kids/index2.html"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="www.gu-global.com"
+                    android:path="/jp/ja/kids/index3.html"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="www.gu-global.com"
+                    android:pathPrefix="/jp/ja/checkout/complete/app/paymentstatus"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/GuAppThemeNoActionBar"
+            android:name="com.osharemaker.activities.TutorialActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.osharemaker.activities.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity
+            android:name="com.osharemaker.activities.UpdateDialogActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/AppThemeNoActionBar"
+            android:name="com.osharemaker.activities.SimpleWebActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity
+            android:theme="@style/AppThemeNoActionBar"
+            android:name="com.osharemaker.activities.LinkageWebActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity
+            android:theme="@style/AppThemeNoActionBar"
+            android:name="com.osharemaker.activities.TermsWebActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity
+            android:theme="@style/GuAppThemeNoActionBar"
+            android:name="com.osharemaker.activities.NoNetworkActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/GuAppThemeNoActionBar"
+            android:name="com.osharemaker.activities.LeaveWebActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity
+            android:theme="@style/GuAppThemeNoActionBar"
+            android:name="com.osharemaker.activities.CompleteResignedActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/GuAppThemeNoActionBar"
+            android:name="com.osharemaker.activities.ResignFailureActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/GuBarcodeQRActivityStyle"
+            android:name="com.osharemaker.activities.BarcodeQRActivity"
+            android:stateNotNeeded="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.osharemaker.popinfo.GuPopinfoMessageView"
+            android:screenOrientation="behind"/>
+        <receiver android:name="com.osharemaker.receiver.UpdateBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
+        <service android:name="com.osharemaker.service.GetSSID"/>
+        <service android:name="com.osharemaker.service.MediaService"/>
+        <service
+            android:name="com.osharemaker.shop_mode.GeofenceClientService"
+            android:enabled="true"
+            android:exported="false"/>
+        <receiver
+            android:name="com.osharemaker.shop_mode.GeofenceClientReceiver"
+            android:enabled="true"
+            android:exported="true"/>
+        <activity
+            android:name="jp.iridge.popinfo.sdk.PopinfoList"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.iridge.popinfo.sdk.PopinfoMessageView"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@android:style/Theme.Dialog"
+            android:name="jp.iridge.popinfo.sdk.PopinfoPopup"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="behind"/>
+        <activity
+            android:name="jp.iridge.popinfo.sdk.PopinfoSettings"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.iridge.popinfo.sdk.PopinfoSegment"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation"/>
+        <activity
+            android:theme="@style/PopinfoInappMessageStyle"
+            android:name="jp.iridge.popinfo.sdk.baseui.PopinfoInappMessage"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:screenOrientation="behind"/>
+        <service
+            android:name="jp.iridge.popinfo.sdk.PopinfoService"
+            android:exported="false"/>
+        <service
+            android:name="jp.iridge.popinfo.sdk.PopinfoJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <receiver android:name="jp.iridge.popinfo.sdk.PopinfoReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.google.android.gms.analytics.AnalyticsReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.analytics.AnalyticsService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.analytics.AnalyticsJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="false"/>
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false"/>
+        <service
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:exported="false">
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.remoteconfig.RemoteConfigRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.iid.Registrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.abt.component.AbtRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+        </service>
+        <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:exported="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver"
+            android:permission="android.permission.INSTALL_PACKAGES"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.firebase.iid.FirebaseInstanceIdService"
+            android:exported="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"/>
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:exported="false"
+            android:authorities="com.osharemaker.firebaseinitprovider"
+            android:initOrder="100"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <provider
+            android:name="android.arch.lifecycle.ProcessLifecycleOwnerInitializer"
+            android:exported="false"
+            android:multiprocess="true"
+            android:authorities="com.osharemaker.lifecycle-trojan"/>
+        <activity
+            android:theme="@style/zxing_CaptureTheme"
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:clearTaskOnLaunch="true"
+            android:stateNotNeeded="true"
+            android:screenOrientation="sensorLandscape"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:theme="@style/Permissions.TransparentTheme"
+            android:name="com.nabinbhandari.android.permissions.PermissionsActivity"/>
+    </application>
+</manifest>

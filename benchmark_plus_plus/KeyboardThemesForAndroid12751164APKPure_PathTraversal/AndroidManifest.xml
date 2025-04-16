@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="164"
+    android:versionName="1.275.1.164"
+    android:compileSdkVersion="30"
+    android:compileSdkVersionCodename="11"
+    package="com.jb.gokeyboard.theme.tmekeyboardthemeforandroid"
+    platformBuildVersionCode="30"
+    platformBuildVersionName="11">
+    <uses-sdk
+        android:minSdkVersion="23"
+        android:targetSdkVersion="30"/>
+    <queries>
+        <package android:name="com.jb.gokeyboard.theme.tmepinkneon"/>
+        <package android:name="com.jb.gokeyboard.theme.tmeblueneon"/>
+        <package android:name="com.jb.gokeyboard.theme.tmekbdcolor"/>
+        <package android:name="com.jb.gokeyboard.theme.tmecolorpinkkeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.tmeblackstylekeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.twkeyboardcolorspink"/>
+        <package android:name="com.jb.gokeyboard.theme.twneonbutterflieskeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.twneonkeyboardtiger"/>
+        <package android:name="com.jb.gokeyboard.theme.tmekeyboardthemeforandroid"/>
+        <package android:name="com.jb.gokeyboard.theme.twflamekeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.tmekeyboardred"/>
+        <package android:name="com.jb.gokeyboard.theme.twpinklovekeyboardds"/>
+        <package android:name="com.jb.gokeyboard.theme.twlovematchkeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.twpinkandblackfreekeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.twcoolkeyboardforandroidfree"/>
+        <package android:name="com.jb.gokeyboard.theme.twkeyboardpurplepassion"/>
+        <package android:name="com.jb.gokeyboard.theme.twcolorthemeskeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.twkeyboardmethod"/>
+        <package android:name="com.jb.gokeyboard.theme.tmekeyboardandcolor"/>
+        <package android:name="com.jb.gokeyboard.theme.tmecolorfulkeyboardforandroid"/>
+        <package android:name="com.jb.gokeyboard.theme.twlargeletterkeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.twarmykeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.tmeledkeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.tmehandwritingkeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.tmeyinyangkeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.twdigitalfreekeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.tmeluminouskeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.twjokerkeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.tmecutebutterflykeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.tmeelectricfeelingkeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.tmefreecolorfulkeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.tmedigitalsoundskeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.twbloodkeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.twamericankeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.twukkeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.twfreestarssoundskeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.tmekeyboardformotorolamotog"/>
+        <package android:name="com.jb.gokeyboard.theme.twchangecolorofkeypad"/>
+        <package android:name="com.jb.gokeyboard.theme.tmegokeyboardfire"/>
+        <package android:name="com.jb.gokeyboard.theme.twamericankeyboardhd"/>
+        <package android:name="com.jb.gokeyboard.theme.twgokeyboardblack"/>
+        <package android:name="com.jb.gokeyboard.theme.tmekeyboardforsamsung"/>
+        <package android:name="com.jb.gokeyboard.theme.tmekeyboardforlg"/>
+        <package android:name="com.jb.gokeyboard.theme.tmeamericangokeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.timphilippineskeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.timturkeykeyboard"/>
+        <package android:name="com.aitype.android.theme.twcolorsoundskeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.flpr"/>
+        <package android:name="com.jb.gokeyboard.theme.timpinkflowerskeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.timkeyboardforxiaomi"/>
+        <package android:name="com.jb.gokeyboard.theme.timssgoodkeyboardforandroid"/>
+        <package android:name="com.jb.gokeyboard.theme.timssfasttypingkeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.timssstylishkeyboard"/>
+        <package android:name="com.jb.gokeyboard.theme.tklovekeypadtheme"/>
+        <package android:name="com.jb.gokeyboard.theme.tkgokeyboardbesttheme"/>
+        <package android:name="com.jb.gokeyboard.theme.tkcartoonkeyboardtheme"/>
+        <package android:name="com.jb.gokeyboard.theme.tkkeyboardforgrandprime"/>
+        <package android:name="com.american.keyboardthemes.keyboardbluefuture"/>
+        <package android:name="com.aitype.android.theme.bluekeyboardtheme"/>
+        <package android:name="com.american.keyboardthemes.pariskeyboardtheme"/>
+        <package android:name="com.american.keyboardthemes.keyboardforhuaweip8"/>
+        <package android:name="com.american.keyboardthemes.lovekeyboard"/>
+        <package android:name="com.newapp.emoji.keyboard"/>
+        <package android:name="com.american.keyboardthemes.neonflashkeyboard"/>
+        <package android:name="com.redraw.keyboard.theme.darkneon"/>
+        <package android:name="com.redraw.keyboard.theme.fire"/>
+        <package android:name="com.redraw.keyboard"/>
+        <package android:name="com.redraw.keyboard.theme.bluehearts"/>
+        <package android:name="com.redraw.keyboard.theme.enchantedforest"/>
+        <package android:name="com.redraw.keyboard.theme.redkeyboard"/>
+        <package android:name="com.redraw.keyboard.theme.t3dkeypad"/>
+        <package android:name="com.redraw.keyboard.theme.latestkeyboard20171"/>
+        <package android:name="com.redraw.keyboard.theme.newkeyboard2018"/>
+        <package android:name="com.redraw.keyboard.theme.new2018keyboard"/>
+        <package android:name="com.redraw.keyboard.theme.goldkeyboardfree2017version"/>
+        <package android:name="com.redraw.keyboard.theme.free2017goldkeyboard"/>
+        <package android:name="com.redraw.keyboard.theme.newkeyboard20181"/>
+        <package android:name="com.redraw.keyboard.theme.t3dkeyboardnew2017version"/>
+        <package android:name="com.redraw.keyboard.theme.keyboardforsamsung"/>
+        <package android:name="com.redraw.keyboard.theme.lovekeyboard2018"/>
+        <package android:name="com.redraw.keyboard.theme.keyboard2018newversion"/>
+        <package android:name="com.facebook.katana"/>
+    </queries>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_PROFILE"/>
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.READ_SYNC_STATS"/>
+    <uses-permission android:name="android.permission.READ_USER_DICTIONARY"/>
+    <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="24"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.SET_WALLPAPER"/>
+    <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE"/>
+    <application
+        android:theme="@style/AppTheme.NoActionBar"
+        android:label="@string/app_name"
+        android:icon="@mipmap/icon_launcher"
+        android:name="com.timmystudios.redrawkeyboard.RedrawApplication"
+        android:configChanges="orientation"
+        android:allowBackup="true"
+        android:killAfterRestore="false"
+        android:restoreAnyVersion="true"
+        android:hardwareAccelerated="true"
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        android:extractNativeLibs="false"
+        android:fullBackupContent="@xml/tme_backup_config"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory">
+        <service
+            android:label="@string/app_name"
+            android:name="com.jb.gokeyboard.theme.twamericankeyboard.keyboard.LatinIME"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <intent-filter>
+                <action android:name="android.view.InputMethod"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method"/>
+        </service>
+        <activity
+            android:theme="@android:style/Theme.NoDisplay"
+            android:name="com.timmystudios.redrawkeyboard.LauncherActivity"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/SplashTheme"
+            android:name="com.timmystudios.redrawkeyboard.app.main.SplashActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.timmystudios.redrawkeyboard.app.setup.SetupActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.timmystudios.redrawkeyboard.app.setup.GdprActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/MainActivityTheme"
+            android:name="com.timmystudios.redrawkeyboard.app.main.MainActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity
+            android:name="com.timmystudios.redrawkeyboard.app.main.PersonalizeActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity
+            android:theme="@android:style/Theme.NoDisplay"
+            android:name="com.timmystudios.redrawkeyboard.app.main.DeepLinksActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="http"
+                    android:host="redrawkeyboard.com"
+                    android:pathPrefix="/"/>
+                <data
+                    android:scheme="http"
+                    android:host="redrawkeyboard.com"
+                    android:pathPrefix="/keyboard-themes"/>
+                <data
+                    android:scheme="http"
+                    android:host="redrawkeyboard.com"
+                    android:pathPrefix="/keyboard-chat-stickers"/>
+                <data
+                    android:scheme="http"
+                    android:host="redrawkeyboard.com"
+                    android:pathPrefix="/phone-wallpapers"/>
+                <data
+                    android:scheme="http"
+                    android:host="redrawkeyboard.com"
+                    android:pathPrefix="/games-and-prizes"/>
+                <data
+                    android:scheme="http"
+                    android:host="redrawkeyboard.com"
+                    android:pathPrefix="/fonts-and-sounds"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="redraw"/>
+                <data
+                    android:scheme="redraw"
+                    android:host="fonts-and-sounds"/>
+                <data
+                    android:scheme="redraw"
+                    android:host="keyboard-themes"/>
+                <data
+                    android:scheme="redraw"
+                    android:host="keyboard-chat-stickers"/>
+                <data
+                    android:scheme="redraw"
+                    android:host="phone-wallpapers"/>
+                <data
+                    android:scheme="redraw"
+                    android:host="games-and-prizes"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/DetailsTheme.NoActionBar"
+            android:name="com.timmystudios.redrawkeyboard.app.details.DetailsActivityThemes"
+            android:launchMode="singleTop"/>
+        <activity
+            android:theme="@style/DetailsTheme.NoActionBar"
+            android:name="com.timmystudios.redrawkeyboard.app.details.DetailsActivityStickers"
+            android:launchMode="singleTop"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/DetailsTheme.NoActionBar"
+            android:name="com.timmystudios.redrawkeyboard.app.wallpaper.WallpaperActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name="com.android.camera.CropImage"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.timmystudios.redrawkeyboard.app.customkeyboard.CustomActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/Theme.Transparent"
+            android:name="com.timmystudios.redrawkeyboard.app.main.SetupGoogleActivity"
+            android:exported="false"
+            android:taskAffinity="com.jb.gokeyboard.theme.tmekeyboardthemeforandroid.app.main.SetupGoogleActivity"
+            android:screenOrientation="sensor"/>
+        <activity
+            android:theme="@style/Theme.Transparent"
+            android:name="com.timmystudios.redrawkeyboard.app.main.SetupGoogleGamesActivity"
+            android:exported="false"
+            android:taskAffinity="com.jb.gokeyboard.theme.tmekeyboardthemeforandroid.app.main.SetupGoogleGamesActivity"/>
+        <activity
+            android:theme="@style/Theme.TransparentLight"
+            android:name="com.android.inputmethod.keyboard.emoji.ShareStickerActivity"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"/>
+        <activity
+            android:theme="@style/BoostTheme"
+            android:name="com.timmystudios.redrawkeyboard.boost.RamBoostActivity"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:noHistory="true"/>
+        <activity
+            android:theme="@style/BoostTheme"
+            android:name="com.timmystudios.redrawkeyboard.boost.BatteryBoostActivity"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:noHistory="true"/>
+        <activity
+            android:theme="@style/BoostTheme"
+            android:name="com.timmystudios.redrawkeyboard.boost.CpuCoolActivity"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:noHistory="true"/>
+        <activity
+            android:theme="@style/BaseTheme"
+            android:name="com.timmystudios.redrawkeyboard.app.main.store.themes.search.SearchActivity"
+            android:screenOrientation="portrait"/>
+        <service
+            android:name="com.timmystudios.redrawkeyboard.app.wallpaper.WallpaperSetService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <service
+            android:name="com.timmystudios.redrawkeyboard.app.main.RemoteBigPictureNotificationService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <receiver android:name="com.timmystudios.redrawkeyboard.app.main.BootCompletedReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.timmystudios.redrawkeyboard.app.main.ConnectivityChangeReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+        <meta-data
+            android:name="com.google.android.gms.games.APP_ID"
+            android:value="@string/app_id"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <meta-data
+            android:name="com.google.android.backup.api_key"
+            android:value="@string/backup_service_key"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+        <receiver
+            android:name="com.timmystudios.redrawkeyboard.analytics.Analytics.DailyAlarmReceiver"
+            android:enabled="true"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:name="com.timmystudios.redrawkeyboard.app.details.PreDetailsActivity"/>
+        <receiver android:name="com.timmystudios.redrawkeyboard.RedrawApplication.ShowEnableNotificationReceiver"/>
+        <provider
+            android:name="com.timmystudios.redrawkeyboard.themes.PrometheusThemeProvider"
+            android:exported="true"
+            android:multiprocess="true"
+            android:authorities="com.jb.gokeyboard.theme.tmekeyboardthemeforandroid"/>
+        <receiver
+            android:name="com.timmystudios.redrawkeyboard.themes.PrometheusThemeReceiver"
+            android:exported="true"/>
+        <receiver
+            android:name="com.timmystudios.redrawkeyboard.themes.SuperThemeReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.timmystudios.redrawkeyboard.intent.action.THEME_APPLIED"/>
+            </intent-filter>
+        </receiver>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:authorities="@string/external_file_provider_authority"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+        <service
+            android:name="com.timmystudios.redrawkeyboard.themes.redraw.RedrawApkThemeInstaller"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <service
+            android:name="com.timmystudios.redrawkeyboard.themes.go.GoApkThemeInstaller"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="d7c8e0a86def943b413bf1cbb1dbf9136af70a19"/>
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/admob_app_id"/>
+        <provider
+            android:name="androidx.work.impl.WorkManagerInitializer"
+            android:exported="false"
+            android:multiprocess="true"
+            android:authorities="com.jb.gokeyboard.theme.tmekeyboardthemeforandroid.workmanager-init"
+            android:directBootAware="false"/>
+        <service
+            android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
+            android:enabled="@bool/enable_system_alarm_service_default"
+            android:exported="false"
+            android:directBootAware="false"/>
+        <service
+            android:name="androidx.work.impl.background.systemjob.SystemJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="@bool/enable_system_job_service_default"
+            android:exported="true"
+            android:directBootAware="false"/>
+        <receiver
+            android:name="androidx.work.impl.utils.ForceStopRunnable.BroadcastReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:directBootAware="false"/>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.BatteryChargingProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.BatteryNotLowProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BATTERY_OKAY"/>
+                <action android:name="android.intent.action.BATTERY_LOW"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.StorageNotLowProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.DEVICE_STORAGE_LOW"/>
+                <action android:name="android.intent.action.DEVICE_STORAGE_OK"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.NetworkStateProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.TIME_SET"/>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver"
+            android:enabled="@bool/enable_system_alarm_service_default"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="androidx.work.impl.background.systemalarm.UpdateProxies"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:exported="false"
+            android:directBootAware="true">
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.crashlytics.CrashlyticsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+        </service>
+        <receiver
+            android:name="com.android.inputmethod.latin.DictionaryPackInstallBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.android.inputmethod.dictionarypack.aosp.UNKNOWN_CLIENT"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:label="@string/dictionary_service_name"
+            android:name="com.android.inputmethod.dictionarypack.DictionaryService"/>
+        <provider
+            android:label="@string/dictionary_provider_name"
+            android:name="com.android.inputmethod.dictionarypack.DictionaryProvider"
+            android:exported="false"
+            android:multiprocess="false"
+            android:authorities="@string/authority"
+            android:grantUriPermissions="true"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.facebook.ads.AudienceNetworkActivity"
+            android:exported="false"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:name="com.timmystudios.tmelib.internal.hyperpush.activities.TMEHyperpushInstallActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.timmystudios.tmelib.internal.hyperpush.activities.TMEHyperpushThemesActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <service
+            android:name="com.timmystudios.tmelib.internal.hyperpush.services.TMERemoteBigPictureNotificationService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <receiver
+            android:name="com.timmystudios.tmelib.internal.hyperpush.receivers.TMEHyperpushClickReceiver"
+            android:exported="false"/>
+        <receiver
+            android:name="com.timmystudios.tmelib.internal.hyperpush.receivers.TMEHyperpushDismissReceiver"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/com_facebook_activity_theme"
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <activity android:name="com.facebook.CustomTabMainActivity"/>
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="fbconnect"
+                    android:host="cct.com.jb.gokeyboard.theme.tmekeyboardthemeforandroid"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"/>
+        <service
+            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+            android:exported="true"/>
+        <receiver
+            android:name="com.google.android.gms.analytics.AnalyticsReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.analytics.AnalyticsService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.analytics.AnalyticsJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="false"/>
+        <provider
+            android:name="com.squareup.picasso.PicassoProvider"
+            android:exported="false"
+            android:authorities="com.jb.gokeyboard.theme.tmekeyboardthemeforandroid.com.squareup.picasso"/>
+        <provider
+            android:name="com.facebook.internal.FacebookInitProvider"
+            android:exported="false"
+            android:authorities="com.jb.gokeyboard.theme.tmekeyboardthemeforandroid.FacebookInitProvider"/>
+        <receiver
+            android:name="com.facebook.CurrentAccessTokenExpirationBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.facebook.sdk.ACTION_CURRENT_ACCESS_TOKEN_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <provider
+            android:name="com.facebook.ads.AudienceNetworkContentProvider"
+            android:exported="false"
+            android:authorities="com.jb.gokeyboard.theme.tmekeyboardthemeforandroid.AudienceNetworkContentProvider"/>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="false"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"/>
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:exported="false"
+            android:authorities="com.jb.gokeyboard.theme.tmekeyboardthemeforandroid.firebaseinitprovider"
+            android:initOrder="100"
+            android:directBootAware="true"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent"
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:exported="false"
+            android:configChanges="smallestScreenSize|screenSize|uiMode|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <provider
+            android:name="com.google.android.gms.ads.MobileAdsInitProvider"
+            android:exported="false"
+            android:authorities="com.jb.gokeyboard.theme.tmekeyboardthemeforandroid.mobileadsinitprovider"
+            android:initOrder="100"/>
+        <service
+            android:name="com.google.android.gms.ads.AdService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="androidx.room.MultiInstanceInvalidationService"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+            android:exported="false">
+            <meta-data
+                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+                android:value="cct"/>
+        </service>
+        <service
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+            android:exported="false"/>
+        <meta-data
+            android:name="com.google.android.play.billingclient.version"
+            android:value="4.0.0"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.android.billingclient.api.ProxyBillingActivity"
+            android:exported="false"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <meta-data
+            android:name="com.android.dynamic.apk.fused.modules"
+            android:value="base"/>
+        <meta-data
+            android:name="com.android.stamp.source"
+            android:value="https://play.google.com/store"/>
+        <meta-data
+            android:name="com.android.stamp.type"
+            android:value="STAMP_TYPE_STANDALONE_APK"/>
+        <meta-data
+            android:name="com.android.vending.splits"
+            android:resource="@xml/splits0"/>
+        <meta-data
+            android:name="com.android.vending.derived.apk.id"
+            android:value="1"/>
+    </application>
+</manifest>

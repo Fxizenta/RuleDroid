@@ -1,0 +1,14 @@
+{
+	"viewConfig" 	  : "configuration/views.json",
+	"maps"			  : "configuration/maps.json",	
+	"styling" 		  : "configuration/styling.json",
+    "baseUrl"         : "http://tube.mxdata.co.uk/v6/",
+    "twitterOptions"  : "configuration/twitter.json",
+	"campaignUrl"	  : "http://mc.mxdata.co.uk/campaign/tubemap",
+	"advertsEnabled"  : true,
+	"analytics" :
+    {
+    	"enabled" : true,
+    	"appKey"  : "57N163SZ2FVW6NKKBE4U"
+    }
+}

@@ -1,0 +1,733 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="264"
+    android:versionName="1.4.264"
+    android:installLocation="internalOnly"
+    android:compileSdkVersion="33"
+    android:compileSdkVersionCodename="13"
+    package="org.mistergroup.shouldianswer"
+    platformBuildVersionCode="33"
+    platformBuildVersionName="13">
+    <uses-sdk
+        android:minSdkVersion="26"
+        android:targetSdkVersion="33"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
+    <uses-feature android:name="android.hardware.telephony"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE"/>
+    <permission
+        android:name="org.mistergroup.shouldianswer.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="org.mistergroup.shouldianswer.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"/>
+    <queries>
+        <intent>
+            <action android:name="com.android.vending.billing.InAppBillingService.BIND"/>
+        </intent>
+    </queries>
+    <application
+        android:theme="@style/SIATheme"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher_round"
+        android:name="org.mistergroup.shouldianswer.MyApp"
+        android:launchMode="singleInstance"
+        android:allowBackup="true"
+        android:supportsRtl="false"
+        android:extractNativeLibs="false"
+        android:fullBackupContent="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory">
+        <activity
+            android:name="org.mistergroup.shouldianswer.ui.main.MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.mistergroup.shouldianswer.ui.number_detail.NumberDetailActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.main.MainActivity">
+            <intent-filter android:label="Should I Answer Phone Number Detail">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="sia"
+                    android:host="app"
+                    android:pathPrefix="/number/"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.mistergroup.shouldianswer.ui.debug.DebugActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.main.MainActivity">
+            <intent-filter android:label="SIA Debug">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="sia"
+                    android:host="app"
+                    android:pathPrefix="/debug/"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.mistergroup.shouldianswer.ui.dialpad.DialpadActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.main.MainActivity">
+            <intent-filter android:label="SIA Debug">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="sia"
+                    android:host="app"
+                    android:pathPrefix="/dialpad/"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.mistergroup.shouldianswer.ui.search.SearchActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.main.MainActivity">
+            <intent-filter android:label="SIA Debug">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="sia"
+                    android:host="app"
+                    android:pathPrefix="/search/"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.mistergroup.shouldianswer.ui.report_safe_number.ReportSafeNumberActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.number_detail.NumberDetailActivity"/>
+        <activity
+            android:name="org.mistergroup.shouldianswer.ui.report_spam_number.ReportSpamNumberActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.number_detail.NumberDetailActivity"/>
+        <activity
+            android:name="org.mistergroup.shouldianswer.ui.incall.InCallActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation"
+            android:directBootAware="true"/>
+        <activity
+            android:theme="@style/SIAThemeLightBlackStatusBar"
+            android:name="org.mistergroup.shouldianswer.ui.wizards.welcome.WelcomeActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/SIAThemeLightBlackStatusBar"
+            android:name="org.mistergroup.shouldianswer.ui.wizards.protection.ProtectionWizardMainActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/SIAThemeLightBlackStatusBar"
+            android:name="org.mistergroup.shouldianswer.ui.wizards.protection.ProtectionWizardActiveSetupActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.wizards.protection.ProtectionWizardMainActivity"/>
+        <activity
+            android:theme="@style/SIAThemeLightBlackStatusBar"
+            android:name="org.mistergroup.shouldianswer.ui.wizards.protection.ProtectionWizardActiveSetupDoneActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/SIAThemeLightBlackStatusBar"
+            android:name="org.mistergroup.shouldianswer.ui.wizards.protection.ProtectionWizardPassiveSetupActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.wizards.protection.ProtectionWizardMainActivity"/>
+        <activity
+            android:theme="@style/SIAThemeLightBlackStatusBar"
+            android:name="org.mistergroup.shouldianswer.ui.wizards.protection.ProtectionWizardPassiveSetupDoneActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/settings"
+            android:name="org.mistergroup.shouldianswer.ui.settings.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.number_detail.NumberDetailActivity"/>
+        <activity
+            android:label="SIA Plus"
+            android:name="org.mistergroup.shouldianswer.ui.plus.PlusActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.plus.PlusActivity"/>
+        <activity
+            android:label="@string/allowed_numbers"
+            android:name="org.mistergroup.shouldianswer.ui.settings.allowed_numbers.SettingsAllowedNumbersActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.settings.SettingsActivity"/>
+        <activity
+            android:label="@string/blocked_numbers"
+            android:name="org.mistergroup.shouldianswer.ui.settings.blocked_numbers.SettingsBlockedNumbersActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.settings.SettingsActivity"/>
+        <activity
+            android:label="@string/advanced_blocking"
+            android:name="org.mistergroup.shouldianswer.ui.settings.blocking.SettingsBlockingActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.settings.SettingsActivity"/>
+        <activity
+            android:label="@string/notifications"
+            android:name="org.mistergroup.shouldianswer.ui.settings.notifications.SettingsNotificationsActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.settings.SettingsActivity"/>
+        <activity
+            android:label="@string/other_settings"
+            android:name="org.mistergroup.shouldianswer.ui.settings.other.SettingsOtherActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.settings.SettingsActivity"/>
+        <activity
+            android:label="@string/account_settings"
+            android:name="org.mistergroup.shouldianswer.ui.settings.account.SettingsAccountActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.settings.SettingsActivity"/>
+        <activity
+            android:label="@string/protection_settings"
+            android:name="org.mistergroup.shouldianswer.ui.settings.protection.SettingsProtectionActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.settings.SettingsActivity"/>
+        <activity
+            android:label="@string/reported_numbers"
+            android:name="org.mistergroup.shouldianswer.ui.settings.reported_numbers.SettingsReportedNumbersActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.settings.SettingsActivity"/>
+        <activity
+            android:label="@string/report_issue"
+            android:name="org.mistergroup.shouldianswer.ui.report_issue.ReportIssueActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.main.MainActivity"/>
+        <activity
+            android:name="org.mistergroup.shouldianswer.ui.number_reports.NumberReportsActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.main.MainActivity"/>
+        <activity
+            android:label="@string/about"
+            android:name="org.mistergroup.shouldianswer.ui.about.AboutActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.main.MainActivity"/>
+        <activity
+            android:label="@string/community_support"
+            android:name="org.mistergroup.shouldianswer.ui.promo.PromoActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.main.MainActivity"/>
+        <activity
+            android:label="@string/database_update"
+            android:name="org.mistergroup.shouldianswer.ui.update.UpdateActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="org.mistergroup.shouldianswer.ui.update.UpdateActivity"/>
+        <activity
+            android:theme="@android:style/Theme.NoDisplay"
+            android:name="org.mistergroup.shouldianswer.ui.default_dialer.DefaultDialerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.DIAL"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.DIAL"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="tel"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.DIAL"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="voicemail"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.DIAL"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:mimeType="vnd.android.cursor.item/phone"/>
+                <data android:mimeType="vnd.android.cursor.item/person"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.CALL_BUTTON"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.CALL"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.android.phone.action.TOUCH_DIALER"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.TAB"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.android.phone.action.RECENT_CALLS"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.TAB"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <service
+            android:name="org.mistergroup.shouldianswer.services.incall.MyInCallService"
+            android:permission="android.permission.BIND_INCALL_SERVICE"
+            android:exported="true">
+            <meta-data
+                android:name="android.telecom.IN_CALL_SERVICE_UI"
+                android:value="true"/>
+            <meta-data
+                android:name="android.telecom.IN_CALL_SERVICE_RINGING"
+                android:value="false"/>
+            <meta-data
+                android:name="android.telecom.INCLUDE_EXTERNAL_CALLS"
+                android:value="true"/>
+            <intent-filter>
+                <action android:name="android.telecom.InCallService"/>
+            </intent-filter>
+        </service>
+        <service
+            android:label="@string/service_label_monitoring_service"
+            android:name="org.mistergroup.shouldianswer.services.MonitoringService"
+            android:enabled="true"
+            android:exported="false"
+            android:stopWithTask="false"/>
+        <service
+            android:label="SIA OnCall Service"
+            android:name="org.mistergroup.shouldianswer.services.OnCallService"
+            android:enabled="true"
+            android:exported="false"
+            android:stopWithTask="false"
+            android:foregroundServiceType="phoneCall"/>
+        <service
+            android:name="org.mistergroup.shouldianswer.services.MyCallScreeningService"
+            android:permission="android.permission.BIND_SCREENING_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.telecom.CallScreeningService"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="org.mistergroup.shouldianswer.services.PublicService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="org.mistergroup.shouldianswer.PublicService"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="org.mistergroup.shouldianswer.services.MyFirebaseMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <receiver
+            android:name="org.mistergroup.shouldianswer.receivers.BootCompleteReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="org.mistergroup.shouldianswer.receivers.MissedCallNotificationReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.telecom.action.SHOW_MISSED_CALLS_NOTIFICATION"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="org.mistergroup.shouldianswer.receivers.PackageUpdateReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_MY_PACKAGE_REPLACED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="org.mistergroup.shouldianswer.receivers.InstallReferrerReceiver"
+            android:permission="android.permission.INSTALL_PACKAGES"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="org.mistergroup.shouldianswer.receivers.PhoneStateReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="org.mistergroup.shouldianswer.receivers.OutgoingCallReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="org.mistergroup.shouldianswer.receivers.VoicemailNotificationReceiver"
+            android:exported="true"
+            android:directBootAware="true">
+            <intent-filter>
+                <action android:name="android.telephony.action.SHOW_VOICEMAIL_NOTIFICATION"/>
+            </intent-filter>
+        </receiver>
+        <meta-data
+            android:name="com.crashlytics.ApiKey"
+            android:value="fdc21cebe5635728a9b97558b207e6b128bfd35e"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1"/>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts"/>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="SIA_NOTIFICATION_CHANNEL_PUSH"/>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_launcher_bw"/>
+        <meta-data
+            android:name="google_analytics_adid_collection_enabled"
+            android:value="false"/>
+        <service
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:exported="false"
+            android:directBootAware="true">
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.analytics.ktx.FirebaseAnalyticsKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.perf.FirebasePerfRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.appcheck.playintegrity.FirebaseAppCheckPlayIntegrityRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.auth.ktx.FirebaseAuthKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.appcheck.ktx.FirebaseAppCheckKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.appcheck.FirebaseAppCheckRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.database.ktx.FirebaseDatabaseKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.database.DatabaseRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.remoteconfig.ktx.FirebaseRemoteConfigKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.crashlytics.ktx.FirebaseCrashlyticsKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.remoteconfig.RemoteConfigRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.crashlytics.CrashlyticsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.ktx.FirebaseCommonKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.abt.component.AbtRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+        </service>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"/>
+        <service
+            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+            android:exported="true"
+            android:visibleToInstantApps="true"/>
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:exported="false"
+            android:directBootAware="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.firebase.auth.internal.GenericIdpActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="genericidp"
+                    android:host="firebase.auth"
+                    android:path="/"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.firebase.auth.internal.RecaptchaActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="recaptcha"
+                    android:host="firebase.auth"
+                    android:path="/"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"/>
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:exported="false"
+            android:authorities="org.mistergroup.shouldianswer.firebaseinitprovider"
+            android:initOrder="100"
+            android:directBootAware="true"/>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="false"/>
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:exported="false"
+            android:authorities="org.mistergroup.shouldianswer.androidx-startup">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"/>
+            <meta-data
+                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+                android:value="androidx.startup"/>
+            <meta-data
+                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+                android:value="androidx.startup"/>
+            <meta-data
+                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+                android:value="androidx.startup"/>
+        </provider>
+        <service
+            android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
+            android:enabled="@bool/enable_system_alarm_service_default"
+            android:exported="false"
+            android:directBootAware="false"/>
+        <service
+            android:name="androidx.work.impl.background.systemjob.SystemJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="@bool/enable_system_job_service_default"
+            android:exported="true"
+            android:directBootAware="false"/>
+        <service
+            android:name="androidx.work.impl.foreground.SystemForegroundService"
+            android:enabled="@bool/enable_system_foreground_service_default"
+            android:exported="false"
+            android:directBootAware="false"/>
+        <receiver
+            android:name="androidx.work.impl.utils.ForceStopRunnable.BroadcastReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:directBootAware="false"/>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.BatteryChargingProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.BatteryNotLowProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BATTERY_OKAY"/>
+                <action android:name="android.intent.action.BATTERY_LOW"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.StorageNotLowProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.DEVICE_STORAGE_LOW"/>
+                <action android:name="android.intent.action.DEVICE_STORAGE_OK"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.NetworkStateProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.TIME_SET"/>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver"
+            android:enabled="@bool/enable_system_alarm_service_default"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="androidx.work.impl.background.systemalarm.UpdateProxies"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.diagnostics.DiagnosticsReceiver"
+            android:permission="android.permission.DUMP"
+            android:enabled="true"
+            android:exported="true"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="androidx.room.MultiInstanceInvalidationService"
+            android:exported="false"
+            android:directBootAware="true"/>
+        <meta-data
+            android:name="com.google.android.play.billingclient.version"
+            android:value="5.2.0"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.android.billingclient.api.ProxyBillingActivity"
+            android:exported="false"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <service
+            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+            android:exported="false">
+            <meta-data
+                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+                android:value="cct"/>
+        </service>
+        <service
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+            android:exported="false"/>
+        <receiver
+            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+            android:permission="android.permission.DUMP"
+            android:enabled="true"
+            android:exported="true"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.SKIP_FILE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:theme="@style/Theme.PlayCore.Transparent"
+            android:name="com.google.android.play.core.common.PlayCoreDialogWrapperActivity"
+            android:exported="false"
+            android:stateNotNeeded="true"/>
+        <meta-data
+            android:name="com.android.vending.derived.apk.id"
+            android:value="1"/>
+    </application>
+</manifest>

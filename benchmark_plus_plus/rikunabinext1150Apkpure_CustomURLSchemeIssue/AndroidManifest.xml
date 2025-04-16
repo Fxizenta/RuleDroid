@@ -1,0 +1,831 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="259"
+    android:versionName="11.5.0"
+    android:compileSdkVersion="33"
+    android:compileSdkVersionCodename="13"
+    package="jp.co.recruit.rikunabinext"
+    platformBuildVersionCode="33"
+    platformBuildVersionName="13">
+    <uses-sdk
+        android:minSdkVersion="26"
+        android:targetSdkVersion="33"/>
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="https"/>
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="http"/>
+        </intent>
+        <package android:name="jp.co.recruit.mtl.android.hotpepper"/>
+        <package android:name="jp.co.recruit.android.ponparemall"/>
+        <package android:name="jp.co.recruit.jalangolf"/>
+        <package android:name="jp.co.recruit.lifestyle.beauty.cosme.android"/>
+        <package android:name="jp.eigosapuri.android"/>
+        <package android:name="net.jalan.android"/>
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.BROWSABLE"/>
+            <data android:scheme="https"/>
+        </intent>
+    </queries>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
+        android:maxSdkVersion="22"/>
+    <uses-permission
+        android:name="android.permission.MANAGE_ACCOUNTS"
+        android:maxSdkVersion="22"/>
+    <uses-permission
+        android:name="android.permission.USE_CREDENTIALS"
+        android:maxSdkVersion="22"/>
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <application
+        android:theme="@style/RNNAppTheme"
+        android:label="@string/app_name"
+        android:icon="@drawable/icon"
+        android:name="jp.co.recruit.rikunabinext.RikunabiNextApplication"
+        android:allowBackup="false"
+        android:hardwareAccelerated="true"
+        android:largeHeap="true"
+        android:extractNativeLibs="false"
+        android:resizeableActivity="false"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory">
+        <meta-data
+            android:name="io.karte.android.Tracker.notification_icon"
+            android:resource="@drawable/ic_notification"/>
+        <meta-data
+            android:name="io.karte.android.Tracker.notification_color"
+            android:resource="@color/main"/>
+        <meta-data
+            android:name="R2_SDS_SERVER_URL"
+            android:value="@string/sds_url"/>
+        <meta-data
+            android:name="r2android.pusna.rs.R2_PUSNA_RS_URL"
+            android:value="@string/pusna_url"/>
+        <meta-data
+            android:name="io.repro.android.PushNotification.SmallIcon"
+            android:resource="@drawable/ic_notification"/>
+        <activity
+            android:theme="@style/Theme.SplashScreen.Rnn"
+            android:name="jp.co.recruit.rikunabinext.activity.start.SplashActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <data android:scheme="rikunabinext"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.DeepLinkActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="home"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.AppindexingActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter android:autoVerify="true">
+                <data
+                    android:scheme="http"
+                    android:host="next.rikunabi.com"
+                    android:pathPattern="/"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <data
+                    android:scheme="https"
+                    android:host="next.rikunabi.com"
+                    android:pathPattern="/"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <data
+                    android:scheme="http"
+                    android:host="next.rikunabi.com"
+                    android:pathPattern="/rnc/docs/cp_s00010.jsp"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <data
+                    android:scheme="https"
+                    android:host="next.rikunabi.com"
+                    android:pathPattern="/rnc/docs/cp_s00010.jsp"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <data
+                    android:scheme="http"
+                    android:host="next.rikunabi.com"
+                    android:pathPattern="/rnc/docs/cf_s00010.jsp"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <data
+                    android:scheme="https"
+                    android:host="next.rikunabi.com"
+                    android:pathPattern="/rnc/docs/cf_s00010.jsp"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.CustomLinkActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="hope_setting"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="search_requirement"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="consider_requirement_from_own"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="home_feature"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="home_knowhow"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="personalized_n_list"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="change_success_case"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="change_guide"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="login"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="tekishoku_shindan"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="view_history_list"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="draft_save_list"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="start_2apply"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="start_2kininaru"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="start_kininaru_single"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="n_list_new_only"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="n_list_new"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="n_list_like_resume"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="n_list_deadline"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="n_list_hope_new"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="n_list_hope_like_resume"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="n_list_hope_deadline"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="n_list_new_only_hope"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="n_list_deadline_only"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:scheme="rikunabinext-app"
+                    android:host="n_list_deadline_only_hope"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.start.BeforeStartupActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.home.HomeActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.search.OfferSearchTopActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.kininaru.ExaminationListActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.message.MessageListActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.menu.aboutapp.AboutAppActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.menu.aboutapp.license.LicenseActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.menu.other.push.PushSettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.auth.SsoLoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.PushDispatcherActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.KartePushDispatcherActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/SpinnerDropDownItemTheme"
+            android:name="jp.co.recruit.rikunabinext.activity.menu.opinion.OpinionActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.menu.help.HelpActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.menu.other.status.ChangeJobStatusActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.menu.knowhow.KnowhowWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.menu.MenuActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.CommonWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.history.HistoryActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.offer.OfferListActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.ro.RoModalWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.menu.other.OtherMenuSettingsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.message.send.MessageInputDateTimeActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.message.send.MessageInputTemplateActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.menu.diagnose.DiagnoseWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.NaviTekiWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.first.FollowLoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.home.alert.HomeNotificationWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.home.alert.SchedulesWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.menu.toplinda.TopLindaWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.menu.resume.ResumeEditWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.RegisterMemberWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.CrossResumeMigrateWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.OnBoardingWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.menu.resume.ResumeMyPageWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.job.detail.RoJobDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.job.detail.RoJobEntryActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.recruit.rikunabinext.activity.job.detail.RoMediationJobEntryActivity"
+            android:screenOrientation="portrait"/>
+        <provider
+            android:name="jp.co.recruit.rikunabinext.data.store.db.appdata.AppDataContentProvider"
+            android:exported="false"
+            android:authorities="jp.co.recruit.rikunabinext.sqlite.data.provider.AppDataContentProvider"/>
+        <service
+            android:name="jp.co.recruit.rikunabinext.service.push.RNNMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="jp.co.recruit.rikunabinext.service.push.KarteInstanceIdService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <receiver
+            android:name="com.adjust.sdk.AdjustReferrerReceiver"
+            android:permission="android.permission.INSTALL_PACKAGES"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="io.repro.android.ReproReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="jp.co.recruit.rikunabinext"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="jp.co.recruit.rikunabinext.service.KininaruRemindJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <service
+            android:name="jp.co.recruit.rikunabinext.service.AbTestInitializeJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <service
+            android:name="jp.co.recruit.rikunabinext.service.log.AbTestSendLogJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <service
+            android:name="jp.co.recruit.rikunabinext.service.CareerChangeSupportServiceUpdateDateJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <service
+            android:name="jp.co.recruit.rikunabinext.service.log.SendMemberInfoLogJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <service
+            android:name="jp.co.recruit.rikunabinext.service.log.SendTopLindaLogJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <service
+            android:name="jp.co.recruit.rikunabinext.service.UpdateUsePdtJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <service
+            android:name="jp.co.recruit.rikunabinext.service.log.SendMessageLogJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <service
+            android:name="jp.co.recruit.rikunabinext.service.log.TotalApplyApplicationLogJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <service
+            android:name="jp.co.recruit.rikunabinext.service.log.TotalApplyLoginLogJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <service
+            android:name="jp.co.recruit.rikunabinext.service.log.SendPermissionJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <service
+            android:name="jp.co.recruit.rikunabinext.service.UpdateLoginHistoryService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/Theme.RIDSSO.Dialog"
+            android:name="jp.co.recruit_tech.ridsso.view.chooseaccount.RSOChooseAccountActivity"
+            android:exported="false"
+            android:screenOrientation="behind"/>
+        <activity
+            android:theme="@style/Theme.RIDSSO"
+            android:name="jp.co.recruit_tech.ridsso.view.addaccount.RSOAddAccountActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/Theme.RIDSSO.Dialog"
+            android:name="jp.co.recruit_tech.ridsso.view.fingerprint.RSOFingerprintActivity"
+            android:exported="true"
+            android:screenOrientation="behind"/>
+        <activity
+            android:theme="@style/Theme.RIDSSO.Dialog"
+            android:name="jp.co.recruit_tech.ridsso.view.biometric.RSOBiometricAuthorizationActivity"
+            android:exported="true"
+            android:screenOrientation="behind"/>
+        <activity
+            android:theme="@style/Theme.RIDSSO.Dialog"
+            android:name="jp.co.recruit_tech.ridsso.view.screenlock.RSOScreenLockActivity"
+            android:exported="true"
+            android:screenOrientation="behind"/>
+        <service
+            android:name="jp.co.recruit_tech.ridsso.account.RSOAccountAuthenticatorService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/ridsso_authenticator"/>
+        </service>
+        <service
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:exported="false"
+            android:directBootAware="true">
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.crashlytics.ktx.FirebaseCrashlyticsKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.analytics.ktx.FirebaseAnalyticsKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.messaging.ktx.FirebaseMessagingKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.ktx.FirebaseCommonKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.crashlytics.CrashlyticsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+        </service>
+        <uses-library
+            android:name="androidx.window.extensions"
+            android:required="false"/>
+        <uses-library
+            android:name="androidx.window.sidecar"
+            android:required="false"/>
+        <receiver
+            android:name="com.google.android.gms.analytics.AnalyticsReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.analytics.AnalyticsService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.analytics.AnalyticsJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="false"/>
+        <receiver android:name="io.karte.android.notifications.MessageReceiver"/>
+        <activity android:name="io.karte.android.notifications.MessageReceiveActivity"/>
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:exported="false"
+            android:directBootAware="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="false"/>
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:exported="false"
+            android:authorities="jp.co.recruit.rikunabinext.firebaseinitprovider"
+            android:initOrder="100"
+            android:directBootAware="true"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:exported="false"
+            android:authorities="jp.co.recruit.rikunabinext.androidx-startup">
+            <meta-data
+                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+                android:value="androidx.startup"/>
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"/>
+            <meta-data
+                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+                android:value="androidx.startup"/>
+        </provider>
+        <service
+            android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
+            android:enabled="@bool/enable_system_alarm_service_default"
+            android:exported="false"
+            android:directBootAware="false"/>
+        <service
+            android:name="androidx.work.impl.background.systemjob.SystemJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="@bool/enable_system_job_service_default"
+            android:exported="true"
+            android:directBootAware="false"/>
+        <service
+            android:name="androidx.work.impl.foreground.SystemForegroundService"
+            android:enabled="@bool/enable_system_foreground_service_default"
+            android:exported="false"
+            android:directBootAware="false"/>
+        <receiver
+            android:name="androidx.work.impl.utils.ForceStopRunnable.BroadcastReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:directBootAware="false"/>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.BatteryChargingProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.BatteryNotLowProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BATTERY_OKAY"/>
+                <action android:name="android.intent.action.BATTERY_LOW"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.StorageNotLowProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.DEVICE_STORAGE_LOW"/>
+                <action android:name="android.intent.action.DEVICE_STORAGE_OK"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.NetworkStateProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.TIME_SET"/>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver"
+            android:enabled="@bool/enable_system_alarm_service_default"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="androidx.work.impl.background.systemalarm.UpdateProxies"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.diagnostics.DiagnosticsReceiver"
+            android:permission="android.permission.DUMP"
+            android:enabled="true"
+            android:exported="true"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:name="io.repro.android.notification.IntentHandler"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="io.repro.android.notification.IntentHandler.START_ACTIVITY"/>
+            </intent-filter>
+        </activity>
+        <service
+            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+            android:exported="false">
+            <meta-data
+                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+                android:value="cct"/>
+        </service>
+        <service
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+            android:exported="false"/>
+        <service
+            android:name="androidx.room.MultiInstanceInvalidationService"
+            android:exported="false"
+            android:directBootAware="true"/>
+    </application>
+</manifest>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="82"
+    android:versionName="3.4.1"
+    android:compileSdkVersion="28"
+    android:compileSdkVersionCodename="9"
+    package="com.amaze.filemanager"
+    platformBuildVersionCode="28"
+    platformBuildVersionName="9">
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="28"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="com.amaze.cloud.permission.ACCESS_PROVIDER"/>
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES"/>
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.software.leanback"
+        android:required="false"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
+    <application
+        android:label="@string/appbar_name"
+        android:icon="@mipmap/ic_launcher"
+        android:name="com.amaze.filemanager.utils.application.AppConfig"
+        android:allowBackup="true"
+        android:banner="@drawable/about_header"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory">
+        <activity
+            android:theme="@style/appCompatLight"
+            android:label="@string/appbar_name"
+            android:name="com.amaze.filemanager.activities.MainActivity"
+            android:launchMode="singleInstance">
+            <intent-filter android:label="@string/appbar_name">
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT"/>
+                <data android:mimeType="*/*"/>
+                <category android:name="android.intent.category.OPENABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.RINGTONE_PICKER"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <data android:mimeType="application/zip"/>
+                <data android:mimeType="application/rar"/>
+                <data android:mimeType="application/x-gzip"/>
+                <data android:mimeType="application/x-rar-compressed"/>
+                <data android:mimeType="application/x-bzip2"/>
+                <data android:mimeType="application/x-xz"/>
+                <data android:mimeType="application/x-7z-compressed"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="com.amaze.filemanager"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <data android:mimeType="resource/folder"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="com.amaze.filemanager"/>
+            </intent-filter>
+            <intent-filter android:label="@string/intent_save_as">
+                <action android:name="android.intent.action.SEND"/>
+                <action android:name="android.intent.action.SEND_MULTIPLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="*/*"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/appCompatLight"
+            android:label="@string/setting"
+            android:name="com.amaze.filemanager.activities.PreferencesActivity"
+            android:uiOptions="splitActionBarWhenNarrow">
+            <intent-filter>
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/appCompatLight"
+            android:label="@string/textreader"
+            android:name="com.amaze.filemanager.activities.TextEditorActivity">
+            <intent-filter android:label="Amaze Text Editor">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/*"/>
+                <data android:mimeType="application/javascript"/>
+                <data android:mimeType="application/json"/>
+                <data android:mimeType="application/xml"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/appCompatLight"
+            android:label="@string/databasereader"
+            android:name="com.amaze.filemanager.activities.DatabaseViewerActivity"
+            android:screenOrientation="locked">
+            <intent-filter android:label="Amaze Database Reader">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="db/*"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/aboutLight"
+            android:label="About"
+            android:name="com.amaze.filemanager.activities.AboutActivity"/>
+        <service
+            android:label="Extracting"
+            android:name="com.amaze.filemanager.asynchronous.services.ExtractService"/>
+        <service
+            android:label="Compressing"
+            android:name="com.amaze.filemanager.asynchronous.services.ZipService"/>
+        <service
+            android:label="Copying"
+            android:name="com.amaze.filemanager.asynchronous.services.CopyService"/>
+        <service
+            android:label="@string/crypt_encrypting"
+            android:name="com.amaze.filemanager.asynchronous.services.EncryptService"/>
+        <service
+            android:label="@string/crypt_decrypting"
+            android:name="com.amaze.filemanager.asynchronous.services.DecryptService"/>
+        <service
+            android:name="com.amaze.filemanager.asynchronous.services.ftp.FtpService"
+            android:enabled="true"
+            android:exported="true"/>
+        <service
+            android:label="@string/ftp"
+            android:icon="@drawable/ic_ftp_dark"
+            android:name="com.amaze.filemanager.asynchronous.services.ftp.FtpTileService"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+        </service>
+        <receiver
+            android:name="com.amaze.filemanager.asynchronous.services.ftp.FtpReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.amaze.filemanager.services.ftpservice.FTPReceiver.ACTION_START_FTPSERVER"/>
+                <action android:name="com.amaze.filemanager.services.ftpservice.FTPReceiver.ACTION_STOP_FTPSERVER"/>
+            </intent-filter>
+        </receiver>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:authorities="com.amaze.filemanager"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+        <activity android:name="com.mikepenz.aboutlibraries.ui.LibsActivity"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.android.billingclient.api.ProxyBillingActivity"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <activity android:name="com.cloudrail.si.servicecode.commands.awaitCodeRedirect.AuthenticationActivity"/>
+    </application>
+</manifest>

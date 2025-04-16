@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="318"
+    android:versionName="1.3.0"
+    android:compileSdkVersion="29"
+    android:compileSdkVersionCodename="10"
+    package="com.sap.csi.authenticator"
+    platformBuildVersionCode="29"
+    platformBuildVersionName="10">
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="32"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+    <uses-permission android:name="android.permission.NFC"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <application
+        android:theme="@style/SapUexTheme"
+        android:label="@string/app_name"
+        android:icon="@drawable/app_icon"
+        android:name="com.sap.csi.authenticator.SAPAuthenticatorApplication"
+        android:debuggable="false"
+        android:taskAffinity=""
+        android:allowBackup="false"
+        android:networkSecurityConfig="@xml/network_security_config">
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/title_activity_addaccount"
+            android:name="com.sap.csi.authenticator.ui.AddAccountActivity"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:name="com.sap.csi.authenticator.ui.AccountActivity"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/title_activity_config_confirmation"
+            android:name="com.sap.csi.authenticator.ui.ConfigurationConfirmationActivity"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/msso_app_tab_text"
+            android:name="com.sap.csi.authenticator.ui.ApplicationsActivity"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/title_activity_addapplication"
+            android:name="com.sap.csi.authenticator.ui.AddApplicationActivity"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/title_activity_delete_accounts"
+            android:name="com.sap.csi.authenticator.ui.DeleteAccountsActivity"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/title_activity_deleteapplication"
+            android:name="com.sap.csi.authenticator.ui.DeleteApplicationActivity"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/title_activity_reorderapplication"
+            android:name="com.sap.csi.authenticator.ui.ReorderApplicationActivity"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/title_activity_shortcutapplication"
+            android:name="com.sap.csi.authenticator.ui.ShortcutApplicationActivity"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/title_activity_reorderaccount"
+            android:name="com.sap.csi.authenticator.ui.ReorderAccountActivity"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/title_activity_settings"
+            android:name="com.sap.csi.authenticator.ui.SettingsActivity"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/settings_pwd_settings"
+            android:name="com.sap.csi.authenticator.ui.SettingsPasswordActivity"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/settings_advanced"
+            android:name="com.sap.csi.authenticator.ui.SettingsApplicationModeActivity"
+            android:configChanges="screenSize|orientation"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/settings_advanced"
+            android:name="com.sap.csi.authenticator.ui.SettingsOnlineConfigurationActivity"
+            android:configChanges="screenSize|orientation"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/settings_about"
+            android:name="com.sap.csi.authenticator.ui.SettingsAboutActivity"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/settings_troubleshooting"
+            android:name="com.sap.csi.authenticator.ui.SettingsTroubleshootingActivity"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/title_activity_applicationpassword"
+            android:name="com.sap.csi.authenticator.ui.ApplicationPasswordActivity"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/title_activity_enterapplicationpassword"
+            android:name="com.sap.csi.authenticator.ui.LoginActivity"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:name="com.sap.csi.authenticator.ui.WelcomeActivity"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:name="com.sap.csi.authenticator.ui.ResetActivity"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/title_activity_editapplication"
+            android:name="com.sap.csi.authenticator.ui.EditApplicationActivity"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:name="com.sap.csi.authenticator.ui.LaunchApplicationShortcutActivity"
+            android:exported="true"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="adjustNothing|stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:name="com.sap.csi.authenticator.ui.SAPAuthenticatorActivity"
+            android:configChanges="screenSize|orientation"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:name="com.sap.csi.authenticator.ui.CustomSchemeLauncherActivity"
+            android:exported="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="sapauthenticator"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:name="com.sap.csi.authenticator.ui.LauncherActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/title_activity_read_nfc_card"
+            android:name="com.sap.csi.authenticator.ui.ReadNFCCardActivity"
+            android:configChanges="screenSize|orientation"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:name="com.sap.csi.authenticator.ui.CodeScannerActivity"
+            android:configChanges="screenSize|orientation"/>
+        <uses-library
+            android:name="android.test.runner"
+            android:required="false"/>
+    </application>
+</manifest>

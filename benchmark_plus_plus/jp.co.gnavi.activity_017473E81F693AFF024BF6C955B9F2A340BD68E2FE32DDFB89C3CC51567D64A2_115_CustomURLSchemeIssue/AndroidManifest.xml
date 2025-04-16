@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="115"
+    android:versionName="8.0.3"
+    android:installLocation="auto"
+    package="jp.co.gnavi.activity">
+    <uses-sdk
+        android:minSdkVersion="19"
+        android:targetSdkVersion="26"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-feature
+        android:glEsVersion="0x20000"
+        android:required="true"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <permission
+        android:name="jp.co.gnavi.activity.permission.C2D_MESSAGE"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="jp.co.gnavi.activity.permission.C2D_MESSAGE"/>
+    <application
+        android:theme="@style/AppTheme"
+        android:label="@string/app_name"
+        android:icon="@drawable/icon"
+        android:name="jp.co.gnavi.MainApplication"
+        android:allowBackup="false"
+        android:largeHeap="true">
+        <activity
+            android:name="jp.co.gnavi.ui.splash.SplashActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="gnavi"
+                    android:host="tab"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/BottomNavigationBarTheme"
+            android:label="@string/title_activity_recommend"
+            android:name="jp.co.gnavi.ui.recommend.RecommendActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/BottomNavigationBarTheme"
+            android:label="@string/title_activity_search_result"
+            android:name="jp.co.gnavi.ui.searchResult.SearchResultActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/title_activity_restaurant_top"
+            android:name="jp.co.gnavi.ui.restaurantTop.RestaurantTopActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="gnavi"
+                    android:host="r.gnavi.co.jp"
+                    android:pathPattern=".*"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/DialogTheme"
+            android:name="jp.co.gnavi.ui.account.LoginTutorialActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/DialogTheme"
+            android:name="jp.co.gnavi.ui.account.AccountLoginActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.ui.setting.ConfigActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/title_activity_license"
+            android:name="jp.co.gnavi.ui.setting.LicenseActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/Theme.Gnavi.WebView"
+            android:name="jp.co.gnavi.ui.base.WebViewBaseActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="http"
+                    android:host="my.gnavi.co.jp"
+                    android:pathPrefix="/premium-app/"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/Theme.Gnavi.WebView"
+            android:name="jp.co.gnavi.kt.view.activity.WebViewActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/Theme.Gnavi.WebView"
+            android:name="jp.co.gnavi.kt.view.activity.LaunchWebViewActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="my.gnavi.co.jp"
+                    android:pathPattern="/s/register.*"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="my.gnavi.co.jp"
+                    android:pathPattern="/connects/app.*"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="gnavi"
+                    android:host="webview"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="my.gnavi.co.jp"
+                    android:pathPattern="/app/point/history/hst01.*"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="jp.co.gnavi.ui.searchResult.SearchResultMapActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.ui.restaurantTop.RestaurantDetailMapActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/title_activity_notification"
+            android:name="jp.co.gnavi.ui.notification.NotificationListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.ui.notification.NotificationDetailActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/BottomNavigationBarTheme"
+            android:label="@string/title_activity_chottogu"
+            android:name="jp.co.gnavi.ui.chottogu.ChottoguListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.ui.chottogu.ChottoguConditionActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.ui.recommend.GourmetnewsListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.ui.recommend.RecommendPushshopActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.ui.recommend.RecommendBrowsedShopActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.ui.restaurantTop.RestaurantPRActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.ui.menu.MenuListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity
+            android:name="jp.co.gnavi.ui.menu.MenuDetailActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.ui.restaurantTop.kodawari.KodawariDetailActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.ui.plan.PlanDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.ui.plan.PlanListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.ui.plan.CouponListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.ui.restaurantTop.equipment.SeatDetailActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/Home"
+            android:name="jp.co.gnavi.kt.view.activity.HomeActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="gnavi"
+                    android:host="home"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="gapp.gnavi.co.jp"
+                    android:path="/reserve/"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="gnavi"
+                    android:host="karte.io"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="jp.co.gnavi.kt.view.activity.ChangeMemberInfoActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/BottomNavigationBarTheme"
+            android:name="jp.co.gnavi.kt.view.activity.MyPageActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="jp.co.gnavi.kt.view.activity.SearchPrefecturesActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.kt.view.activity.ReservationConditionActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_map_api_key"/>
+        <activity
+            android:name="jp.co.gnavi.ui.restaurantTop.photos.PhotosListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.ui.restaurantTop.photos.PhotosDetailActivity"
+            android:launchMode="singleTask"/>
+        <activity
+            android:name="jp.co.gnavi.kt.view.activity.ReservationCourseListActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.kt.view.activity.ReservationCourseDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.kt.view.activity.LoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:name="jp.co.gnavi.kt.view.activity.ReservationFormActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:name="jp.co.gnavi.kt.view.activity.ReservationInquiryActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:name="jp.co.gnavi.kt.view.activity.ReservationResultActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.kt.view.activity.ResetDateTimeActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.kt.view.activity.ReservationInquiryConditionActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/NoAnimationTheme"
+            android:name="jp.co.gnavi.kt.view.activity.SearchActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:name="jp.co.gnavi.kt.view.activity.SearchPlaceActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/NoAnimationTheme"
+            android:name="jp.co.gnavi.kt.view.activity.SelectRegionActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.kt.view.activity.SelectGenreActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.kt.view.activity.SearchDetailConditionActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/DialogTheme"
+            android:name="jp.co.gnavi.kt.view.activity.AccountRegisterActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.kt.view.activity.ScheduleDateActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.kt.view.activity.ImanomoMapActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.kt.view.activity.ImanomoWalkThroughActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="jp.co.gnavi.kt.view.activity.ImanomoReserveFormActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:label="@string/title_activity_imanomo_pickup_animation"
+            android:name="jp.co.gnavi.kt.view.activity.ImanomoPickupAnimationActivity"/>
+        <receiver
+            android:name="com.appsflyer.MultipleInstallBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+        <meta-data
+            android:name="com.crashlytics.ApiKey"
+            android:value="28301367b84f6096ae99b85881fff6377f45f838"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <service android:name="com.google.android.gms.analytics.CampaignTrackingService"/>
+        <receiver
+            android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.google.android.gms.analytics.AnalyticsReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.android.gms.analytics.AnalyticsService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service android:name="jp.co.gnavi.kt.helper.GnaviFirebaseInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <service android:name="jp.co.gnavi.kt.helper.GnaviFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="io.karte.android.Tracker.notification_icon"
+            android:resource="@drawable/icon_nf"/>
+        <meta-data
+            android:name="io.karte.android.Tracker.notification_large_icon"
+            android:resource="@drawable/icon"/>
+        <activity
+            android:theme="@style/PlacesAutocompleteThemeOverlay"
+            android:label="@string/places_autocomplete_label"
+            android:name="com.google.android.libraries.places.widget.AutocompleteActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan|stateAlwaysVisible"
+            android:hardwareAccelerated="true"/>
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false"/>
+        <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:exported="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.google.android.gms.tagmanager.TagManagerService"
+            android:enabled="true"
+            android:exported="false"/>
+        <activity
+            android:name="com.google.android.gms.tagmanager.TagManagerPreviewActivity"
+            android:exported="true"
+            android:noHistory="true">
+            <intent-filter>
+                <data android:scheme="tagmanager.c.jp.co.gnavi.activity"/>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+            </intent-filter>
+        </activity>
+        <service android:name="com.google.firebase.components.ComponentDiscoveryService">
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.iid.Registrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+        </service>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver"
+            android:permission="android.permission.INSTALL_PACKAGES"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="jp.co.gnavi.activity"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.firebase.iid.FirebaseInstanceIdService"
+            android:exported="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"/>
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:exported="false"
+            android:authorities="jp.co.gnavi.activity.firebaseinitprovider"
+            android:initOrder="100"/>
+        <provider
+            android:name="android.arch.lifecycle.ProcessLifecycleOwnerInitializer"
+            android:exported="false"
+            android:multiprocess="true"
+            android:authorities="jp.co.gnavi.activity.lifecycle-trojan"/>
+        <receiver android:name="io.karte.android.tracker.firebase.MessageReceiver"/>
+        <meta-data
+            android:name="io.karte.android.Tracker._AutoTrack"
+            android:value="true"/>
+        <activity
+            android:label="Start Karte Pairing"
+            android:name="io.karte.android.tracker.autotrack.AutoTrackPairingActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:scheme="gnavi"
+                    android:host="_krtp"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:scheme="tagmanager.c.jp.co.gnavi.activity"
+                    android:host="_krtp"/>
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

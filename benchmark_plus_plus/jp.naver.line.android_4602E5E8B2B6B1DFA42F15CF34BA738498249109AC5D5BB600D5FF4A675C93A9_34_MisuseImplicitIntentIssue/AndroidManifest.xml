@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="34"
+    android:versionName="1.7.2"
+    android:installLocation="auto"
+    package="jp.naver.line.android">
+    <uses-sdk android:minSdkVersion="7"/>
+    <application
+        android:theme="@android:style/Theme.NoTitleBar"
+        android:label="@string/app_name"
+        android:icon="@drawable/icon"
+        android:debuggable="false">
+        <uses-library android:name="com.google.android.maps"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.SplashActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.MainActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.choosemember.ChooseMemberActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+        <activity
+            android:name="jp.naver.line.android.activity.imageviewer.ImageViewerActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/CustomDialogTheme"
+            android:label="@string/app_name"
+            android:name=".activity.profiledialog.ProfileDialog"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.RegistrationActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.friendlist.FriendListActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.AddFriendByUserIdActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.group.GroupDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.group.GroupFormActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
+        <activity
+            android:name="jp.naver.line.android.activity.chatlist.ChatListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+        <activity
+            android:name="jp.naver.line.android.activity.chathistory.ChatHistoryActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="unspecified"
+            android:configChanges="orientation"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+        <activity
+            android:name="jp.naver.line.android.activity.chathistory.ChatMemberListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+        <activity
+            android:name="jp.naver.line.android.activity.location.SelectLocationActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:name="jp.naver.line.android.activity.location.LocationViewerActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+        <activity
+            android:name="jp.naver.line.android.activity.stickershop.StickerShopActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+        <activity
+            android:name="jp.naver.line.android.activity.stickershop.StickerPackagePreviewActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.addfriend.AddfriendActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.shake.ShakeActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.localcontactlist.LocalContactListActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.setting.SettingsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.setting.SettingsProfileActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.setting.SettingsProfileFieldActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.setting.SettingsProfileIDActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.setting.SettingsSkinActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.setting.SettingsSkinSelectActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.setting.SettingsNotificationsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.setting.SettingsTalkActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:label="@string/app_name"
+            android:name=".activity.setting.SettingsTellEmailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.setting.SettingsBlockActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.setting.SettingsNoticeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.setting.SettingsContactActivity"
+            android:configChanges="orientation"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.setting.SettingsPasslockActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.setting.SettingsPrivacyActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.setting.SettingsAddFriendsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.setting.SettingsAboutActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.setting.SettingsWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.VersionUpNoticeActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.NotAvailableUserActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="jp.naver.line.android.activity.popupnotice.MyNoticeShowingActivity"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.passlock.InputPassActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.passlock.RegistPassActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.qrcode.QRCodeCaptureActivity"
+            android:screenOrientation="landscape"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.qrcode.MyQRCodeActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.qrcode.AddFriendByQRCodeActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="http"
+                    android:host="line.naver.jp"
+                    android:pathPrefix="/ti/p/"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="jp.naver.line.android.activity.voip.VoipActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent"
+            android:name="jp.naver.line.android.activity.pushdialog.PushDialogActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+        <activity
+            android:theme="@android:style/Theme.Black.NoTitleBar"
+            android:name="jp.naver.line.android.activity.pushdialog.PushDialogSleepActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="jp.naver.line.android.activity.selectchat.SelectChatActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.SEND"/>
+                <data android:mimeType="image/*"/>
+                <data android:mimeType="text/*"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="http"
+                    android:host="line.naver.jp"
+                    android:pathPrefix="/msg/"/>
+            </intent-filter>
+        </activity>
+        <service android:name="jp.naver.line.android.service.NaverLineService"/>
+        <receiver android:name="jp.naver.line.android.service.BootingServiceReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="jp.naver.line.android.util.ad.InstallReferrerReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+        <meta-data
+            android:name="IS_APP_ID"
+            android:value="a67427a9-426c-4059-b8e2-54020d593650"/>
+        <meta-data
+            android:name="IS_MERCHANT_NAME"
+            android:value="spanaver"/>
+        <meta-data
+            android:name="I_GENERATION_USER_APPLICATION_ID"
+            android:value="8"/>
+        <meta-data
+            android:name="I_GENERATION_USER_CHECKSUM"
+            android:value="naver"/>
+        <meta-data
+            android:name="SITE_ID"
+            android:value="1169"/>
+        <meta-data
+            android:name="SITE_KEY"
+            android:value="b9cc1e74b87a05a63ca22d102ae98863"/>
+        <meta-data
+            android:name="MARKET"
+            android:value="GOOGLE"/>
+        <service
+            android:label="@string/npush_service_lable"
+            android:name="jp.naver.android.npush.service.NPushMessageService"
+            android:permission="jp.naver.android.npush.permission.PUSH_MESSAGE"
+            android:exported="true"
+            android:process="jp.naver.android.npush">
+            <intent-filter android:priority="9">
+                <action android:name="jp.naver.android.npush.intent.action.SUBSCRIBE"/>
+                <action android:name="jp.naver.android.npush.intent.action.UNSUBSCRIBE"/>
+                <action android:name="jp.naver.android.npush.intent.action.UPGRADE"/>
+                <action android:name="jp.naver.android.npush.intent.action.GETSTATE"/>
+            </intent-filter>
+        </service>
+        <receiver
+            android:name="jp.naver.line.android.service.push.C2DMReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="jp.naver.line.android"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
+                <category android:name="jp.naver.line.android"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="jp.naver.line.android.service.push.AOMReceiver"
+            android:permission="com.skt.aom.permission.AOM_SEND">
+            <intent-filter>
+                <action android:name="com.skt.aom.intent.receive.REGISTRATION"/>
+                <category android:name="jp.naver.line.android"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.skt.aom.intent.receive.SERVICE_AVAILABILITY"/>
+                <category android:name="jp.naver.line.android"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.skt.aom.intent.receive.SERVICE_AVAILABLE"/>
+                <category android:name="jp.naver.line.android"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.skt.aom.intent.receive.SERVICE_UNAVAILABLE"/>
+                <category android:name="jp.naver.line.android"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.skt.aom.intent.receive.MESSAGE"/>
+                <category android:name="jp.naver.line.android"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.skt.aom.intent.receive.RE_REGISTER"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="jp.naver.line.android.service.push.NNIReceiver"
+            android:permission="jp.naver.android.npush.permission.PUSH_MESSAGE">
+            <intent-filter>
+                <action android:name="jp.naver.android.npush.intent.action.RECEIVE"/>
+                <category android:name="naverline"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="jp.naver.android.npush.intent.action.SUBSCRIBE_RES"/>
+                <category android:name="naverline"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="jp.naver.android.npush.intent.action.UNSUBSCRIBE_RES"/>
+                <category android:name="naverline"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="jp.naver.android.npush.intent.action.CURRENTSTATE"/>
+                <category android:name="naverline"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.intent.action.GTALK_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+    </application>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RESTART_PACKAGES"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="jp.naver.line.android.permission.C2D_MESSAGE"/>
+    <permission
+        android:name="jp.naver.line.android.permission.C2D_MESSAGE"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_COMPONENT_ENABLED_STATE"/>
+    <uses-permission android:name="android.permission.DEVICE_POWER"/>
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <permission
+        android:name="jp.naver.line.android.permission.C2D_MESSAGE"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="jp.naver.line.android.permission.C2D_MESSAGE"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <permission
+        android:name="jp.naver.line.android.permission.AOM_MESSAGE"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="jp.naver.line.android.permission.AOM_MESSAGE"/>
+    <permission android:name="com.skt.aom.permission.AOM_RECEIVE"/>
+    <uses-permission android:name="com.skt.aom.permission.AOM_RECEIVE"/>
+    <permission
+        android:name="jp.naver.android.npush.permission.PUSH_MESSAGE"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="jp.naver.android.npush.permission.PUSH_MESSAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.microphone"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false"/>
+</manifest>

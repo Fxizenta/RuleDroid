@@ -1,0 +1,2113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="1405310"
+    android:versionName="4.5.3a"
+    package="com.ninefolders.hd3">
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="26"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
+    <supports-screens
+        android:anyDensity="true"
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:resizeable="true"
+        android:xlargeScreens="true"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+    <uses-permission android:name="android.permission.READ_PROFILE"/>
+    <uses-permission android:name="android.permission.NFC"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY"/>
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+    <uses-permission android:name="com.anddoes.launcher.permission.UPDATE_COUNT"/>
+    <uses-permission android:name="com.sonyericsson.home.permission.BROADCAST_BADGE"/>
+    <uses-permission android:name="com.sonymobile.home.permission.PROVIDER_INSERT_BADGE"/>
+    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE"/>
+    <uses-feature
+        android:name="android.hardware.screen.portrait"
+        android:required="false"/>
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+    <permission
+        android:label="@string/permission_read_attachment_label"
+        android:name="com.ninefolders.hd3.permission.READ_ATTACHMENT"
+        android:protectionLevel="dangerous"
+        android:permissionGroup="android.permission-group.MESSAGES"
+        android:description="@string/permission_read_attachment_desc"/>
+    <uses-permission android:name="com.ninefolders.hd3.permission.READ_ATTACHMENT"/>
+    <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
+    <permission
+        android:label="@string/permission_access_provider_label"
+        android:name="com.ninefolders.hd3.permission.ACCESS_PROVIDER"
+        android:protectionLevel="signature"
+        android:description="@string/permission_access_provider_desc"/>
+    <uses-permission android:name="com.ninefolders.hd3.permission.ACCESS_PROVIDER"/>
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <application
+        android:theme="@style/NineTheme.NineUnifiedTheme"
+        android:label="@string/app_title"
+        android:icon="@mipmap/ic_launcher"
+        android:name="com.ninefolders.hd3.EmailApplication"
+        android:allowBackup="false"
+        android:hardwareAccelerated="true"
+        android:supportsRtl="false"
+        android:requiredAccountType="com.ninefolders.hd3,com.ninefolders.hd3.mail"
+        android:resizeableActivity="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round">
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:name="com.ninefolders.hd3.activity.NoteToSelfSelectorActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden">
+            <intent-filter
+                android:label="@string/app_title"
+                android:icon="@mipmap/ic_launcher">
+                <action android:name="com.google.android.gm.action.AUTO_SEND"/>
+                <action android:name="com.google.android.voicesearch.action.AUTO_SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="com.google.android.voicesearch.SELF_NOTE"/>
+                <data android:mimeType="text/*"/>
+            </intent-filter>
+        </activity>
+        <service android:name="com.ninefolders.hd3.service.WearableReceiverService">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED"/>
+                <data
+                    android:scheme="wear"
+                    android:host="*"
+                    android:path="/send_note_self"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.ninefolders.hd3.service.ImapAuthenticatorService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator_imap"/>
+        </service>
+        <service
+            android:name="com.ninefolders.hd3.entrust.EntrustService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":entrust">
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.action.entrust.INIT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.ninefolders.hd3.entrust.EntrustPreferenceService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="barcode"/>
+        <meta-data
+            android:name="com.samsung.android.keepalive.density"
+            android:value="true"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.ninefolders.hd3.activity.ProcessPhoenix"
+            android:process=":phoenix"/>
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:label="@string/app_title"
+            android:name="com.ninefolders.hd3.activity.BackupImportActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"/>
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:name="com.ninefolders.hd3.activity.NxImportCertificateActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"/>
+        <activity
+            android:theme="@android:style/Theme.NoDisplay"
+            android:label="@string/app_title"
+            android:name="com.ninefolders.hd3.activity.EventViewer">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:scheme="content"
+                    android:host="ui.hd3.9folders.com"
+                    android:pathPrefix="/event"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:name="com.ninefolders.hd3.activity.NxHtmlActivity"/>
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:name="com.ninefolders.hd3.activity.audioplayer.NxAudioPlayerActivity"/>
+        <activity
+            android:theme="@style/NineTheme.EditEventTheme"
+            android:label="@string/app_title"
+            android:name="com.ninefolders.hd3.activity.ical.NxImportICalendarActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/calendar"/>
+                <data android:mimeType="text/x-vcalendar"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.CustomToolBar"
+            android:name="com.ninefolders.hd3.mail.components.meeting.NxCreateMeetingActivity"/>
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:name="com.ninefolders.hd3.activity.NxPhoneActionChooserActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="nxphone"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/MACTheme"
+            android:name="com.ninefolders.hd3.activity.NxApprovedChooser"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:scheme="content"
+                    android:host="ui.hd3.9folders.com"
+                    android:pathPrefix="/chooser"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/widget_configure_title"
+            android:name="com.ninefolders.hd3.mail.ui.NxNewWidgetConfigureActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:label="@string/widget_configure_title"
+            android:name="com.ninefolders.hd3.mail.ui.NxWidgetListConfigureActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/tasks_widget_configure_title"
+            android:name="com.ninefolders.hd3.mail.ui.NxTaskWidgetConfigureActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+        <receiver
+            android:label="@string/calendar_title"
+            android:name="com.ninefolders.hd3.mail.widget.CalendarAppWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="com.ninefolders.hd3.calendar.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.calendar.ACTION_NOTIFY_DATASET_CHANGED"/>
+                <action android:name="com.ninefolders.hd3.mail.ACTION_UPDATE_CALENDAR_WIDGET_LIST"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+                <action android:name="android.intent.action.TIME_SET"/>
+                <action android:name="android.intent.action.LOCALE_CHANGED"/>
+                <action android:name="com.ninefolders.hd3.intent.action.DATE_CHANGED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.APPWIDGET_SCHEDULED_UPDATE"/>
+                <data android:scheme="content"/>
+                <data android:host="com.ninefolders.hd3"/>
+                <data android:mimeType="vnd.android.data/update"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/calendar_appwidget_info"/>
+        </receiver>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:label="@string/calendar_widget_settings"
+            android:name="com.ninefolders.hd3.mail.ui.NxCalendarWidgetConfigureActivity"
+            android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+        <receiver
+            android:label="@string/nine_month_calendar_title"
+            android:name="com.ninefolders.hd3.mail.widget.MonthCalendarWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="com.ninefolders.hd3.calendar.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.calendar.ACTION_NOTIFY_DATASET_CHANGED"/>
+                <action android:name="com.ninefolders.hd3.mail.ACTION_UPDATE_CALENDAR_WIDGET_LIST"/>
+                <action android:name="com.ninefolders.hd3.mail.ACTION_CALENDAR_PREV_MOVE"/>
+                <action android:name="com.ninefolders.hd3.mail.ACTION_CALENDAR_NEXT_MOVE"/>
+                <action android:name="com.ninefolders.hd3.mail.ACTION_UPDATE_MONTH_CALENDAR"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+                <action android:name="android.intent.action.LOCALE_CHANGED"/>
+                <action android:name="com.ninefolders.hd3.intent.action.DATE_CHANGED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.hd3.APPWIDGET_SCHEDULED_UPDATE"/>
+                <data android:scheme="content"/>
+                <data android:host="com.ninefolders.hd3"/>
+                <data android:mimeType="vnd.android.data/update"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/calendar_month_app_widget_info"/>
+        </receiver>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:label="@string/calendar_widget_settings"
+            android:name="com.ninefolders.hd3.mail.ui.NxCalendarMonthWidgetConfigureActivity"
+            android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/SplashEmailTheme"
+            android:name="com.ninefolders.hd3.activity.NineActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.APP_EMAIL"/>
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:label="@string/purchase"
+            android:name="com.ninefolders.hd3.activity.billing.PurchaseActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:theme="@style/WelcomeTheme"
+            android:name="com.ninefolders.hd3.activity.WelcomeActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.EmailTheme"
+            android:label="@string/app_title"
+            android:name="com.ninefolders.hd3.activity.MailActivityEmail">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="content"/>
+                <data android:mimeType="@string/application_mime_type"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:scheme="content"
+                    android:host="ui.hd3.9folders.com"
+                    android:path="/view/mailbox"/>
+            </intent-filter>
+        </activity>
+        <activity-alias
+            android:label="@string/email"
+            android:icon="@drawable/ic_shortcut_mail"
+            android:name="com.ninefolders.hd3.activity.MailActivityEmailAlias"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.ninefolders.hd3.activity.MailActivityEmail">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts_compose"/>
+        </activity-alias>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.MailPreviewTheme"
+            android:label="@string/mail_original_title"
+            android:name="com.ninefolders.hd3.mail.browse.MailPreviewActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.EmailTheme"
+            android:label="@string/app_title"
+            android:name="com.ninefolders.hd3.mail.ui.MailDetailViewActivity"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.EmailTheme.Dialog"
+            android:label="@string/app_title"
+            android:name="com.ninefolders.hd3.mail.ui.MailDetailViewDialogActivity"
+            android:targetActivity=".mail.ui.MailDetailViewActivity"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:label="@string/account_setup_basics_title"
+            android:name="com.ninefolders.hd3.activity.setup.AccountSetupBasics"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:label="@string/account_setup_basics_title"
+            android:name="com.ninefolders.hd3.activity.setup.account.email.AccountSetupBasicsEmailAddress"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.CREATE_ACCOUNT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:label="@string/account_setup_basics_title"
+            android:name="com.ninefolders.hd3.activity.setup.AccountSetupBasicsOther"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:label="@string/account_setup_basics_title"
+            android:name="com.ninefolders.hd3.activity.setup.AccountSetupBasicsOAuth"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:label="@string/account_setup_account_type_title"
+            android:name="com.ninefolders.hd3.activity.setup.AccountSetupType"/>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:label="@string/account_setup_restriction_title"
+            android:name="com.ninefolders.hd3.activity.setup.AccountSetupRestriction"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:label="@string/account_setup_incoming_title"
+            android:name="com.ninefolders.hd3.activity.setup.AccountSetupIncoming"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:label="@string/account_setup_outgoing_title"
+            android:name="com.ninefolders.hd3.activity.setup.AccountSetupOutgoing"/>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:label="@string/account_setup_options_title"
+            android:name="com.ninefolders.hd3.activity.setup.AccountSetupOptions"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:label="@string/account_setup_names_title"
+            android:name="com.ninefolders.hd3.activity.setup.AccountSetupNames"/>
+        <activity
+            android:label="@string/settings_activity_title"
+            android:name="com.ninefolders.hd3.activity.setup.AccountSettingsPreference"
+            android:exported="false"/>
+        <activity
+            android:label="@string/settings_activity_title"
+            android:name="com.ninefolders.hd3.activity.setup.NxPeakDaySettingActivity"/>
+        <activity
+            android:label="@string/settings_activity_title"
+            android:name="com.ninefolders.hd3.activity.setup.NxDoNotDisturbTimeActivity"/>
+        <activity
+            android:label="@string/signature"
+            android:name="com.ninefolders.hd3.activity.setup.SignatureActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden|keyboard"/>
+        <activity
+            android:name="com.ninefolders.hd3.activity.setup.RichEditorActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden|keyboard"/>
+        <activity
+            android:name="com.ninefolders.hd3.activity.setup.TextEditorActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden|keyboard"
+            android:windowSoftInputMode="stateVisible"/>
+        <activity
+            android:label="@string/account_settings_advanced_automatic_replies"
+            android:name="com.ninefolders.hd3.activity.setup.oof.AutomaticRepliesSetupActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:label="@string/account_settings_provision"
+            android:name="com.ninefolders.hd3.activity.setup.NxProvisionInfoActivity"/>
+        <activity
+            android:label="@string/preferences_alias_title"
+            android:name="com.ninefolders.hd3.activity.setup.NxAccountAliasActivity"/>
+        <activity
+            android:label="@string/account_settings_irm_title"
+            android:name="com.ninefolders.hd3.activity.setup.NxIRMSettingActivity"/>
+        <activity
+            android:label="@string/preferences_connected_account_title"
+            android:name="com.ninefolders.hd3.activity.setup.NxConnectedAccountActivity"/>
+        <activity
+            android:label="@string/account_settings_edit_category"
+            android:name="com.ninefolders.hd3.activity.setup.NxCategorySettingActivity"/>
+        <activity
+            android:label="@string/signatures"
+            android:name="com.ninefolders.hd3.activity.setup.NxSignatureManagerActivity"/>
+        <activity
+            android:label="@string/general_settings_templates"
+            android:name="com.ninefolders.hd3.activity.setup.NxTemplatesManagerActivity"
+            android:launchMode="singleInstance"/>
+        <activity
+            android:label="@string/quick_replies"
+            android:name="com.ninefolders.hd3.activity.setup.NxQuickRepliesSettingActivity"/>
+        <activity
+            android:label="@string/toolbar_setting"
+            android:name="com.ninefolders.hd3.activity.setup.NxToolbarSettingActivity"/>
+        <activity
+            android:label="@string/reorder_accounts"
+            android:name="com.ninefolders.hd3.activity.setup.NxReorderAccountsSettingActivity"/>
+        <activity
+            android:label="@string/general_settings_language"
+            android:name="com.ninefolders.hd3.activity.setup.NxLanguageSettingActivity"/>
+        <activity
+            android:label="@string/email_list_action_title"
+            android:name="com.ninefolders.hd3.activity.setup.NxEmailConfigureActionSettingActivity"/>
+        <activity
+            android:label="@string/notification_action_label"
+            android:name="com.ninefolders.hd3.activity.setup.NxNotificationActionSettingActivity"/>
+        <activity
+            android:label="@string/grid_action_label"
+            android:name="com.ninefolders.hd3.activity.setup.NxEditGridFolderSettingActivity"/>
+        <activity
+            android:label="@string/right_swipe_action_label"
+            android:name="com.ninefolders.hd3.activity.setup.NxSwipeActionSettingActivity"/>
+        <activity
+            android:theme="@style/NineTheme.CustomToolBar"
+            android:label="@string/account_settings_vip_list"
+            android:name="com.ninefolders.hd3.activity.setup.vip.NxVipSettingsActivity"/>
+        <activity
+            android:theme="@style/NineTheme.CustomToolBar"
+            android:label="@string/attachments"
+            android:name="com.ninefolders.hd3.activity.attachments.NxAttachmentListActivity"/>
+        <activity
+            android:theme="@style/NineTheme.CustomToolBar"
+            android:label="@string/account_settings_vip_domain_list"
+            android:name="com.ninefolders.hd3.activity.setup.vip.NxVipDomainSettingActivity"/>
+        <activity
+            android:theme="@style/NineTheme.CustomToolBar"
+            android:name="com.ninefolders.hd3.activity.setup.vip.NxVipDetailActivity"/>
+        <activity
+            android:label="@string/account_settings_add_search_vip"
+            android:name="com.ninefolders.hd3.activity.setup.vip.NxVipAddSearchActivity"/>
+        <activity
+            android:label="@string/notification_setting_exceptions"
+            android:name="com.ninefolders.hd3.activity.setup.NxExceptNotificationsActivity"/>
+        <activity
+            android:label="@string/account_settings_edit_category"
+            android:name="com.ninefolders.hd3.activity.setup.NxGlobalCategorySettingActivity"/>
+        <activity
+            android:label="@string/account_edit_settings"
+            android:name="com.ninefolders.hd3.activity.setup.NxAccountEditSetupActivity"/>
+        <activity
+            android:label="@string/account_edit_settings"
+            android:name="com.ninefolders.hd3.activity.setup.NxAccountEditRestrictionActivity"/>
+        <activity
+            android:label="@string/account_edit_settings"
+            android:name="com.ninefolders.hd3.activity.setup.NxAccountEditOutgoingActivity"/>
+        <activity
+            android:theme="@style/NineTheme.CustomToolBar"
+            android:label="@string/account_settings_folder_manager"
+            android:name="com.ninefolders.hd3.activity.setup.NxFolderManagerActivity"/>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:label="@string/navigation_drawer_favorites_title"
+            android:name="com.ninefolders.hd3.activity.setup.NxFavoriteSortSettingActivity"/>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:label="@string/server_settings"
+            android:name="com.ninefolders.hd3.activity.setup.NxEWSSettingsEditActivity"/>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.ContactPickerTheme"
+            android:label="@string/ldap_settings_ldap"
+            android:name="com.ninefolders.hd3.ldap.LDAPServerSettingInfoListActivity"/>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.ContactPickerTheme"
+            android:label="@string/ldap_settings_ldap"
+            android:name="com.ninefolders.hd3.ldap.LDAPServerSettingEditActivity"/>
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:name="com.ninefolders.hd3.ldap.LDAPImportConfigDialog"
+            android:exported="false"
+            android:excludeFromRecents="true"/>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:label="@string/task_widget_settings"
+            android:name="com.ninefolders.hd3.activity.setup.NxTasksWidgetSettingsActivity"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:scheme="content"
+                    android:host="ui.hd3.9folders.com"
+                    android:pathPrefix="/widget_setting"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:label="@string/mail_widget_configure_title"
+            android:name="com.ninefolders.hd3.activity.setup.NxWidgetSettingsActivity"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:scheme="content"
+                    android:host="ui.hd3.9folders.com"
+                    android:pathPrefix="/email_widget_setting"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:label="@string/calendar_widget_settings"
+            android:name="com.ninefolders.hd3.activity.setup.NxCalendarWidgetSettingsActivity"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:scheme="content"
+                    android:host="ui.hd3.9folders.com"
+                    android:pathPrefix="/calendar_widget_setting"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:label="@string/calendar_month_widget_settings"
+            android:name="com.ninefolders.hd3.activity.setup.NxMonthCalendarWidgetSettingsActivity"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:scheme="content"
+                    android:host="ui.hd3.9folders.com"
+                    android:pathPrefix="/calendar_month_widget_setting"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:name="com.ninefolders.hd3.activity.setup.NxAccountMainSettings"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.activity.setup.ACCOUNT_MANAGER_ENTRY"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.NOTIFICATION_PREFERENCES"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:scheme="content"
+                    android:host="ui.hd3.9folders.com"
+                    android:pathPrefix="/settings"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MANAGE_NETWORK_USAGE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:name="com.ninefolders.hd3.activity.setup.NxAccountSettingsActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:scheme="content"
+                    android:host="ui.hd3.9folders.com"
+                    android:pathPrefix="/account_settings"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/logging_level"
+            android:name="com.ninefolders.hd3.activity.setup.NxLogLevelSettingActivity"/>
+        <activity
+            android:label="chip sample"
+            android:name="com.ninefolders.hd3.activity.setup.NxSampleCodeActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:label="keyboard sample"
+            android:name="com.ninefolders.hd3.activity.setup.NxSampleKeyboardActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:label="@string/folder_picker_title"
+            android:name="com.ninefolders.hd3.provider.FolderPickerActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:scheme="content"
+                    android:host="ui.hd3.9folders.com"
+                    android:pathPrefix="/setup"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/account_security_title"
+            android:name="com.ninefolders.hd3.activity.setup.AccountSecurity"
+            android:exported="true"/>
+        <activity
+            android:label="@string/migration_eas_version_title"
+            android:name="com.ninefolders.hd3.activity.setup.NxUpgradeEasVersionActivity"
+            android:exported="true"
+            android:configChanges="uiMode|orientation|keyboardHidden|keyboard|mnc|mcc"/>
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:label="@string/encryption_storage"
+            android:name="com.ninefolders.hd3.activity.setup.NxDatabaseMigrationDialog"
+            android:configChanges="uiMode|orientation|keyboardHidden|keyboard|mnc|mcc"/>
+        <activity
+            android:label="@string/mailbox_settings_activity_title"
+            android:name="com.ninefolders.hd3.activity.setup.MailboxSettings"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/MailPhotoViewTheme"
+            android:label="@string/app_title"
+            android:name="com.ninefolders.hd3.mail.photo.MailPhotoViewActivity"/>
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:name="com.ninefolders.hd3.mail.components.NxCategoryDialog"/>
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:name="com.ninefolders.hd3.mail.components.NxExportAndAttachEmailProgressDialog"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:name="com.ninefolders.hd3.mail.components.NxQuickReplyDialog"/>
+        <activity
+            android:theme="@style/NineAlertTranslucent"
+            android:label="@string/app_title"
+            android:name="com.ninefolders.hd3.mail.components.NxQuickReplySingleDialog"
+            android:exported="false"
+            android:taskAffinity=".alert"
+            android:excludeFromRecents="true"/>
+        <activity
+            android:theme="@style/NineTheme.CustomToolBar"
+            android:name="com.ninefolders.hd3.mail.ui.calendar.EventForwardActivity"
+            android:windowSoftInputMode="stateVisible"/>
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:name="com.ninefolders.hd3.mail.components.NxVerifyCertificateDialog"/>
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:name="com.ninefolders.hd3.mail.components.NxIRMInfoDialog"/>
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:name="com.ninefolders.hd3.mail.components.NxMessageViewDetailsDialog"/>
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:name="com.ninefolders.hd3.mail.report.NxReportingHackingMailDetailsDialog"/>
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:name="com.ninefolders.hd3.mail.components.NxMigrationAlertDialog"/>
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:name="com.ninefolders.hd3.mail.components.NxVipMigrationAlertDialog"/>
+        <activity
+            android:label="@string/app_title"
+            android:name="com.ninefolders.hd3.mail.browse.EmlViewerActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="message/rfc822"/>
+                <data android:mimeType="application/eml"/>
+                <data android:mimeType="application/vnd.ms-outlook"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="file"/>
+                <data android:scheme="content"/>
+                <data android:mimeType="*/*"/>
+                <data android:host="*"/>
+                <data android:pathPattern=".*\\.msg"/>
+                <data android:pathPattern=".*\\..*\\.msg"/>
+                <data android:pathPattern=".*\\..*\\..*\\.msg"/>
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.msg"/>
+                <data android:pathPattern=".*\\.eml"/>
+                <data android:pathPattern=".*\\..*\\.eml"/>
+                <data android:pathPattern=".*\\..*\\..*\\.eml"/>
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.eml"/>
+                <data android:pathPattern=".*\\.mht"/>
+                <data android:pathPattern=".*\\..*\\.mht"/>
+                <data android:pathPattern=".*\\..*\\..*\\.mht"/>
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.mht"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.NotesListTheme"
+            android:label="@string/notes_name"
+            android:name="com.ninefolders.hd3.activity.PlotActivity"
+            android:taskAffinity=".notes">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/no_searchable"/>
+        </activity>
+        <activity-alias
+            android:label="@string/notes"
+            android:icon="@drawable/ic_shortcut_notes"
+            android:name="com.ninefolders.hd3.activity.PlotAliasActivity"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.ninefolders.hd3.activity.PlotActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts_note"/>
+        </activity-alias>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.NotesTheme.Detail"
+            android:name="com.ninefolders.hd3.activity.NoteDetailActivity"
+            android:taskAffinity=".notes"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:parentActivityName="com.ninefolders.hd3.activity.PlotActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter
+                android:label="@string/note_to_self_notes_label"
+                android:icon="@drawable/ic_shortcut_notes">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.NotesTheme.Edit"
+            android:label="@string/note"
+            android:icon="@drawable/ic_shortcut_notes"
+            android:name="com.ninefolders.hd3.activity.NoteEditActivity"
+            android:taskAffinity=".notes"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:parentActivityName="com.ninefolders.hd3.activity.NoteDetailActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter
+                android:label="@string/note_to_self_notes_label"
+                android:icon="@drawable/ic_shortcut_notes">
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/*"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.NotesTheme"
+            android:label="@string/note_original_title"
+            android:name="com.ninefolders.hd3.mail.ui.notes.NotePreviewActivity"
+            android:taskAffinity=".notes"/>
+        <provider
+            android:label="@string/notes_content_provider"
+            android:name="com.ninefolders.hd3.mail.browse.NoteListProvider"
+            android:exported="false"
+            android:authorities="@string/authority_notes_list_provider">
+            <grant-uri-permission android:pathPattern=".*"/>
+        </provider>
+        <activity
+            android:theme="@style/NineAlertTranslucent"
+            android:label="@string/app_title"
+            android:name="com.ninefolders.hd3.activity.NxTodoSnoozeActivity"
+            android:exported="false"
+            android:taskAffinity=".alert"
+            android:excludeFromRecents="true"/>
+        <activity
+            android:theme="@style/NineAlertTranslucent"
+            android:label="@string/app_title"
+            android:name="com.ninefolders.hd3.activity.NxEventSnoozeActivity"
+            android:exported="false"
+            android:taskAffinity=".alert"
+            android:excludeFromRecents="true"/>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.TasksListTheme"
+            android:label="@string/tasks_name"
+            android:name="com.ninefolders.hd3.activity.TodoActivity"
+            android:taskAffinity=".tasks"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:scheme="content"
+                    android:host="ui.hd3.9folders.com"
+                    android:pathPrefix="/todo"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/no_searchable"/>
+        </activity>
+        <activity-alias
+            android:label="@string/tasks"
+            android:icon="@drawable/ic_shortcut_tasks"
+            android:name="com.ninefolders.hd3.activity.TodoAliasActivity"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.ninefolders.hd3.activity.TodoActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts_task"/>
+        </activity-alias>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.TasksTheme.Detail"
+            android:name="com.ninefolders.hd3.activity.TaskDetailActivity"
+            android:taskAffinity=".tasks"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:parentActivityName="com.ninefolders.hd3.activity.TodoActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:scheme="content"
+                    android:host="ui.hd3.9folders.com"
+                    android:pathPrefix="/task_view"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.TasksTheme.Edit"
+            android:label="@string/tasks"
+            android:icon="@drawable/ic_shortcut_tasks"
+            android:name="com.ninefolders.hd3.activity.TaskEditActivity"
+            android:taskAffinity=".tasks"
+            android:windowSoftInputMode="adjustResize|stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter
+                android:label="@string/note_to_self_tasks_label"
+                android:icon="@drawable/ic_shortcut_tasks">
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/*"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.TasksTheme"
+            android:label="@string/task_original_title"
+            android:name="com.ninefolders.hd3.mail.ui.tasks.TaskPreviewActivity"
+            android:taskAffinity=".tasks"/>
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:label="@string/work_app_name"
+            android:name="com.ninefolders.hd3.activity.GotoTodoActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.TasksEmailTheme"
+            android:label="@string/app_title"
+            android:name="com.ninefolders.hd3.mail.ui.tasks.TodoMailDetailViewActivity"
+            android:taskAffinity=".tasks"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:scheme="content"
+                    android:host="ui.hd3.9folders.com"
+                    android:pathPrefix="/email_task_view"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.CalendarActivityTheme"
+            android:label="@string/calendar"
+            android:name="com.ninefolders.hd3.activity.CalendarActivity"
+            android:taskAffinity=".calendar"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="time/epoch"/>
+                <data android:host="com.ninefolders.hd3.provider"/>
+                <data android:scheme="content"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:scheme="content"
+                    android:host="ui.hd3.9folders.com"
+                    android:pathPrefix="/calendar_view"/>
+            </intent-filter>
+        </activity>
+        <activity-alias
+            android:label="@string/calendar"
+            android:icon="@drawable/ic_shortcut_calendar"
+            android:name="com.ninefolders.hd3.activity.CalendarAliasActivity"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.ninefolders.hd3.activity.CalendarActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts_event"/>
+        </activity-alias>
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:label="@string/search_title"
+            android:name="com.ninefolders.hd3.mail.ui.calendar.CalendarSearchActivity"
+            android:exported="false"
+            android:taskAffinity=".calendar"
+            android:clearTaskOnLaunch="true"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineEventListDialog"
+            android:name="com.ninefolders.hd3.mail.ui.calendar.DayEventListActivity"
+            android:taskAffinity=".calendar"/>
+        <activity
+            android:theme="@style/NineTheme.EditEventTheme"
+            android:name="com.ninefolders.hd3.mail.ui.calendar.EventInfoActivity"
+            android:taskAffinity=".calendar"
+            android:parentActivityName="com.ninefolders.hd3.activity.CalendarActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.CalendarActivity"/>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.EditEventTheme"
+            android:name="com.ninefolders.hd3.mail.ui.calendar.OtherCalendarViewActivity"
+            android:taskAffinity=".calendar"
+            android:parentActivityName="com.ninefolders.hd3.activity.CalendarActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.CalendarActivity"/>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.ContactPickerTheme"
+            android:name="com.ninefolders.hd3.mail.ui.calendar.event.AttendeesInfoActivity"
+            android:taskAffinity=".calendar"
+            android:parentActivityName="com.ninefolders.hd3.mail.ui.calendar.EventInfoActivity"/>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.ContactPickerTheme"
+            android:name="com.ninefolders.hd3.mail.ui.calendar.event.AttendeesEditActivity"
+            android:taskAffinity=".calendar"
+            android:parentActivityName="com.ninefolders.hd3.mail.ui.calendar.event.EditEventActivity"/>
+        <activity
+            android:theme="@style/NineTheme.EditEventTheme"
+            android:label="@string/calendar"
+            android:icon="@drawable/ic_shortcut_calendar"
+            android:name="com.ninefolders.hd3.mail.ui.calendar.event.EditEventActivity"
+            android:taskAffinity=".calendar">
+            <intent-filter
+                android:label="@string/note_to_self_calendars_label"
+                android:icon="@drawable/ic_shortcut_calendar">
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.EditEventTheme"
+            android:label="@string/schedule_assistance"
+            android:name="com.ninefolders.hd3.mail.ui.calendar.event.SchedulingAssistanceActivity"
+            android:taskAffinity=".calendar"/>
+        <activity
+            android:theme="@style/NineAlertTranslucent"
+            android:name="com.ninefolders.hd3.mail.ui.calendar.alerts.AlertActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"/>
+        <receiver android:name="com.ninefolders.hd3.mail.ui.calendar.alerts.AlertReceiver">
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.action.EVENT_REMINDER"/>
+                <data android:mimeType="vnd.android.cursor.dir/event_reminder"/>
+                <data android:scheme="content"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_SET"/>
+                <data android:scheme="content"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.LOCALE_CHANGED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PROVIDER_CHANGED"/>
+                <data android:scheme="content"/>
+                <data android:host="com.ninefolders.hd3.provider"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.ninefolders.hd3.mail.ui.calendar.alerts.GlobalDismissManager"
+            android:exported="false"/>
+        <service
+            android:name="com.ninefolders.hd3.mail.ui.calendar.alerts.DismissAlarmsService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <service
+            android:name="com.ninefolders.hd3.mail.ui.calendar.alerts.InitAlarmsService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <service
+            android:name="com.ninefolders.hd3.mail.ui.calendar.alerts.SnoozeAlarmsService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <service
+            android:name="com.ninefolders.hd3.emailcommon.utility.search.NxLDAPSearchService"
+            android:permission="android.permission.BIND_JOB_SERVICE">
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.action.ldap.search.contacts"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.ninefolders.hd3.mail.ui.calendar.alerts.DismissReminderNoneAlarmsService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <service
+            android:name="com.ninefolders.hd3.mail.browse.EmlTempFileDeletionService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.PeopleListTheme"
+            android:label="@string/contacts_name"
+            android:name="com.ninefolders.hd3.activity.PeopleActivity"
+            android:taskAffinity=".contacts"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/no_searchable"/>
+        </activity>
+        <activity-alias
+            android:label="@string/contacts"
+            android:icon="@drawable/ic_shortcut_contacts"
+            android:name="com.ninefolders.hd3.activity.PeopleAliasActivity"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.ninefolders.hd3.activity.PeopleActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts_contact"/>
+        </activity-alias>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.PeopleListTheme"
+            android:name="com.ninefolders.hd3.mail.ui.contacts.RequestPermissionsActivity"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.ContactsTheme"
+            android:label="@string/contacts"
+            android:icon="@drawable/ic_shortcut_contacts"
+            android:name="com.ninefolders.hd3.activity.ContactEditorActivity"
+            android:taskAffinity=".contacts"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:parentActivityName="com.ninefolders.hd3.activity.PeopleActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.PeopleTheme.QuickContact.QuickContactsTheme"
+            android:label="@string/launcherActivityLabel"
+            android:name="com.ninefolders.hd3.mail.ui.contacts.quickcontact.QuickContactActivity"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateUnchanged">
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.QUICK_CONTACT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="vnd.android.cursor.item/contact"/>
+                <data android:mimeType="vnd.android.cursor.item/person"/>
+            </intent-filter>
+        </activity>
+        <receiver
+            android:name="com.ninefolders.hd3.mail.ui.contacts.quickcontact.QuickContactBroadcastReceiver"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.ContactPickerTheme"
+            android:label="@string/launcherActivityLabel"
+            android:name="com.ninefolders.hd3.mail.ui.contacts.picker.ContactSelectionActivity"
+            android:clearTaskOnLaunch="true"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize"
+            android:uiOptions="splitActionBarWhenNarrow"/>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.ContactPickerTheme"
+            android:label="@string/launcherActivityLabel"
+            android:name="com.ninefolders.hd3.mail.ui.contacts.picker.group.GroupMemberPickerActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:uiOptions="splitActionBarWhenNarrow"/>
+        <provider
+            android:name="com.ninefolders.mam.support.v4.content.NFMFileProvider"
+            android:exported="false"
+            android:authorities="@string/photo_file_provider_authority"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+        <activity
+            android:theme="@style/NineTheme.ComposeTheme"
+            android:label="@string/app_title"
+            android:name="com.ninefolders.hd3.activity.ComposeActivityEmail"
+            android:exported="true"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden"
+            android:windowSoftInputMode="stateVisible"
+            android:documentLaunchMode="intoExisting"
+            android:autoRemoveFromRecents="true">
+            <intent-filter
+                android:label="@string/compose_email_title"
+                android:icon="@drawable/ic_shortcut_mail">
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.SENDTO"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="mailto"/>
+            </intent-filter>
+            <intent-filter
+                android:label="@string/compose_email_title"
+                android:icon="@drawable/ic_shortcut_mail">
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="mailto"/>
+            </intent-filter>
+            <intent-filter
+                android:label="@string/compose_email_title"
+                android:icon="@drawable/ic_shortcut_mail">
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="*/*"/>
+            </intent-filter>
+            <intent-filter
+                android:label="@string/compose_email_title"
+                android:icon="@drawable/ic_shortcut_mail">
+                <action android:name="android.intent.action.SEND_MULTIPLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="*/*"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.intent.action.REPLY"/>
+            </intent-filter>
+            <intent-filter
+                android:label="@string/compose_email_title"
+                android:icon="@drawable/ic_shortcut_mail">
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:scheme="content"
+                    android:host="ui.hd3.9folders.com"
+                    android:pathPrefix="/compose"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.chooser.chooser_target_service"
+                android:value=".mail.components.share.NxChooserTargetService"/>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.ComposeTheme"
+            android:label="@string/app_title"
+            android:name="com.ninefolders.hd3.mail.compose.ComposeActivity"
+            android:exported="true"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden"
+            android:windowSoftInputMode="stateVisible"
+            android:documentLaunchMode="intoExisting"
+            android:autoRemoveFromRecents="true"/>
+        <receiver
+            android:name="com.ninefolders.hd3.engine.provider.EasTasksReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.intent.action.TASKS_ALARM_SCHEDULE"/>
+                <action android:name="com.ninefolders.hd3.intent.action.TASKS_EVENT_REMINDER"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.ninefolders.hd3.engine.provider.TasksAlertService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="true"/>
+        <provider
+            android:label="@string/notes_content_provider"
+            android:name="com.ninefolders.hd3.mail.browse.TodoListProvider"
+            android:exported="false"
+            android:authorities="@string/authority_tasks_list_provider">
+            <grant-uri-permission android:pathPattern=".*"/>
+        </provider>
+        <provider
+            android:label="@string/conversation_content_provider"
+            android:name="com.ninefolders.hd3.mail.browse.EmailConversationProvider"
+            android:exported="false"
+            android:authorities="@string/authority_conversations_provider">
+            <grant-uri-permission android:pathPattern=".*"/>
+        </provider>
+        <provider
+            android:label="@string/contacts_content_provider"
+            android:name="com.ninefolders.hd3.mail.browse.PeopleListProvider"
+            android:exported="false"
+            android:authorities="@string/authority_contacts_list_provider">
+            <grant-uri-permission android:pathPattern=".*"/>
+        </provider>
+        <provider
+            android:label="@string/account_cache_provider"
+            android:name="com.ninefolders.hd3.mail.providers.EmailAccountCacheProvider"
+            android:exported="false"
+            android:authorities="@string/authority_accountcache_provider">
+            <grant-uri-permission android:pathPattern=".*"/>
+        </provider>
+        <provider
+            android:name="com.ninefolders.hd3.mail.providers.EmlAttachmentProvider"
+            android:exported="false"
+            android:authorities="@string/authority_eml_provider">
+            <grant-uri-permission android:pathPattern=".*"/>
+        </provider>
+        <receiver
+            android:label="@string/badge_widget_title"
+            android:name="com.ninefolders.hd3.mail.widget.BadgeWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.ACTION_NOTIFY_BADGE_DATASET_CHANGED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.mail.ACTION_UPDATE_WIDGET"/>
+                <data android:mimeType="@string/application_mime_type"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_badge_info"/>
+        </receiver>
+        <receiver
+            android:label="@string/email_widget_title"
+            android:name="com.ninefolders.hd3.mail.widget.WidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.mail.ACTION_NOTIFY_DATASET_CHANGED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.mail.ACTION_UPDATE_WIDGET_LIST"/>
+                <action android:name="com.ninefolders.hd3.mail.ACTION_VALIDATE_ALL_WIDGETS"/>
+                <action android:name="com.ninefolders.hd3.mail.ACTION_UPDATE_WIDGET_INTERNAL"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info"/>
+        </receiver>
+        <receiver
+            android:label="@string/tasks_widget_title"
+            android:name="com.ninefolders.hd3.mail.widget.TasksWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.mail.ACTION_NOTIFY_DATASET_CHANGED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.mail.ACTION_UPDATE_TASKS_WIDGET_LIST"/>
+                <action android:name="com.ninefolders.hd3.mail.ACTION_VALIDATE_ALL_TASKS_WIDGETS"/>
+                <action android:name="com.ninefolders.hd3.mail.ACTION_UPDATE_TASKSWIDGET_INTERNAL"/>
+                <action android:name="com.ninefolders.hd3.ACTION_VALIDATE_TASKS_WIDGET"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/tasks_widget_info"/>
+        </receiver>
+        <service
+            android:name="com.ninefolders.hd3.activity.billing.ActivationService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <service
+            android:name="com.ninefolders.hd3.mail.components.avatar.AvatarService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:label="@string/compose_shortcut_widget_title"
+            android:icon="@drawable/ic_shortcut_new_mail"
+            android:name="com.ninefolders.hd3.mail.widget.CreateShortcutActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:name="com.ninefolders.hd3.activity.GotoNewShortcutsActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.action.NEW_COMPOSE"/>
+                <action android:name="com.ninefolders.hd3.action.NEW_EVENT"/>
+                <action android:name="com.ninefolders.hd3.action.NEW_CONTACT"/>
+                <action android:name="com.ninefolders.hd3.action.NEW_TASK"/>
+                <action android:name="com.ninefolders.hd3.action.NEW_NOTE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <receiver
+            android:name="com.ninefolders.hd3.service.AttachmentDownloadService.Watchdog"
+            android:enabled="true"/>
+        <receiver
+            android:name="com.ninefolders.hd3.service.EmailBroadcastReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="com.ninefolders.hd3.intent.action.DEVICE_STORAGE_LOW"/>
+                <action android:name="com.ninefolders.hd3.intent.action.DEVICE_STORAGE_OK"/>
+                <action android:name="android.accounts.LOGIN_ACCOUNTS_CHANGED"/>
+                <action android:name="com.ninefolders.hd3.action.RECONCILE_ACCOUNT"/>
+                <action android:name="com.ninefolders.hd3.action.ACTION_LDAP_REFRESH_CONTACT_SYNC"/>
+                <action android:name="com.ninefolders.hd3.action.ACTION_ENGINE_TOUCH"/>
+            </intent-filter>
+            <intent-filter>
+                <action
+                    android:name="com.ninefolders.hd3.action.update_notification"
+                    android:priority="-10"/>
+                <data android:mimeType="@string/application_mime_type"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.intent.action.CANCEL_SEND_MAIL_INTENT_ACTION"/>
+                <action android:name="com.ninefolders.hd3.intent.action.SEND_MAIL"/>
+                <action android:name="com.ninefolders.hd3.intent.action.SEND_MAIL_RETRY"/>
+                <action android:name="com.ninefolders.hd3.intent.action.SEND_DELAY_MAIL"/>
+                <action android:name="com.ninefolders.hd3.intent.action.OUTBOX_SEND_MAIL"/>
+                <action android:name="com.ninefolders.hd3.intent.action.OUTBOX_SEND_MAIL_IMMEDIATELY"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.action.notification.MARK_READ"/>
+                <action android:name="com.ninefolders.hd3.action.notification.ARCHIVE"/>
+                <action android:name="com.ninefolders.hd3.action.notification.JUNK"/>
+                <action android:name="com.ninefolders.hd3.action.notification.DELETE"/>
+                <action android:name="com.ninefolders.hd3.action.notification.UNDO"/>
+                <action android:name="com.ninefolders.hd3.action.notification.DESTRUCT"/>
+                <action android:name="com.ninefolders.hd3.action.notification.UNDO_TIMEOUT"/>
+                <action android:name="com.ninefolders.hd3.action.notification.REPLY"/>
+                <action android:name="com.ninefolders.hd3.action.notification.REPLY_ALL"/>
+                <action android:name="com.ninefolders.hd3.action.notification.FORWARD"/>
+                <action android:name="com.ninefolders.hd3.action.notification.WEAR_DELETE"/>
+                <action android:name="com.ninefolders.hd3.action.notification.WEAR_FOLLOW_UP"/>
+                <action android:name="com.ninefolders.hd3.action.notification.INVITE_ACCEPT"/>
+                <action android:name="com.ninefolders.hd3.action.notification.INVITE_MAYBE"/>
+                <action android:name="com.ninefolders.hd3.action.notification.INVITE_DECLINE"/>
+                <action android:name="com.ninefolders.hd3.action.notification.FLAG_COMPLETED"/>
+                <action android:name="com.ninefolders.hd3.action.notification.FLAG_DISMISS"/>
+                <action android:name="com.ninefolders.hd3.action.notification.TODO_COMPLETED"/>
+                <action android:name="com.ninefolders.hd3.action.notification.TODO_DISMISS"/>
+                <action android:name="com.ninefolders.hd3.action.notification.FOLLOW_UP"/>
+                <action android:name="com.ninefolders.hd3.action.notification.IGNORE"/>
+                <action android:name="com.ninefolders.hd3.action.notification.NEW_PASSWORD"/>
+                <action android:name="com.ninefolders.hd3.action.notification.MARK_ALL_READ"/>
+                <action android:name="com.ninefolders.hd3.action.notification.SEEN"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.ninefolders.hd3.service.EmailBroadcastProcessorService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <receiver
+            android:label="@string/device_admin_title"
+            android:name="com.ninefolders.hd3.SecurityPolicy.PolicyAdmin"
+            android:permission="android.permission.BIND_DEVICE_ADMIN"
+            android:description="@string/device_admin_description">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin"/>
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.ninefolders.hd3.mail.widget.NineBadgeExtension.ApexUpdateCountReceiver">
+            <intent-filter>
+                <action android:name="com.anddoes.launcher.UPDATE_COUNTER"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.ninefolders.hd3.service.AttachmentDownloadService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <provider
+            android:name="com.ninefolders.hd3.provider.AttachmentProvider"
+            android:readPermission="com.ninefolders.hd3.permission.READ_ATTACHMENT"
+            android:exported="true"
+            android:authorities="@string/authority_attachment_provider"
+            android:grantUriPermissions="true"/>
+        <provider
+            android:label="@string/email"
+            android:name="com.ninefolders.hd3.provider.EmailProvider"
+            android:permission="com.ninefolders.hd3.permission.ACCESS_PROVIDER"
+            android:exported="true"
+            android:authorities="com.ninefolders.hd3.provider;com.ninefolders.hd3.notifier;com.ninefolders.hd3.uinotifications;com.ninefolders.hd3.uicalnotifications"/>
+        <provider
+            android:label="@string/notes"
+            android:name="com.ninefolders.hd3.engine.provider.NotesProvider"
+            android:permission="com.ninefolders.hd3.permission.ACCESS_PROVIDER"
+            android:exported="true"
+            android:authorities="@string/authority_notes_provider"/>
+        <provider
+            android:label="@string/tasks"
+            android:name="com.ninefolders.hd3.engine.provider.TasksProvider"
+            android:permission="com.ninefolders.hd3.permission.ACCESS_PROVIDER"
+            android:exported="true"
+            android:authorities="@string/authority_tasks_provider"/>
+        <provider
+            android:name="com.ninefolders.hd3.provider.LogReporterProvider"
+            android:permission="com.ninefolders.hd3.permission.ACCESS_PROVIDER"
+            android:exported="true"
+            android:multiprocess="false"
+            android:authorities="@string/authority_log_provider"/>
+        <provider
+            android:name="com.ninefolders.hd3.provider.LogReporterFileProvider"
+            android:exported="false"
+            android:authorities="@string/authority_log_file_provider"
+            android:grantUriPermissions="true"/>
+        <provider
+            android:name="com.ninefolders.hd3.engine.provider.RightsManagementProvider"
+            android:permission="com.ninefolders.hd3.permission.ACCESS_PROVIDER"
+            android:exported="true"
+            android:multiprocess="false"
+            android:authorities="@string/authority_rm_provider"/>
+        <receiver android:name="com.ninefolders.hd3.EmailServiceReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.LOCALE_CHANGED"/>
+                <action android:name="com.ninefolders.hd3.action.DO_NOT_DISTURB_GLOBAL"/>
+                <action android:name="com.ninefolders.hd3.action.CANCEL_DO_NOT_DISTURB_GLOBAL"/>
+                <action android:name="com.ninefolders.hd3.action.STOP_DO_NOT_DISTURB_GLOBAL"/>
+                <action android:name="com.ninefolders.hd3.action.DO_UPGRADE_CHECK_EAS_VERSION"/>
+                <action android:name="com.ninefolders.hd3.action.CLOSE_DO_NOT_DISTURB_GLOBAL"/>
+                <action android:name="com.ninefolders.hd3.action.THEME_CHANGED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.action.CLEAR_NEW_MAIL_NOTIFICATIONS"/>
+                <data android:scheme="content"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.ninefolders.hd3.EmailIntentService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="true"/>
+        <service
+            android:name="com.ninefolders.hd3.mail.NotificationActionIntentService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="true"/>
+        <activity
+            android:label="@string/tasker_setting"
+            android:icon="@mipmap/ic_launcher"
+            android:name="com.ninefolders.hd3.tasker.TaskerSettingActivity">
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING"/>
+            </intent-filter>
+        </activity>
+        <receiver android:name="com.ninefolders.hd3.tasker.TaskerFireReceiver">
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.ninefolders.hd3.engine.service.EWSRescheduleService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"/>
+        <service
+            android:name="com.ninefolders.hd3.service.ImapPushJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.ninefolders.hd3.engine.EasCertificateRequestor"
+            android:configChanges="screenSize|orientation">
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.emailcommon.REQUEST_CERT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:name="com.ninefolders.hd3.mail.keychain.NineKeyChainActivity"
+            android:excludeFromRecents="true"/>
+        <activity
+            android:name="com.ninefolders.hd3.mail.keychain.NineCertFileList"
+            android:exported="false"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:name="com.ninefolders.hd3.mail.keychain.NineCertInstaller"
+            android:exported="false"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/NineTranslucent"
+            android:name="com.ninefolders.hd3.mail.keychain.NineCertChooser"
+            android:exported="false"
+            android:configChanges="screenSize|orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.action.credentials.INSTALL"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.action.credentials.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="application/x-pkcs12"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/LockScreenTheme"
+            android:name="com.ninefolders.hd3.admin.ChooseLockPasswordActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
+        <activity
+            android:theme="@style/ConfirmLockScreenTheme"
+            android:name="com.ninefolders.hd3.admin.ConfirmLockPasswordActivity">
+            <intent-filter>
+                <category android:name="com.ninefolders.hd3.action.LOCK_SCREEN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineSettingTheme"
+            android:label="@string/oauth_authentication_title"
+            android:name="com.ninefolders.hd3.activity.setup.OAuthAuthenticationActivity"/>
+        <activity
+            android:label="@string/oauth_authentication_title"
+            android:name="com.ninefolders.hd3.activity.setup.GmailAuthenticationActivity"
+            android:exported="true"
+            android:taskAffinity=".setting"
+            android:excludeFromRecents="true"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="net.openid.appauth.AuthorizationManagementActivity"
+            android:exported="false"
+            android:taskAffinity=".setting"
+            android:launchMode="singleTask"/>
+        <activity
+            android:name="net.openid.appauth.RedirectUriReceiverActivity"
+            android:exported="true"
+            android:taskAffinity=".setting">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="com.ninefolders.hd3"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.ContactPickerTheme"
+            android:label="@string/certificate_info"
+            android:name="com.ninefolders.hd3.activity.CertificateInfoViewActivity"/>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.ContactPickerTheme"
+            android:label="@string/installed_cert_list_category"
+            android:name="com.ninefolders.hd3.activity.InstalledCertificateListActivity"/>
+        <receiver
+            android:name="com.ninefolders.hd3.provider.calendar.CalendarBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.calendar.intent.CalendarAlarm"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.action.EVENT_REMINDER"/>
+                <data android:mimeType="vnd.android.cursor.dir/event_reminder"/>
+                <data android:scheme="content"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.ninefolders.hd3.provider.calendar.CalendarIntentService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <receiver
+            android:name="com.ninefolders.hd3.engine.service.MailboxAlarmReceiver"
+            android:process=""/>
+        <service
+            android:name="com.ninefolders.hd3.engine.service.SyncEngineJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="true"
+            android:process=""/>
+        <provider
+            android:name="com.ninefolders.hd3.engine.provider.ExchangeDirectoryProvider"
+            android:exported="true"
+            android:process=":remote"
+            android:multiprocess="false"
+            android:authorities="@string/authority_directory_provider">
+            <meta-data
+                android:name="android.content.ContactDirectory"
+                android:value="true"/>
+        </provider>
+        <receiver
+            android:name="com.ninefolders.hd3.engine.service.ExchangeBroadcastReceiver"
+            android:process="">
+            <intent-filter>
+                <action android:name="android.accounts.LOGIN_ACCOUNTS_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.ninefolders.hd3.engine.service.BootUpIntentReceiver"
+            android:process="">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.ninefolders.hd3.engine.service.SyncEngineBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:process="">
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.intent.action.START_SYNC_ENGINE"/>
+                <action android:name="com.ninefolders.hd3.intent.action.STOP_SYNC_ENGINE"/>
+                <action android:name="com.ninefolders.hd3.intent.action.RESTART_SYNC_ENGINE"/>
+                <action android:name="com.ninefolders.hd3.intent.action.PENDING_REQUEST_ITEMS"/>
+                <action android:name="com.ninefolders.hd3.intent.action.SYNC_ITEMS"/>
+                <action android:name="com.ninefolders.hd3.intent.action.TRIGGER_WAKEUP"/>
+                <action android:name="com.ninefolders.hd3.intent.action.TRIGGER_CHECKUP"/>
+                <action android:name="com.ninefolders.hd3.intent.action.ENGINE_WAKEUP"/>
+                <action android:name="com.ninefolders.hd3.intent.action.TRIGGER_ACCOUNT_WAKEUP"/>
+                <action android:name="com.ninefolders.hd3.intent.action.TRIGGER_RESTART_WAKE_UP"/>
+                <action android:name="com.ninefolders.hd3.intent.action.TRIGGER_DOZE_MODE"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.ninefolders.hd3.engine.service.ExchangeIntentReceiver"
+            android:enabled="false"
+            android:process="">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="com.ninefolders.hd3.intent.action.DEVICE_STORAGE_LOW"/>
+                <action android:name="com.ninefolders.hd3.intent.action.DEVICE_STORAGE_OK"/>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+                <action android:name="android.net.conn.BACKGROUND_DATA_SETTING_CHANGED"/>
+                <action android:name="com.ninefolders.hd3.engine.service.AutoDownloader.WIFI_DOWNLOAD"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.ninefolders.hd3.engine.service.SMSIntentReceiver"
+            android:enabled="false"
+            android:process="">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+                <action android:name="com.ninefolders.hd3.engine.service.SMSSyncManager.SMS_SYNC"/>
+                <action android:name="com.ninefolders.hd3.engine.service.SMSSyncManager.SMS_SEND"/>
+                <action android:name="com.ninefolders.hd3.engine.service.SMSSyncManager.SMS_SENT_RESULT"/>
+                <action android:name="com.ninefolders.hd3.engine.service.SMSSyncManager.SMS_SEND_FINISHED"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.ninefolders.hd3.engine.service.ExchangeIntentService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=""/>
+        <service
+            android:name="com.ninefolders.hd3.mail.ui.calendar.OtherCalendarSyncService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <provider
+            android:name="com.ninefolders.hd3.entrust.provider.EntrustProvider"
+            android:permission="com.ninefolders.hd3.permission.ACCESS_PROVIDER"
+            android:exported="false"
+            android:process=":entrust"
+            android:authorities="@string/authority_entrust_provider"/>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.EntrustTheme"
+            android:name="com.ninefolders.hd3.entrust.EntrustAutoActivateSmartCredentialActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="ninefolders"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.EntrustTheme"
+            android:name="com.ninefolders.hd3.entrust.EntrustActivateSmartCredentialActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.EntrustTheme"
+            android:name="com.ninefolders.hd3.entrust.EntrustSmartCredentialInfoActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.EntrustTheme"
+            android:name="com.ninefolders.hd3.entrust.EntrustSmartCredentialListActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.EntrustTheme"
+            android:label="@string/entrust_set_passcode_lock"
+            android:name="com.ninefolders.hd3.entrust.EntrustPinLockSettingsActivity"/>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.EntrustTheme"
+            android:label="@string/entrust_set_passcode_lock"
+            android:name="com.ninefolders.hd3.entrust.EntrustPinResetActivity"
+            android:process=":entrust"/>
+        <activity
+            android:theme="@style/EntrustConfirmLockScreenTheme"
+            android:name="com.ninefolders.hd3.entrust.EntrustPinPromptConfirmActivity"/>
+        <activity
+            android:theme="@style/LockScreenTheme"
+            android:name="com.ninefolders.hd3.entrust.EntrustPinPromptChangeActivity"
+            android:exported="false"
+            android:process=":entrust"
+            android:excludeFromRecents="true"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.EntrustTheme"
+            android:label="@string/certificate_info"
+            android:name="com.ninefolders.hd3.entrust.EntrustSmartCredentialCertsInfoViewActivity"/>
+        <activity
+            android:theme="@style/NineTheme.NineUnifiedTheme.EntrustTheme"
+            android:label="@string/activate_credential"
+            android:name="com.ninefolders.hd3.entrust.qrcodereader.QRCodeCaptureActivity"
+            android:screenOrientation="portrait"/>
+        <service
+            android:name="com.ninefolders.hd3.engine.service.AppMonitorService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":daemon"/>
+        <service
+            android:name="com.ninefolders.hd3.engine.service.SyncEngineService"
+            android:enabled="true"
+            android:exported="true"
+            android:process="">
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.EXCHANGE_INTENT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </service>
+        <service android:name="com.ninefolders.hd3.mail.ui.calendar.AsyncQueryServiceHelper"/>
+        <service android:name="com.ninefolders.hd3.mail.compose.EmptyService"/>
+        <service
+            android:name="com.ninefolders.hd3.mail.widget.CalendarAppWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="false"/>
+        <service
+            android:name="com.ninefolders.hd3.mail.widget.MonthCalendarWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="false"/>
+        <service
+            android:name="com.ninefolders.hd3.mail.widget.WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="false"/>
+        <service
+            android:name="com.ninefolders.hd3.mail.widget.TasksWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="false"/>
+        <service
+            android:label="@string/app_title"
+            android:name="com.ninefolders.hd3.mail.components.share.NxChooserTargetService"
+            android:permission="android.permission.BIND_CHOOSER_TARGET_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.chooser.ChooserTargetService"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.ninefolders.hd3.mail.TaskerIntentService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.action.CHANGE_SETTINGS"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.ninefolders.hd3.service.PolicyService"
+            android:permission="com.ninefolders.hd3.permission.ACCESS_PROVIDER"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.POLICY_INTENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.ninefolders.hd3.service.AccountService"
+            android:permission="com.ninefolders.hd3.permission.ACCESS_PROVIDER"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.ACCOUNT_INTENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.ninefolders.hd3.service.ImapService"
+            android:permission="com.ninefolders.hd3.permission.ACCESS_PROVIDER"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.IMAP_INTENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.ninefolders.hd3.service.Pop3Service"
+            android:permission="com.ninefolders.hd3.permission.ACCESS_PROVIDER"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.ninefolders.hd3.POP3_INTENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.ninefolders.hd3.service.EasAuthenticatorService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator_eas"/>
+        </service>
+        <service
+            android:name="com.ninefolders.hd3.service.ImapSyncAdapterService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter_imap"/>
+        </service>
+        <service
+            android:name="com.ninefolders.hd3.engine.service.EmailSyncAdapterService"
+            android:exported="true"
+            android:process="">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter_email"/>
+        </service>
+        <service
+            android:name="com.ninefolders.hd3.engine.service.ContactsSyncAdapterService"
+            android:exported="true"
+            android:process="">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.provider.CONTACTS_STRUCTURE"
+                android:resource="@xml/contacts_structure"/>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter_contacts"/>
+        </service>
+        <service
+            android:name="com.ninefolders.hd3.engine.service.CalendarSyncAdapterService"
+            android:exported="true"
+            android:process="">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter_calendar"/>
+        </service>
+        <service
+            android:name="com.ninefolders.hd3.engine.service.NoteSyncAdapterService"
+            android:exported="true"
+            android:process="">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter_notes"/>
+        </service>
+        <service
+            android:name="com.ninefolders.hd3.engine.service.TasksSyncAdapterService"
+            android:exported="true"
+            android:process="">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter_tasks"/>
+        </service>
+        <service
+            android:label="@string/app_title"
+            android:icon="@drawable/ic_dash_clock_ex"
+            android:name="com.ninefolders.hd3.mail.widget.NineDashClockExtension"
+            android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA">
+            <intent-filter>
+                <action android:name="com.google.android.apps.dashclock.Extension"/>
+            </intent-filter>
+            <meta-data
+                android:name="protocolVersion"
+                android:value="2"/>
+            <meta-data
+                android:name="worldReadable"
+                android:value="true"/>
+            <meta-data
+                android:name="description"
+                android:value="@string/dash_clock_extension_desc"/>
+        </service>
+        <uses-library
+            android:name="com.sec.android.app.multiwindow"
+            android:required="false"/>
+        <meta-data
+            android:name="com.sec.android.support.multiwindow"
+            android:value="true"/>
+        <meta-data
+            android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W"
+            android:resource="@dimen/app_defaultsize_w"/>
+        <meta-data
+            android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H"
+            android:resource="@dimen/app_defaultsize_h"/>
+        <meta-data
+            android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W"
+            android:resource="@dimen/app_minimumsize_w"/>
+        <meta-data
+            android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
+            android:resource="@dimen/app_minimumsize_h"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="f39f9ef2bfb40371effab43adf2536aab90fc4c9"/>
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1"/>
+        <meta-data
+            android:name="android.support.VERSION"
+            android:value="26.1.0"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"/>
+        <service
+            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+            android:exported="true"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"/>
+        <provider
+            android:name="android.arch.lifecycle.ProcessLifecycleOwnerInitializer"
+            android:exported="false"
+            android:multiprocess="true"
+            android:authorities="com.ninefolders.hd3.lifecycle-trojan"/>
+        <activity android:name="com.microsoft.aad.adal.AuthenticationActivity"/>
+        <service
+            android:name="com.evernote.android.job.v21.PlatformJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <service
+            android:name="com.evernote.android.job.v14.PlatformAlarmService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <service
+            android:name="com.evernote.android.job.v14.PlatformAlarmServiceExact"
+            android:exported="false"/>
+        <receiver
+            android:name="com.evernote.android.job.v14.PlatformAlarmReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.evernote.android.job.v14.RUN_JOB"/>
+                <action android:name="net.vrallev.android.job.v14.RUN_JOB"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.evernote.android.job.JobBootReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.evernote.android.job.JobRescheduleService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <provider
+            android:name="com.crashlytics.android.CrashlyticsInitProvider"
+            android:exported="false"
+            android:authorities="com.ninefolders.hd3.crashlyticsinitprovider"
+            android:initOrder="90"/>
+        <meta-data
+            android:name="com.google.android.wearable.beta.app"
+            android:resource="@xml/android_wear_micro_apk"/>
+    </application>
+</manifest>

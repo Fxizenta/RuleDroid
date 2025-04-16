@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="25500"
+    android:versionName="2.5.5"
+    package="jp.co.canon.bsd.ad.pixmaprint"
+    platformBuildVersionCode="26"
+    platformBuildVersionName="8.0.0">
+    <uses-sdk
+        android:minSdkVersion="19"
+        android:targetSdkVersion="26"/>
+    <supports-screens
+        android:anyDensity="true"
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="true"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.NFC"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.REGISTER"/>
+    <uses-permission android:name="com.amazonaws.pushnotification.permission.C2D_MESSAGE"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.screen.landscape"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false"/>
+    <permission
+        android:name="jp.co.canon.bsd.ad.pixmaprint.permission.C2D_MESSAGE"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="jp.co.canon.bsd.ad.pixmaprint.permission.C2D_MESSAGE"/>
+    <application
+        android:theme="@style/MyTheme"
+        android:label="@string/n100_3_app_name_short"
+        android:icon="@mipmap/icon"
+        android:name="jp.co.canon.bsd.ad.pixmaprint.application.MyApplication"
+        android:allowBackup="true"
+        android:largeHeap="true"
+        android:supportsRtl="true">
+        <meta-data
+            android:name="EPP_COPY_RIGHT"
+            android:value="2013-2019"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.EulaActivity"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="image/*"/>
+                <data android:mimeType="text/plain"/>
+                <data android:mimeType="application/pdf"/>
+                <data android:mimeType="application/x-pdf"/>
+                <data android:mimeType="application/vnd.openxmlformats-officedocument.wordprocessingml.document"/>
+                <data android:mimeType="application/msword"/>
+                <data android:mimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+                <data android:mimeType="application/vnd.ms-excel"/>
+                <data android:mimeType="application/x-excel"/>
+                <data android:mimeType="application/excel"/>
+                <data android:mimeType="application/msexcel"/>
+                <data android:mimeType="application/vnd.ms-excel"/>
+                <data android:mimeType="application/x-msexcel"/>
+                <data android:mimeType="application/vnd.openxmlformats-officedocument.presentationml.presentation"/>
+                <data android:mimeType="application/mspowerpoint"/>
+                <data android:mimeType="application/powerpoint"/>
+                <data android:mimeType="application/ppt"/>
+                <data android:mimeType="application/vnd.ms-powerpoint"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="image/*"/>
+                <data android:mimeType="text/plain"/>
+                <data android:mimeType="application/pdf"/>
+                <data android:mimeType="application/x-pdf"/>
+                <data android:mimeType="application/vnd.openxmlformats-officedocument.wordprocessingml.document"/>
+                <data android:mimeType="application/msword"/>
+                <data android:mimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+                <data android:mimeType="application/vnd.ms-excel"/>
+                <data android:mimeType="application/x-excel"/>
+                <data android:mimeType="application/excel"/>
+                <data android:mimeType="application/msexcel"/>
+                <data android:mimeType="application/vnd.ms-excel"/>
+                <data android:mimeType="application/x-msexcel"/>
+                <data android:mimeType="application/vnd.openxmlformats-officedocument.presentationml.presentation"/>
+                <data android:mimeType="application/mspowerpoint"/>
+                <data android:mimeType="application/powerpoint"/>
+                <data android:mimeType="application/ppt"/>
+                <data android:mimeType="application/vnd.ms-powerpoint"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="image/*"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.OPENABLE"/>
+                <data android:mimeType="image/*"/>
+                <data android:mimeType="application/pdf"/>
+                <data android:mimeType="application/x-pdf"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PICK"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="image/*"/>
+                <data android:mimeType="application/pdf"/>
+                <data android:mimeType="application/x-pdf"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.media.action.IMAGE_CAPTURE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="canonij1postcard"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="canonij1postcard"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.OPENABLE"/>
+                <data android:scheme="canonij1albumservice"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="jp.co.canon.bsd.ad.pixmaprint.action.CCSERVICE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.OPENABLE"/>
+                <data android:scheme="canonij1photos"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="canonij1serviceregistration"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.ImageSelectActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.FileSelectActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.PrinterMainActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.SearchPrinterActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.PrinterFunctionMenuActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.IJPrintSettingActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="icp.ICPPrintSettingActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.ScannerMainActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.ViewerActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.SelectActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.AgreeROMInfoActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.AppVersionActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.AboutActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.RemoteFileConverterActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.LocalFileConverterActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.IJPrintingActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.IJScanSettingActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.IJScanningActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.IJPrinterSetupNetworkSettingGuideActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.IJPrinterSetupNetworkSettingActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.PrinterSelectActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="icp.ICPPrintingActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.IJCopyActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.IJCopySettingActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.AlmActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.OSSettingActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.SetupActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.ImageEditActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.BleSearchActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.FilterActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.BlePairingGuideActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.QuestionnaireActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:theme="@style/MyTheme.Transparent"
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.RestoreNetworkStatePhoneActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:theme="@style/MyTheme.Transparent"
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.RestoreNetworkStateSelectPrinterActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.CloudServiceListActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.CloudContentListActivity"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="canonij1ccs"
+                    android:host="authcompleted"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.CloudContentDownloadActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.oip.android.opal.ui.activity.MainActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.LePairingExecutionActivity"
+            android:exported="false"
+            android:configChanges="fontScale|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+        <activity
+            android:name="jp.co.canon.bsd.ad.pixmaprint.ui.activity.NotificationSignUpActivity"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/zxing_CaptureTheme"
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:clearTaskOnLaunch="true"
+            android:stateNotNeeded="true"
+            android:screenOrientation="fullSensor"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <service
+            android:name="jp.co.canon.bsd.ad.pixmaprint.network.print.PrintService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="jp.co.canon.bsd.ad.sdk.extension.service.ScanService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="jp.co.canon.bsd.ad.sdk.extension.service.DeleteFileService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="jp.co.canon.bsd.ad.pixmaprint.application.AlmSendIntentService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="jp.co.canon.bsd.ad.sdk.extension.printer.PrinterCommunicationService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="jp.co.canon.bsd.ad.pixmaprint.network.copy.CopyService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="icp.ICPService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="jp.co.canon.bsd.ad.sdk.extension.bluetooth.GattIoService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="jp.co.canon.bsd.ad.pixmaprint.network.bluetooth.LePairingMonitorService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="jp.co.canon.bsd.ad.pixmaprint.application.PsnsRegister.RegisterService"
+            android:enabled="true"
+            android:exported="false"/>
+        <provider
+            android:name="ij.IJPrinterCapabilityProvider"
+            android:exported="true"
+            android:authorities="canon.ij.printer.capability.data"/>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:exported="false"
+            android:authorities="jp.co.canon.bsd.ad.pixmaprint.fileprovider"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+        <service android:name="jp.co.canon.bsd.ad.pixmaprint.application.GcmReceiver">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="android.support.VERSION"
+            android:value="26.0.2"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"/>
+        <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:exported="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="jp.co.canon.bsd.ad.pixmaprint"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdInternalReceiver"
+            android:exported="false"/>
+        <service
+            android:name="com.google.firebase.iid.FirebaseInstanceIdService"
+            android:exported="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+    </application>
+</manifest>

@@ -1,0 +1,854 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="220"
+    android:versionName="2.1.8-2"
+    android:installLocation="auto"
+    android:compileSdkVersion="33"
+    android:compileSdkVersionCodename="13"
+    package="com.cutestudio.colordialer"
+    platformBuildVersionCode="33"
+    platformBuildVersionName="13">
+    <uses-sdk
+        android:minSdkVersion="23"
+        android:targetSdkVersion="33"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.MANAGE_OWN_CALLS"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.telecom.action.CONFIGURE_PHONE_ACCOUNT"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"/>
+    <permission android:name="android.permission.FLASHLIGHT"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE"/>
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+    <permission
+        android:name="android.permission.INTERACT_ACROSS_USERS_FULL"
+        android:protectionLevel="signature"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false"/>
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE"/>
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.BROWSABLE"/>
+            <data android:scheme="https"/>
+        </intent>
+        <intent>
+            <action android:name="android.support.customtabs.action.CustomTabsService"/>
+        </intent>
+        <intent>
+            <action android:name="com.android.vending.billing.InAppBillingService.BIND"/>
+        </intent>
+    </queries>
+    <uses-feature
+        android:name="android.hardware.faketouch"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.screen.portrait"
+        android:required="false"/>
+    <application
+        android:theme="@style/AppTheme"
+        android:label="@string/app_launcher_name"
+        android:icon="@mipmap/ic_launcher"
+        android:name="com.cutestudio.dialer.App"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:largeHeap="true"
+        android:extractNativeLibs="false"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory">
+        <activity
+            android:name="com.cutestudio.dialer.activities.IdentityActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@style/AppTheme.FullScreen"
+            android:name="com.cutestudio.dialer.activities.PurchaseActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/AppTheme.FullScreen"
+            android:name="com.cutestudio.dialer.activities.IntroActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/theme_style"
+            android:name="com.cutestudio.dialer.activities.ThemeActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="com.cutestudio.dialer.activities.SettingsActivity"/>
+        <activity
+            android:theme="@style/AppTheme.SplashTheme"
+            android:name="com.cutestudio.dialer.activities.SplashActivity"
+            android:screenOrientation="portrait"/>
+        <activity-alias
+            android:icon="@mipmap/ic_launcher_red"
+            android:name="com.cutestudio.dialer.activities.SplashActivity.Red"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.cutestudio.dialer.activities.SplashActivity"
+            android:roundIcon="@mipmap/ic_launcher_red">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:icon="@mipmap/ic_launcher_pink"
+            android:name="com.cutestudio.dialer.activities.SplashActivity.Pink"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.cutestudio.dialer.activities.SplashActivity"
+            android:roundIcon="@mipmap/ic_launcher_pink">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:icon="@mipmap/ic_launcher_purple"
+            android:name="com.cutestudio.dialer.activities.SplashActivity.Purple"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.cutestudio.dialer.activities.SplashActivity"
+            android:roundIcon="@mipmap/ic_launcher_purple">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:icon="@mipmap/ic_launcher_deep_purple"
+            android:name="com.cutestudio.dialer.activities.SplashActivity.Deep_purple"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.cutestudio.dialer.activities.SplashActivity"
+            android:roundIcon="@mipmap/ic_launcher_deep_purple">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:icon="@mipmap/ic_launcher_indigo"
+            android:name="com.cutestudio.dialer.activities.SplashActivity.Indigo"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.cutestudio.dialer.activities.SplashActivity"
+            android:roundIcon="@mipmap/ic_launcher_indigo">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:icon="@mipmap/ic_launcher_blue"
+            android:name="com.cutestudio.dialer.activities.SplashActivity.Blue"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.cutestudio.dialer.activities.SplashActivity"
+            android:roundIcon="@mipmap/ic_launcher_blue">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:icon="@mipmap/ic_launcher_light_blue"
+            android:name="com.cutestudio.dialer.activities.SplashActivity.Light_blue"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.cutestudio.dialer.activities.SplashActivity"
+            android:roundIcon="@mipmap/ic_launcher_light_blue">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:icon="@mipmap/ic_launcher_cyan"
+            android:name="com.cutestudio.dialer.activities.SplashActivity.Cyan"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.cutestudio.dialer.activities.SplashActivity"
+            android:roundIcon="@mipmap/ic_launcher_cyan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:icon="@mipmap/ic_launcher_teal"
+            android:name="com.cutestudio.dialer.activities.SplashActivity.Teal"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.cutestudio.dialer.activities.SplashActivity"
+            android:roundIcon="@mipmap/ic_launcher_teal">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:icon="@mipmap/ic_launcher_green"
+            android:name="com.cutestudio.dialer.activities.SplashActivity.Green"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.cutestudio.dialer.activities.SplashActivity"
+            android:roundIcon="@mipmap/ic_launcher_green">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:icon="@mipmap/ic_launcher_light_green"
+            android:name="com.cutestudio.dialer.activities.SplashActivity.Light_green"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.cutestudio.dialer.activities.SplashActivity"
+            android:roundIcon="@mipmap/ic_launcher_light_green">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:icon="@mipmap/ic_launcher_lime"
+            android:name="com.cutestudio.dialer.activities.SplashActivity.Lime"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.cutestudio.dialer.activities.SplashActivity"
+            android:roundIcon="@mipmap/ic_launcher_lime">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:icon="@mipmap/ic_launcher_yellow"
+            android:name="com.cutestudio.dialer.activities.SplashActivity.Yellow"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.cutestudio.dialer.activities.SplashActivity"
+            android:roundIcon="@mipmap/ic_launcher_yellow">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:icon="@mipmap/ic_launcher_amber"
+            android:name="com.cutestudio.dialer.activities.SplashActivity.Amber"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.cutestudio.dialer.activities.SplashActivity"
+            android:roundIcon="@mipmap/ic_launcher_amber">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:icon="@mipmap/ic_launcher"
+            android:name="com.cutestudio.dialer.activities.SplashActivity.Orange"
+            android:enabled="true"
+            android:exported="true"
+            android:targetActivity="com.cutestudio.dialer.activities.SplashActivity"
+            android:roundIcon="@mipmap/ic_launcher_round">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:icon="@mipmap/ic_launcher_deep_orange"
+            android:name="com.cutestudio.dialer.activities.SplashActivity.Deep_orange"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.cutestudio.dialer.activities.SplashActivity"
+            android:roundIcon="@mipmap/ic_launcher_deep_orange">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:icon="@mipmap/ic_launcher_brown"
+            android:name="com.cutestudio.dialer.activities.SplashActivity.Brown"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.cutestudio.dialer.activities.SplashActivity"
+            android:roundIcon="@mipmap/ic_launcher_brown">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:icon="@mipmap/ic_launcher_blue_grey"
+            android:name="com.cutestudio.dialer.activities.SplashActivity.Blue_grey"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.cutestudio.dialer.activities.SplashActivity"
+            android:roundIcon="@mipmap/ic_launcher_blue_grey">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:icon="@mipmap/ic_launcher_grey_black"
+            android:name="com.cutestudio.dialer.activities.SplashActivity.Grey_black"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity="com.cutestudio.dialer.activities.SplashActivity"
+            android:roundIcon="@mipmap/ic_launcher_grey_black">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+        <activity
+            android:theme="@style/AppTheme.FullScreen"
+            android:name="com.cutestudio.dialer.activities.SetDefaultActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.cutestudio.dialer.activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize|orientation"/>
+        <activity
+            android:label="@string/about"
+            android:name="com.cutestudio.commons.activities.AboutActivity"
+            android:parentActivityName="com.cutestudio.dialer.activities.MainActivity"/>
+        <activity
+            android:label="@string/third_party_licences"
+            android:name="com.cutestudio.commons.activities.LicenseActivity"
+            android:parentActivityName="com.cutestudio.commons.activities.AboutActivity"/>
+        <activity
+            android:label="@string/customize_colors"
+            android:name="com.cutestudio.commons.activities.CustomizationActivity"
+            android:parentActivityName="com.cutestudio.dialer.activities.SettingsActivity"/>
+        <activity
+            android:label="@string/frequently_asked_questions"
+            android:name="com.cutestudio.commons.activities.FAQActivity"
+            android:parentActivityName="com.cutestudio.commons.activities.AboutActivity"/>
+        <activity
+            android:label="@string/blocked_numbers"
+            android:name="com.cutestudio.commons.activities.ManageBlockedNumbersActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="com.cutestudio.dialer.activities.SettingsActivity"/>
+        <activity
+            android:label="@string/speed_dial"
+            android:name="com.cutestudio.dialer.activities.ManageSpeedDialActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="com.cutestudio.dialer.activities.SettingsActivity"/>
+        <activity
+            android:label="@string/font_size"
+            android:name="com.cutestudio.dialer.activities.FontSizeActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="com.cutestudio.dialer.activities.SettingsActivity"/>
+        <activity
+            android:label="@string/change_background_label"
+            android:name="com.cutestudio.dialer.activities.BackgroundActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="com.cutestudio.dialer.activities.SettingsActivity"/>
+        <activity
+            android:label="@string/title_sound"
+            android:name="com.cutestudio.dialer.activities.SoundActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="com.cutestudio.dialer.activities.SettingsActivity"/>
+        <activity
+            android:label="@string/create_contact"
+            android:name="com.cutestudio.dialer.activities.CreateContactActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/settings"
+            android:name="com.cutestudio.dialer.activities.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="com.cutestudio.dialer.activities.MainActivity"/>
+        <activity
+            android:name="com.cutestudio.dialer.activities.BackgroundDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.cutestudio.dialer.activities.BackgroundImageActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/BaseAppTheme"
+            android:name="com.cutestudio.dialer.activities.DetailContactActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/BaseAppTheme"
+            android:name="com.cutestudio.dialer.activities.DetailRecentCallActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:name="com.cutestudio.dialer.activities.ReportSpamActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.cutestudio.dialer.activities.OpenAvatarActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/label_call_history"
+            android:name="com.cutestudio.dialer.activities.CallHistoryActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+            android:label="@string/led_edge_setting"
+            android:name="com.cutestudio.lededge.activities.PreviewActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName="com.cutestudio.dialer.activities.SettingsActivity"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+            android:label="@string/ongoing_call"
+            android:name="com.cutestudio.dialer.activities.CallActivity"
+            android:screenOrientation="portrait"
+            android:showOnLockScreen="true"/>
+        <activity
+            android:label="@string/dialpad"
+            android:name="com.cutestudio.dialer.activities.DialpadActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:parentActivityName="com.cutestudio.dialer.activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.DIAL"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="tel"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.DIAL"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.DIAL"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="tel"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/Theme.Transparent"
+            android:label="@string/dialer"
+            android:name="com.cutestudio.dialer.activities.DialerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.CALL"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="tel"/>
+            </intent-filter>
+        </activity>
+        <service
+            android:name="com.cutestudio.dialer.services.CallService"
+            android:permission="android.permission.BIND_INCALL_SERVICE"
+            android:enabled="true"
+            android:exported="true">
+            <meta-data
+                android:name="android.telecom.IN_CALL_SERVICE_UI"
+                android:value="true"/>
+            <intent-filter>
+                <action android:name="android.telecom.InCallService"/>
+            </intent-filter>
+        </service>
+        <receiver
+            android:name="com.cutestudio.dialer.receivers.CallActionReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.cutestudio.dialer.action.ACCEPT_CALL"/>
+                <action android:name="com.cutestudio.dialer.action.DECLINE_CALL"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.cutestudio.lededge.windowmanager.MyWallpaperWindowMService"
+            android:permission="android.permission.SYSTEM_ALERT_WINDOW"
+            android:enabled="true"
+            android:exported="false"/>
+        <receiver
+            android:name="com.cutestudio.lededge.listener.CallEvent"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name="com.cutestudio.lededge.activities.MainActivity"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name="com.cutestudio.lededge.activities.ManageAppActivity"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+            android:name="com.cutestudio.lededge.activities.LockScreenActivity"
+            android:excludeFromRecents="true"
+            android:noHistory="true"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label=""
+            android:name="com.cutestudio.dialer.activities.call_theme.CustomizeCallScreenActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label=""
+            android:name="com.cutestudio.dialer.activities.call_theme.CallBackgroundImageActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label=""
+            android:name="com.cutestudio.dialer.activities.call_theme.CallBackgroundVideoActivity"
+            android:screenOrientation="portrait"/>
+        <service
+            android:label=""
+            android:name="com.cutestudio.lededge.service.NotificationService"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService"/>
+            </intent-filter>
+        </service>
+        <service android:name="com.cutestudio.lededge.service.ScreenStatusService"/>
+        <receiver
+            android:name="com.cutestudio.lededge.repeatservice.AutoStart"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.cutestudio.lededge.repeatservice.SensorReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="cutestudio.restart.service"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.cutestudio.lededge.repeatservice.AlarmRepeatReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":service">
+            <intent-filter>
+                <action android:name="com.cutestudio.repeat"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.cutestudio.lededge.repeatservice.UpgradeReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.cutestudio.lededge.listener.CallService"
+            android:enabled="true"
+            android:exported="false"/>
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="true"/>
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-7877863694203373~2372583481"/>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:authorities="com.cutestudio.dialer.fileprovider"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+        <meta-data
+            android:name="com.google.android.gms.ads.flag.OPTIMIZE_INITIALIZATION"
+            android:value="true"/>
+        <meta-data
+            android:name="com.google.android.gms.ads.flag.OPTIMIZE_AD_LOADING"
+            android:value="true"/>
+        <receiver
+            android:name="com.cutestudio.commons.receivers.SharedThemeReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.cutestudio.commons.SHARED_THEME_ACTIVATED"/>
+                <action android:name="com.cutestudio.commons.SHARED_THEME_UPDATED"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:theme="@style/Dexter.Internal.Theme.Transparent"
+            android:name="com.karumi.dexter.DexterActivity"/>
+        <service
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:exported="false"
+            android:directBootAware="true">
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.storage.ktx.FirebaseStorageKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.remoteconfig.ktx.FirebaseRemoteConfigKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.crashlytics.ktx.FirebaseCrashlyticsKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.firestore.ktx.FirebaseFirestoreKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.analytics.ktx.FirebaseAnalyticsKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.ktx.FirebaseCommonKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.storage.StorageRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.remoteconfig.RemoteConfigRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.abt.component.AbtRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.crashlytics.CrashlyticsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+        </service>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="false"/>
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:exported="false"
+            android:authorities="com.cutestudio.colordialer.firebaseinitprovider"
+            android:initOrder="100"
+            android:directBootAware="true"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent"
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:exported="false"
+            android:configChanges="smallestScreenSize|screenSize|uiMode|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <provider
+            android:name="com.google.android.gms.ads.MobileAdsInitProvider"
+            android:exported="false"
+            android:authorities="com.cutestudio.colordialer.mobileadsinitprovider"
+            android:initOrder="100"/>
+        <service
+            android:name="com.google.android.gms.ads.AdService"
+            android:enabled="true"
+            android:exported="false"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:exported="false"
+            android:authorities="com.cutestudio.colordialer.androidx-startup">
+            <meta-data
+                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+                android:value="androidx.startup"/>
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"/>
+            <meta-data
+                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+                android:value="androidx.startup"/>
+        </provider>
+        <service
+            android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
+            android:enabled="@bool/enable_system_alarm_service_default"
+            android:exported="false"
+            android:directBootAware="false"/>
+        <service
+            android:name="androidx.work.impl.background.systemjob.SystemJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="@bool/enable_system_job_service_default"
+            android:exported="true"
+            android:directBootAware="false"/>
+        <service
+            android:name="androidx.work.impl.foreground.SystemForegroundService"
+            android:enabled="@bool/enable_system_foreground_service_default"
+            android:exported="false"
+            android:directBootAware="false"/>
+        <receiver
+            android:name="androidx.work.impl.utils.ForceStopRunnable.BroadcastReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:directBootAware="false"/>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.BatteryChargingProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.BatteryNotLowProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BATTERY_OKAY"/>
+                <action android:name="android.intent.action.BATTERY_LOW"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.StorageNotLowProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.DEVICE_STORAGE_LOW"/>
+                <action android:name="android.intent.action.DEVICE_STORAGE_OK"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.NetworkStateProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.TIME_SET"/>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver"
+            android:enabled="@bool/enable_system_alarm_service_default"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="androidx.work.impl.background.systemalarm.UpdateProxies"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.diagnostics.DiagnosticsReceiver"
+            android:permission="android.permission.DUMP"
+            android:enabled="true"
+            android:exported="true"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="androidx.room.MultiInstanceInvalidationService"
+            android:exported="false"
+            android:directBootAware="true"/>
+        <service
+            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+            android:exported="false">
+            <meta-data
+                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+                android:value="cct"/>
+        </service>
+        <service
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+            android:exported="false"/>
+        <meta-data
+            android:name="com.google.android.play.billingclient.version"
+            android:value="5.1.0"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.android.billingclient.api.ProxyBillingActivity"
+            android:exported="false"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <meta-data
+            android:name="com.android.dynamic.apk.fused.modules"
+            android:value="base"/>
+        <meta-data
+            android:name="com.android.stamp.source"
+            android:value="https://play.google.com/store"/>
+        <meta-data
+            android:name="com.android.stamp.type"
+            android:value="STAMP_TYPE_STANDALONE_APK"/>
+        <meta-data
+            android:name="com.android.vending.splits"
+            android:resource="@xml/splits0"/>
+        <meta-data
+            android:name="com.android.vending.derived.apk.id"
+            android:value="2"/>
+    </application>
+</manifest>

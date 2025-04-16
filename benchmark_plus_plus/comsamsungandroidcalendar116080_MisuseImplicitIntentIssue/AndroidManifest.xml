@@ -1,0 +1,1188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="1160800000"
+    android:versionName="11.6.08.0"
+    android:compileSdkVersion="29"
+    android:compileSdkVersionCodename="10"
+    package="com.samsung.android.calendar"
+    platformBuildVersionCode="29"
+    platformBuildVersionName="10">
+    <uses-sdk
+        android:minSdkVersion="29"
+        android:targetSdkVersion="29"/>
+    <permission
+        android:label="@string/calendar_read_setting_permission_label"
+        android:name="com.sec.android.app.calendar.permission.READ_CALENDAR_SETTINGS"
+        android:protectionLevel="normal"
+        android:description="@string/calendar_read_setting_permission_description"/>
+    <permission
+        android:label="@string/calendar_write_setting_permission_label"
+        android:name="com.sec.android.app.calendar.permission.WRITE_CALENDAR_SETTINGS"
+        android:protectionLevel="signatureOrSystem"
+        android:description="@string/calendar_write_setting_permission_description"/>
+    <permission
+        android:label="@string/calendar_open_setting_permission_label"
+        android:name="com.sec.android.app.calendar.permission.OPEN_CALENDAR_SETTINGS"
+        android:protectionLevel="normal"
+        android:description="@string/calendar_open_setting_permission_description"/>
+    <permission
+        android:label="@string/dump_calendar_ui_permission_name"
+        android:name="com.samsung.android.calendar.permission.DUMP_CALENDAR_UI"
+        android:protectionLevel="signature"
+        android:description="@string/dump_calendar_ui_permission_name"/>
+    <permission
+        android:label="@string/calendar_permission_description_read_stickers"
+        android:name="com.samsung.android.calendar.permission.READ_STICKERS"
+        android:protectionLevel="normal"
+        android:description="@string/calendar_permission_description_read_stickers"/>
+    <permission
+        android:label="@string/calendar_permission_description_read_stickers"
+        android:name="com.samsung.android.calendar.permission.WRITE_STICKERS"
+        android:protectionLevel="signature"
+        android:description="@string/calendar_permission_description_read_stickers"/>
+    <permission
+        android:label="@string/calendar_permission_description_read_calendar_data"
+        android:name="com.samsung.android.calendar.permission.READ_CALENDAR_DATA"
+        android:protectionLevel="normal"
+        android:description="@string/calendar_permission_description_read_calendar_data"/>
+    <permission
+        android:label="@string/calendar_permission_description_read_calendar_data"
+        android:name="com.samsung.android.calendar.permission.WRITE_CALENDAR_DATA"
+        android:protectionLevel="signature"
+        android:description="@string/calendar_permission_description_read_calendar_data"/>
+    <uses-permission android:name="com.sec.android.diagmonagent.permission.DIAGMON"/>
+    <uses-permission android:name="com.sec.spp.permission.TOKEN_8a8f4091bf787b75a6c5b4346f560e63d67ce9f5fb6612a5e835a33fe541c1742a1893aff0189adfe4e722f18d924eda9902e69a9b1a819042df65dc509d5a9a60180f1b654089902db3816077cfded1cd831a3e7bf3e74e3f65cab179c15f99b83be874d35798151ccd0bb9c2fa7bd0d465217b889e794eddacf82c730c075e"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+    <uses-permission android:name="com.sec.android.settings.permission.SOFT_RESET"/>
+    <uses-permission android:name="com.samsung.sea.retailagent.permission.RETAILMODE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="com.samsung.android.scloud.backup.lib.read"/>
+    <uses-permission android:name="com.samsung.android.scloud.backup.lib.write"/>
+    <uses-permission android:name="com.wssnps.permission.COM_WSSNPS"/>
+    <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE"/>
+    <uses-permission android:name="com.samsung.knox.bnr.permission.ACCESS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
+    <uses-permission android:name="com.samsung.android.launcher.permission.READ_SETTINGS"/>
+    <uses-permission android:name="com.sec.android.daemonapp.ap.accuweather.ACCUWEATHER_DAEMON_ACCESS_PROVIDER"/>
+    <uses-permission android:name="com.sec.android.daemonapp.ap.kweather.KWEATHER_DAEMON_ACCESS_PROVIDER"/>
+    <uses-permission android:name="com.sec.android.daemonapp.cmaweather.CMAWEATHER_DAEMON_ACCESS_PROVIDER"/>
+    <uses-permission android:name="com.sec.android.daemonapp.ap.weathernewsjp.WEATHERNEWS_DAEMON_ACCESS_PROVIDER"/>
+    <uses-permission android:name="com.samsung.android.weather.DATA_SERVICE"/>
+    <uses-permission android:name="com.samsung.android.app.aodservice.permission.AOD_PROVIDER"/>
+    <uses-permission android:name="com.samsung.android.app.aodservice.permission.BROADCAST_RECEIVER"/>
+    <uses-permission android:name="com.samsung.android.stickercenter.permission.sticker.READ"/>
+    <uses-permission android:name="com.samsung.android.stickercenter.service.ACCESS"/>
+    <uses-permission android:name="com.samsung.android.rubin.persona.permission.READ_PERSONA_MANAGER"/>
+    <uses-permission android:name="com.samsung.android.email.permission.ACCESS_PROVIDER"/>
+    <uses-permission android:name="android.permission.SEND_RESPOND_VIA_MESSAGE"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"/>
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS"/>
+    <uses-permission android:name="android.permission.NFC"/>
+    <uses-permission android:name="com.samsung.android.app.reminder.permission.READ"/>
+    <uses-permission android:name="com.samsung.android.app.reminder.permission.WRITE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="com.samsung.android.opencalendar.provider.DataProvider.READ"/>
+    <uses-permission android:name="com.samsung.android.opencalendar.provider.DataProvider.WRITE"/>
+    <uses-permission android:name="com.samsung.android.opencalendar.permission.LAUNCH_SUBSCRIPTIONS"/>
+    <uses-permission android:name="com.samsung.android.opencalendar.permission.LAUNCH_DETAIL_VIEW"/>
+    <uses-permission android:name="com.samsung.android.opencalendar.permission.REMOTE_SERVICE"/>
+    <uses-permission android:name="com.samsung.android.opencalendar.permission.LAUNCH_EVENTS_LIST_VIEW"/>
+    <uses-permission android:name="com.samsung.android.rubin.app.ui.permission.LAUNCH_RUBIN_SETTING"/>
+    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="com.samsung.android.mobileservice.social.group.provider.permission.READ"/>
+    <uses-permission android:name="com.samsung.android.mobileservice.social.buddy.provider.Permission.READ"/>
+    <uses-permission android:name="com.samsung.android.mobileservice.social.buddy.provider.Permission.WRITE"/>
+    <uses-permission android:name="com.samsung.android.mobileservice.social.group.member.provider.permission.READ"/>
+    <uses-permission android:name="com.samsung.android.mobileservice.social.share.space.provider.permission.READ"/>
+    <uses-permission android:name="com.samsung.android.mobileservice.social.share.space.provider.permission.WRITE"/>
+    <uses-permission android:name="com.samsung.android.mobileservice.social.share.item.provider.permission.READ"/>
+    <uses-permission android:name="com.samsung.android.mobileservice.social.share.item.provider.permission.WRITE"/>
+    <uses-permission android:name="com.samsung.android.mobileservice.social.ui.Permission.SOCIAL_CONTACT_PICKER"/>
+    <uses-permission android:name="com.samsung.android.mobileservice.permission.RECEIVE_SEMS_BROADCAST"/>
+    <uses-permission android:name="com.samsung.android.samsungaccount.permission.PROFILE_PROVIDER"/>
+    <uses-permission
+        android:name="android.permission.CALL_PRIVILEGED"
+        android:protectionLevel="system|signature"/>
+    <uses-permission android:name="com.samsung.permission.PALM_MOTION"/>
+    <uses-permission android:name="com.samsung.android.permission.SEM_UPDATE_NOTIFICATION_CHANNELS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.MANAGE_USERS"/>
+    <uses-permission android:name="android.permission.STATUS_BAR"/>
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR"/>
+    <uses-permission android:name="android.permission.STATUS_BAR_SERVICE"/>
+    <uses-permission android:name="android.permission.INTERNAL_SYSTEM_WINDOW"/>
+    <uses-permission android:name="android.permission.START_ACTIVITIES_FROM_BACKGROUND"/>
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
+    <uses-permission
+        android:name="com.samsung.permission.READ_DW_DATA"
+        android:protectionLevel="signatureOrSystem"/>
+    <permission
+        android:label="@string/use_icalendar_service_permission_label"
+        android:name="com.samsung.android.app.calendar.permission.USE_ICALENDAR_SERVICE"
+        android:protectionLevel="normal"
+        android:description="@string/use_icalendar_service_permission_label"/>
+    <uses-permission android:name="com.samsung.android.calendar.permission.READ_STICKERS"/>
+    <uses-permission android:name="com.samsung.android.calendar.permission.WRITE_STICKERS"/>
+    <uses-permission android:name="com.samsung.android.app.spage.permission.WRITE_CARD_DATA"/>
+    <uses-permission android:name="com.samsung.android.app.spage.permission.READ_CARD_DATA"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_SYNC_STATS"/>
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission android:name="com.samsung.android.weather.permission.START_ACTIVITY"/>
+    <uses-permission android:name="com.sec.android.permission.VOIP_INTERFACE"/>
+    <permission
+        android:label="@string/permission_read_filter"
+        android:name="com.samsung.android.chinaholiday.permission.READ_CHINA_HOLIDAY"
+        android:protectionLevel="normal"
+        android:description="@string/permission_read_filter_desc"/>
+    <permission
+        android:label="@string/permission_write_filter"
+        android:name="com.samsung.android.chinaholiday.permission.WRITE_CHINA_HOLIDAY"
+        android:protectionLevel="signature"
+        android:description="@string/permission_write_filter_desc"/>
+    <permission
+        android:label="@string/permission_holiday_read"
+        android:name="com.samsung.android.holiday.permission.READ_HOLIDAY"
+        android:protectionLevel="normal"
+        android:description="@string/permission_holiday_read_desc"/>
+    <permission
+        android:label="@string/permission_holiday_write"
+        android:name="com.samsung.android.holiday.permission.WRITE_HOLIDAY"
+        android:protectionLevel="signature"
+        android:description="@string/permission_holiday_write_desc"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <uses-permission android:name="com.samsung.android.mobileservice.sasettings.permission.SET_LOCATION"/>
+    <uses-permission android:name="com.samsung.android.mobileservice.sasettings.permission.READ"/>
+    <uses-permission android:name="com.samsung.android.mobileservice.sasettings.permission.PRIVACY"/>
+    <uses-permission android:name="com.samsung.android.mobileservice.profile.WRITE"/>
+    <uses-permission android:name="com.samsung.android.mobileservice.profile.READ"/>
+    <uses-permission android:name="com.samsung.android.samsungaccount.permission.ACCESS_SASETTINGS"/>
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-feature
+        android:glEsVersion="0x20000"
+        android:required="true"/>
+    <uses-permission android:name="com.samsung.android.sdk.handwriting.permission.RESOURCE_LANGUAGE_UPDATE"/>
+    <application
+        android:theme="@style/Theme.SEP10.NoActionBar.Base"
+        android:label="@string/app_label"
+        android:icon="@mipmap/ic_launcher_calendar"
+        android:name="com.samsung.android.app.calendar.CalendarApplication"
+        android:allowBackup="false"
+        android:supportsRtl="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:requestLegacyExternalStorage="true">
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.4"/>
+        <meta-data
+            android:name="LiveIconSupport"
+            android:value="true"/>
+        <meta-data
+            android:name="com.samsung.android.icon_container.has_icon_container"
+            android:value="true"/>
+        <meta-data
+            android:name="disableSticker"
+            android:value="true"/>
+        <meta-data
+            android:name="disableGifKeyboard"
+            android:value="true"/>
+        <meta-data
+            android:name="disableLiveMessage"
+            android:value="true"/>
+        <meta-data
+            android:name="com.samsung.android.support.executable"
+            android:resource="@xml/executable_calendar"/>
+        <meta-data
+            android:name="SamsungBasicInteraction"
+            android:value="SEP10"/>
+        <meta-data
+            android:name="com.samsung.android.bixby.capsuleId"
+            android:value="viv.calendarApp"/>
+        <meta-data
+            android:name="com.sec.android.app.samsungapps.sticker.enable"
+            android:value="true"/>
+        <meta-data
+            android:name="com.sec.android.app.samsungapps.sticker.version"
+            android:value="1"/>
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="4e659cd3e9721c94fbfc052ea6757aea"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDKZ-2IPPoGQuPvlipkmlUOOILxF-qKWOM"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <meta-data
+            android:name="resource-map"
+            android:resource="@xml/resource_map"/>
+        <meta-data
+            android:name="com.samsung.android.mobileservice.AppId"
+            android:value="tivhn39mr9"/>
+        <meta-data
+            android:name="support_local_group"
+            android:value="true"/>
+        <activity
+            android:theme="@style/Theme.SEP10.Main"
+            android:name="com.samsung.android.app.calendar.activity.MainActivity"
+            android:launchMode="singleTop"
+            android:configChanges="navigation|keyboardHidden|keyboard">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.APP_CALENDAR"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="time/epoch"/>
+                <data android:host="com.android.calendar"/>
+                <data android:scheme="content"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.samsung.android.calendar.ADD_DAY_STICKER"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts"/>
+        </activity>
+        <activity-alias
+            android:name="com.android.calendar.AllInOneActivity"
+            android:exported="true"
+            android:targetActivity="com.samsung.android.app.calendar.activity.MainActivity">
+            <intent-filter>
+                <action android:name="com.samsung.android.support.executable"/>
+                <action android:name="com.sec.android.calendar.EDIT_PEN_DRAWING"/>
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:icon="@drawable/write_on_calendar"
+            android:name="com.android.calendar.WriteOnCalendarActivity"
+            android:targetActivity="com.samsung.android.app.calendar.activity.MainActivity">
+            <intent-filter>
+                <action android:name="com.samsung.android.support.executable"/>
+            </intent-filter>
+        </activity-alias>
+        <activity
+            android:theme="@style/Theme.SEP10.Search"
+            android:name="com.samsung.android.app.calendar.activity.AgendaActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+                <action android:name="com.sec.android.calendar.SEARCH_EVENT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PICK"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="vnd.android.cursor.item/event"/>
+                <data android:mimeType="vnd.android.cursor.dir/event"/>
+                <data android:mimeType="vnd.android.cursor.item/vnd.samsung.calendar.event"/>
+                <data android:mimeType="vnd.android.cursor.dir/vnd.samsung.calendar.event"/>
+                <data android:mimeType="vnd.android.cursor.item/vnd.samsung.calendar.task"/>
+                <data android:mimeType="vnd.android.cursor.dir/vnd.samsung.calendar.task"/>
+                <data android:mimeType="vnd.android.cursor.item/vnd.samsung.calendar.*"/>
+                <data android:mimeType="vnd.android.cursor.dir/vnd.samsung.calendar.*"/>
+                <data android:mimeType="text/plain"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable_voice"/>
+        </activity>
+        <activity-alias
+            android:name="com.android.calendar.agenda.AgendaPickActivity"
+            android:exported="true"
+            android:targetActivity="com.samsung.android.app.calendar.activity.AgendaActivity"/>
+        <activity-alias
+            android:name="com.android.calendar.CalendarSearchActivity"
+            android:exported="true"
+            android:targetActivity="com.samsung.android.app.calendar.activity.AgendaActivity"/>
+        <activity
+            android:theme="@style/Theme.SEP10.ActionBar.Detail.Main"
+            android:name="com.samsung.android.app.calendar.activity.DetailActivity"
+            android:exported="true"
+            android:configChanges="screenSize|screenLayout|orientation|navigation|keyboardHidden|keyboard"
+            android:autoRemoveFromRecents="true">
+            <layout
+                android:minWidth="@dimen/free_form_window_min_width"
+                android:minHeight="@dimen/free_form_window_min_height"/>
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT"/>
+                <action android:name="android.intent.action.INSERT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="vnd.android.cursor.item/event"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT"/>
+                <action android:name="android.intent.action.INSERT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="vnd.android.cursor.dir/event"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="vnd.android.cursor.item/event"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.samsung.android.intent.action.LAUNCH_DETAIL_VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.samsung.android.app.calendar.activity.MainActivity"/>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
+        <activity
+            android:theme="@style/Theme.SEP10.Settings"
+            android:label="@string/manage_calendars_color"
+            android:name="com.samsung.android.app.calendar.activity.ManageCalendarActivity"
+            android:exported="false"
+            android:configChanges="screenSize|orientation"/>
+        <activity
+            android:theme="@style/Theme.SEP10.ActionBar.Detail"
+            android:label="@string/alert"
+            android:name="com.samsung.android.app.calendar.activity.ReminderActivity"
+            android:permission="com.sec.android.app.calendar.permission.OPEN_CALENDAR_SETTINGS"
+            android:exported="true"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <data android:mimeType="application/com.samsung.android.calendar.reminder"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/Theme.SEP10.ActionBar.Detail"
+            android:name="com.samsung.android.app.calendar.activity.RepeatCloneActivity"
+            android:exported="false"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/Theme.SEP10.ActionBar.Detail"
+            android:name="com.samsung.android.app.calendar.activity.InvitationDetailActivity"
+            android:exported="true"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden|keyboard"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity
+            android:theme="@style/Theme.SEP10.NoActionBar.EasSchedule"
+            android:name="com.samsung.android.app.calendar.activity.EasScheduleActivity"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <activity
+            android:theme="@style/Theme.SEP10.Settings"
+            android:label="@string/preferences_title"
+            android:name="com.samsung.android.app.calendar.activity.SettingsActivity"
+            android:permission="com.sec.android.app.calendar.permission.OPEN_CALENDAR_SETTINGS"
+            android:exported="true"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden|keyboard">
+            <intent-filter>
+                <action android:name="com.sec.android.intent.calendar.setting"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.sec.android.intent.action.SEC_APPLICATION_SETTINGS"/>
+                <category android:name="com.sec.android.intent.category.SEC_APPLICATION_SETTINGS"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/Theme.SEP10.ActionBar.Detail"
+            android:label="@string/timezone_label"
+            android:name="com.samsung.android.app.calendar.activity.TimeZoneActivity"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable_voice"/>
+        </activity>
+        <activity
+            android:theme="@style/Theme.SEP10.Settings.AboutCalendar"
+            android:label="@string/about_calendar"
+            android:name="com.samsung.android.app.calendar.activity.AboutCalendarSettingsActivity"
+            android:permission="com.sec.android.app.calendar.permission.OPEN_CALENDAR_SETTINGS"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/Theme.SEP10.Settings"
+            android:label="@string/preferences_alternate_calendar"
+            android:name="com.samsung.android.app.calendar.activity.AlternateCalendarSettingsActivity"
+            android:permission="com.sec.android.app.calendar.permission.OPEN_CALENDAR_SETTINGS"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/Theme.SEP10.Settings"
+            android:label="@string/preferences_default_reminder_title"
+            android:name="com.samsung.android.app.calendar.activity.ReminderSettingsActivity"
+            android:permission="com.sec.android.app.calendar.permission.OPEN_CALENDAR_SETTINGS"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity
+            android:theme="@style/Theme.SEP10.Settings"
+            android:label="@string/preferences_title"
+            android:name="com.samsung.android.app.calendar.activity.ReminderListPreferenceActivity"
+            android:permission="com.sec.android.app.calendar.permission.OPEN_CALENDAR_SETTINGS"
+            android:exported="false"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@style/Theme.SEP10.Settings.Weather"
+            android:label="@string/preferences_weather"
+            android:name="com.samsung.android.app.calendar.activity.WeatherSettingsActivity"
+            android:permission="com.sec.android.app.calendar.permission.OPEN_CALENDAR_SETTINGS"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/Theme.SEP10.Settings"
+            android:label="@string/open_source_licences"
+            android:name="com.samsung.android.app.calendar.activity.OpenSourceLicenseActivity"
+            android:permission="com.sec.android.app.calendar.permission.OPEN_CALENDAR_SETTINGS"
+            android:exported="false"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/Theme.SEP10.Settings.AboutCalendar"
+            android:label="@string/permission_notice"
+            android:name="com.samsung.android.app.calendar.activity.PermissionNoticeActivity"
+            android:permission="com.sec.android.app.calendar.permission.OPEN_CALENDAR_SETTINGS"
+            android:exported="false"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/Theme.SEP10.PermissionNoticeDialog"
+            android:name="com.samsung.android.app.calendar.activity.PermissionNoticeDialogActivity"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.samsung.android.spv.ACTION_VIEW_DETAIL"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/LinkChooserTheme"
+            android:name="com.samsung.android.app.calendar.activity.LinkActionChooserActivity"
+            android:configChanges="screenSize|screenLayout|orientation">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="tel-action"/>
+                <data android:scheme="tel-action-no-chooser"/>
+                <data android:scheme="url-action"/>
+                <data android:scheme="url-action-no-chooser"/>
+                <data android:scheme="webview-url-action"/>
+                <data android:scheme="webview-url-action-no-chooser"/>
+                <data android:scheme="mailto-action"/>
+                <data android:scheme="mailto-action-no-chooser"/>
+                <data android:scheme="geo-action"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/CalendarTheme.WithHomeActionBar"
+            android:label="@string/legal_notice_open_calendar_information_terms_condition_title"
+            android:name="com.samsung.android.app.calendar.activity.SubscriptionLegalDetailActivity"
+            android:parentActivityName="com.samsung.android.app.calendar.activity.MainActivity"/>
+        <receiver
+            android:name="com.samsung.android.app.calendar.model.settings.receiver.CscReceiver"
+            android:permission="com.sec.android.app.calendar.permission.WRITE_CALENDAR_SETTINGS">
+            <intent-filter android:priority="999">
+                <action android:name="com.samsung.android.calendar.preference.CscReceiver"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.samsung.android.app.calendar.model.settings.receiver.ResetSettingsReceiver"
+            android:permission="com.sec.android.settings.permission.SOFT_RESET">
+            <intent-filter>
+                <action android:name="com.samsung.intent.action.SETTINGS_SOFT_RESET"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.samsung.android.app.calendar.model.settings.receiver.DemoResetSettingsReceiver"
+            android:permission="com.samsung.sea.retailagent.permission.RETAILMODE">
+            <intent-filter>
+                <action android:name="com.samsung.sea.rm.DEMO_RESET_STARTED"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.samsung.android.app.calendar.model.settings.receiver.UpdateSubscriptionReceiver">
+            <intent-filter>
+                <action android:name="com.samsung.android.opencalendar.ACTION_RESET_SUBSCRIPTION"/>
+                <action android:name="com.samsung.android.opencalendar.ACTION_UPDATE_PREFERENCE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_DATA_CLEARED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.samsung.android.app.calendar.model.settings.receiver.UpdateReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+                <action android:name="com.sec.android.app.samsungapps.UPDATE_EXISTS"/>
+                <action android:name="com.samsung.android.opencalendar.package.updated"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.samsung.android.app.calendar.model.settings.backup.BackupReceiver"
+            android:permission="com.sec.android.app.calendar.permission.WRITE_CALENDAR_SETTINGS"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.samsung.android.intent.action.REQUEST_BACKUP_CALENDAR_SETTING"/>
+                <action android:name="com.samsung.android.intent.action.REQUEST_RESTORE_CALENDAR_SETTING"/>
+                <action android:name="com.samsung.knox.securefolder.REQUEST_BACKUP_CALENDAR_SETTINGS"/>
+                <action android:name="com.samsung.knox.securefolder.REQUEST_RESTORE_CALENDAR_SETTINGS"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.samsung.android.app.calendar.receiver.BootCompletedActionReceiver">
+            <intent-filter android:priority="999">
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <provider
+            android:label="@string/app_label"
+            android:name="com.samsung.android.scloud.oem.lib.ClientProvider"
+            android:readPermission="com.samsung.android.scloud.backup.lib.read"
+            android:writePermission="com.samsung.android.scloud.backup.lib.write"
+            android:enabled="true"
+            android:exported="true"
+            android:authorities="com.samsung.android.calendar.backup"
+            android:syncable="false"/>
+        <provider
+            android:name="com.samsung.android.app.calendar.model.settings.provider.PreferenceProvider"
+            android:readPermission="com.sec.android.app.calendar.permission.READ_CALENDAR_SETTINGS"
+            android:writePermission="com.sec.android.app.calendar.permission.WRITE_CALENDAR_SETTINGS"
+            android:exported="true"
+            android:authorities="com.sec.android.calendar.preference"/>
+        <provider
+            android:name="com.samsung.android.app.calendar.model.sticker.StickerProvider"
+            android:readPermission="com.samsung.android.calendar.permission.READ_STICKERS"
+            android:writePermission="com.samsung.android.calendar.permission.WRITE_STICKERS"
+            android:exported="true"
+            android:authorities="com.samsung.android.calendar.stickers"/>
+        <activity
+            android:theme="@style/CountdownWidgetConfigureTheme"
+            android:name="com.samsung.android.app.calendar.widget.CountdownConfigureActivity"
+            android:exported="true"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:allowTaskReparenting="true"
+            android:resizeableActivity="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/WidgetSettingTheme"
+            android:label="@string/app_label"
+            android:name="com.samsung.android.app.calendar.widget.SettingCountdownActivity"
+            android:exported="true"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:allowTaskReparenting="true"
+            android:resizeableActivity="false"/>
+        <activity
+            android:theme="@style/WidgetSettingTheme"
+            android:label="@string/app_label"
+            android:name="com.samsung.android.app.calendar.widget.SettingMonthActivity"
+            android:exported="true"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:allowTaskReparenting="true"
+            android:resizeableActivity="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/WidgetSettingTheme"
+            android:label="@string/app_label"
+            android:name="com.samsung.android.app.calendar.widget.SettingListActivity"
+            android:exported="true"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:allowTaskReparenting="true"
+            android:resizeableActivity="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/Theme.SEP10.ActionBar.Detail"
+            android:name="com.samsung.android.app.calendar.activity.StickerSettingsActivity"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation"/>
+        <activity
+            android:theme="@style/Style.Dialog"
+            android:name="com.samsung.android.app.calendar.activity.StickerPickerActivity"
+            android:configChanges="density|smallestScreenSize|screenSize|screenLayout|orientation">
+            <meta-data
+                android:name="samsungtheme-avoid-filling-statusbar"
+                android:value="true"/>
+        </activity>
+        <activity
+            android:theme="@style/Style.Dialog"
+            android:name="com.samsung.android.app.calendar.activity.TaskUserConfirmActivity"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation"/>
+        <activity
+            android:theme="@style/CalendarTheme.Transparent"
+            android:name="com.samsung.android.app.calendar.activity.EdgeLaunchAddActivity"/>
+        <receiver
+            android:label="@string/month_view"
+            android:name="com.android.calendar.widget.month.MonthWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_ENABLED"/>
+                <action android:name="android.appwidget.action.APPWIDGET_DISABLED"/>
+                <action android:name="android.appwidget.action.APPWIDGET_REMOVED"/>
+                <action android:name="android.appwidget.action.APPWIDGET_DELETED"/>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+                <action android:name="android.intent.action.DATE_CHANGED"/>
+                <action android:name="android.intent.action.TIME_SET"/>
+                <action android:name="android.intent.action.LOCALE_CHANGED"/>
+                <action android:name="android.intent.action.CONFIGURATION_CHANGED"/>
+                <action android:name="com.samsung.android.calendar.ACTION_PERMISSION_STATUS_CHANGED"/>
+                <action android:name="com.samsung.android.calendar.ACTION_MIDNIGHT_DATE_CHANGED"/>
+                <action android:name="com.samsung.android.calendar.ACTION_MONTH_SETTING_CHANGED"/>
+                <action android:name="com.samsung.android.calendar.ACTION_CALENDAR_PROVIDER_CHANGED"/>
+                <action android:name="com.samsung.android.calendar.ACTION_PEN_DRAWING_UPDATE"/>
+                <action android:name="com.samsung.android.calendar.DUMP_MONTH_UI_FOR_LOCAL_WIDGET"/>
+                <action android:name="com.samsung.android.theme.themecenter.THEME_APPLY"/>
+                <action android:name="com.samsung.android.calendar.ACTION_WIDGET_WEATHER_UPDATE"/>
+                <action android:name="com.sec.android.intent.CHANGE_SHARE"/>
+                <action android:name="com.sec.android.intent.SUBSCRIPTION_CHANGED"/>
+                <action android:name="com.sec.android.intent.action.WALLPAPER_CHANGED"/>
+                <action android:name="com.sec.android.widgetapp.ap.accuweatherdaemon.action.CHANGE_SETTING"/>
+                <action android:name="com.sec.android.widgetapp.ap.accuweatherdaemon.action.CHANGE_WEATHER_DATA"/>
+                <action android:name="com.samsung.android.calendar.ACTION_WIDGET_WEATHER_SYNC_UPDATE"/>
+                <action android:name="com.sec.launcher.action.APPWIDGET_SINGLE_INSTANCE"/>
+                <action android:name="com.samsung.android.intent.action.RESPONSE_RESTORE_CALENDAR_SETTING"/>
+                <action android:name="samsung.stickercenter.intent.PROCESS_COMPLETE"/>
+                <action android:name="com.samsung.settings.FONT_SIZE_CHANGED"/>
+                <action android:name="com.samsung.settings.FONT_STYLE_CHANGED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.samsung.android.calendar.ACTION_DATE_SELECT"/>
+                <action android:name="com.samsung.android.calendar.ACTION_PREV_MONTH"/>
+                <action android:name="com.samsung.android.calendar.ACTION_NEXT_MONTH"/>
+                <action android:name="com.samsung.android.calendar.ACTION_GO_TODAY"/>
+                <data android:scheme="content"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_month_info"/>
+            <meta-data
+                android:name="com.sec.android.appwidget.widgetinfo"
+                android:resource="@xml/month_widget_supported_cell_size_info"/>
+            <meta-data
+                android:name="UpdateForScreenSizeChange"
+                android:value="true"/>
+        </receiver>
+        <receiver
+            android:label="@string/widget_countdown_label"
+            android:name="com.android.calendar.widget.countdown.CountdownWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+                <action android:name="android.intent.action.DATE_CHANGED"/>
+                <action android:name="android.intent.action.TIME_SET"/>
+                <action android:name="android.intent.action.LOCALE_CHANGED"/>
+                <action android:name="com.sec.android.intent.CHANGE_SHARE"/>
+                <action android:name="com.sec.android.intent.action.WALLPAPER_CHANGED"/>
+                <action android:name="com.samsung.android.calendar.ACTION_PERMISSION_STATUS_CHANGED"/>
+                <action android:name="com.samsung.android.calendar.ACTION_MIDNIGHT_DATE_CHANGED"/>
+                <action android:name="com.samsung.android.calendar.ACTION_COUNTDOWN_SETTING_CHANGED"/>
+                <action android:name="com.samsung.android.calendar.ACTION_CALENDAR_PROVIDER_CHANGED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.samsung.android.calendar.ACTION_COUNTDOWN_SETTING"/>
+                <action android:name="com.samsung.android.calendar.ACTION_COUNTDOWN_SELECTED"/>
+                <data android:scheme="content"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_countdown_info"/>
+            <meta-data
+                android:name="com.sec.android.appwidget.widgetinfo"
+                android:resource="@xml/countdown_widget_supported_cell_size_info"/>
+        </receiver>
+        <receiver
+            android:label="@string/widget_list_label"
+            android:name="com.android.calendar.widget.list.ListWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+                <action android:name="android.intent.action.DATE_CHANGED"/>
+                <action android:name="android.intent.action.TIME_SET"/>
+                <action android:name="android.intent.action.LOCALE_CHANGED"/>
+                <action android:name="com.sec.launcher.action.APPWIDGET_SINGLE_INSTANCE"/>
+                <action android:name="com.samsung.android.calendar.ACTION_PERMISSION_STATUS_CHANGED"/>
+                <action android:name="com.sec.android.intent.CHANGE_SHARE"/>
+                <action android:name="com.sec.android.intent.action.WALLPAPER_CHANGED"/>
+                <action android:name="com.samsung.android.calendar.ACTION_LIST_SETTING"/>
+                <action android:name="com.samsung.android.calendar.ACTION_LAUNCH_APP"/>
+                <action android:name="com.samsung.android.calendar.ACTION_LIST_NEW_EVENT"/>
+                <action android:name="com.samsung.android.calendar.ACTION_MIDNIGHT_DATE_CHANGED"/>
+                <action android:name="com.samsung.android.calendar.ACTION_LIST_SETTING_CHANGED"/>
+                <action android:name="com.samsung.android.intent.action.RESPONSE_RESTORE_CALENDAR_SETTING"/>
+                <action android:name="com.samsung.android.calendar.ACTION_CALENDAR_PROVIDER_CHANGED"/>
+                <action android:name="com.sec.android.intent.SUBSCRIPTION_CHANGED"/>
+                <action android:name="samsung.stickercenter.intent.PROCESS_COMPLETE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_list_info"/>
+            <meta-data
+                android:name="UpdateForScreenSizeChange"
+                android:value="true"/>
+        </receiver>
+        <service
+            android:name="com.samsung.android.app.calendar.widget.ListWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="false"/>
+        <receiver android:name="com.samsung.android.app.calendar.widget.AodCalendarReceiver">
+            <intent-filter>
+                <action android:name="com.samsung.android.app.aodservice.REMOTEVIEWS_REQUEST"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.samsung.android.app.calendar.receiver.MonthUILogRequestReceiver"
+            android:permission="com.samsung.android.calendar.permission.DUMP_CALENDAR_UI"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.samsung.android.calendar.DUMP_MONTH_UI"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:theme="@style/CreateGroupCalendarDialogStyle"
+            android:name="com.samsung.android.app.calendar.activity.CreateGroupActivity"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation"
+            android:fitsSystemWindows="true"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@style/CreateGroupCalendarDialogStyle"
+            android:name="com.samsung.android.app.calendar.activity.GroupInvitationJoinActivity"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation"
+            android:fitsSystemWindows="true"
+            android:windowSoftInputMode="adjustResize"/>
+        <receiver
+            android:name="com.samsung.android.app.calendar.receiver.GroupCalendarReceiver"
+            android:permission="com.samsung.android.mobileservice.permission.RECEIVE_SEMS_BROADCAST"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.samsung.android.mobileservice.social.ACTION_SHARE_ADD_SPACE_PUSH"/>
+                <action android:name="com.samsung.android.mobileservice.social.ACTION_SHARE_DELETE_SPACE_PUSH"/>
+                <action android:name="com.samsung.android.mobileservice.social.ACTION_GROUP_INVITE_PUSH"/>
+                <action android:name="com.samsung.android.mobileservice.social.ACTION_GROUP_DELETE_PUSH"/>
+                <action android:name="com.samsung.android.mobileservice.social.ACTION_GROUP_MEMBER_DELETE_PUSH"/>
+                <action android:name="com.samsung.android.mobileservice.social.ACTION_GROUP_FORCE_MEMBER_DELETE_PUSH"/>
+                <action android:name="com.samsung.android.mobileservice.social.ACTION_GROUP_ACCEPT_INVITE_PUSH"/>
+                <action android:name="com.samsung.android.mobileservice.social.ACTION_GROUP_I_ACCEPT_INVITE_PUSH"/>
+                <action android:name="com.samsung.android.mobileservice.social.ACTION_GROUP_I_CREATE_GROUP_PUSH"/>
+                <action android:name="com.samsung.android.mobileservice.social.ACTION_SHARE_ADD_ITEM_PUSH"/>
+                <action android:name="com.samsung.android.mobileservice.social.ACTION_SHARE_UPDATE_ITEM_PUSH"/>
+                <action android:name="com.samsung.android.mobileservice.social.ACTION_SHARE_DELETE_ITEM_PUSH"/>
+                <action android:name="com.samsung.android.mobileservice.social.ACTION_MESSAGESHARE_PUSH"/>
+                <action android:name="com.samsung.android.calendar.ACTION_ACCEPT_INVITE"/>
+                <action android:name="com.samsung.android.calendar.ACTION_DECLINE_INVITE"/>
+                <action android:name="com.samsung.android.calendar.REFRESH_GROUP_NOTIFICATION"/>
+                <action android:name="com.samsung.android.calendar.ACTION_CLEAR_GROUP_NOTIFICATION"/>
+            </intent-filter>
+            <meta-data
+                android:name="com.samsung.android.mobileservice.IntentRequest"
+                android:value="true"/>
+        </receiver>
+        <meta-data
+            android:name="com.samsung.android.mobileservice.IntentRequest"
+            android:value="true"/>
+        <provider
+            android:name="com.samsung.android.app.calendar.globalsearch.CalendarSuggestionsProvider"
+            android:readPermission="android.permission.READ_CALENDAR"
+            android:writePermission="android.permission.WRITE_CALENDAR"
+            android:exported="true"
+            android:authorities="com.sec.android.calendar.CalendarSuggestionsProvider">
+            <path-permission
+                android:readPermission="android.permission.GLOBAL_SEARCH"
+                android:pathPrefix="/search_suggest_regex_query"/>
+            <path-permission
+                android:readPermission="android.permission.GLOBAL_SEARCH"
+                android:pathPrefix="/search_suggest_tag_query"/>
+        </provider>
+        <provider
+            android:name="com.sec.android.diagmonagent.log.provider.DiagMonProvider"
+            android:permission="com.sec.android.diagmonagent.permission.PROVIDER"
+            android:exported="true"
+            android:authorities="com.sec.android.log.cfk7symzua"/>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:authorities="com.samsung.android.app.calendar.easfileprovider"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/eas_file_paths"/>
+        </provider>
+        <provider
+            android:name="com.samsung.android.app.calendar.provider.CalendarAppProvider"
+            android:readPermission="com.samsung.android.calendar.permission.READ_CALENDAR_DATA"
+            android:writePermission="com.samsung.android.calendar.permission.WRITE_CALENDAR_DATA"
+            android:exported="true"
+            android:authorities="com.samsung.android.calendar.data"/>
+        <provider
+            android:name="com.samsung.android.app.calendar.provider.CommonFileProvider"
+            android:exported="false"
+            android:authorities="com.samsung.android.app.calendar.commonfileprovider"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/common_file_paths"/>
+        </provider>
+        <meta-data
+            android:name="backup_name"
+            android:resource="@xml/backup_items"/>
+        <meta-data
+            android:name="backup_content_uri"
+            android:value="content://com.samsung.android.calendar.backup"/>
+        <meta-data
+            android:name="BackupRestoreSupport"
+            android:value="@integer/backup_restore_version"/>
+        <service
+            android:name="com.samsung.android.app.calendarnotification.intentservice.DismissIntentService"
+            android:exported="false"/>
+        <meta-data
+            android:name="com.samsung.android.notification.hide_default_channel"
+            android:value="true"/>
+        <meta-data
+            android:name="com.samsung.android.notification.blockable"
+            android:value="true"/>
+        <activity
+            android:theme="@style/CalendarTheme.NoTitleBar.FullPopupAlert.ShortEdges"
+            android:name="com.samsung.android.app.calendarnotification.view.AlertPopupActivity"
+            android:exported="false"
+            android:taskAffinity=""
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden"
+            android:resizeableActivity="false">
+            <meta-data
+                android:name="com.sec.android.sdk.cover.MODE"
+                android:value="1"/>
+            <meta-data
+                android:name="com.samsung.android.foldable.keep_screen_when_folding"
+                android:value="true"/>
+            <intent-filter>
+                <action android:name="com.samsung.cover.OPEN"/>
+                <action android:name="com.samsung.bluetooth.action.STOP_SCHEDULE_ALARM"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/CalendarTheme.NoTitleBar.FullPopupAlert.ShortEdges"
+            android:name="com.samsung.android.app.calendarnotification.view.AlertPopupActivityForTablet"
+            android:exported="false"
+            android:taskAffinity=""
+            android:launchMode="singleInstance"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden"
+            android:resizeableActivity="false">
+            <meta-data
+                android:name="com.sec.android.sdk.cover.MODE"
+                android:value="1"/>
+            <meta-data
+                android:name="com.samsung.android.foldable.keep_screen_when_folding"
+                android:value="true"/>
+            <intent-filter>
+                <action android:name="com.samsung.cover.OPEN"/>
+                <action android:name="com.samsung.bluetooth.action.STOP_SCHEDULE_ALARM"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <receiver android:name="com.samsung.android.app.calendarnotification.NotificationActionReceiver">
+            <intent-filter>
+                <action android:name="com.android.calendar.ACTION_TASK_ALARM"/>
+                <data android:scheme="content"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.android.calendar.ACTION_NOTIFICATION_UPDATE"/>
+                <action android:name="com.android.calendar.DISMISS_SNOOZE"/>
+                <action android:name="com.samsung.accessory.saproviders.sacalendar.DISMISS_SNOOZE"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.TIME_SET"/>
+                <action android:name="android.accounts.LOGIN_ACCOUNTS_CHANGED"/>
+                <action android:name="com.samsung.intent.action.EMERGENCY_STATE_CHANGED"/>
+                <action android:name="com.samsung.android.calendar.ACTION_CALENDAR_PROVIDER_CHANGED"/>
+                <action android:name="com.samsung.android.calendar.MAP"/>
+                <action android:name="com.samsung.android.calendar.CALL"/>
+                <action android:name="com.samsung.android.calendar.ACTION_PERMISSION_STATUS_CHANGED"/>
+                <action android:name="com.samsung.android.calendar.ACTION_MIDNIGHT_DATE_CHANGED_FOR_NOTIFICATION"/>
+                <action android:name="com.samsung.android.calendar.BIRTHDAY_EVENT_REMINDER"/>
+                <action android:name="com.samsung.android.calendar.ACTION_BIRTHDAY_SNOOZE"/>
+                <action android:name="com.samsung.android.calendar.ACTION_UPDATE_BIRTHDAY"/>
+                <action android:name="com.samsung.android.calendar.ACTION_UPDATE_RINGTONE_NOTIFICATION"/>
+            </intent-filter>
+            <intent-filter android:priority="999">
+                <action android:name="android.intent.action.LOCALE_CHANGED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.EVENT_REMINDER"/>
+                <data android:scheme="content"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.samsung.android.calendar.UPDATE_BIRTHDAY_EVENT_REMINDER"/>
+                <data android:scheme="content"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_SCANNER_FINISHED"/>
+                <data android:scheme="file"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.samsung.android.app.calendarnotification.ShadowNotificationActionReceiver"
+            android:directBootAware="true">
+            <intent-filter>
+                <action android:name="android.intent.action.EVENT_REMINDER"/>
+                <data android:scheme="content"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <service android:name="com.samsung.android.app.calendarnotification.view.AlarmRingtoneService"/>
+        <service android:name="com.samsung.android.app.calendarnotification.view.CustomHeadUpService"/>
+        <service
+            android:name="com.samsung.android.app.icalendar.ICalService"
+            android:permission="com.samsung.android.app.calendar.permission.USE_ICALENDAR_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.samsung.android.calendar.IMPORT_ICS"/>
+                <action android:name="com.samsung.android.calendar.EXPORT_ICS"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.samsung.android.app.icalendar.ImportCalendarDataService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <service
+            android:name="com.samsung.android.app.icalendar.ExportCalendarDataService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <service
+            android:name="com.samsung.android.app.icalendar.DeleteCalendarFilesService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <receiver
+            android:name="com.samsung.android.app.icalendar.ICalReceiver"
+            android:permission="com.wssnps.permission.COM_WSSNPS">
+            <intent-filter>
+                <action android:name="com.samsung.android.intent.action.PING"/>
+                <action android:name="com.samsung.android.intent.action.REQUEST_BACKUP_CALENDAR"/>
+                <action android:name="com.samsung.android.intent.action.REQUEST_RESTORE_CALENDAR"/>
+                <action android:name="com.samsung.android.intent.action.REQUEST_RESTORE_FINISH_CALENDAR"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:theme="@style/CalendarTheme.Transparent"
+            android:name="com.samsung.android.app.icalendar.ICalendarImportActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:configChanges="density|smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:mimeType="application/ics"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/x-vtodo"/>
+                <data android:mimeType="text/x-vCalendar"/>
+                <data android:mimeType="text/x-vcalendar"/>
+                <data android:mimeType="text/calendar"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="application/octet-stream"/>
+                <data android:scheme="content"/>
+                <data android:host="gmail-ls"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/Theme.SEP10.NoActionBar.Base"
+            android:name="com.samsung.android.app.icalendar.ICalendarListActivity"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/Theme.SEP10.NoActionBar.Base"
+            android:name="com.samsung.android.app.icalendar.NfcImportActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:configChanges="screenSize|orientation">
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                <data android:mimeType="text/x-vCalendar"/>
+                <data android:mimeType="text/x-vcalendar"/>
+                <data android:mimeType="text/x-vtodo"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <provider
+            android:name="com.samsung.android.libcalendarfileprovider.CalendarFileProvider"
+            android:exported="false"
+            android:authorities="com.samsung.android.calendar.vcs"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepath_calendar_data"/>
+        </provider>
+        <provider
+            android:name="com.samsung.android.app.calendareventcard.EventCardProvider"
+            android:exported="true"
+            android:authorities="com.samsung.android.calendar.provider.spagecardprovider"/>
+        <meta-data
+            android:name="com.samsung.android.sdk.spage.card.info"
+            android:resource="@xml/cards"/>
+        <receiver
+            android:name="com.samsung.android.app.calendareventcard.EventCardReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.samsung.android.calendar.ACTION_CALENDAR_PROVIDER_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:theme="@style/RuntimePermission_Activity_Theme"
+            android:name="com.samsung.android.libcalendar.platform.permission.activity.PermissionCheckActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:configChanges="fontScale|layoutDirection|density|smallestScreenSize|screenSize|uiMode|screenLayout|orientation|keyboardHidden|locale"/>
+        <activity
+            android:theme="@style/Launch_Permission_Activity_Theme"
+            android:name="com.samsung.android.libcalendar.platform.permission.activity.LaunchPermissionActivity"
+            android:exported="false"/>
+        <service
+            android:name="com.samsung.android.libcalendar.platform.jobservice.CalendarProviderObserverJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="true"/>
+        <activity
+            android:theme="@style/Theme.SEP10.ResetSubscription"
+            android:label="@string/reset_subscription_calendars_data_title_preferences"
+            android:name="com.samsung.android.app.calendar.subscription.view.ResetSubscriptionActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="com.samsung.android.opencalendar.ResetDataReceiver"/>
+            </intent-filter>
+        </activity>
+        <provider
+            android:name="com.samsung.android.libcalendar.common.holidays.provider.HolidayProvider"
+            android:readPermission="com.samsung.android.holiday.permission.READ_HOLIDAY"
+            android:writePermission="com.samsung.android.holiday.permission.WRITE_HOLIDAY"
+            android:exported="true"
+            android:multiprocess="false"
+            android:authorities="com.samsung.android.holidays"/>
+        <provider
+            android:label="@string/china_provider_label"
+            android:name="com.samsung.android.libcalendar.common.holidays.provider.ChinaHolidayProvider"
+            android:readPermission="com.samsung.android.chinaholiday.permission.READ_CHINA_HOLIDAY"
+            android:writePermission="com.samsung.android.chinaholiday.permission.WRITE_CHINA_HOLIDAY"
+            android:exported="true"
+            android:multiprocess="false"
+            android:authorities="com.samsung.android.chinaholiday"/>
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false"/>
+        <activity
+            android:theme="@style/Theme.SEP10.NoActionBar.Location"
+            android:name="com.samsung.android.app.calendar.commonlocationpicker.location.LocationActivity"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation"/>
+        <activity
+            android:theme="@style/Theme.SEP10.NoActionBar.Location"
+            android:name="com.samsung.android.app.calendar.commonlocationpicker.location.BTCarActivity"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation"/>
+        <activity
+            android:theme="@style/Theme.SEP10.Settings"
+            android:label="@string/string_keep_ringing_sound"
+            android:name="com.samsung.android.app.calendar.commonnotificationtype.activity.RingtonePickerActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/Theme.SEP10.Settings"
+            android:label="@string/preferences_notification_type"
+            android:name="com.samsung.android.app.calendar.commonnotificationtype.activity.NotificationTypeSettingsActivity"
+            android:permission="com.sec.android.app.calendar.permission.OPEN_CALENDAR_SETTINGS"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:name="com.samsung.android.libcalendar.picker.repeat.view.RepeatActivity"
+            android:exported="false"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <provider
+            android:name="com.samsung.android.sdk.bixby2.provider.CapsuleProvider"
+            android:exported="true"
+            android:authorities="com.samsung.android.calendar.CapsuleProvider"/>
+        <meta-data
+            android:name="com.samsung.android.sdk.bixby2.companionApp"
+            android:value="true"/>
+        <activity
+            android:name="com.samsung.android.app.reminder.commonimageviewer.ui.ImageViewerActivity"
+            android:exported="false"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation"/>
+        <uses-library
+            android:name="androidx.window.extensions"
+            android:required="false"/>
+        <uses-library
+            android:name="androidx.window.sidecar"
+            android:required="false"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"/>
+        <meta-data
+            android:name="com.samsung.android.sdk.spage.version"
+            android:value="1.3.01.0"/>
+        <meta-data
+            android:name="com.samsung.android.sdk.spage.version_code"
+            android:value="130100000"/>
+        <uses-library
+            android:name="com.samsung.android.spensdk.framework-v1"
+            android:required="false"/>
+        <meta-data
+            android:name="SPDE.build.signature"
+            android:value="a1486f7f4aa04e8285c54a7e0a98abc5d63ad35e/103502110/release/SamsungCalendar-1100000-11.6.08"/>
+        <meta-data
+            android:name="SPDE.env.version"
+            android:value="3.4.2/L29.3.15/0.9.36"/>
+    </application>
+</manifest>

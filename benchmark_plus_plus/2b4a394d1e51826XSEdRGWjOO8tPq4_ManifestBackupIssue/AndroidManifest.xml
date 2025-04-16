@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="10918"
+    android:versionName="1.9.18"
+    android:installLocation="auto"
+    package="com.taidii.diibear"
+    platformBuildVersionCode="25"
+    platformBuildVersionName="7.1.1">
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="21"/>
+    <permission
+        android:name="com.taidii.diibear.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="com.taidii.diibear.service.crash"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="com.taidii.diibear.permission.JPUSH_MESSAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-feature
+        android:glEsVersion="0x20000"
+        android:required="true"/>
+    <meta-data
+        android:name="android.support.VERSION"
+        android:value="25.3.1"/>
+    <application
+        android:theme="@style/AppTheme"
+        android:label="@string/app_name"
+        android:icon="@drawable/ic_launcher"
+        android:name="com.tencent.StubShell.TxAppEntry"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true">
+        <meta-data
+            android:name="TxAppEntry"
+            android:value="com.taidii.diibear.module.base.App"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+        <activity
+            android:theme="@style/FullScreen"
+            android:name="com.taidii.diibear.module.login.DiibearActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize|orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/LoginPageFullScreen"
+            android:name="com.taidii.diibear.module.login.LoginActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified"/>
+        <activity
+            android:name="com.taidii.diibear.module.profile.ProfileActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.message.HappeningDetailActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.message.ImagesActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:theme="@style/FullScreen"
+            android:name="com.taidii.diibear.module.home.PhotoAndVideoPreviewActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.taidii.diibear.module.portfolio.PortfolioDetailActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.profile.SettingActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.finance.ReceiptDetailActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.profile.EditProfileActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:name="com.taidii.diibear.module.moments.MomentCommentsActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:name="com.taidii.diibear.module.message.WeeklyUpdateDetailActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.message.AnnouncementDetailActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.home.SchoolDetailPhotoActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="sensor"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.profile.ChangePasswordActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.profile.ChangeUserInfoActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.moments.MomentsByDateActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.finance.InvoiceDetailActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:name="com.taidii.diibear.module.assessment.SubjectOverviewActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.assessment.SubjectStatisticsActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.home.FeedbackActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.login.FindPasswordActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.portfolio.DrawActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.portfolio.PhotoPreviewActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.portfolio.ChoosePhotoActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.portfolio.ChooseBackgroundActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.portfolio.PuzzleActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.portfolio.EditTextActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible"/>
+        <activity
+            android:name="com.taidii.diibear.module.home.HomeActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.taidii.diibear.module.home.AboutActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.taidii.diibear.module.assessment.AssessmentActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.taidii.diibear.module.finance.FinanceActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.taidii.diibear.module.home.AttendanceActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.taidii.diibear.module.message.CommBookActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+        <activity
+            android:name="com.taidii.diibear.module.message.HappeningActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="teeeee"
+            android:name="com.taidii.diibear.module.message.WeeklyUpdateActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.taidii.diibear.module.portfolio.DrawDraftActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.taidii.diibear.module.portfolio.PortfolioActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.taidii.diibear.module.portfolio.PortfolioGalleryActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.taidii.diibear.module.portfolio.ChooseTemplateActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.taidii.diibear.module.portfolio.UploadPortfolioActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.taidii.diibear.module.portfolio.UploadPortfolioSuccessActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="@string/umeng_key"/>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="anzhi"/>
+        <activity
+            android:name="com.taidii.diibear.module.timetree.MediaSelectActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:name="com.taidii.diibear.module.timetree.PhotoVideoPreviewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.taidii.diibear.module.timetree.RecordVideoActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.taidii.diibear.module.timetree.ChildListActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.taidii.diibear.module.timetree.ChildEditActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:name="com.taidii.diibear.module.timetree.AddTagActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.taidii.diibear.module.timetree.PhotoListActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/PhotoDetail"
+            android:name="com.taidii.diibear.module.timetree.PhotoDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.taidii.diibear.module.timetree.PhotoEditActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <service
+            android:name="com.taidii.diibear.module.timetree.services.UploadPhotoService"
+            android:enabled="true"
+            android:exported="true"/>
+        <activity
+            android:name="com.taidii.diibear.module.timetree.PictorialActivity"
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="false"/>
+        <activity
+            android:name="com.taidii.diibear.module.portfolio.Portfolio2Activity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="developer-default"/>
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="@string/jpush_key"/>
+        <service
+            android:name="cn.jpush.android.service.PushService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTER"/>
+                <action android:name="cn.jpush.android.intent.REPORT"/>
+                <action android:name="cn.jpush.android.intent.PushService"/>
+                <action android:name="cn.jpush.android.intent.PUSH_TIME"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="cn.jpush.android.service.DaemonService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.DaemonService"/>
+                <category android:name="com.taidii.diibear"/>
+            </intent-filter>
+        </service>
+        <receiver
+            android:name="cn.jpush.android.service.PushReceiver"
+            android:enabled="true">
+            <intent-filter android:priority="1000">
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY"/>
+                <category android:name="com.taidii.diibear"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:name="cn.jpush.android.ui.PushActivity"
+            android:exported="false"
+            android:configChanges="orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="cn.jpush.android.ui.PushActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="com.taidii.diibear"/>
+            </intent-filter>
+        </activity>
+        <service
+            android:name="cn.jpush.android.service.DownloadService"
+            android:enabled="true"
+            android:exported="false"/>
+        <receiver android:name="cn.jpush.android.service.AlarmReceiver"/>
+        <receiver
+            android:name="com.taidii.diibear.module.message.receiver.NewMessageReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION"/>
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED"/>
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED"/>
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED"/>
+                <action android:name="cn.jpush.android.intent.CONNECTION"/>
+                <category android:name="com.taidii.diibear"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.mob.tools.MobUIShell"
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize|stateHidden">
+            <intent-filter>
+                <data android:scheme="tencent100371282"/>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.taidii.diibear.wxapi.WXEntryActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name"
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true"
+            android:authorities="com.facebook.app.FacebookContentProvider237051256688639"/>
+        <activity
+            android:theme="@style/PhotoDetail"
+            android:name="com.taidii.diibear.module.login.GuideFirstActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.survey.SurveyListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.taidii.diibear.module.survey.SurveyDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name="com.taidii.diibear.module.login.ResetPasswordActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <service
+            android:name="com.taidii.diibear.module.base.CrashReportService"
+            android:permission="com.taidii.diibear.service.crash"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":crash"/>
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true"/>
+        <activity android:name="com.facebook.CustomTabMainActivity"/>
+    </application>
+</manifest>

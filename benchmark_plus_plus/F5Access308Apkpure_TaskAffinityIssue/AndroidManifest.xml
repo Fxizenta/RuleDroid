@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="3084"
+    android:versionName="3.0.8"
+    android:compileSdkVersion="30"
+    android:compileSdkVersionCodename="11"
+    package="com.f5.edge.client_ics"
+    platformBuildVersionCode="30"
+    platformBuildVersionName="11">
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="30"/>
+    <permission
+        android:name="com.f5.edge.client_ics.permission.EDGE_LOCAL_SERVICE_BROADCAST"
+        android:protectionLevel="signature"/>
+    <permission
+        android:name="com.f5.edge.client_ics.permission.SERVICE_REQUEST_BROADCAST"
+        android:protectionLevel="signature"/>
+    <permission
+        android:name="com.f5.edge.client_ics.permission.F5_BROADCAST"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES"/>
+    <uses-permission android:name="android.permission.REQUEST_PASSWORD_COMPLEXITY"/>
+    <uses-permission android:name="com.f5.edge.client_ics.permission.EDGE_LOCAL_SERVICE_BROADCAST"/>
+    <uses-permission android:name="com.f5.edge.client_ics.permission.SERVICE_REQUEST_BROADCAST"/>
+    <uses-permission android:name="com.f5.edge.client_ics.permission.F5_BROADCAST"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false"/>
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="*"/>
+        </intent>
+    </queries>
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <application
+        android:theme="@style/EdgeClientTheme"
+        android:label="@string/app_name"
+        android:icon="@drawable/icon"
+        android:name="com.f5.edge.client_ics.EdgeClientApp"
+        android:allowBackup="false"
+        android:resizeableActivity="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory">
+        <meta-data
+            android:name="WindowManagerPreference:FreeformWindowSize"
+            android:value="tablet"/>
+        <meta-data
+            android:name="WindowManagerPreference:FreeformWindowOrientation"
+            android:value="landscape"/>
+        <activity
+            android:label="@string/settings_add_configuration"
+            android:icon="@drawable/icon"
+            android:name="com.f5.edge.ProfileEditActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="barcode"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="com.f5.edge.client_ics.ui.activities.ContainerActivity"
+            android:launchMode="singleTop">
+            <layout
+                android:defaultWidth="1200dp"
+                android:defaultHeight="900dp"/>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="f5edgeclient"/>
+                <data android:host="create"/>
+                <data android:host="start"/>
+                <data android:host="stop"/>
+                <data android:host="securid"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="f5access"/>
+                <data android:host="create"/>
+                <data android:host="start"/>
+                <data android:host="stop"/>
+                <data android:host="securid"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EdgeClientTheme.Dialog"
+            android:label="@string/app_name"
+            android:name="com.f5.edge.client_ics.ui.activities.LiteModeActivity"
+            android:taskAffinity="com.f5.edge.client_ics.ui.activities.LiteModeActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="f5edgeclient-lite"/>
+                <data android:host="create"/>
+                <data android:host="start"/>
+                <data android:host="stop"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="f5access-lite"/>
+                <data android:host="create"/>
+                <data android:host="start"/>
+                <data android:host="stop"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EdgeClientTheme.Translucent.NoActionBar"
+            android:name="com.f5.edge.client_ics.ui.activities.NotificationLauncherActivity">
+            <intent-filter>
+                <action android:name="android.net.vpn.SETTINGS"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.f5.edge.client_ics.launch_from_notification"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EdgeClientTheme"
+            android:name="com.f5.edge.client_ics.ui.activities.StatisticsActivity"/>
+        <activity
+            android:label="@string/app_name"
+            android:icon="@drawable/icon"
+            android:name="com.f5.edge.client_ics.ui.activities.VpnProfilesActivity"/>
+        <activity
+            android:theme="@style/EdgeClientTheme.Dialog.NoActionBar"
+            android:name="com.f5.edge.LogonActivity"
+            android:windowSoftInputMode="stateVisible"/>
+        <activity
+            android:label="@string/import_certificate"
+            android:icon="@drawable/icon"
+            android:name="com.f5.edge.CertFileList"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity
+            android:label="@string/import_certificate"
+            android:icon="@drawable/icon"
+            android:name="com.f5.edge.ClientCertDownloadActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:windowSoftInputMode="stateVisible"/>
+        <activity
+            android:label="@string/manage_certificates_title"
+            android:name="com.f5.edge.ClientCertManagementActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/EdgeClientTheme.NoTitleBar"
+            android:name="com.f5.edge.ClientCertImportActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:noHistory="false"/>
+        <activity
+            android:theme="@style/EdgeClientTheme.Dialog"
+            android:name="com.f5.edge.client_ics.ui.activities.ClientDevicePolicyActivity"
+            android:configChanges="orientation"
+            android:noHistory="false"/>
+        <activity
+            android:theme="@style/EdgeClientTheme.Translucent.NoActionBar"
+            android:name="com.f5.edge.ReportActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden">
+            <layout
+                android:defaultWidth="1200dp"
+                android:defaultHeight="900dp"/>
+        </activity>
+        <activity
+            android:theme="@style/EdgeClientTheme.NoActionBar"
+            android:name="com.f5.edge.client_ics.ui.activities.AboutActivity"
+            android:noHistory="true"/>
+        <activity
+            android:theme="@style/EdgeClientTheme.NoActionBar"
+            android:name="com.f5.edge.client_ics.ui.activities.HelpActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:noHistory="true"/>
+        <activity
+            android:theme="@style/EdgeClientTheme.NoActionBar"
+            android:name="com.f5.edge.client_ics.ui.activities.WebLogonActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/EdgeClientTheme"
+            android:name="com.f5.edge.FileBrowserActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/EdgeClientTheme.Dialog.NoActionBar"
+            android:name="com.f5.edge.client_ics.ui.activities.WebLogoutActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:autoRemoveFromRecents="true"/>
+        <activity android:name="com.f5.edge.ui.activities.SettingsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.f5.edge.client_ics.ui.activities.ContainerActivity"/>
+        </activity>
+        <activity
+            android:theme="@style/EdgeClientTheme.Translucent.NoActionBar"
+            android:label="@string/import_rsa_token"
+            android:icon="@drawable/icon"
+            android:name="com.f5.edge.otp.rsa.activities.RSATokenImportActivity"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/EdgeClientTheme.NoActionBar"
+            android:name="com.f5.edge.otp.rsa.activities.RSAQRCodeCaptureActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/EdgeClientTheme"
+            android:name="com.f5.edge.otp.rsa.activities.RSAImportURLActivity"/>
+        <activity
+            android:theme="@style/EdgeClientTheme.NoActionBar"
+            android:name="com.f5.edge.client_ics.ui.activities.PINActivity"/>
+        <activity
+            android:theme="@style/EdgeClientTheme"
+            android:name="com.f5.edge.client_ics.ui.activities.GetServerInfoActivity"
+            android:windowSoftInputMode="adjustResize"/>
+        <service
+            android:name="com.f5.edge.client.service.EdgeClientService"
+            android:permission="android.permission.BIND_VPN_SERVICE"
+            android:process=":service">
+            <intent-filter>
+                <action android:name="com.f5.edge.client_ics.EdgeClientService"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.net.VpnService"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.f5.edge.client.service.MDMControlService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.f5.edge.client.MDM_CONTROL"/>
+                <action android:name="com.f5.edge.client_ics.BIND_SERVICE"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.f5.edge.client.service.EdgeLocalService"
+            android:exported="false"/>
+        <receiver
+            android:label="@string/device_admin_label"
+            android:name="com.f5.edge.DeviceAdmin"
+            android:permission="android.permission.BIND_DEVICE_ADMIN"
+            android:description="@string/device_admin_description">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin"/>
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.f5.edge.client_ics.widget.WidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/appwidget_info"/>
+        </receiver>
+        <receiver
+            android:name="com.f5.edge.client.service.ServiceRequestReceiver"
+            android:permission="com.f5.edge.client_ics.SERVICE_REQUEST_BROADCAST">
+            <intent-filter>
+                <action android:name="com.f5.edge.client.service.START_VPN"/>
+                <action android:name="com.f5.edge.client.service.WEBLOGOUT_REQUEST"/>
+            </intent-filter>
+        </receiver>
+        <meta-data
+            android:name="android.content.APP_RESTRICTIONS"
+            android:resource="@xml/app_restrictions"/>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:authorities="com.f5.edge.client_ics"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths"/>
+        </provider>
+    </application>
+</manifest>

@@ -1,0 +1,1179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="627"
+    android:versionName="2.9.1.2"
+    android:installLocation="internalOnly"
+    android:usesCleartextTraffic="true"
+    android:compileSdkVersion="30"
+    android:compileSdkVersionCodename="11"
+    package="com.simejikeyboard"
+    platformBuildVersionCode="30"
+    platformBuildVersionName="11">
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="30"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.location"
+        android:required="false"/>
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.BROWSABLE"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <data android:scheme="https"/>
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.BROWSABLE"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <data android:scheme="http"/>
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SENDTO"/>
+            <data android:scheme="mailto"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+        </intent>
+        <package android:name="com.facebook.katana"/>
+        <package android:name="com.instagram.android"/>
+        <package android:name="com.twitter.android"/>
+        <package android:name="com.whatsapp"/>
+        <package android:name="com.facebook.orca"/>
+        <package android:name="com.skype.raider"/>
+        <package android:name="com.skype.polaris"/>
+        <package android:name="kik.android"/>
+        <package android:name="com.ss.android.ugc.trill"/>
+        <package android:name="com.zhiliaoapp.musically"/>
+        <package android:name="com.zhiliaoapp.musically.go"/>
+        <package android:name="com.google.android.youtube"/>
+        <package android:name="com.android.chrome"/>
+        <package android:name="com.android.browser"/>
+        <package android:name="com.google.android.gm"/>
+        <package android:name="com.android.email"/>
+        <package android:name="com.android.vending"/>
+    </queries>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="com.plutus.configapp.REC_QACOMMAND"/>
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-feature
+        android:glEsVersion="0x20000"
+        android:required="false"/>
+    <application
+        android:theme="@style/BaseTheme"
+        android:label="@string/app_name"
+        android:icon="@drawable/ic_launcher_keyboard"
+        android:name="com.baidu.simeji.App"
+        android:manageSpaceActivity="com.baidu.simeji.settings.ManageSpaceActivity"
+        android:persistent="true"
+        android:allowBackup="false"
+        android:largeHeap="true"
+        android:supportsRtl="false"
+        android:extractNativeLibs="true"
+        android:fullBackupContent="@xml/appsflyer_backup_rules"
+        android:usesCleartextTraffic="true"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:requestLegacyExternalStorage="true"
+        android:preserveLegacyExternalStorage="true">
+        <meta-data
+            android:name="Channel"
+            android:value="organic"/>
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.AutoLogAppEventsEnabled"
+            android:value="true"/>
+        <meta-data
+            android:name="com.facebook.sdk.AdvertiserIDCollectionEnabled"
+            android:value="true"/>
+        <meta-data
+            android:name="com.appsflyer.dev.key"
+            android:value="@string/appsflyer_dev_key"/>
+        <meta-data
+            android:name="com.baidu.simeji.common.glide.SimejiGlideModule"
+            android:value="GlideModule"/>
+        <meta-data
+            android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
+            android:value="GlideModule"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <meta-data
+            android:name="firebase_messaging_auto_init_enabled"
+            android:value="false"/>
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="false"/>
+        <receiver
+            android:name="com.appsflyer.MultipleInstallBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:label="@string/method_name"
+            android:name="com.baidu.simeji.SimejiIME"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <intent-filter>
+                <action android:name="android.view.InputMethod"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method"/>
+        </service>
+        <service android:name="com.baidu.simeji.common.push.FacemojiFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <activity
+            android:theme="@style/guideStyle"
+            android:label="@string/title_skin_index"
+            android:name="com.baidu.simeji.skins.SkinIndexActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="facemoji"
+                    android:host="facemoji.app"/>
+                <data
+                    android:scheme="facemoji"
+                    android:host="facemoji.keyboard"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/MyBoxTheme"
+            android:label="@string/mybox_title"
+            android:name="com.baidu.simeji.self.SelfActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@style/MyBoxTheme"
+            android:name="com.baidu.simeji.skins.SkinKeyboardPreviewActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@style/MyBoxTheme"
+            android:name="com.baidu.simeji.skins.CustomAreaActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:label="@string/category_title"
+            android:name="com.baidu.simeji.skins.SkinCategoryActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="facemoji.app.skin.category"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.baidu.simeji.skins.SkinCategoryDetailActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="facemoji.app.skin.categorydetail"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.baidu.simeji.skins.SkinDetailActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name="com.baidu.simeji.skins.SkinMoreActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name="com.baidu.simeji.skins.CustomSkinDetailActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            android:name="com.baidu.simeji.skins.MessengerEntryActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.PICK"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="com.facebook.orca.category.PLATFORM_THREAD_20150314"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/guideStyle"
+            android:name="com.baidu.simeji.settings.guide.AgreeGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation"/>
+        <activity
+            android:theme="@style/coolStartStyle"
+            android:name="com.baidu.simeji.settings.guide.SplashActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/guideStyle"
+            android:name="com.baidu.simeji.settings.guide.GuidingForUserActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation"/>
+        <activity
+            android:theme="@style/translucent"
+            android:name="com.baidu.simeji.voice.PermissionActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:configChanges="orientation"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/sticker_messenger_title"
+            android:name="com.baidu.simeji.sticker.StickerMessengerActivity"
+            android:process=":skin"
+            android:clearTaskOnLaunch="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"/>
+        <activity
+            android:theme="@style/transparent"
+            android:name="com.baidu.simeji.settings.InvokeIMEActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"/>
+        <activity
+            android:theme="@style/transparent"
+            android:name="com.baidu.simeji.settings.Voice2SettingActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"/>
+        <activity
+            android:theme="@style/transparent"
+            android:name="com.baidu.simeji.permission.PermissionGuideActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"/>
+        <activity
+            android:theme="@style/transparent"
+            android:name="com.baidu.simeji.settings.PowerSaveActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"/>
+        <activity
+            android:label="@string/menu_input"
+            android:name="com.baidu.simeji.settings.SettingsActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.baidu.simeji.settings.SettingsNoneActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.baidu.simeji.debug.DebugActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@style/TextArtTheme"
+            android:name="com.baidu.simeji.skins.TextArtActivity"
+            android:windowSoftInputMode="adjustResize"/>
+        <receiver
+            android:name="com.android.inputmethod.latin.personalization.DictionaryDecayBroadcastReciever"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.android.inputmethod.latin.personalization.DICT_DECAY"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:label="@string/dictionary_service_name"
+            android:name="com.android.inputmethod.dictionarypack.DictionaryService"/>
+        <receiver android:name="com.android.inputmethod.dictionarypack.EventHandler">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
+                <action android:name="android.intent.action.DATE_CHANGED"/>
+                <action android:name="com.android.inputmethod.dictionarypack.aosp.UPDATE_NOW"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.preff.kb.dpreference.SharePreferenceReceiver">
+            <intent-filter>
+                <action android:name="com.baidu.simeji.dpreference.SharePreferenceReceiver"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.baidu.simeji.inputmethod.subtype.SystemLocaleChangedReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.LOCALE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:theme="@style/platformActivityTheme"
+            android:label="@string/dictionary_install_over_metered_network_prompt"
+            android:name="com.android.inputmethod.dictionarypack.DownloadOverMeteredDialog"
+            android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/activity_language_title"
+            android:name="com.baidu.simeji.settings.InputMethodSubtypeSettingActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/settings_mixed_languages"
+            android:name="com.baidu.simeji.settings.MixedInputLanguageActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/title_activity_emoji_style"
+            android:name="com.baidu.simeji.settings.EmojiStyleSettingActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/menu_feedback"
+            android:name="com.baidu.simeji.settings.FeedbackActivity"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/title_faq"
+            android:name="com.baidu.simeji.settings.FaqActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="Subscription"
+            android:name="com.baidu.simeji.subscription.SubscriptionPurchaseActivity"
+            android:process=":skin"
+            android:screenOrientation="portrait"/>
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="true"/>
+        <activity
+            android:theme="@style/TranslucentThemeFullscreen"
+            android:label=""
+            android:name="com.baidu.simeji.skins.customskin.CustomSkinActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@style/TranslucentThemeFullscreen"
+            android:label=""
+            android:name="com.baidu.simeji.subscription.unlock.SubscribeUnlockActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:name="com.baidu.simeji.skins.customskin.imagepicker.album.AlbumActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:name="com.baidu.simeji.skins.customskin.imagepicker.choose.ImageChooseActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:name="com.baidu.simeji.skins.customskin.imagepickerold.ImagePickerActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@style/MyBoxTheme"
+            android:name="com.baidu.simeji.skins.customskin.imagepickerold.NewImagePickerActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:label="@string/skin_crop_photo"
+            android:name="com.baidu.simeji.skins.customskin.cropper.CropActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"/>
+        <service
+            android:name="com.baidu.simeji.skins.container.SkinProcessScheduleRequestService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":skin"/>
+        <activity
+            android:name="com.baidu.simeji.settings.guide.GuideSelectSkinActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/GuideTheme"
+            android:name="com.baidu.simeji.settings.guide.GuideCustomSkinActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/guideStyle"
+            android:name="com.baidu.simeji.settings.guide.GuideNewCustomSkinActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.baidu.simeji.settings.guide.GuideSelectLanguageActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <meta-data
+            android:name="Production"
+            android:value="Simeji-Global"/>
+        <provider
+            android:name="com.baidu.simeji.database.DuKeyboardProvider"
+            android:exported="false"
+            android:authorities="com.simejikeyboard.skin"/>
+        <provider
+            android:name="com.baidu.simeji.inapp.provider.InAppPurchaseContentProvider"
+            android:exported="false"
+            android:authorities="com.simejikeyboard.inapp"/>
+        <service
+            android:name="com.baidu.simeji.common.push.MessageService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":push"/>
+        <service
+            android:name="com.preff.kb.common.statistic.StatisticService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":push"/>
+        <receiver
+            android:name="com.baidu.simeji.common.push.WakeupBroadcastReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":push">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="sdcard.available.action"/>
+                <action android:name="com.baidu.simeji.common.push.ACTION.NOTIFICATION_CLICK"/>
+                <action android:name="com.baidu.simeji.common.push.ACTION.NOTIFICATION_CANCEL"/>
+                <action android:name="com.baidu.simeji.common.push.ACTION_SHOW_NOTIFICATION_NOT_ENABLE"/>
+                <action android:name="com.baidu.simeji.common.push.ACTION_SHOW_NOTIFICATION_NOT_CURRENT"/>
+                <action android:name="com.baidu.simeji.region_changed"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:name="com.baidu.simeji.ranking.view.container.DicDialogActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:label="@string/ranking_tips_title"
+            android:name="com.baidu.simeji.ranking.view.container.RankingTipsActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.baidu.simeji.ranking.view.container.RankingTagActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="com.baidu.simeji.settings.ManageSpaceActivity"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.baidu.simeji.sticker.StickerDetailActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.baidu.simeji.skins.SkinCommentListActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"/>
+        <receiver
+            android:name="com.baidu.simeji.skins.ExtSkinBroadcastReceiver"
+            android:exported="true">
+            <intent-filter android:priority="1000">
+                <action android:name="com.adamrocker.android.input.simeji.grobal.action.apply_theme"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:theme="@style/FullyTranslucent"
+            android:label="@string/app_name"
+            android:name="com.facebook.FacebookActivity"
+            android:exported="true"
+            android:process=":skin"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true"
+            android:process=":skin"
+            android:authorities="com.facebook.app.FacebookContentProvider1750953881786861"/>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:authorities="com.simejikeyboard.FileProvider"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider"/>
+        </provider>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.baidu.simeji.util.MessengerShareActivity"
+            android:taskAffinity="com.simejikeyboard.share"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"/>
+        <provider
+            android:name="com.preff.kb.dpreference.PreferenceProvider"
+            android:enabled="true"
+            android:exported="true"
+            android:authorities="com.simejikeyboard.dprefrenceprovider"/>
+        <receiver android:name="com.baidu.simeji.common.scheduler.SchedulerBroadcastReceiver">
+            <intent-filter>
+                <action android:name="NetworkUtils.AlarmReceiver"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="download.dict.immediately.action"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="sdcard.available.action"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.baidu.simeji.voice.SuggestionSpanPickedNotificationReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.text.style.SUGGESTION_PICKED"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.baidu.simeji.debug.DebugReceiver">
+            <intent-filter>
+                <action android:name="com.baidu.simeji.debug.action.SET_MONKEY_BARRIER"/>
+            </intent-filter>
+        </receiver>
+        <meta-data
+            android:name="KbSmjLicense"
+            android:value="e11aa6f6e710bb94fd4eada7fcfe7cfb"/>
+        <meta-data
+            android:name="KbSmjAppKey"
+            android:value="890d6e82ce234d1abd8ccb9bae2a4e76"/>
+        <meta-data
+            android:name="KbSmjChannel"
+            android:value="mobojoy_pre"/>
+        <meta-data
+            android:name="app_license"
+            android:value="c2a153c03e92993de6439a6383611c91"/>
+        <receiver
+            android:name="com.baidu.simeji.keyboard.commom.KeyboardGlobalReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.baidu.simeji.keyboard.commom.KeyboardGlobalReceiver.push"/>
+                <action android:name="simeji.action.upload.log"/>
+                <action android:name="com.baidu.simeji.sticker.StickerDesignerInfoHelper.update.info"/>
+                <action android:name="com.baidu.simeji.sticker.update.StickerUpdateManager.update.md5"/>
+                <action android:name="com.baidu.simeji.sticker.update.series"/>
+                <action android:name="com.baidu.simeji.sticker.remove.series"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.baidu.simeji.keyboard.commom.MainProcessReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.baidu.simeji.keyboard.commom.KeyboardGlobalReceiver.main"/>
+                <action android:name="com.baidu.simeji.keyboard.action.update.theme"/>
+                <action android:name="com.baidu.simeji.keyboard.action.update.free"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.baidu.simeji.keyboard.commom.SkinGlobalReceiver"
+            android:exported="false"
+            android:process=":skin">
+            <intent-filter>
+                <action android:name="com.baidu.simeji.keyboard.commom.SkinGlobalReceiver.push"/>
+                <action android:name="com.baidu.simeji.keyboard.commom.SkinGlobalReceiver.createSkinProcess"/>
+                <action android:name="simeji.action.update.theme"/>
+                <action android:name="com.baidu.simeji.region_changed"/>
+                <action android:name="com.baidu.simeji.subscription.state.changed.skin"/>
+                <action android:name="simeji.action.upload.log"/>
+                <action android:name="simeji.action.notify.sales.change"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.preff.kb.common.util.ExternalStrageUtil.SdBroadCastReceiver">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.MEDIA_MOUNTED"/>
+                <action android:name="android.intent.action.MEDIA_EJECT"/>
+                <data android:scheme="file"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.baidu.speech.VoiceRecognitionService"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/ResolveBlackScreenTheme"
+            android:name="com.baidu.simeji.plutus.business.WebSearchActivity"
+            android:process=":skin"
+            android:taskAffinity="com.simejikeyboard.plutus"
+            android:excludeFromRecents="true"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.baidu.simeji.settings.guide.GuideActivateActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"/>
+        <activity
+            android:theme="@style/FacemojiNotTitleBar"
+            android:name="com.baidu.simeji.settings.EmojiSuggestionSwitchActivity"
+            android:process=":skin"
+            android:taskAffinity=":et"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/FacemojiNotTitleBar"
+            android:name="com.baidu.simeji.settings.GameModeSwitchActivity"
+            android:process=":skin"
+            android:taskAffinity=":et"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/transparent"
+            android:name="com.baidu.simeji.inputview.candidate.operation.OperationWebActivity"
+            android:process=":skin"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name="com.baidu.simeji.LoadDexActivity"
+            android:process=":preloaddex"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:alwaysRetainTaskState="false"/>
+        <receiver android:name="com.baidu.simeji.common.receivers.NetworkChangeReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="com.baidu.simeji.network.FAST_NETWORK"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.baidu.simeji.daemon.BootJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":push"/>
+        <service
+            android:name="com.baidu.simeji.sync.AuthenticatorService"
+            android:process=":push">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator"/>
+        </service>
+        <service
+            android:name="com.baidu.simeji.sync.SyncService"
+            android:exported="true"
+            android:process=":push">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter"/>
+        </service>
+        <service
+            android:name="com.gclub.input.cloudconfig.service.CloudConfigHeartService"
+            android:exported="false"
+            android:process=":push"/>
+        <provider
+            android:name="com.baidu.simeji.sync.StubProvider"
+            android:exported="false"
+            android:process=":push"
+            android:authorities="com.simejikeyboard.sync.provider"
+            android:syncable="true"/>
+        <receiver android:name="com.preff.kb.common.receivers.BatteryReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator"/>
+        </receiver>
+        <receiver
+            android:name="com.baidu.simeji.common.receivers.OperationReceive"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.baidu.simeji.common.receivers.OPERATION"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.baidu.simeji.skins.share.ShareDoneReceiver"
+            android:exported="false"
+            android:process=":skin"/>
+        <activity
+            android:label="@string/prefs_about_privacy_title"
+            android:name="com.baidu.simeji.settings.PrivacyActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/TranslucentNoActionBar"
+            android:name="com.facemojikeyboard.miniapp.center.MiniAppCenterActivity"
+            android:exported="true"
+            android:process=":skin"
+            android:taskAffinity="com.simejikeyboard.miniapp"
+            android:launchMode="singleTask"/>
+        <activity
+            android:theme="@style/TranslucentNoActionBar"
+            android:name="com.facemojikeyboard.miniapp.game.GamePlayActivity"
+            android:process=":skin"
+            android:taskAffinity="com.simejikeyboard.miniapp"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="facemoji"
+                    android:host="com.facemoji.miniapp"
+                    android:path="/game"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/exitactivity"
+            android:name="com.facemojikeyboard.miniapp.reward.VideoFinishAvtivity"
+            android:process=":skin"
+            android:taskAffinity="com.simejikeyboard.miniapp"
+            android:configChanges="orientation"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent"
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:exported="false"
+            android:taskAffinity="com.simejikeyboard.miniapp"
+            android:multiprocess="true"
+            android:configChanges="smallestScreenSize|screenSize|uiMode|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <activity
+            android:theme="@style/TranslucentNoActionBar"
+            android:name="com.facemojikeyboard.miniapp.fortune.FortuneDetailActivity"
+            android:process=":skin"
+            android:taskAffinity="com.simejikeyboard.miniapp"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation"/>
+        <activity
+            android:theme="@style/TranslucentNoActionBar"
+            android:name="com.facemojikeyboard.miniapp.operation.MiniAppOperationActivity"
+            android:process=":skin"
+            android:taskAffinity="com.simejikeyboard.miniapp"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"/>
+        <service
+            android:name="com.facemojikeyboard.miniapp.reward.RewardVideoService"
+            android:process=":skin"/>
+        <receiver
+            android:name="com.facemojikeyboard.miniapp.reward.AdmobHanldReceiver"
+            android:process=":skin">
+            <intent-filter>
+                <action android:name="com.facemoji.newadmob.video"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.facemojikeyboard.miniapp.reward.AdmobCallbackReceiver"
+            android:process=":skin">
+            <intent-filter>
+                <action android:name="com.facemoji.newadmob.back"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.gclub.input.cloudconfig.service.CloudConfigMainService"
+            android:exported="false"/>
+        <receiver
+            android:name="com.gclub.input.cloudconfig.receiver.CloudConfigReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.gclub.input.receiver.cloudconfig"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.preff.kb.common.statistic.StatisticReceiver"
+            android:exported="false"
+            android:process=":push">
+            <intent-filter>
+                <action android:name="com.baidu.simeji.common.push.ACTION.WRITE_STATISTIC"/>
+                <action android:name="com.baidu.simeji.common.push.SEND_ACTION_STATISTIC"/>
+                <action android:name="com.baidu.simeji.common.push.SEND_UU_STATISTIC"/>
+                <action android:name="com.baidu.simeji.common.push.ACTION.WRITE_BATCH_STATISTIC"/>
+                <action android:name="com.baidu.simeji.common.push.SAVE_APPSFLYER_REFERRER"/>
+                <action android:name="com.baidu.simeji.common.push.INSTALL_REFERRER"/>
+                <action android:name="com.baidu.simeji.common.push.CONNECTIVITY_CHANGE"/>
+                <action android:name="com.baidu.simeji.common.push.APP_UPDATE"/>
+                <action android:name="com.baidu.simeji.common.push.APP_START"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.baidu.simeji.common.statistic.GlobalMessageReceiver">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+            <intent-filter android:priority="1000">
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+        <activity android:name="com.facebook.CustomTabMainActivity"/>
+        <activity android:name="com.facebook.CustomTabActivity"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"/>
+        <service
+            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+            android:exported="true"/>
+        <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:exported="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <activity
+            android:theme="@style/block_canary_BlockCanary.Base"
+            android:label="@string/block_canary_display_activity_label"
+            android:icon="@drawable/block_canary_icon"
+            android:name="com.gclub.performance.monitor.block.ui.DisplayActivity"
+            android:taskAffinity="com.gclub.global.monitor.blockcanary"/>
+        <provider
+            android:name="androidx.work.impl.WorkManagerInitializer"
+            android:exported="false"
+            android:multiprocess="true"
+            android:authorities="com.simejikeyboard.workmanager-init"
+            android:directBootAware="false"/>
+        <service
+            android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
+            android:enabled="@bool/enable_system_alarm_service_default"
+            android:exported="false"
+            android:directBootAware="false"/>
+        <service
+            android:name="androidx.work.impl.background.systemjob.SystemJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="@bool/enable_system_job_service_default"
+            android:exported="true"
+            android:directBootAware="false"/>
+        <service
+            android:name="androidx.work.impl.foreground.SystemForegroundService"
+            android:enabled="@bool/enable_system_foreground_service_default"
+            android:exported="false"
+            android:directBootAware="false"/>
+        <receiver
+            android:name="androidx.work.impl.utils.ForceStopRunnable.BroadcastReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:directBootAware="false"/>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.BatteryChargingProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.BatteryNotLowProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BATTERY_OKAY"/>
+                <action android:name="android.intent.action.BATTERY_LOW"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.StorageNotLowProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.DEVICE_STORAGE_LOW"/>
+                <action android:name="android.intent.action.DEVICE_STORAGE_OK"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.NetworkStateProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.TIME_SET"/>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver"
+            android:enabled="@bool/enable_system_alarm_service_default"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="androidx.work.impl.background.systemalarm.UpdateProxies"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.diagnostics.DiagnosticsReceiver"
+            android:permission="android.permission.DUMP"
+            android:enabled="true"
+            android:exported="true"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:exported="false"
+            android:directBootAware="true">
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.crashlytics.ndk.CrashlyticsNdkRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.iid.Registrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.crashlytics.CrashlyticsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+        </service>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:name="com.plutus.common.track.GmLoadingActivity"
+            android:taskAffinity="com.android.vending"/>
+        <activity
+            android:theme="@style/animation.activity.translucent"
+            android:name="com.plutus.common.websupport.JumpHelperActivity"
+            android:taskAffinity="com.plutus"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:name="com.plutus.common.websupport.PandoraWebViewActivity"
+            android:taskAffinity="com.plutus"/>
+        <activity
+            android:theme="@style/OnePixelActivity"
+            android:name="com.plutus.scene.gp.activities.EmptyActivity"
+            android:taskAffinity="com.android.vending"
+            android:excludeFromRecents="true"
+            android:noHistory="true"/>
+        <activity
+            android:theme="@style/OnePixelActivity"
+            android:name="com.plutus.common.websupport.H5EmptyActivity"
+            android:taskAffinity="com.android.vending"
+            android:excludeFromRecents="true"
+            android:noHistory="true"/>
+        <meta-data
+            android:name="money_from"
+            android:value="organic"/>
+        <receiver
+            android:name="com.facebook.CurrentAccessTokenExpirationBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.facebook.sdk.ACTION_CURRENT_ACCESS_TOKEN_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.facebook.CampaignTrackingReceiver"
+            android:permission="android.permission.INSTALL_PACKAGES"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="androidx.room.MultiInstanceInvalidationService"
+            android:exported="false"
+            android:directBootAware="true"/>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver"
+            android:permission="android.permission.INSTALL_PACKAGES"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.firebase.iid.FirebaseInstanceIdService"
+            android:exported="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"/>
+        <provider
+            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+            android:exported="false"
+            android:multiprocess="true"
+            android:authorities="com.simejikeyboard.lifecycle-process"/>
+        <service
+            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+            android:exported="false">
+            <meta-data
+                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+                android:value="cct"/>
+        </service>
+        <service
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+            android:exported="false"/>
+        <meta-data
+            android:name="com.google.android.play.billingclient.version"
+            android:value="3.0.0"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.android.billingclient.api.ProxyBillingActivity"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <meta-data
+            android:name="com.android.dynamic.apk.fused.modules"
+            android:value="base"/>
+        <meta-data
+            android:name="com.android.stamp.source"
+            android:value="https://play.google.com/store"/>
+        <meta-data
+            android:name="com.android.stamp.type"
+            android:value="STAMP_TYPE_STANDALONE_APK"/>
+        <meta-data
+            android:name="com.android.vending.splits"
+            android:resource="@xml/splits0"/>
+        <meta-data
+            android:name="com.android.vending.derived.apk.id"
+            android:value="14"/>
+    </application>
+</manifest>

@@ -1,0 +1,1042 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="1383"
+    android:versionName="13.83-gp"
+    android:installLocation="internalOnly"
+    android:compileSdkVersion="31"
+    android:compileSdkVersionCodename="12"
+    package="com.nationaledtech.Boomerang"
+    platformBuildVersionCode="31"
+    platformBuildVersionName="12">
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="31"/>
+    <supports-screens
+        android:anyDensity="true"
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:resizeable="true"
+        android:xlargeScreens="true"/>
+    <meta-data
+        android:name="isMonitoringTool"
+        android:value="child_monitoring"/>
+    <meta-data
+        android:name="firebase_analytics_collection_deactivated"
+        android:value="true"/>
+    <meta-data
+        android:name="google_analytics_adid_collection_enabled"
+        android:value="false"/>
+    <meta-data
+        android:name="google_analytics_ssaid_collection_enabled"
+        android:value="false"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="com.samsung.android.knox.permission.KNOX_BLUETOOTH"/>
+    <uses-permission android:name="com.samsung.android.knox.permission.KNOX_BLUETOOTH_SECUREMODE"/>
+    <uses-permission android:name="com.samsung.android.knox.permission.KNOX_LOCATION"/>
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.location"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.location.network"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.fingerprint"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.bluetooth"
+        android:required="false"/>
+    <uses-feature
+        android:glEsVersion="0x20000"
+        android:required="true"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES"/>
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
+    <uses-permission-sdk-23 android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="com.nationaledtech.spinbrowser.permissions.BROWSER_PROVIDER"/>
+    <uses-permission android:name="com.samsung.android.iap.permission.BILLING"/>
+    <uses-permission android:name="com.samsung.android.knox.permission.KNOX_CUSTOM_SETTING"/>
+    <uses-permission android:name="com.samsung.android.knox.permission.KNOX_HW_CONTROL"/>
+    <uses-permission android:name="com.samsung.android.knox.permission.KNOX_RESTRICTION_MGMT"/>
+    <uses-permission android:name="com.samsung.android.knox.permission.KNOX_MULTI_USER_MGMT"/>
+    <uses-permission android:name="com.samsung.android.knox.permission.KNOX_PHONE_RESTRICTION"/>
+    <uses-permission android:name="com.samsung.android.knox.permission.KNOX_ENTERPRISE_DEVICE_ADMIN"/>
+    <uses-permission android:name="com.samsung.android.knox.permission.KNOX_DATE_TIME"/>
+    <uses-permission android:name="com.samsung.android.knox.permission.KNOX_PHONE_RESTRICTION"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE"/>
+    <queries>
+        <package android:name="com.google.android.apps.maps"/>
+    </queries>
+    <application
+        android:theme="@style/mobivement"
+        android:label="@string/boomerang"
+        android:icon="@drawable/icon_boomerang"
+        android:name="com.vionika.mobivement.MobivementApplication"
+        android:testOnly="false"
+        android:allowBackup="false"
+        android:hardwareAccelerated="true"
+        android:largeHeap="true"
+        android:fullBackupContent="false"
+        android:usesCleartextTraffic="true"
+        android:resizeableActivity="false"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory">
+        <meta-data
+            android:name="serverAddress"
+            android:value="https://app.useboomerang.com"/>
+        <activity android:name="com.vionika.mobivement.ui.childmanagement.browsing.WebBrowsingActivity"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBzPpjhQW_D28foSvPHL7s_FfHXePf_bZo"/>
+        <uses-library
+            android:name="com.google.android.maps"
+            android:required="false"/>
+        <uses-library
+            android:name="com.lge.mdm"
+            android:required="false"/>
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false"/>
+        <activity
+            android:theme="@style/mobivement.FullScreen"
+            android:name="com.vionika.mobivement.ui.SplashActivity"
+            android:exported="true"
+            android:finishOnTaskLaunch="true"
+            android:clearTaskOnLaunch="true"
+            android:configChanges="orientation">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.ASSIST"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/mobivement.DefaultActionBar"
+            android:name="com.vionika.mobivement.ui.SettingsActivity"
+            android:exported="true"
+            android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="com.nationaledtech.Boomerang.START_PREFERENCES"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/mobivement.DefaultActionBar"
+            android:name="com.vionika.mobivement.ui.AboutActivity"
+            android:exported="true"
+            android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="com.nationaledtech.Boomerang.START_ABOUT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/mobivement.DefaultActionBar"
+            android:label="@string/support_menu_item"
+            android:name="com.vionika.mobivement.ui.SupportActivity"
+            android:exported="true"
+            android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="com.nationaledtech.Boomerang.START_SUPPORT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/mobivement"
+            android:name="com.vionika.mobivement.ui.createpasscode.CreatePasscodeActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:screenOrientation="sensorPortrait"/>
+        <activity
+            android:theme="@style/mobivement"
+            android:name="com.vionika.mobivement.ui.PasscodeActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait"/>
+        <activity
+            android:theme="@style/mobivement.DarkActionBar"
+            android:label="@string/family_devices"
+            android:name="com.vionika.mobivement.ui.map.CompositeMapActivity"
+            android:taskAffinity=".ui.map.CompositeMapActivity">
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value="com.vionika.mobivement.ui.SearchActivity"/>
+        </activity>
+        <activity
+            android:theme="@style/mobivement.DarkActionBar"
+            android:name="com.vionika.mobivement.ui.map.StandaloneMapActivity"
+            android:parentActivityName="com.vionika.mobivement.ui.map.CompositeMapActivity">
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value="com.vionika.mobivement.ui.SearchActivity"/>
+        </activity>
+        <activity
+            android:theme="@style/mobivement"
+            android:name="com.vionika.mobivement.ui.map.MapUiActivity"
+            android:exported="true"/>
+        <activity
+            android:theme="@style/mobivement"
+            android:name="com.vionika.mobivement.ui.MessageBoxActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="com.mobivement.c2dm.error"/>
+                <action android:name="com.nationaledtech.Boomerang.STOP_EMERGENCY_TRACKING"/>
+                <action android:name="com.nationaledtech.Boomerang.MESSAGE_BOX"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/mobivement.DefaultActionBar"
+            android:name="com.vionika.mobivement.ui.wizard.WizardEnrollmentActivity"/>
+        <activity
+            android:theme="@style/mobivement"
+            android:name="com.vionika.core.ui.whatsnew.WhatsNewActivity"/>
+        <activity
+            android:theme="@style/mobivement"
+            android:name="com.vionika.mobivement.ui.wizard.selectencouraged.SelectEncouragedAppsActivity"/>
+        <activity
+            android:theme="@style/mobivement.DefaultActionBar"
+            android:name="com.vionika.mobivement.purchase.PurchaseActivity"/>
+        <activity
+            android:theme="@style/transparent"
+            android:name="com.vionika.mobivement.ui.EnrollmentTipsActivity"
+            android:excludeFromRecents="true"/>
+        <activity
+            android:theme="@style/mobivement.DefaultActionBar"
+            android:name="com.vionika.core.ui.WebViewActivity"
+            android:excludeFromRecents="true"/>
+        <activity
+            android:theme="@style/mobivement.DarkActionBar"
+            android:name="com.vionika.mobivement.ui.reports.ui.ReportsSelectTypeActivity"/>
+        <activity
+            android:theme="@style/mobivement.WhiteControls"
+            android:name="com.vionika.mobivement.ui.reports.ui.ReportActivity"
+            android:configChanges="orientation"
+            android:parentActivityName="com.vionika.mobivement.ui.reports.ui.ReportsSelectTypeActivity"/>
+        <activity
+            android:theme="@style/mobivement"
+            android:name="com.vionika.mobivement.ui.reports.ui.AppUsageReportActivity"/>
+        <activity
+            android:theme="@style/mobivement"
+            android:label="@string/apps_management_label"
+            android:name="com.vionika.mobivement.ui.childmanagement.AppsManagementActivity"/>
+        <activity
+            android:theme="@style/mobivement.WhiteControls"
+            android:label="@string/manage_screen_time_label"
+            android:name="com.vionika.mobivement.ui.childmanagement.ManageScreenTimeActivity"/>
+        <activity
+            android:theme="@style/mobivement.DefaultActionBar"
+            android:name="com.vionika.mobivement.ui.WebViewWithMenuActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="com.nationaledtech.Boomerang.WEB_VIEW"/>
+                <data android:scheme="http"/>
+                <data android:scheme="https"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/mobivement.DefaultActionBar"
+            android:label="@string/search_label"
+            android:name="com.vionika.mobivement.ui.SearchActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
+        <activity
+            android:theme="@style/mobivement"
+            android:label="@string/menu_messages"
+            android:name="com.vionika.mobivement.ui.messages.MessengerActivity"
+            android:exported="true"
+            android:taskAffinity=".messenger">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="com.nationaledtech.Boomerang.FAMILY_MESSENGER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/mobivement.DarkActionBar"
+            android:label="@string/menu_messages"
+            android:name="com.vionika.mobivement.ui.messages.MessengerChatActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="com.nationaledtech.Boomerang.GROUP_MESSAGES"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/mobivement.DefaultActionBar"
+            android:label="@string/device_info"
+            android:name="com.vionika.mobivement.ui.deviceinfo.DeviceInfoActivity"
+            android:excludeFromRecents="true"/>
+        <activity
+            android:theme="@style/mobivement.DefaultActionBar"
+            android:label="@string/web_dashboard_toolbar_title"
+            android:name="com.vionika.mobivement.settings.VisitDashboardLinkActivity"
+            android:excludeFromRecents="true"
+            android:parentActivityName="com.vionika.mobivement.ui.SettingsActivity"/>
+        <activity
+            android:theme="@style/mobivement.DefaultActionBar"
+            android:name="com.vionika.core.ui.AccessibilityPermissionMissingActivity"
+            android:excludeFromRecents="true"
+            android:screenOrientation="sensorPortrait"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.vionika.mobivement.ui.UsageAccessOrOverlayPermissionMissingActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"/>
+        <activity
+            android:theme="@style/mobivement.DefaultActionBar"
+            android:name="com.vionika.mobivement.ui.DoNotDisturbPermissionActivity"
+            android:excludeFromRecents="true"/>
+        <activity
+            android:theme="@style/mobivement"
+            android:label="@string/feedback"
+            android:name="com.vionika.mobivement.ui.AskFeedbackActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.nationaledtech.Boomerang.ACTION_RATE_ME"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/mobivement"
+            android:name="com.vionika.mobivement.lockdown.WebLockdownActivity"
+            android:enabled="false"
+            android:exported="true"
+            android:stateNotNeeded="true"
+            android:launchMode="singleInstance"
+            android:configChanges="orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.HOME"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/mobilement.transparent"
+            android:label="SECURED"
+            android:icon="@drawable/lock"
+            android:name="com.vionika.mdmandroid22.recentcleaner.RecentClear02"
+            android:taskAffinity=""
+            android:launchMode="singleTask"/>
+        <activity
+            android:theme="@style/mobilement.transparent"
+            android:label="SECURED"
+            android:icon="@drawable/lock"
+            android:name="com.vionika.mdmandroid22.recentcleaner.RecentClear03"
+            android:taskAffinity=""
+            android:launchMode="singleTask"/>
+        <activity
+            android:theme="@style/mobilement.transparent"
+            android:label="SECURED"
+            android:icon="@drawable/lock"
+            android:name="com.vionika.mdmandroid22.recentcleaner.RecentClear04"
+            android:taskAffinity=""
+            android:launchMode="singleTask"/>
+        <activity
+            android:theme="@style/mobilement.transparent"
+            android:label="SECURED"
+            android:icon="@drawable/lock"
+            android:name="com.vionika.mdmandroid22.recentcleaner.RecentClear05"
+            android:taskAffinity=""
+            android:launchMode="singleTask"/>
+        <activity
+            android:theme="@style/mobilement.transparent"
+            android:label="SECURED"
+            android:icon="@drawable/lock"
+            android:name="com.vionika.mdmandroid22.recentcleaner.RecentClear06"
+            android:taskAffinity=""
+            android:launchMode="singleTask"/>
+        <activity
+            android:theme="@style/mobilement.transparent"
+            android:label="SECURED"
+            android:icon="@drawable/lock"
+            android:name="com.vionika.mdmandroid22.recentcleaner.RecentClear07"
+            android:taskAffinity=""
+            android:launchMode="singleTask"/>
+        <activity
+            android:theme="@style/mobilement.transparent"
+            android:label="SECURED"
+            android:icon="@drawable/lock"
+            android:name="com.vionika.mdmandroid22.recentcleaner.RecentClear08"
+            android:taskAffinity=""
+            android:launchMode="singleTask"/>
+        <activity
+            android:theme="@style/mobilement.transparent"
+            android:label="SECURED"
+            android:icon="@drawable/lock"
+            android:name="com.vionika.mdmandroid22.recentcleaner.RecentClear09"
+            android:taskAffinity=""
+            android:launchMode="singleTask"/>
+        <activity
+            android:theme="@style/mobilement.transparent"
+            android:label="SECURED"
+            android:icon="@drawable/lock"
+            android:name="com.vionika.mdmandroid22.recentcleaner.RecentClear10"
+            android:taskAffinity=""
+            android:launchMode="singleTask"/>
+        <activity
+            android:theme="@style/mobilement.transparent"
+            android:label="SECURED"
+            android:icon="@drawable/lock"
+            android:name="com.vionika.mdmandroid22.recentcleaner.RecentClear11"
+            android:taskAffinity=""
+            android:launchMode="singleTask"/>
+        <activity
+            android:theme="@style/mobilement.transparent"
+            android:label="SECURED"
+            android:icon="@drawable/lock"
+            android:name="com.vionika.mdmandroid22.recentcleaner.RecentClear12"
+            android:taskAffinity=""
+            android:launchMode="singleTask"/>
+        <activity
+            android:theme="@style/mobilement.transparent"
+            android:label="SECURED"
+            android:icon="@drawable/lock"
+            android:name="com.vionika.mdmandroid22.recentcleaner.RecentClear13"
+            android:taskAffinity=""
+            android:launchMode="singleTask"/>
+        <activity
+            android:theme="@style/mobilement.transparent"
+            android:label="SECURED"
+            android:icon="@drawable/lock"
+            android:name="com.vionika.mdmandroid22.recentcleaner.RecentClear14"
+            android:taskAffinity=""
+            android:launchMode="singleTask"/>
+        <activity
+            android:theme="@style/mobilement.transparent"
+            android:label="SECURED"
+            android:icon="@drawable/lock"
+            android:name="com.vionika.mdmandroid22.recentcleaner.RecentClear15"
+            android:taskAffinity=""
+            android:launchMode="singleTask"/>
+        <activity
+            android:theme="@style/mobilement.transparent"
+            android:label="SECURED"
+            android:icon="@drawable/lock"
+            android:name="com.vionika.mdmandroid22.recentcleaner.RecentClear16"
+            android:taskAffinity=""
+            android:launchMode="singleTask"/>
+        <activity
+            android:theme="@style/mobilement.transparent"
+            android:label="SECURED"
+            android:icon="@drawable/lock"
+            android:name="com.vionika.mdmandroid22.recentcleaner.RecentClear17"
+            android:taskAffinity=""
+            android:launchMode="singleTask"/>
+        <activity
+            android:theme="@style/mobilement.transparent"
+            android:label="SECURED"
+            android:icon="@drawable/lock"
+            android:name="com.vionika.mdmandroid22.recentcleaner.RecentClear18"
+            android:taskAffinity=""
+            android:launchMode="singleTask"/>
+        <activity
+            android:theme="@style/mobilement.transparent"
+            android:label="SECURED"
+            android:icon="@drawable/lock"
+            android:name="com.vionika.mdmandroid22.recentcleaner.RecentClear19"
+            android:taskAffinity=""
+            android:launchMode="singleTask"/>
+        <activity
+            android:theme="@style/mobilement.transparent"
+            android:label="SECURED"
+            android:icon="@drawable/lock"
+            android:name="com.vionika.mdmandroid22.recentcleaner.RecentClear20"
+            android:taskAffinity=""
+            android:launchMode="singleTask"/>
+        <activity
+            android:theme="@style/mobivement"
+            android:label="@string/advanced_device_settings"
+            android:name="com.vionika.mobivement.ui.childmanagement.AdvancedDeviceActivity"/>
+        <activity android:name="com.vionika.mobivement.ui.invitation.InvitationActivity"/>
+        <activity
+            android:theme="@style/mobivement"
+            android:label="@string/text_message_options"
+            android:name="com.vionika.mobivement.ui.childmanagement.textoptions.TextMessageActivity"/>
+        <activity
+            android:theme="@style/mobivement"
+            android:label="@string/phone_options"
+            android:name="com.vionika.mobivement.ui.childmanagement.phoneoptions.PhoneOptionsActivity"/>
+        <activity
+            android:name="com.vionika.mobivement.ui.childmanagement.editschedule.EditBedTimeScheduleActivity"
+            android:configChanges="orientation"/>
+        <activity
+            android:theme="@style/mobivement"
+            android:name="com.vionika.mobivement.ui.childhome.ChildHomeActivity"
+            android:taskAffinity=".ui.childhome.ChildHomeActivity"
+            android:finishOnTaskLaunch="true"
+            android:clearTaskOnLaunch="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:resizeableActivity="false"/>
+        <activity
+            android:theme="@style/mobivement"
+            android:name="com.vionika.mobivement.ui.childmanagement.chooseappstate.ChooseAppStateActivity"/>
+        <activity
+            android:name="com.vionika.mobivement.ui.FakePictureInPictureActivity"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation"
+            android:supportsPictureInPicture="true"/>
+        <service
+            android:name="com.vionika.mobivement.android.GuardService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.nationaledtech.Boomerang.START_GUARD_SERVICE"/>
+                <action android:name="com.nationaledtech.Boomerang.STOP_GUARD_SERVICE"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.vionika.mobivement.navigation.tracking.LocationReportingService"
+            android:exported="true"
+            android:foregroundServiceType="location">
+            <intent-filter>
+                <action android:name="com.nationaledtech.Boomerang.START_PRECISE_TRACKING"/>
+                <action android:name="com.nationaledtech.Boomerang.STOP_PRECISE_TRACKING"/>
+                <action android:name="com.nationaledtech.Boomerang.START_BACKGROUND_TRACKING"/>
+                <action android:name="com.nationaledtech.Boomerang.UPDATE_BACKGROUND_TRACKING"/>
+                <action android:name="com.nationaledtech.Boomerang.REPORT_POSITION"/>
+                <action android:name="com.nationaledtech.Boomerang.PREFERENCES_CHANGED"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.vionika.mobivement.geofence.GeofenceCheckingService"
+            android:exported="true"
+            android:foregroundServiceType="location">
+            <intent-filter>
+                <action android:name="com.nationaledtech.Boomerang.START_GEOFENCE_TRACKING"/>
+                <action android:name="com.nationaledtech.Boomerang.STOP_GEOFENCE_TRACKING"/>
+                <action android:name="com.nationaledtech.Boomerang.UPDATE_GEOFENCE_TRACKING"/>
+                <action android:name="com.nationaledtech.Boomerang.PREFERENCES_CHANGED"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.vionika.mobivement.navigation.tracking.SpeedTrackingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.nationaledtech.Boomerang.START_SPEED_TRACKING"/>
+                <action android:name="com.nationaledtech.Boomerang.UPDATE_SPEED_TRACKING"/>
+                <action android:name="com.nationaledtech.Boomerang.STOP_SPEED_TRACKING"/>
+                <action android:name="com.tvidia.DriveSafe.SUSPEND_SPEED_TRACKING"/>
+                <action android:name="com.nationaledtech.Boomerang.PREFERENCES_CHANGED"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.vionika.mobivement.calls.CallsManagementService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.nationaledtech.Boomerang.START_CALLS_MANAGEMENT"/>
+                <action android:name="com.nationaledtech.Boomerang.STOP_CALLS_MANAGEMENT"/>
+                <action android:name="com.nationaledtech.Boomerang.UPDATE_CALLS_MANAGEMENT"/>
+                <action android:name="com.nationaledtech.Boomerang.PREFERENCES_CHANGED"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.vionika.core.urlmgmt.UrlsManagementService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.nationaledtech.Boomerang.START_URLS_MANAGEMENT"/>
+                <action android:name="com.nationaledtech.Boomerang.STOP_URLS_MANAGEMENT"/>
+                <action android:name="com.nationaledtech.Boomerang.UPDATE_URLS_MANAGEMENT"/>
+                <action android:name="com.nationaledtech.Boomerang.PREFERENCES_CHANGED"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.vionika.mobivement.policyprocessor.PolicyManagementService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.nationaledtech.Boomerang.START_POLICY_MANAGEMENT"/>
+                <action android:name="com.nationaledtech.Boomerang.STOP_POLICY_MANAGEMENT"/>
+                <action android:name="com.nationaledtech.Boomerang.UPDATE_POLICY_MANAGEMENT"/>
+                <action android:name="com.nationaledtech.Boomerang.PREFERENCES_CHANGED"/>
+                <action android:name="com.nationaledtech.Boomerang.ACTION_DAILY_REPORT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:label="@string/notification_access_permission_description"
+            android:name="com.vionika.core.android.notification.NotificationEventsListenerService"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.vionika.mobivement.widget.ScreenTimeWidgetService"
+            android:exported="true"/>
+        <receiver
+            android:name="com.vionika.core.android.MediatedBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.vionika.mobivement.device.UpdateDeviceStatusScheduleReceiver"/>
+        <receiver android:name="com.vionika.mobivement.device.DataCollectionScheduleReceiver"/>
+        <service
+            android:name="com.vionika.mobivement.android.BaseMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <receiver
+            android:name="com.vionika.core.admin.DeviceAdminReceiver"
+            android:permission="android.permission.BIND_DEVICE_ADMIN"
+            android:exported="true"
+            android:description="@string/device_admin_description">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin"/>
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.vionika.mobivement.calls.OutgoingCallReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.vionika.mobivement.referral.InstallReferrerReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.vionika.core.android.BroadcastService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="com.vionika.mobilement.WIDGET_CLICK"/>
+            </intent-filter>
+        </service>
+        <service
+            android:label="@string/accessibility_service_name"
+            android:name="com.vionika.core.appmgmt.WindowChangeDetectingService"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibilityservice"/>
+        </service>
+        <receiver
+            android:name="com.vionika.mobivement.widget.ScreenTimeWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/screentime_widget"/>
+        </receiver>
+        <receiver
+            android:name="com.samsung.android.knox.IntentConverterReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="edm.intent.application.action.prevent.start"/>
+                <action android:name="edm.intent.application.action.prevent.stop"/>
+                <action android:name="edm.intent.action.ldap.createacct.result"/>
+                <action android:name="edm.intent.action.device.inside"/>
+                <action android:name="edm.intent.action.device.outside"/>
+                <action android:name="edm.intent.action.device.location.unavailable"/>
+                <action android:name="com.samsung.edm.intent.action.CERTIFICATE_REMOVED"/>
+                <action android:name="edm.intent.certificate.action.certificate.failure"/>
+                <action android:name="com.samsung.edm.intent.action.APPLICATION_FOCUS_CHANGE"/>
+                <action android:name="edm.intent.action.EMAIL_ACCOUNT_ADD_RESULT"/>
+                <action android:name="edm.intent.action.EMAIL_ACCOUNT_DELETE_RESULT"/>
+                <action android:name="com.sec.enterprise.intent.action.BLOCKED_DOMAIN"/>
+                <action android:name="com.sec.enterprise.intent.action.UPDATE_FOTA_VERSION_RESULT"/>
+                <action android:name="com.samsung.edm.intent.action.EXCHANGE_CBA_INSTALL_STATUS"/>
+                <action android:name="android.intent.action.sec.CBA_INSTALL_STATUS"/>
+                <action android:name="edm.intent.action.EXCHANGE_ACCOUNT_ADD_RESULT"/>
+                <action android:name="edm.intent.action.EXCHANGE_ACCOUNT_DELETE_RESULT"/>
+                <action android:name="com.samsung.edm.intent.action.ENFORCE_SMIME_ALIAS_RESULT"/>
+                <action android:name="edm.intent.action.knox_license.status"/>
+                <action android:name="edm.intent.action.license.status"/>
+                <action android:name="com.samsung.edm.intent.event.NTP_SERVER_UNREACHABLE"/>
+                <action android:name="edm.intent.action.enable.kiosk.mode.result"/>
+                <action android:name="edm.intent.action.disable.kiosk.mode.result"/>
+                <action android:name="edm.intent.action.unexpected.kiosk.behavior"/>
+                <action android:name="com.samsung.edm.intent.action.SIM_CARD_CHANGED"/>
+                <action android:name="android.intent.action.sec.SIM_CARD_CHANGED"/>
+                <action android:name="com.samsung.action.knox.certenroll.CEP_CERT_ENROLL_STATUS"/>
+                <action android:name="com.samsung.action.knox.certenroll.CEP_SERVICE_DISCONNECTED"/>
+                <action android:name="com.sec.enterprise.knox.intent.action.KNOX_ATTESTATION_RESULT"/>
+                <action android:name="com.sec.action.NO_USER_ACTIVITY"/>
+                <action android:name="com.sec.action.USER_ACTIVITY"/>
+                <action android:name="com.samsung.android.mdm.VPN_BIND_RESULT"/>
+            </intent-filter>
+        </receiver>
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="false"/>
+        <meta-data
+            android:name="whiteLabel"
+            android:value="BOOMERANG"/>
+        <meta-data
+            android:name="amazonBundleName"
+            android:value="parentalboard"/>
+        <activity
+            android:theme="@style/Theme.Empty"
+            android:name="com.samsung.android.sdk.iap.lib.activity.DialogActivity"
+            android:configChanges="screenSize|orientation"/>
+        <activity
+            android:theme="@style/Theme.Empty"
+            android:name="com.samsung.android.sdk.iap.lib.activity.CheckPackageActivity"
+            android:configChanges="screenSize|orientation"/>
+        <activity
+            android:theme="@style/Theme.Transparent"
+            android:name="com.samsung.android.sdk.iap.lib.activity.AccountActivity"
+            android:configChanges="screenSize|orientation"/>
+        <activity
+            android:theme="@style/Theme.Empty"
+            android:name="com.samsung.android.sdk.iap.lib.activity.PaymentActivity"
+            android:configChanges="screenSize|orientation"/>
+        <provider
+            android:name="com.google.firebase.perf.provider.FirebasePerfProvider"
+            android:exported="false"
+            android:authorities="com.nationaledtech.Boomerang.firebaseperfprovider"
+            android:initOrder="101"/>
+        <service
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:exported="false"
+            android:directBootAware="true">
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.perf.FirebasePerfRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.database.DatabaseRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.storage.StorageRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.dynamiclinks.internal.FirebaseDynamicLinkRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.remoteconfig.RemoteConfigRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.abt.component.AbtRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+        </service>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.firebase.auth.internal.GenericIdpActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="genericidp"
+                    android:host="firebase.auth"
+                    android:path="/"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.firebase.auth.internal.RecaptchaActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="recaptcha"
+                    android:host="firebase.auth"
+                    android:path="/"/>
+            </intent-filter>
+        </activity>
+        <service
+            android:name="com.google.firebase.auth.api.fallback.service.FirebaseAuthFallbackService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.auth.api.gms.service.START"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </service>
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:exported="false"
+            android:directBootAware="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.google.android.gms.tagmanager.TagManagerService"
+            android:enabled="true"
+            android:exported="false"/>
+        <activity
+            android:name="com.google.android.gms.tagmanager.TagManagerPreviewActivity"
+            android:exported="true"
+            android:noHistory="true">
+            <intent-filter>
+                <data android:scheme="tagmanager.c.com.nationaledtech.Boomerang"/>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/Theme.AppInvite.Preview"
+            android:name="com.google.android.gms.appinvite.PreviewActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.appinvite.ACTION_PREVIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="false"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"/>
+        <service
+            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+            android:exported="true"
+            android:visibleToInstantApps="true"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"/>
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:exported="false"
+            android:authorities="com.nationaledtech.Boomerang.androidx-startup">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"/>
+        </provider>
+        <service
+            android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
+            android:enabled="@bool/enable_system_alarm_service_default"
+            android:exported="false"
+            android:directBootAware="false"/>
+        <service
+            android:name="androidx.work.impl.background.systemjob.SystemJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="@bool/enable_system_job_service_default"
+            android:exported="true"
+            android:directBootAware="false"/>
+        <service
+            android:name="androidx.work.impl.foreground.SystemForegroundService"
+            android:enabled="@bool/enable_system_foreground_service_default"
+            android:exported="false"
+            android:directBootAware="false"/>
+        <receiver
+            android:name="androidx.work.impl.utils.ForceStopRunnable.BroadcastReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:directBootAware="false"/>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.BatteryChargingProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.BatteryNotLowProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BATTERY_OKAY"/>
+                <action android:name="android.intent.action.BATTERY_LOW"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.StorageNotLowProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.DEVICE_STORAGE_LOW"/>
+                <action android:name="android.intent.action.DEVICE_STORAGE_OK"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.NetworkStateProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.TIME_SET"/>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver"
+            android:enabled="@bool/enable_system_alarm_service_default"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="androidx.work.impl.background.systemalarm.UpdateProxies"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.diagnostics.DiagnosticsReceiver"
+            android:permission="android.permission.DUMP"
+            android:enabled="true"
+            android:exported="true"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS"/>
+            </intent-filter>
+        </receiver>
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:exported="false"
+            android:authorities="com.nationaledtech.Boomerang.firebaseinitprovider"
+            android:initOrder="100"
+            android:directBootAware="true"/>
+        <service
+            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+            android:exported="false">
+            <meta-data
+                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+                android:value="cct"/>
+        </service>
+        <service
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+            android:exported="false"/>
+        <provider
+            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+            android:exported="false"
+            android:multiprocess="true"
+            android:authorities="com.nationaledtech.Boomerang.lifecycle-process"/>
+        <service
+            android:name="androidx.room.MultiInstanceInvalidationService"
+            android:exported="false"
+            android:directBootAware="true"/>
+        <meta-data
+            android:name="com.google.android.play.billingclient.version"
+            android:value="4.0.0"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.android.billingclient.api.ProxyBillingActivity"
+            android:exported="false"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+    </application>
+</manifest>

@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="168"
+    android:versionName="9.8.0.0"
+    android:compileSdkVersion="29"
+    android:compileSdkVersionCodename="10"
+    package="li.yapp"
+    platformBuildVersionCode="29"
+    platformBuildVersionName="10">
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="29"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.provider.Settings.Secure.ANDROID_ID"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.bluetooth"
+        android:required="false"/>
+    <uses-feature
+        android:glEsVersion="0x20000"
+        android:required="true"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.screen.landscape"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false"/>
+    <application
+        android:theme="@style/AppTheme"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:name="li.yapp.sdk.application.YLApplication"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        android:fullBackupContent="@xml/appsflyer_backup_rules"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory">
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false"/>
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/google_map_api_key"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.google.ar.core"
+            android:value="optional"/>
+        <receiver android:name="li.yapp.sdk.receiver.YLGeoFenceBroadcastReceiver"/>
+        <service
+            android:name="li.yapp.sdk.service.YLBeaconService"
+            android:exported="false"/>
+        <service
+            android:name="li.yapp.sdk.service.YLBeaconJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <receiver android:name="androidx.media.session.MediaButtonReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="li.yapp.sdk.service.YLMusicService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService"/>
+                <action android:name="android.intent.action.MEDIA_BUTTON"/>
+            </intent-filter>
+        </service>
+        <receiver android:name="li.yapp.sdk.model.YLBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:theme="@style/YLAppTheme"
+            android:label="@string/app_name"
+            android:name="li.yapp.sdk.YLSplashActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="yappli"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/YLAppTheme"
+            android:label="@string/app_name"
+            android:name="li.yapp.sdk.view.activity.YLMainActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:theme="@style/YLAppTheme"
+            android:label="@string/app_name"
+            android:name="li.yapp.sdk.view.activity.YLActivationActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/YLAppTheme"
+            android:label="@string/app_name"
+            android:name="li.yapp.sdk.view.activity.YLActivationAppActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/YLAppTheme"
+            android:label="@string/app_name"
+            android:name="li.yapp.sdk.view.activity.YLFragmentBaseActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@style/YLAppTheme"
+            android:label="@string/app_name"
+            android:name="li.yapp.sdk.view.activity.YLWebActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/YLAppTheme"
+            android:label="@string/app_name"
+            android:name="li.yapp.sdk.features.ebook.presentation.view.YLBookReaderActivity"/>
+        <activity
+            android:theme="@style/AppThemeDark"
+            android:label="@string/app_name"
+            android:name="li.yapp.sdk.view.activity.YLPreferenceActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/AppThemeDark"
+            android:label="@string/app_name"
+            android:name="li.yapp.sdk.view.activity.YLVideoActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/YLAppTheme"
+            android:label="@string/app_name"
+            android:name="li.yapp.sdk.view.activity.YLWelcomeActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:theme="@style/AppThemeDark"
+            android:label="@string/app_name"
+            android:name="li.yapp.sdk.view.activity.YLBarcodeReaderActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/AppThemeDark"
+            android:label="@string/app_name"
+            android:name="li.yapp.sdk.view.activity.YLARCoreActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/AppThemeDark"
+            android:label="@string/app_name"
+            android:name="li.yapp.sdk.view.activity.YLPhotoFrameActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent"
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:exported="false"
+            android:configChanges="smallestScreenSize|screenSize|uiMode|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <activity
+            android:theme="@style/AppThemeDark"
+            android:label="@string/app_name"
+            android:name="li.yapp.sdk.view.activity.YLDebugLogsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/YLAppTheme"
+            android:label="@string/app_name"
+            android:name="li.yapp.sdk.view.activity.YLAuthActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/YLAppTheme"
+            android:label="@string/app_name"
+            android:name="li.yapp.sdk.view.activity.YLPrSearchActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/YLAppTheme"
+            android:label="@string/app_name"
+            android:name="li.yapp.sdk.features.point2.presentation.view.YLPointCardFullScreenActivity"
+            android:screenOrientation="portrait"/>
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true"
+            android:authorities="@string/facebook_content_provider"/>
+        <service
+            android:name="li.yapp.sdk.service.YLFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/notification_channel_default_id"/>
+        <receiver
+            android:name="li.yapp.sdk.YLReferrerReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="li.yapp.sdk.service.YLAccountService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator"/>
+        </service>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:authorities="@string/fileProvider_authorities"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+        <receiver
+            android:name="io.repro.android.ReproReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="li.yapp"/>
+            </intent-filter>
+        </receiver>
+        <meta-data
+            android:name="io.repro.android.PushNotification.ChannelId"
+            android:value="@string/notification_channel_default_id"/>
+        <meta-data
+            android:name="io.repro.android.PushNotification.ChannelName"
+            android:resource="@string/notification_channel_default_description"/>
+        <meta-data
+            android:name="io.repro.android.PushNotification.SmallIcon"
+            android:resource="@drawable/notification_small"/>
+        <meta-data
+            android:name="appId"
+            android:value="@string/omni7_app_id"/>
+        <meta-data
+            android:name="apiKey"
+            android:value="@string/omni7_api_key"/>
+        <meta-data
+            android:name="baseURL"
+            android:value="@string/omni7_base_url"/>
+        <meta-data
+            android:name="appDivision"
+            android:value="@string/omni7_app_division"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="8472d83feeec5385678d516b4c1753be66e8d9b5"/>
+        <activity android:name="li.yapp.sdk.view.activity.FullScreenFragmentActivity"/>
+        <activity
+            android:theme="@style/McSdk.Modal"
+            android:name="com.salesforce.marketingcloud.messages.iam.IamModalActivity"/>
+        <activity
+            android:theme="@style/McSdk.Banner"
+            android:name="com.salesforce.marketingcloud.messages.iam.IamBannerActivity"/>
+        <activity
+            android:theme="@style/McSdk.Fullscreen"
+            android:name="com.salesforce.marketingcloud.messages.iam.IamFullscreenActivity"/>
+        <receiver
+            android:name="com.salesforce.marketingcloud.location.LocationReceiver"
+            android:exported="false"/>
+        <service
+            android:name="com.salesforce.marketingcloud.MCService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <service
+            android:name="com.salesforce.marketingcloud.NotificationOpenedService"
+            android:exported="false"/>
+        <receiver
+            android:name="com.salesforce.marketingcloud.MCReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.ACTION_SHUTDOWN"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+                <action android:name="li.yapp.com.salesforce.marketingcloud.WAKE_FOR_ALARM"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.salesforce.marketingcloud.messages.push.MCFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter android:priority="-1">
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <provider
+            android:name="com.salesforce.marketingcloud.MCInitContentProvider"
+            android:enabled="true"
+            android:exported="false"
+            android:authorities="li.yapp.com.salesforce.marketingcloud.initprovider"/>
+        <activity
+            android:theme="@style/com_facebook_activity_theme"
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <activity android:name="com.facebook.CustomTabMainActivity"/>
+        <receiver
+            android:name="com.google.android.gms.analytics.AnalyticsReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.analytics.AnalyticsService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.analytics.AnalyticsJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:exported="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:exported="false">
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.iid.Registrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+        </service>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver"
+            android:permission="android.permission.INSTALL_PACKAGES"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.firebase.iid.FirebaseInstanceIdService"
+            android:exported="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"/>
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:exported="false"
+            android:authorities="li.yapp.firebaseinitprovider"
+            android:initOrder="100"/>
+        <meta-data
+            android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
+            android:value="GlideModule"/>
+        <provider
+            android:name="com.facebook.internal.FacebookInitProvider"
+            android:exported="false"
+            android:authorities="li.yapp.FacebookInitProvider"/>
+        <service
+            android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
+            android:enabled="@bool/enable_system_alarm_service_default"
+            android:exported="false"
+            android:directBootAware="false"/>
+        <service
+            android:name="androidx.work.impl.background.systemjob.SystemJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="@bool/enable_system_job_service_default"
+            android:exported="true"
+            android:directBootAware="false"/>
+        <receiver
+            android:name="androidx.work.impl.utils.ForceStopRunnable.BroadcastReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:directBootAware="false"/>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.BatteryChargingProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.BatteryNotLowProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BATTERY_OKAY"/>
+                <action android:name="android.intent.action.BATTERY_LOW"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.StorageNotLowProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.DEVICE_STORAGE_LOW"/>
+                <action android:name="android.intent.action.DEVICE_STORAGE_OK"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy.NetworkStateProxy"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
+            android:enabled="false"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.TIME_SET"/>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver"
+            android:enabled="@bool/enable_system_alarm_service_default"
+            android:exported="false"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="androidx.work.impl.background.systemalarm.UpdateProxies"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="androidx.room.MultiInstanceInvalidationService"
+            android:exported="false"/>
+        <provider
+            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+            android:exported="false"
+            android:multiprocess="true"
+            android:authorities="li.yapp.lifecycle-process"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.android.billingclient.api.ProxyBillingActivity"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <provider
+            android:name="com.crashlytics.android.CrashlyticsInitProvider"
+            android:exported="false"
+            android:authorities="li.yapp.crashlyticsinitprovider"
+            android:initOrder="100"/>
+        <meta-data
+            android:name="com.google.ar.core.min_apk_version"
+            android:value="191106000"/>
+        <activity
+            android:theme="@android:style/Theme.Material.Light.Dialog.Alert"
+            android:name="com.google.ar.core.InstallActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/zxing_CaptureTheme"
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:clearTaskOnLaunch="true"
+            android:stateNotNeeded="true"
+            android:screenOrientation="sensorLandscape"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:theme="@style/RPCSDKTheme.Dialog"
+            android:name="jp.co.rakuten.pointpartner.partnersdk.init.RPCInitActivity"/>
+        <activity
+            android:theme="@style/RPCSDKTheme.Dialog"
+            android:name="jp.co.rakuten.pointpartner.partnersdk.RPCBarcodeActivity"/>
+        <activity
+            android:theme="@style/RPCSDKTheme"
+            android:name="jp.co.rakuten.pointpartner.partnersdk.web.RPCWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/RPCSDKTheme"
+            android:label="@string/rpcsdk_r_point_card_title"
+            android:name="jp.co.rakuten.pointpartner.partnersdk.web.RPCTermsAndConditionsRPCWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/RPCSDKTheme.Dialog"
+            android:name="jp.co.rakuten.pointpartner.partnersdk.userguide.RPCUserGuideActivity"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:label="@string/rpcsdk_user_login"
+            android:name="jp.co.rakuten.sdtd.user.ui.LoginWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/RPCSDKSMSAuthTheme"
+            android:name="jp.co.rakuten.pointpartner.sms_auth.SmsAuthActivity"
+            android:screenOrientation="portrait"/>
+        <service android:name="io.repro.android.ReproService"/>
+        <receiver
+            android:name="io.repro.android.notification.IntentHandler"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="io.repro.android.notification.IntentHandler.START_ACTIVITY"/>
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>
