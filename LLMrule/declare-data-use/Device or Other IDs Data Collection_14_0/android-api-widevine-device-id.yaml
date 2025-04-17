@@ -1,0 +1,30 @@
+rules:
+  - id: android-api-widevine-device-id
+    languages:
+      - java
+    message: |
+      Usage of Widevine Device ID detected. Ensure this is necessary and complies
+      with privacy policies. Avoid using this ID to track or identify users without explicit consent.
+    severity: INFO
+    patterns:
+      - pattern: 'import com.google.android.exoplayer2.drm.WidevineDrmSessionManager;'
+      - pattern: 'WidevineDrmSessionManager.getDeviceId()'
+      - pattern-not: |
+          // Ignore cases where Widevine Device ID is used for logging
+          Log.$METHOD(WidevineDrmSessionManager.getDeviceId());
+      - pattern-not: |
+          Log.d($METHOD, WidevineDrmSessionManager.getDeviceId());  // Handle specific logging cases
+      - pattern-not: |
+          Log.i($METHOD, WidevineDrmSessionManager.getDeviceId());  // Handle specific logging cases
+      - pattern-not: |
+          Log.e($METHOD, WidevineDrmSessionManager.getDeviceId());  // Handle specific logging cases
+      - pattern-either:
+          - pattern: '$DEVICE_ID = WidevineDrmSessionManager.getDeviceId(); $USER_ID = generateUserId($DEVICE_ID);'
+          - pattern: '$DEVICE_ID = WidevineDrmSessionManager.getDeviceId(); $STORE_IN_DB($DEVICE_ID);'
+    metadata:
+      category: Android Privacy
+      description: Detects the use of Widevine Device ID for potential privacy violations.
+      remediation: >
+        Ensure that the Widevine Device ID is not used to track users or identify devices without proper user consent. 
+        Avoid storing or transmitting this ID in a manner that violates privacy policies.
+    path: .*src/.*\.java$

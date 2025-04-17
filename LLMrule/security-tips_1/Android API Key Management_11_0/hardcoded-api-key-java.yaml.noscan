@@ -1,0 +1,27 @@
+rules:
+  - id: hardcoded-api-key-java
+    languages:
+      - java
+    message: >
+      Hardcoded API key detected in Java source code.
+      Storing sensitive API keys in code is insecure.
+      Instead, use secure storage solutions such as the Android Keystore, environment variables, or secured build configurations.
+    fix: >
+      Remove the hardcoded API key and retrieve it securely at runtime using a secrets manager or environment variable.
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: "CWE-798: Use of Hard-coded Credentials"
+      owasp-mobile: "M8: Code Tampering - Hardcoded API Keys"
+      reference: 
+        - "https://developer.android.com/studio/publish/app-signing#secure-shared-preferences"
+        - "https://cloud.google.com/docs/authentication/api-keys"
+    patterns:
+      - pattern: '$X = "$Y";'
+    metavariable-regex:
+      # Match only variable names that are likely to be API keys
+      - metavariable: $X
+        regex: "(?i)^(api|google|facebook|twitter|auth|client|access|secret|firebase|aws|stripe|azure|github|slack|key|token|password|credentials)(_?key|_?id|_?token|_?secret)?$"
+      # Ensure Y is an actual key-like string (not short values or placeholders)
+      - metavariable: $Y
+        regex: "^(?![0-9]{10,}$|[a-zA-Z]{10,}$)[a-zA-Z0-9_-]{16,64}$"

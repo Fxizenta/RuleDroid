@@ -1,0 +1,19 @@
+rules:
+- id: android-implicit-intent
+  languages:
+    - java
+    - kotlin
+  message: |
+    Implicit intents can lead to security risks. Ensure proper verification and sanitization.
+    Verify that the intent specifies a target component or is properly sanitized.
+  severity: ERROR
+  patterns:
+    - pattern: |
+        Intent $INTENT = new Intent();
+        $INTENT.setAction($ACTION);
+        ...
+        startActivity($INTENT);
+    - pattern-not: |
+        $INTENT.setComponent(...);
+    - pattern-not: |
+        $INTENT.setClass(...);

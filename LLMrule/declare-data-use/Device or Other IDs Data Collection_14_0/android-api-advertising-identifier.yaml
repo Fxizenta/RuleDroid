@@ -1,0 +1,31 @@
+rules:
+  - id: android-api-advertising-identifier
+    languages:
+      - java
+    message: >
+      Usage of advertising identifier detected. Ensure this is necessary and complies
+      with privacy policies, such as GDPR and CCPA. Avoid collecting or sharing 
+      advertising identifiers without user consent.
+    severity: INFO
+    patterns:
+      - pattern: |
+          import com.google.android.gms.ads.identifier.AdvertisingIdClient;
+      - pattern: |
+          AdvertisingIdClient.getAdvertisingIdInfo($CONTEXT)
+      - pattern-not: |
+          Log.$METHOD(AdvertisingIdClient.getAdvertisingIdInfo($CONTEXT))
+      - pattern-not: |
+          // Exclude non-sensitive cases like analytics or debugging
+          Analytics.$METHOD(AdvertisingIdClient.getAdvertisingIdInfo($CONTEXT))
+    metavariable-regex:
+      $CONTEXT: 'Context|Activity|.*'  # Match more specific contexts
+    metadata:
+      references:
+        - "https://developer.android.com/training/articles/ad-id"
+        - "https://www.iab.com/gdpr/"
+        - "https://www.cdt.org/privacy/gdpr/"
+      category: Privacy
+      remediation: >
+        Ensure the usage of advertising identifiers complies with privacy regulations such as GDPR and CCPA. 
+        Only collect and share advertising identifiers when explicitly necessary and with user consent.
+    min-version: 1.31.0

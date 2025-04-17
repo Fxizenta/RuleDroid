@@ -1,0 +1,15 @@
+rules:
+- id: enforce-read-write-permissions
+  languages:
+  - xml
+  message: Ensure read-only or write-only permissions are enforced as needed.
+  metadata:
+    cwe: CWE-276
+  pattern-not: "<provider\n  android:authorities=\"$AUTHORITY\"\n  android:exported=\"\
+    false\"\n  android:grantUriPermissions=\"false\"\n  android:readPermission=\"\"\
+    \n  android:writePermission=\"\">\n"
+  patterns:
+  - pattern: "<provider\n  android:authorities=\"$AUTHORITY\"\n  android:exported=\"\
+      true\"\n  android:grantUriPermissions=\"true\"\n  android:readPermission=\"\
+      $READ_PERMISSION\"\n  android:writePermission=\"$WRITE_PERMISSION\">\n"
+  severity: ERROR

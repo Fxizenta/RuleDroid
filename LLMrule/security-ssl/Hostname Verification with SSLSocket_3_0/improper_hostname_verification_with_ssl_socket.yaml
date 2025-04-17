@@ -1,0 +1,54 @@
+rules:
+  - id: improper_hostname_verification_with_ssl_socket
+    languages:
+      - java
+    message: >
+      Improper Hostname Verification with SSLSocket detected. Ensure that you are 
+      using HttpsURLConnection.getDefaultHostnameVerifier() and explicitly checking 
+      the boolean result.
+    metadata:
+      cwe: 'CWE-295: Improper Certificate Validation'
+      masvs: 'NETWORK-3'
+      owasp-mobile: 'M3'
+      reference: https://developer.android.com/reference/javax/net/ssl/HttpsURLConnection#getDefaultHostnameVerifier()
+    severity: ERROR
+    pattern-not: |
+      $SOCKET = (SSLSocket) $X.createSocket(...);
+      ...
+      $SOCKET.startHandshake();
+      ...
+      $VERIFIER = HttpsURLConnection.getDefaultHostnameVerifier();
+      ...
+      if ($VERIFIER.verify($HOSTNAME, $SOCKET.getSession())) {
+        ...
+      }
+    patterns:
+      - pattern-either:
+          # 1. 验证存在但未正确处理失败情况
+          - pattern: |
+              $SOCKET = (SSLSocket) $X.createSocket(...);
+              ...
+              $SOCKET.startHandshake();
+              ...
+              if (!HttpsURLConnection.getDefaultHostnameVerifier().verify($HOSTNAME, $SOCKET.getSession())) {
+                ...
+              }
+          # 2. 完全缺失主机名验证
+          - pattern: |
+              $SOCKET = (SSLSocket) $X.createSocket(...);
+              ...
+              $SOCKET.startHandshake();
+          # 3. 替代的 `SSLSocketFactory` 用法
+          - pattern: |
+              $SOCKET = (SSLSocket) sslSocketFactory.createSocket(...);
+              ...
+              $SOCKET.startHandshake();
+          # 4. 使用不安全的 `HostnameVerifier`
+          - pattern: |
+              HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+                public boolean verify(String hostname, SSLSession session) {
+                  return true;
+                }
+              });
+          - pattern: |
+              HttpsURLConnection.setDefaultHostnameVerifier(ALLOW_ALL_HOSTNAME_VERIFIER);

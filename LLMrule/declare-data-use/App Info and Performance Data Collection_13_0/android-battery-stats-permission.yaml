@@ -1,0 +1,13 @@
+rules:
+- id: android-battery-stats-permission
+  languages:
+  - xml
+  message: The app declares the BATTERY_STATS permission, which may access user data
+    related to app info and performance.
+  metadata:
+    category: Android Security
+    technology: Android
+  patterns:
+  - pattern: "<manifest>\n  ...\n  <uses-permission android:name=\"android.permission.BATTERY_STATS\"\
+      \ />\n  ...\n</manifest>\n"
+  severity: INFO

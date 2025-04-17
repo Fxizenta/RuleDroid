@@ -1,0 +1,15 @@
+rules:
+  - id: message_channel_insecure_target_origin
+    languages:
+      - java
+      - kotlin
+    message: "Avoid using '*' as the target origin in calls to postMessage() or postWebMessage(). Specify an explicit, trusted domain to enhance message channel security."
+    metadata:
+      cwe: cwe-749
+      masvs: platform-7
+      owasp-mobile: m1
+      reference: https://developer.android.com/training/articles/security-tips#message-channel
+    pattern-either:
+      - pattern: $W.postMessage(..., "*")
+      - pattern: $W.postWebMessage(..., "*")
+    severity: WARNING

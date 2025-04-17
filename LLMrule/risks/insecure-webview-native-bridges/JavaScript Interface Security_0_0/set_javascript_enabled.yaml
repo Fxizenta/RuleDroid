@@ -1,0 +1,19 @@
+rules:
+  - id: set_javascript_enabled
+    languages:
+      - java
+      - kotlin
+    message: Disable JavaScript if it is not required by not calling setJavaScriptEnabled(true).
+    metadata:
+      cwe: cwe-749
+      masvs: platform-7
+      owasp-mobile: m1
+    severity: ERROR
+    patterns:
+      - pattern: |
+          $W.getSettings().setJavaScriptEnabled(true)
+      - metavariable-pattern:
+          metavariable: $W
+          patterns:
+            - pattern-not: |
+                $W.getSettings().setJavaScriptEnabled(false)

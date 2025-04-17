@@ -1,0 +1,35 @@
+rules:
+- id: ANDROID-EXPORTED-CONTENT-PROVIDER
+  languages:
+  - xml
+  message: >
+    ContentProvider should not be exported unless necessary. Explicitly set
+    `android:exported="false"` if the provider is not intended for external use.
+    Leaving `android:exported` undefined can lead to unintended behavior,
+    especially on Android versions prior to API level 31.
+  metadata:
+    category: security
+    owasp-mobile: M3
+    references:
+    - https://developer.android.com/guide/topics/manifest/provider-element
+    technology: android
+  paths:
+    include:
+    - '**/AndroidManifest.xml'
+  patterns:
+  - pattern: <provider ... />
+  - pattern-not: <provider ... android:exported="false" ... />
+  - pattern-not: <provider ... android:exported="true" ... />
+  - pattern-not: |
+      <provider
+        ...
+        android:exported="false"
+        ...
+      />
+  - pattern-not: |
+      <provider
+        ...
+        android:exported="true"
+        ...
+      />
+  severity: WARNING

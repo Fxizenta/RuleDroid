@@ -1,0 +1,14 @@
+rules:
+- id: system-alert-window-permission-declaration
+  languages:
+  - xml
+  message: 'SYSTEM_ALERT_WINDOW permission is declared. Ensure that you enforce proper
+    mitigations for Android 6 (API level 23)+, such as prompting the user for explicit
+    consent, and consider the additional protection of hiding overlay windows on Android
+    12 (API level 31)+.
+
+    '
+  pattern-regex: '<uses-permission\s+android:name\s*=\s*["'']android\.permission\.SYSTEM_ALERT_WINDOW["'']
+
+    '
+  severity: INFO

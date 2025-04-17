@@ -1,0 +1,23 @@
+rules:
+  - id: android-macrobenchmark-api
+    languages:
+      - java
+    message: >
+      The app uses the Macrobenchmark API, which may access user data related to
+      app info and performance. Ensure that its usage aligns with security and
+      privacy best practices.
+    metadata:
+      category: Android Security
+      technology: Android
+    severity: INFO
+    patterns:
+      # Detects the instantiation of Macrobenchmark objects
+      - pattern: Macrobenchmark $X = new Macrobenchmark(...);
+      # Detects method calls on Macrobenchmark objects
+      - pattern: $X.run(...);
+      # Exclude cases where the Macrobenchmark object is explicitly null
+      - pattern-not: $X = null;
+      # Enforce that $X is of type Macrobenchmark
+      - metavariable-type:
+          metavariable: $X
+          type: Macrobenchmark

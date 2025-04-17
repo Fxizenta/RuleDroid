@@ -1,0 +1,35 @@
+rules:
+- id: android_use_tls_traffic
+  languages:
+    - java
+  message: Ensure that your app communicates with a web server using HTTPS requests
+    if the server has a certificate issued by a well-known, trusted certificate authority (CA).
+  metadata:
+    cwe: cwe-319
+    masvs: network-1
+    owasp-mobile: m3
+    reference: https://developer.android.com/training/articles/security-config.html
+  severity: ERROR
+  patterns:
+    - pattern-either:
+        - pattern: |
+            import java.net.HttpURLConnection;
+            ...
+            HttpURLConnection connection = (HttpURLConnection) $URL.openConnection();
+            ...
+            connection.setRequestMethod("GET");
+        - pattern: |
+            import org.apache.http.client.methods.HttpGet;
+            ...
+            HttpGet httpGet = new HttpGet($URL);
+        - pattern: |
+            import okhttp3.Request;
+            ...
+            Request request = new Request.Builder()
+                .url($URL)
+                .build();
+  pattern-not: |
+    $URL.startsWith("https://")
+  variables:
+    $URL: |
+      [A-Za-z0-9._%+-]+

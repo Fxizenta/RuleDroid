@@ -1,0 +1,101 @@
+rules:
+  - id: android-deep-link-parameter-validation
+    languages:
+      - java
+    message: Deep link parameters should be validated against a predefined allowlist to prevent malicious code injection.
+    severity: ERROR
+    patterns:
+      # Match the onNewIntent method with deep link handling
+      - pattern: |
+          @Override
+          public boolean onNewIntent(Intent intent) {
+              String data = intent.getDataString();
+              if (data != null) {
+                  $VAL = data.getQueryParameter($PARAM);
+                  if ($VAL != null) {
+                      if (!isValid($VAL)) {
+                          return false;
+                      }
+                  }
+              }
+              return true;
+          }
+
+      # Ensure that the validation function checks against a predefined allowlist
+      - metavariable-pattern:
+          metavariable: $VAL
+          patterns:
+            - pattern: isValid($VAL)
+            - pattern-not: |
+                $ALLOWLIST.contains($VAL)
+
+      # Ensure Uri.parse() is used for safer URI handling
+      - pattern-not: |
+          String data = intent.getDataString();
+      - pattern: |
+          Uri uri = intent.getData();
+
+      # Cover cases where deep link validation happens in onCreate or onResume methods
+      - pattern: |
+          @Override
+          public void onCreate(Bundle savedInstanceState) {
+              super.onCreate(savedInstanceState);
+              Uri uri = getIntent().getData();
+              if (uri != null) {
+                  $VAL = uri.getQueryParameter($PARAM);
+                  if ($VAL != null && !isValid($VAL)) {
+                      return; // Do not process if invalid
+                  }
+              }
+          }
+
+      - pattern: |
+          @Override
+          public void onResume() {
+              super.onResume();
+              Uri uri = getIntent().getData();
+              if (uri != null) {
+                  $VAL = uri.getQueryParameter($PARAM);
+                  if ($VAL != null && !isValid($VAL)) {
+                      return; // Do not process if invalid
+                  }
+              }
+          }
+
+      # Validate both query and path parameters for deep links
+      - pattern: |
+          Uri uri = getIntent().getData();
+          if (uri != null) {
+              $VAL = uri.getQueryParameter($PARAM);
+              if ($VAL != null && !isValid($VAL)) {
+                  return false;
+              }
+              $VAL = uri.getPathSegments();
+              if ($VAL != null && !isValid($VAL)) {
+                  return false;
+              }
+          }
+      
+    metadata:
+      references:
+        - "https://developer.android.com/training/app-links/deep-linking"
+        - "https://owasp.org/www-community/attacks/Code_Injection"
+      tags:
+        - security
+        - android
+        - deep-linking
+    description: |
+      This rule ensures that deep link parameters (both query and path) are validated against a predefined allowlist to prevent malicious code injection.
+      By enforcing proper validation, the risk of unauthorized data access or command execution is minimized.
+    fix: |
+      Use a trusted allowlist for validating deep link parameters. For example:
+
+      ```java
+      Uri uri = getIntent().getData();
+      if (uri != null) {
+          String param = uri.getQueryParameter("param_name");
+          if (param != null && !ALLOWLIST.contains(param)) {
+              return false;
+          }
+      }
+      ```

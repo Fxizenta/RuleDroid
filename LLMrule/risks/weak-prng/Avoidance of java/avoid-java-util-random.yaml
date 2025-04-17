@@ -1,0 +1,24 @@
+rules:
+  - id: avoid-java-util-random
+    languages:
+      - java
+    message: Avoid using `java.util.Random` for security or authentication purposes. Use `java.security.SecureRandom` instead.
+    metadata:
+      cwe: cwe-330
+      masvs: crypto-6
+      owasp-mobile: m5
+      reference: https://github.com/MobSF/owasp-mstg/blob/master/Document/0x04g-Testing-Cryptography.md#weak-random-number-generators
+    severity: ERROR
+    patterns:
+      - pattern: |
+          import java.util.Random;
+      - pattern: |
+          Random $R = new Random();
+      - pattern: |
+          java.util.Random $R = new Random();    
+    pattern-not: |
+      // Non-security use case
+      Random $R = new Random();
+      $R.nextInt($N);
+    fix: |
+      Replace `java.util.Random` with `java.security.SecureRandom` for security-sensitive operations.

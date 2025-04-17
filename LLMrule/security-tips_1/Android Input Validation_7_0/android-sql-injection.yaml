@@ -1,0 +1,76 @@
+rules:
+- id: android-sqlite-sql-injection
+  languages:
+  - java
+  message: |
+      Potential SQL injection detected. Use parameterized queries to prevent SQL injection.
+      Untrusted user input in raw SQL queries can cause SQL Injection.
+      Also, sensitive information should be encrypted and written to the database.
+  metadata:
+    area: sql_injection
+    authors:
+    - Your Name
+    category: security
+    cwe:
+      - CWE-89  # SQL Injection
+      - CWE-78  # Improper Neutralization of Special Elements
+    owasp: 'A1: Injection'
+    owasp-mobile:
+      - M1  # Improper Platform Usage
+      - M7  # Insufficient Cryptography
+    masvs: PLATFORM-2
+    references:
+    - https://developer.android.com/training/articles/security-tips
+    - https://github.com/MobSF/owasp-mstg/blob/master/Document/0x04h-Testing-Code-Quality.md#injection-flaws-mstg-arch-2-and-mstg-platform-2
+  severity: ERROR
+
+  pattern-not: |
+    $DB.rawQuery($QUERY, new String[] { ... });
+
+  pattern-either:
+    - pattern: |
+        $DB.rawQuery("SELECT * FROM " + $TABLE + " WHERE " + $COLUMN + " = " + $VALUE, ...);
+    - pattern: |
+        $DB.rawQuery("SELECT * FROM $TABLE WHERE $COLUMN = " + $VALUE, ...);
+    - pattern: |
+        $DB.execSQL("INSERT INTO " + $TABLE + " (" + $COLUMN + ") VALUES ('" + $VALUE + "')");
+    - pattern: |
+        $DB.execSQL("UPDATE " + $TABLE + " SET " + $COLUMN + " = '" + $VALUE + "' WHERE " + $CONDITION);
+    - pattern: |
+        $DB.execSQL("DELETE FROM " + $TABLE + " WHERE " + $COLUMN + " = '" + $VALUE + "'");
+    - pattern: |
+        $DB.execSQL("SELECT * FROM " + $TABLE + " WHERE " + $COLUMN + " = '" + $VALUE + "'");
+    - pattern: |
+        String sql = "SELECT * FROM " + $TABLE + " WHERE " + $COLUMN + " = " + $VALUE;
+        $DB.rawQuery(sql, ...);
+    - pattern: |
+        String sql = "UPDATE " + $TABLE + " SET " + $COLUMN + " = '" + $VALUE + "' WHERE " + $CONDITION;
+        $DB.execSQL(sql);
+    - pattern: |
+        String sql = "DELETE FROM " + $TABLE + " WHERE " + $COLUMN + " = '" + $VALUE + "'";
+        $DB.execSQL(sql);
+    - pattern: |
+        $DB.rawQuery("..." + $INP + "..." , ...);
+    - pattern: |
+        $DB.rawQuery($INP + "..." , ... );
+    - pattern: |
+        $DB.rawQuery($INP + "..." + $INP2, ...);
+    - pattern: |
+        $DB.rawQuery($INP + "..." + $INP2 + "...", ...);
+    - pattern: |
+        $DB.execSQL($INP + "..." , ...);
+    - pattern: |
+        $DB.execSQL("..." + $INP + "..." , ...);
+    - pattern: |
+        $DB.execSQL($INP + "..." + $INP2, ...);
+    - pattern: |
+        $DB.execSQL($INP + "..." + $INP2 + "...", ...);
+
+  fix: |
+    // Use parameterized queries to prevent SQL injection
+    String query = "SELECT * FROM $TABLE WHERE $COLUMN = ?";
+    Cursor cursor = $DB.rawQuery(query, new String[] { $VALUE });
+    
+    // For insert, update, delete operations:
+    String query = "INSERT INTO $TABLE ($COLUMN) VALUES (?)";
+    $DB.execSQL(query, new Object[] { $VALUE });

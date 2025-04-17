@@ -1,0 +1,104 @@
+rules:
+  - id: log-info-disclosure-dynamic-message
+    languages:
+      - java
+    message: 'Potential exposure of sensitive data in log statements. Avoid logging dynamic data in non-debug log calls; use sanitized or static messages.'
+    severity: ERROR
+    metadata:
+      cwe: 
+        - CWE-532
+        - CWE-117
+      owasp-mobile: M2
+      category: security
+      likelihood: MEDIUM
+      impact: HIGH
+      confidence: MEDIUM
+      references:
+        - https://github.com/OWASP/owasp-mastg/blob/v1.5.0/Document/0x05d-Testing-Data-Storage.md#testing-logs-for-sensitive-data-mstg-storage-3
+        - https://owasp.org/www-community/vulnerabilities/Logging_Sensitive_Information
+      description: |
+        Logging sensitive information can expose critical data in system logs.
+        This rule detects instances where dynamic or variable data is passed to logging functions,
+        which might inadvertently include credentials, personal information, or other sensitive data.
+    patterns:
+      - pattern-either:
+          # Direct variable logging
+          - pattern: Log.$LEVEL($TAG, $SENSITIVE_VAR)
+          - pattern: Log.$LEVEL($TAG, $SENSITIVE_VAR + ...)
+          - pattern: Log.$LEVEL($TAG, "..." + $SENSITIVE_VAR + ...)
+          - pattern: Log.$LEVEL($TAG, String.format("...", $SENSITIVE_VAR, ...))
+          - pattern: Log.$LEVEL($TAG, String.valueOf($SENSITIVE_VAR))
+          - pattern: Log.$LEVEL($TAG, $SENSITIVE_VAR.toString())
+          
+          # StringBuilder/StringBuffer usage
+          - pattern: |
+              $SB = new StringBuilder(...);
+              ...
+              $SB.append($SENSITIVE_VAR);
+              ...
+              Log.$LEVEL($TAG, $SB.toString());
+          
+          # Timber logging patterns (common Android logging library)
+          - pattern: Timber.$LEVEL($SENSITIVE_VAR)
+          - pattern: Timber.$LEVEL("..." + $SENSITIVE_VAR + ...)
+          - pattern: Timber.$LEVEL(String.format("...", $SENSITIVE_VAR, ...))
+          
+          # SLF4J patterns
+          - pattern: $LOGGER.info($SENSITIVE_VAR)
+          - pattern: $LOGGER.warn($SENSITIVE_VAR)
+          - pattern: $LOGGER.error($SENSITIVE_VAR)
+          
+          # Method return values being logged
+          - pattern: Log.$LEVEL($TAG, $OBJ.$METHOD(...))
+          - pattern: Log.$LEVEL($TAG, "..." + $OBJ.$METHOD(...) + ...)
+    
+    # Patterns to exclude false positives
+    pattern-not-either:
+      # Static string messages
+      - pattern: Log.$LEVEL($TAG, "...")
+      
+      # Debug level logs (less critical)
+      - pattern: Log.d($TAG, ...)
+      
+      # Explicitly masked/redacted logs
+      - pattern: Log.$LEVEL($TAG, $OBJ.mask(...))
+      - pattern: Log.$LEVEL($TAG, $OBJ.redact(...))
+      - pattern: Log.$LEVEL($TAG, $OBJ.sanitize(...))
+      - pattern: Log.$LEVEL($TAG, "..." + $OBJ.mask(...) + ...)
+      - pattern: Log.$LEVEL($TAG, "..." + $OBJ.redact(...) + ...)
+      - pattern: Log.$LEVEL($TAG, "..." + $OBJ.sanitize(...) + ...)
+      
+      # Safe literals and constants
+      - pattern: Log.$LEVEL($TAG, $CONST)
+      - pattern: Log.$LEVEL($TAG, "..." + $CONST + ...)
+      - pattern: Log.$LEVEL($TAG, BuildConfig.VERSION_NAME)
+      - pattern: Log.$LEVEL($TAG, BuildConfig.APPLICATION_ID)
+      
+      # Messages with safe exception objects
+      - pattern: Log.$LEVEL($TAG, "...", $EXCEPTION)
+    
+    metavariable-regex:
+      # Log levels (excluding debug)
+      $LEVEL: '^(e|w|i|v|wtf|error|warn|info|verbose)$'
+      
+      # Variables with names that suggest sensitive data
+      $SENSITIVE_VAR: '(?i).*(password|credential|secret|key|token|auth|ccnum|credit|debit|card|ssn|social|dob|birth|address|email|phone|account|username|user_id|userid|uuid|session|cookie|imei|imsi|msisdn|device_id|deviceid).*'
+      
+      # Loggers
+      $LOGGER: '(?i).*(logger|log).*'
+      
+      # Tag variable (any)
+      $TAG: '.*'
+      
+      # StringBuilder/Buffer
+      $SB: '(?i).*(builder|buffer).*'
+      
+      # Constants are all uppercase with underscores
+      $CONST: '^[A-Z][A-Z0-9_]*$'
+      
+      # Object and method
+      $OBJ: '.*'
+      $METHOD: '.*'
+      
+      # Exception objects
+      $EXCEPTION: '(?i).*(exception|throwable|error).*'

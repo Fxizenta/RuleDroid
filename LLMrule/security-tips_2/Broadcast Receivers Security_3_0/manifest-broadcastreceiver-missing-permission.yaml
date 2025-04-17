@@ -1,0 +1,13 @@
+rules:
+- id: manifest-broadcastreceiver-missing-permission
+  languages:
+    - xml
+  message: "Insecure BroadcastReceiver: This <receiver> element contains an intent-filter but does not declare an 'android:permission' attribute. This may allow external applications to invoke the receiver unexpectedly. Consider adding the permission."
+  severity: ERROR
+  patterns:
+    - pattern: |
+        <receiver ...>
+          ... <intent-filter ...>
+        </receiver>
+    - pattern-not: 'android:permission='
+    - pattern-not: 'android:exported="false"'

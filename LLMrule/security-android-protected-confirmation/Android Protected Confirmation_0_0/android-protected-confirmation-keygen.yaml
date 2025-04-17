@@ -1,0 +1,76 @@
+rules:
+  - id: android-protected-confirmation-keygen
+    languages:
+      - java
+      - kotlin
+    message: >
+      Ensure that the key is generated with user confirmation required and an attestation
+      challenge set. Missing these configurations may lead to insecure key generation.
+    metadata:
+      cwe: 'CWE-320: Key Management Errors'
+      category: security
+      technology: android
+    severity: WARNING
+    patterns:
+      # 检查是否使用 KeyGenParameterSpec.Builder 配置用户确认和认证挑战
+      - pattern-either:
+          - pattern: |
+              KeyGenParameterSpec.Builder($KEY_NAME, $PURPOSE)
+                  .setUserConfirmationRequired(true)
+                  .setAttestationChallenge($CHALLENGE)
+          - pattern: |
+              KeyGenParameterSpec.Builder($KEY_NAME, $PURPOSE)
+                  .setAttestationChallenge($CHALLENGE)
+                  .setUserConfirmationRequired(true)
+          # 额外检查对其他相关配置的使用
+          - pattern: |
+              KeyGenParameterSpec.Builder($KEY_NAME, $PURPOSE)
+                  .setUserConfirmationRequired(true)
+                  .setAttestationChallenge($CHALLENGE)
+                  .setBlockModes($BLOCK_MODE)
+                  .setEncryptionPaddings($PADDING)
+                  .setKeySize($KEY_SIZE)
+      - pattern-either:
+          # Ensure user confirmation is required in all key generation scenarios
+          - pattern: |
+              KeyGenParameterSpec.Builder($KEY_NAME, $PURPOSE)
+                  .setUserConfirmationRequired(true)
+          # Ensure attestation challenge is present when required
+          - pattern: |
+              KeyGenParameterSpec.Builder($KEY_NAME, $PURPOSE)
+                  .setAttestationChallenge($CHALLENGE)
+    patterns-not:
+      # 排除已经设置认证挑战和用户确认的安全配置场景
+      - pattern: |
+            KeyGenParameterSpec.Builder($KEY_NAME, $PURPOSE)
+                .setUserConfirmationRequired(true)
+                .setAttestationChallenge($CHALLENGE)
+                .setEncryptionPaddings($PADDING)
+                .setKeySize($KEY_SIZE)
+      - pattern: |
+            KeyGenParameterSpec.Builder($KEY_NAME, $PURPOSE)
+                .setUserConfirmationRequired(false)
+                .setAttestationChallenge(null)
+      # 排除没有设置用户确认和认证挑战的情形
+      - pattern: |
+            KeyGenParameterSpec.Builder($KEY_NAME, $PURPOSE)
+                .setUserConfirmationRequired(false)
+                .setAttestationChallenge($CHALLENGE)
+      - pattern: |
+            KeyGenParameterSpec.Builder($KEY_NAME, $PURPOSE)
+                .setUserConfirmationRequired(true)
+                .setAttestationChallenge(null)
+    paths:
+      include:
+        - '**/*.java'
+        - '**/*.kt'
+    fix: |
+      Ensure both user confirmation and attestation challenge are set:
+      ```java
+      KeyGenParameterSpec.Builder keyGenSpec = new KeyGenParameterSpec.Builder("keyName", KeyProperties.PURPOSE_SIGN)
+          .setUserConfirmationRequired(true)
+          .setAttestationChallenge("challengeBytes".getBytes())
+          .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_PKCS1)
+          .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+          .setKeySize(2048);
+      ```

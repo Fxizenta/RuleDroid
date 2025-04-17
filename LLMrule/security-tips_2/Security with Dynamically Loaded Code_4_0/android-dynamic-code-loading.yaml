@@ -1,0 +1,12 @@
+rules:
+  - id: android-dynamic-code-loading
+    languages:
+      - java
+    message: >
+      Detected dynamic code loading using DexClassLoader. Dynamically loaded code
+      runs with the same permissions as the host application. Ensure the code is included
+      in your APK (trusted) rather than loaded from an external source.
+    severity: WARNING
+    pattern-either:
+      - pattern: new DexClassLoader($CODE, $OPT_DIR, $LIB_PATH, $PARENT)
+      - pattern: new dalvik.system.DexClassLoader($CODE, $OPT_DIR, $LIB_PATH, $PARENT)

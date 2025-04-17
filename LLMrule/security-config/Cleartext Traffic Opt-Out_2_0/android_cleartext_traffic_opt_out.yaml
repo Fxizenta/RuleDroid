@@ -1,0 +1,53 @@
+rules:
+- id: android_cleartext_traffic_opt_out
+  languages:
+    - xml
+  message: |
+    Ensure that cleartext traffic is disabled by setting `cleartextTrafficPermitted="false"` 
+    in the `<network-security-config>` for all domains and subdomains. 
+    Example:
+    ```
+    <network-security-config>
+        <domain-config cleartextTrafficPermitted="false">
+            <domain includeSubdomains="true">example.com</domain>
+        </domain-config>
+    </network-security-config>
+    ```
+  metadata:
+    cwe: 'CWE-319: Cleartext Transmission of Sensitive Information'
+    masvs: 'MSTG-NETWORK-1'
+    owasp-mobile: 'M3: Insecure Communication'
+    reference: https://developer.android.com/training/articles/security-config
+  severity: ERROR
+  patterns:
+    - pattern-inside: |
+        <network-security-config>
+          ...
+        </network-security-config>
+    - pattern-either:
+        - pattern: |
+            <domain-config cleartextTrafficPermitted="false">
+                <domain includeSubdomains="true">$DOMAIN</domain>
+            </domain-config>
+        - pattern: |
+            <domain-config cleartextTrafficPermitted="false">
+                <domain>$DOMAIN</domain>
+            </domain-config>
+    - pattern-not: |
+        <domain-config cleartextTrafficPermitted="true">
+            <domain includeSubdomains="true">$DOMAIN</domain>
+        </domain-config>
+    - pattern-not: |
+        <domain-config cleartextTrafficPermitted="true">
+            <domain>$DOMAIN</domain>
+        </domain-config>
+    - pattern-not-inside: |
+        <network-security-config>
+            <domain-config cleartextTrafficPermitted="true"/>
+        </network-security-config>
+  fix: |
+    <network-security-config>
+        <domain-config cleartextTrafficPermitted="false">
+            <domain includeSubdomains="true">example.com</domain>
+        </domain-config>
+    </network-security-config>

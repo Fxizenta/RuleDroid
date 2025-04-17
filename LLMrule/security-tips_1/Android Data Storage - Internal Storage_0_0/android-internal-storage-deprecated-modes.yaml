@@ -1,0 +1,25 @@
+rules:
+- id: android-internal-storage-deprecated-modes
+  languages:
+  - java
+  - kotlin
+  message: >
+    Avoid using deprecated and insecure modes `Context.MODE_WORLD_WRITEABLE` and 
+    `Context.MODE_WORLD_READABLE` for internal storage. Use `Context.MODE_PRIVATE` instead 
+    to ensure secure data storage.
+  metadata:
+    cwe: 'CWE-276: Incorrect Default Permissions'
+    owasp: 'M2: Insecure Data Storage'
+    references:
+    - https://developer.android.com/reference/android/content/Context#MODE_WORLD_READABLE
+    - https://developer.android.com/reference/android/content/Context#MODE_WORLD_WRITEABLE
+  severity: ERROR
+  pattern-either:
+  - pattern: openFileOutput($FILENAME, Context.MODE_WORLD_WRITEABLE)
+  - pattern: openFileOutput($FILENAME, Context.MODE_WORLD_READABLE)
+  - pattern: openFileOutput($FILENAME, $MODE) 
+  fix: |
+    Use `Context.MODE_PRIVATE` instead:
+    ```java
+    openFileOutput($FILENAME, Context.MODE_PRIVATE);
+    ```

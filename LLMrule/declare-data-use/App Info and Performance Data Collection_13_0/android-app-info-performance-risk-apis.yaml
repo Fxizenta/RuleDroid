@@ -1,0 +1,20 @@
+rules:
+- id: android-app-info-performance-risk-apis
+  languages:
+  - java
+  message: "Sensitive API calls that may be used to collect application information or performance data have been detected. Please confirm whether they comply with the requirements of least privilege and best practices."
+  metadata:
+    category: Android Security
+    references:
+    - https://developer.android.com/guide/topics/permissions/overview
+  patterns:
+  - pattern-regex: >
+      \b(?:ActivityManager|ApplicationErrorReport|ApplicationExitInfo|ASurfaceControl|
+      BatteryManager|Benchmark|Choreographer|Debug|HealthStats|Macrobenchmark|PowerManager|StrictMode)
+      \b\s*(?:\(|\.|\=\s*new)
+  - pattern-not-inside: import $X
+  - pattern-not-inside: package $X
+  - pattern-not-inside: |
+      // $X
+      /* $X */
+  severity: ERROR

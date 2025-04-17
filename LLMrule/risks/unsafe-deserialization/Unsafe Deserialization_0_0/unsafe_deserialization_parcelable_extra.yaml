@@ -1,0 +1,27 @@
+rules:
+- id: unsafe_deserialization_parcelable_extra
+  languages:
+    - java
+  message: >
+    Found usage of `getParcelableExtra` without specifying the class explicitly.
+    This can lead to unsafe deserialization. Consider using safer methods introduced
+    in Android 13 (API level 33), such as `getParcelableExtra(String, Class)`
+    and `getParcelableArrayListExtra(String, Class)`.
+  metadata:
+    cwe: CWE-502
+    masvs: PLATFORM-8
+    owasp-mobile: M1
+    references:
+      - https://developer.android.com/reference/android/os/Parcel#getParcelableExtra(java.lang.String)
+  patterns:
+    - pattern-inside: |
+        Intent $X = new Intent(...);
+    - pattern: |
+        $X.getParcelableExtra($Y)
+    - pattern-not: |
+        $X.getParcelableExtra($Y, $Z)
+    - pattern-not-inside: |
+        if (Build.VERSION.SDK_INT >= 33) {
+            $X.getParcelableExtra($Y);
+        }
+  severity: ERROR

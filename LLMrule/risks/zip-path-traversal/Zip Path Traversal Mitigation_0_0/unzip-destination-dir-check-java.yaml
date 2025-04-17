@@ -1,0 +1,80 @@
+rules:
+  - id: unzip-destination-dir-check-java
+    languages:
+      - java
+    message: >
+      Potential insecure unzip operation detected. Ensure destination directory checks 
+      (empty directory validation) and path traversal protection are both implemented.
+    metadata:
+      cwe: CWE-22
+      owasp-mobile: M1
+      references:
+        - https://developer.android.com/training/articles/security-ssl#java
+        - https://cwe.mitre.org/data/definitions/22.html
+    severity: ERROR
+    patterns:
+      # Match unzip logic that doesn't perform destination directory checks
+      - pattern-inside: |
+          void $METHOD(InputStream $INPUT, File $DEST_DIR) throws IOException {
+            ...
+            try (ZipInputStream $ZIS = new ZipInputStream($INPUT)) {
+              ZipEntry $ENTRY;
+              while (($ENTRY = $ZIS.getNextEntry()) != null) {
+                File $TARGET = new File($DEST_DIR, $ENTRY.getName());
+                ...
+              }
+            }
+            ...
+          }
+
+      # Directory check patterns
+      - pattern-not: |
+          if (!$DEST_DIR.isDirectory()) { ... throw ... }
+          
+      - pattern-not: |
+          if ($DEST_DIR.list().length > 0) { ... throw ... }
+
+      - pattern-not: |
+          if (!$TARGET.getCanonicalPath().startsWith($DEST_DIR.getCanonicalPath())) { ... throw ... }
+
+    # Exclude cases where checks are properly implemented to reduce false positives
+    pattern-not:
+      # Case where the destination directory is validated properly
+      - pattern: |
+          if (!$DEST_DIR.isDirectory()) {
+            throw new IOException("Invalid directory type");
+          }
+      # Case where directory is checked to ensure it's empty
+      - pattern: |
+          if ($DEST_DIR.list().length > 0) {
+            throw new IOException("Directory not empty");
+          }
+      # Path traversal protection pattern
+      - pattern: |
+          if (!$TARGET.getCanonicalPath().startsWith($DEST_DIR.getCanonicalPath())) {
+            throw new IOException("Path traversal attempt detected");
+          }
+
+    fix: |
+      // Example of hardened unzip logic
+      if (!destDir.isDirectory()) {
+        throw new IOException("Invalid directory type");
+      }
+      
+      if (destDir.list().length > 0) {
+        throw new IOException("Directory not empty");
+      }
+
+      try (ZipInputStream zis = new ZipInputStream(input)) {
+        ZipEntry entry;
+        while ((entry = zis.getNextEntry()) != null) {
+          File target = new File(destDir, entry.getName());
+          
+          if (!target.getCanonicalPath().startsWith(destDir.getCanonicalPath())) {
+            throw new IOException("Path traversal attempt detected");
+          }
+          
+          // Secure file writing logic
+          Files.copy(zis, target.toPath());
+        }
+      }

@@ -1,0 +1,12 @@
+rules:
+  - id: detect-debug-build
+    patterns:
+      - pattern: |
+          if (BuildConfig.DEBUG) {
+            ...
+          }
+    message: "This APK is using a debug build, which may indicate it is signed with a debug certificate."
+    severity: WARNING
+    languages: [java, kotlin]
+    metadata:
+      description: Detects the presence of a debug build flag in the code.

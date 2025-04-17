@@ -1,0 +1,77 @@
+
+rules:
+  - id: accept_self_signed_certificate
+    languages:
+      - java
+    message: >
+      Insecure Implementation of SSL. Trusting all the certificates or accepting
+      self-signed certificates is a critical security hole. This application is
+      vulnerable to MITM attacks.
+    metadata:
+      cwe: cwe-295
+      masvs: network-3
+      owasp-mobile: m3
+      reference: >
+        https://github.com/MobSF/owasp-mstg/blob/master/Document/0x05g-Testing-Network-Communication.md#testing-endpoint-identify-verification-mstg-network-3
+    severity: ERROR
+    patterns:
+      - pattern-either:
+          - pattern: $X.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER
+          - pattern: $X.setHostnameVerifier($Z.ALLOW_ALL_HOSTNAME_VERIFIER);
+          - pattern: $X.setHostnameVerifier(new AllowAllHostnameVerifier());
+          - pattern: $X.setDefaultHostnameVerifier(new NullHostnameVerifier());
+          - pattern: $X.setDefaultHostnameVerifier((HostnameVerifier) new NullHostnameVerifier());
+          - pattern: |
+              $RET verify(..., SSLSession $X) {
+                ...
+                return true;
+              }
+          - pattern: |
+              $Y = SSLContext.getInstance(...);
+              ...
+              $Y.init(null, ...);
+          - pattern: |
+              $Y = $S.SSLContext.getInstance(...);
+              ...
+              $Y.init(null, ...);
+          - pattern: |
+              $Z = new TLSClientParameters(...);
+              ...
+              $Z.setDisableCNCheck(true);
+          - pattern: |
+              X509Certificate[] getAcceptedIssuers() {
+                ...
+                return new X509Certificate[]{};
+              }
+          - pattern: |
+              X509Certificate[] getAcceptedIssuers() {
+                ...
+                return new java.security.cert.X509Certificate[]{};
+              }
+          - pattern: |
+              X509Certificate[] getAcceptedIssuers() {
+                ...
+                $Y = new X509Certificate[]{};
+                ...
+                return $Y;
+              }
+          - pattern: |
+              X509Certificate[] getAcceptedIssuers() {
+                return new X509Certificate[0];
+              }
+          - pattern: |
+              X509Certificate[] getAcceptedIssuers() {
+                ...
+                $X = new X509Certificate[0];
+                ...
+                return $X;
+              }
+          - pattern: |
+              X509Certificate[] getAcceptedIssuers() {
+                return null;
+              }
+          - pattern: sslContext.init(null, ...);
+          - pattern: setSslSocketFactory(new NonValidatingSSLSocketFactory());
+      - pattern-not: |
+          // Exclude cases where this is explicitly documented as a test or mock implementation
+          @interface Test {}

@@ -1,0 +1,27 @@
+rules:
+  - id: hardcoded-api-key-xml
+    languages:
+      - xml
+    message: >
+      Hardcoded API key detected in an XML resource file.
+      Storing sensitive API keys as plain text is insecure.
+      Use secure storage mechanisms such as environment variables or encrypted storage instead.
+    fix: >
+      Remove the hardcoded API key and retrieve it securely at runtime using a secrets manager or secure API key injection.
+    metadata:
+      category: security
+      cwe: "CWE-798: Use of Hard-coded Credentials"
+      owasp-mobile: "M8: Code Tampering - Hardcoded API Keys"
+      reference: 
+        - "https://developer.android.com/studio/publish/app-signing#secure-shared-preferences"
+        - "https://cloud.google.com/docs/authentication/api-keys"
+    patterns:
+      - pattern: '<string name="$NAME">$API</string>'
+    metavariable-regex:
+      # Match only keys that explicitly indicate API keys to avoid false positives
+      - metavariable: $NAME
+        regex: "(?i)^(api|google|facebook|twitter|auth|client|access|secret|firebase|aws|stripe|azure|github|slack|key|token|password|credentials)(_?key|_?id|_?token|_?secret)?$"
+      # Match API key-like strings (length 16-64 characters, avoiding simple values)
+      - metavariable: $API
+        regex: "^(?![0-9]{10,}$|[a-zA-Z]{10,}$)[a-zA-Z0-9_-]{16,64}$"
+    severity: ERROR

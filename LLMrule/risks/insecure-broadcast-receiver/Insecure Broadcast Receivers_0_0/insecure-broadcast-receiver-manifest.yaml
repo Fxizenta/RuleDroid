@@ -1,0 +1,41 @@
+rules:
+- id: insecure-broadcast-receiver-manifest
+  languages:
+  - xml
+  message: Broadcast Receiver is exported without proper access control.
+  severity: ERROR
+  patterns:
+  - pattern: |
+      <receiver android:name="$RECEIVER" android:exported="true" ...>
+        ...
+      </receiver>
+  - pattern-not: |
+      <receiver android:name="$RECEIVER" android:permission="$PERMISSION" android:exported="true" ...>
+        ...
+      </receiver>
+  - pattern-not: |
+      <receiver android:name="$RECEIVER" android:exported="true" ...>
+        <intent-filter>
+          <action android:name="android.intent.action.BOOT_COMPLETED" />
+        </intent-filter>
+      </receiver>
+  - pattern-not: |
+      <receiver android:name="$RECEIVER" android:exported="true" ...>
+        <intent-filter>
+          <action android:name="android.intent.action.SOME_OTHER_SECURE_ACTION" />
+        </intent-filter>
+      </receiver>
+  metavariables:
+    $RECEIVER:
+      regex: ^[a-zA-Z0-9._]+$
+    $PERMISSION:
+      regex: ^[a-zA-Z0-9._]+$
+  metadata:
+    references:
+    - https://developer.android.com/guide/topics/manifest/receiver-element
+    - https://developer.android.com/training/articles/security-tips#BroadcastReceivers
+    - https://developer.android.com/reference/android/R.attr#exported
+    tags:
+    - security
+    - android
+    - manifest

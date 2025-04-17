@@ -1,0 +1,17 @@
+rules:
+  - id: use_tls_traffic_java
+    languages:
+      - java
+    message: >
+      Insecure usage detected in Java: the application is using HTTP instead of HTTPS.
+
+      If your app communicates with a web server that has a certificate issued by a well-known,
+      trusted CA, use an HTTPS request to ensure TLS protection.
+    metadata:
+      cwe: cwe-295
+      masvs: network-2
+      owasp-mobile: m3
+      reference: https://developer.android.com/training/articles/security-config.html
+    severity: ERROR
+    patterns:
+      - pattern-regex: '(?i)"http://[^"]+"'

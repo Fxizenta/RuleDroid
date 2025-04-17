@@ -1,0 +1,70 @@
+rules:
+  - id: android-intent-sanitization
+    languages:
+      - java
+      - kotlin
+    message: Ensure intents are properly sanitized using a trusted sanitization method.
+    severity: ERROR
+    mode: taint
+    pattern-sources:
+      # Match the point where the Intent is received or created
+      - pattern: |
+          Intent $INTENT = getIntent();
+      - pattern: |
+          Intent $INTENT = new Intent($CONTEXT, $TARGET_CLASS);
+    
+    pattern-sinks:
+      # Match the sensitive sinks where the intent is passed
+      - patterns:
+          - pattern: startActivity($FORWARD)
+          - pattern: startActivityForResult($FORWARD, ...)
+          - pattern: bindService($FORWARD, ...)
+          - pattern: startForegroundService($FORWARD)
+          - pattern: startService($FORWARD)
+          - pattern: sendBroadcast($FORWARD)
+          - pattern: sendOrderedBroadcast($FORWARD, ...)
+          - pattern: startActivity($FORWARD);
+
+    pattern-sanitizers:
+      # Different patterns for sanitizing the intent
+      - patterns:
+          - pattern: |
+              Intent $SANITIZED_INTENT = IntentSanitizer.Builder()
+                  .allowComponent($SAFE_COMPONENT)
+                  .allowData($SAFE_DATA)
+                  .allowType($SAFE_TYPE)
+                  .build()
+                  .sanitizeByThrowing($INTENT);
+          - pattern: |
+              sanitizeIntent($INTENT);
+          - pattern: |
+              $INTENT.setComponent(...);
+          - pattern: |
+              if ($INTENT.getData() != null) {
+                  String $URI = $INTENT.getData().toString();
+                  if (!$URI.startsWith("https://")) {
+                      throw new IllegalArgumentException("Unsafe URI scheme.");
+                  }
+              }
+          - pattern: |
+              $INTENT.putExtra("safe_key", $SAFE_VALUE);
+              sanitizeIntent($INTENT);
+          
+    metadata:
+      references:
+        - "https://developer.android.com/reference/android/content/Intent"
+        - "https://github.com/commonsguy/cwac-security"
+    description: |
+      This rule detects cases where an `Intent` is forwarded or used in sensitive sinks like `startActivity`, `bindService`, or `startForegroundService` without proper sanitization. It ensures that only sanitized intents are used to prevent potential security risks, such as Intent spoofing or privilege escalation.
+    fix: |
+      Use a trusted sanitization method before forwarding the `Intent`. For example:
+      
+      ```java
+      Intent sanitizedIntent = IntentSanitizer.Builder()
+          .allowComponent("com.example.SafeComponent")
+          .allowData("https://example.com")
+          .allowType("text/plain")
+          .build()
+          .sanitizeByThrowing(intent);
+      startActivity(sanitizedIntent);
+      ```

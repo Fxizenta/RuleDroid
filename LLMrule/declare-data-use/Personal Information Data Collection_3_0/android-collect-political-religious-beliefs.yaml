@@ -1,0 +1,31 @@
+rules:
+  - id: android-collect-political-religious-beliefs
+    languages:
+      - java
+    message: >
+      The app collects information about the user's political or religious beliefs, which is personal information.
+      Ensure compliance with privacy regulations.
+    severity: ERROR
+    patterns:
+      - pattern: |
+          String $POLITICAL_RELIGIOUS_BELIEFS = $OBJ.getPoliticalBeliefs();
+      - pattern: |
+          String $POLITICAL_RELIGIOUS_BELIEFS = $OBJ.getReligiousBeliefs();
+      - pattern: |
+          $OBJ.getPoliticalBeliefs();
+      - pattern: |
+          $OBJ.getReligiousBeliefs();
+      - pattern: |
+          String $POLITICAL_RELIGIOUS_BELIEFS = $OBJ.getBeliefs();
+      - pattern: |
+          $OBJ.getBeliefs();
+    metavariable-types:
+      $POLITICAL_RELIGIOUS_BELIEFS: String
+      $OBJ: Object
+    metadata:
+      references:
+        - "https://developer.android.com/topic/security/best-practices"
+      category: Personal Information Data Collection
+    remediation: >
+      Avoid collecting sensitive personal information, including political or religious beliefs, unless absolutely necessary. Ensure compliance with privacy regulations.
+    min-version: 1.31.0

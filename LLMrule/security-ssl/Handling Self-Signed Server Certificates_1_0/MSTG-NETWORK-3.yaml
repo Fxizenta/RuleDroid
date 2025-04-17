@@ -1,0 +1,86 @@
+rules:
+  - id: MSTG-NETWORK-3
+    languages:
+      - java
+    message: Improper Server Certificate verification detected.
+    metadata:
+      area: network
+      authors:
+        - Riccardo Cardelli @gand3lf (IMQ Minded Security)
+      category: security
+      owasp-mobile: M3
+      references:
+        - https://github.com/OWASP/owasp-mastg/blob/v1.5.0/Document/0x05g-Testing-Network-Communication.md#testing-endpoint-identify-verification-mstg-network-3
+      verification-level:
+        - L1
+        - L2
+    options:
+      symbolic_propagation: true
+    pattern-either:
+      # Pattern 1: HostnameVerifier with insecure verify method
+      - patterns:
+          - pattern-inside: |
+              class $CLASS implements HostnameVerifier {
+                ...
+                public boolean verify(String host, SSLSession session) {
+                  return true;
+                }
+                ...
+              }
+          - pattern-not: |
+              // Exclude cases where verify is overridden securely
+              class $CLASS implements HostnameVerifier {
+                ...
+                public boolean verify(String host, SSLSession session) {
+                  return host.equals("trusted.host.com");
+                }
+                ...
+              }
+      # Pattern 2: Insecure checkServerTrusted implementation
+      - patterns:
+          - pattern: |
+              void checkServerTrusted(X509Certificate[] $CHAIN, String $AUTHTYPE) throws CertificateException {
+                ...
+              }
+          - pattern-not: |
+              void checkServerTrusted(X509Certificate[] $CHAIN, String $AUTHTYPE) throws CertificateException {
+                ...
+                throw new CertificateException(...);
+                ...
+              }
+      # Pattern 3: Anonymous HostnameVerifier with insecure verify method
+      - pattern: |
+          new HostnameVerifier() {
+            ...
+            public boolean verify(String host, SSLSession session) {
+              return true;
+            }
+            ...
+          }
+      # Pattern 4: Use of ALLOW_ALL_HOSTNAME_VERIFIER
+      - patterns:
+          - pattern: |
+              ... .ALLOW_ALL_HOSTNAME_VERIFIER
+          - pattern-not: |
+              // Exclude test cases
+              @Test
+              public void testAllowAllVerifier() {
+                ...
+              }
+      # Pattern 5: Insecure handling of SSL errors in WebView
+      - patterns:
+          - pattern: |
+              void onReceivedSslError(WebView $VIEW, SslErrorHandler $HANDLER, SslError $ERR) {
+                $HANDLER.proceed();
+              }
+          - pattern-not: |
+              // Exclude cases where SSL errors are logged or handled securely
+              void onReceivedSslError(WebView $VIEW, SslErrorHandler $HANDLER, SslError $ERR) {
+                Log.e("SSL Error", $ERR.toString());
+                $HANDLER.cancel();
+              }
+    severity: ERROR
+    path-ignore:
+      # Ignore test files and directories
+      - "**/test/**"
+      - "**/Test*.java"

@@ -1,0 +1,78 @@
+rules:
+  - id: avoid-dynamic-code-loading
+    languages: [java]
+    message: >-
+      Avoid using dynamic code loading unless there is a business need. Prefer to include all functionalities directly into the application. 
+      Dynamically loading external JAR files or using reflection on untrusted classes can lead to security vulnerabilities.
+    severity: ERROR
+    metadata:
+      category: Android Security Practices
+      technology: Android
+    patterns:
+      - pattern-either:
+          # 检测DexClassLoader实例化
+          - patterns:
+            - pattern: new DexClassLoader(...)
+          - patterns:
+            - pattern: new dalvik.system.DexClassLoader(...)
+          
+          # 检测PathClassLoader实例化
+          - patterns:
+            - pattern: new PathClassLoader(...)
+            - pattern: new dalvik.system.PathClassLoader(...)
+          
+          # 检测通过反射加载和访问类
+          - pattern: |
+              $CLASS = Class.forName($X, ...);
+              ...
+              $METHOD = $CLASS.getDeclaredField($Z);
+          
+          # 检测从外部文件加载类的模式，类似示例代码
+          - pattern: |
+              $FILE = new File(...);
+              ...
+              $LOADER = new PathClassLoader($FILE.toString(), ...);
+              ...
+              $CLASS = Class.forName(..., true, $LOADER);
+          
+          # 匹配更具体的示例代码模式
+          - pattern: |
+              final File $DIR = getExternalFilesDir(...);
+              ...
+              final File $FILE = new File($DIR + ..., ...);
+              ...
+              final ClassLoader $CL = new PathClassLoader($FILE.toString(), ...);
+              ...
+              final Class $CLAZZ = Class.forName(..., true, $CL);
+          
+          # 匹配同一方法内的松散结构
+          - pattern: |
+              File $FILE = new File(...);
+              ...
+              ClassLoader $CL = new PathClassLoader($FILE.toString(), ...);
+              ...
+              Class $CLAZZ = Class.forName(..., ..., $CL);
+          
+          # 匹配jar文件路径模式
+          - patterns:
+            - pattern-regex: new File\(.*\.jar.*\)
+            - pattern-inside: |
+                ...
+                new PathClassLoader(...);
+                ...
+          
+          # 匹配任意格式的外部文件目录与JAR文件拼接
+          - pattern: |
+              $DIR = getExternalFilesDir(...);
+              ...
+              $FILE = new File($DIR + ... + "greetings.jar");
+              ...
+              $LOADER = new PathClassLoader($FILE.toString(), ...);
+          
+          # 匹配特定于示例代码的完整模式
+          - pattern: |
+              final File externalDir = getExternalFilesDir(null);
+              final File file = new File(externalDir + File.separator + "greetings.jar");
+              ...
+              final ClassLoader cl = new PathClassLoader(file.toString(), ...);
+              final Class clazz = Class.forName("secureiti.Helper", true, cl);

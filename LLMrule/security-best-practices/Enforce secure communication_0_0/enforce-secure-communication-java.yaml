@@ -1,0 +1,9 @@
+rules:
+  - id: enforce-secure-communication-java
+    languages:
+      - java
+    message: "Detected insecure cleartext HTTP URL construction; use HTTPS for secure communication."
+    severity: ERROR
+    metavariable-regex:
+      URL: '^http://'
+    pattern: new URL($URL)

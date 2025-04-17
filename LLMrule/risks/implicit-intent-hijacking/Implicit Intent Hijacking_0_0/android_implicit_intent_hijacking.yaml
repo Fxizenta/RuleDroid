@@ -1,0 +1,25 @@
+rules:
+- id: android_implicit_intent_hijacking
+  languages:
+    - java
+  message: |
+    This code uses an implicit intent without specifying a package name or
+    component, which can lead to implicit intent hijacking. Consider using `setPackage()`
+    or `setComponent()` to make the intent explicit.
+  metadata:
+    cwe: CWE-927
+    masvs: MASVS-PLATFORM-9
+    owasp-mobile: M1
+    reference: 'https://developer.android.com/guide/components/intents-filters#Types'
+  options:
+    autofix: false
+    timeout: 30
+  patterns:
+    - pattern: |
+        Intent $INTENT = new Intent($ACTION);
+        ...
+        startActivity($INTENT);
+    - pattern-not: $INTENT.setPackage($PACKAGE);
+    - pattern-not: $INTENT.setComponent($COMPONENT);
+    - pattern-not: $I.setClassName(...);
+  severity: WARNING

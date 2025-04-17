@@ -1,0 +1,25 @@
+rules:
+- id: insecure-broadcast-receiver-programmatic
+  languages:
+    - java
+  message: Broadcast Receiver is registered programmatically without proper access control.
+  severity: ERROR
+  patterns:
+    # Detect programmatic registration of BroadcastReceiver
+    - pattern: |
+        registerReceiver($RECEIVER, $INTENT_FILTER);
+    # Exclude cases where a permission is explicitly specified
+    - pattern-not: |
+        registerReceiver($RECEIVER, $INTENT_FILTER, $PERMISSION, null);
+    # Exclude cases where registration is wrapped in a conditional block with proper checks
+    - pattern-not-inside: |
+        if ($CONDITION) {
+          registerReceiver($RECEIVER, $INTENT_FILTER);
+        }
+  metadata:
+    references:
+      - https://developer.android.com/guide/components/broadcasts#security
+    tags:
+      - android
+      - security
+      - broadcast-receiver

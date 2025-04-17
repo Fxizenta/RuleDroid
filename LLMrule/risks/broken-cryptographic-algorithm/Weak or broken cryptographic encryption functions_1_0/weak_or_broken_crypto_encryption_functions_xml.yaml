@@ -1,0 +1,15 @@
+rules:
+  - id: weak_or_broken_crypto_encryption_functions_xml
+    languages:
+      - xml
+    message: >
+      Weak cryptographic algorithm referenced in XML configuration detected.
+      Consider updating to a secure algorithm such as AES-GCM or ChaCha20.
+    metadata:
+      cwe: CWE-327
+      masvs: crypto-4
+      owasp-mobile: M5
+      reference: "See current cryptography best practices and guidelines for secure algorithm choices."
+    severity: ERROR
+    patterns:
+      - pattern-regex: (?i)\b(?:DES|RC4)\b

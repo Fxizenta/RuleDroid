@@ -1,0 +1,16 @@
+rules:
+- id: android-broadcastreceiver-permission
+  languages:
+  - xml
+  message: Ensure that the BroadcastReceiver has a valid android:permission attribute to prevent unauthorized access.
+  metadata:
+    cwe: CWE-200
+    owasp: 'M1: Improper Platform Usage'
+  path: AndroidManifest.xml
+  patterns:
+  - pattern: |
+      <receiver android:name="$RECEIVER" ... />
+  - pattern-not: |
+      <receiver android:name="$RECEIVER" android:permission="$PERMISSION" ... />
+  severity: ERROR
+  fix: Add a valid android:permission attribute to the <receiver> tag to restrict access.

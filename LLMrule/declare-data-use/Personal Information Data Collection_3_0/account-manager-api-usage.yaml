@@ -1,0 +1,16 @@
+rules:
+  - id: account-manager-api-usage
+    languages:
+      - java
+    message: >
+      It is detected that the AccountManager API is used in the application. Please confirm whether the relevant code's processing of personal data (such as name, email address, account number, etc.) complies with privacy protection requirements.
+    metadata:
+      category: android-privacy
+      technology: android
+    severity: INFO
+    patterns:
+      - pattern-either:
+          - pattern: AccountManager.get(...)
+          - pattern: android.accounts.AccountManager.get(...)
+          - pattern: getSystemService(AccountManager.class)
+          - pattern: getSystemService(Context.ACCOUNT_SERVICE)

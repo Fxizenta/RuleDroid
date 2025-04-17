@@ -1,0 +1,56 @@
+rules:
+- id: ANDROID-PARAMETERIZED-QUERIES
+  languages:
+    - java
+  message: >-
+    Potential SQL injection vulnerability detected. Use parameterized queries with 
+    selection arguments instead of string concatenation in SQL queries.
+  metadata:
+    category: security
+    owasp-mobile: M3
+    cwe: CWE-89
+    references:
+      - https://developer.android.com/reference/android/content/ContentProvider
+      - https://owasp.org/www-community/attacks/SQL_Injection
+    technology: android
+  paths:
+    include:
+      - '**/*.java'
+  severity: ERROR
+  patterns:
+    - pattern-either:
+        # Detect string concatenation in selection parameter
+        - pattern: |
+            $QUERY_METHOD($URI, $PROJECTION, "... " + $VAR + " ...", $SELECTION_ARGS, $SORT_ORDER)
+        - pattern: |
+            $QUERY_METHOD($URI, $PROJECTION, $VAR + " ...", $SELECTION_ARGS, $SORT_ORDER)
+        - pattern: |
+            $QUERY_METHOD($URI, $PROJECTION, "... " + $VAR, $SELECTION_ARGS, $SORT_ORDER)
+        # Detect string formatting in selection parameter
+        - pattern: |
+            $QUERY_METHOD($URI, $PROJECTION, String.format("...", $VAR), $SELECTION_ARGS, $SORT_ORDER)
+        # Detect StringBuilder/StringBuffer usage in selection parameter
+        - pattern: |
+            $QUERY_METHOD($URI, $PROJECTION, $BUILDER.toString(), $SELECTION_ARGS, $SORT_ORDER)
+    # Ensure we're not using proper parameterization
+    - pattern-not: |
+        $QUERY_METHOD($URI, $PROJECTION, "... ? ...", new String[] { $VAR, ... }, $SORT_ORDER)
+    - pattern-not: |
+        $QUERY_METHOD($URI, $PROJECTION, null, $SELECTION_ARGS, $SORT_ORDER)
+  metavariables:
+    $QUERY_METHOD:
+      matches:
+        - query
+        - db.query
+        - database.query
+        - contentResolver.query
+        - getContentResolver().query
+        - mContentResolver.query
+        - getReadableDatabase().query
+        - getWritableDatabase().query
+    $BUILDER:
+      matches:
+        - StringBuilder
+        - StringBuffer
+    $VAR:
+      regex: '.+'

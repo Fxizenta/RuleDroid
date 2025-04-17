@@ -1,0 +1,13 @@
+rules:
+  - id: avoid-camera-permission-declaration
+    languages:
+      - xml
+    name: Avoid CAMERA permission in AndroidManifest.xml
+    message: >
+      Do not declare the CAMERA permission in your AndroidManifest.xml. For taking
+      pictures or recording videos, use the pre-installed system camera app by invoking
+      ACTION_IMAGE_CAPTURE or ACTION_VIDEO_CAPTURE.
+    severity: WARNING
+    # This regex pattern allows for flexible whitespace and attribute ordering.
+    pattern-regex: "<uses-permission[^>]*android:name\\s*=\\s*[\"']android\\.permission\\.CAMERA[\"'][^>]*\\/?>"
+    pattern-not-inside: "<!--"

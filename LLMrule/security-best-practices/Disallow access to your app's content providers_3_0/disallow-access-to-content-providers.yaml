@@ -1,0 +1,71 @@
+rules:
+- id: disallow-access-to-content-providers
+  languages:
+  - xml
+  message: |
+    The ContentProvider is exported by default. Explicitly set `android:exported="false"`
+    if you do not intend to share data with other apps.
+  metadata:
+    description: |
+      Ensure that other apps cannot access your app's ContentProvider unless explicitly intended.
+      If `android:exported` is missing or set to `true`, the ContentProvider may be accessible 
+      to unauthorized applications.
+    name: Disallow access to your app's content providers
+    references:
+    - https://developer.android.com/guide/topics/manifest/provider-element
+  severity: WARNING
+  paths:
+    include:
+    - '**/AndroidManifest.xml'
+    - '**/res/xml/*.xml'
+  options:
+    xml_attrs_implicit_ellipsis: true
+  pattern-inside: |
+    <manifest>
+      ...
+    </manifest>
+  patterns:
+    # 匹配 provider 标签（多行）
+    - pattern: |
+        <provider
+          $ATTRIBUTES
+        />
+    - pattern: |
+        <provider $ATTRIBUTES />    
+
+    # 排除已明确设置 android:exported="false" 的情况
+    - pattern-not: |
+        <provider
+          $ATTRIBUTES
+          android:exported="false"
+        />
+    - pattern-not: |
+        <provider $ATTRIBUTES android:exported="false" />
+
+    # 排除使用 `tools:node="remove"` 来移除 `<provider>` 的情况
+    - pattern-not: |
+        <provider
+          $ATTRIBUTES
+          tools:node="remove"
+        />
+
+    # 匹配可能的错误配置（增加覆盖率）
+    - pattern: |
+        <provider
+          $ATTRIBUTES
+          android:exported=""
+        />
+    - pattern: |
+        <provider
+          $ATTRIBUTES
+          android:expored="true"
+        />
+    - pattern: |
+        <provider
+          $ATTRIBUTES
+          android:exported="${VAR}"
+        />
+
+  fix: |
+    Ensure that every `<provider>` tag explicitly sets `android:exported="false"`
+    unless the provider is intentionally shared with other apps.

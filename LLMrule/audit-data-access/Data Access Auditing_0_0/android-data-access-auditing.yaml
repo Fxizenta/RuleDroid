@@ -1,0 +1,28 @@
+rules:
+- id: android-data-access-auditing
+  languages:
+    - java
+  message: The app registers an AppOpsManager.OnOpNotedCallback for data access auditing.
+  metadata:
+    cwe: cwe-359
+    masvs: storage-4
+    owasp-mobile: m2
+    reference: https://developer.android.com/about/versions/11/privacy/data-access-auditing
+  options:
+    autofix: false
+  patterns:
+    - pattern: |
+        $APP_OPS_MANAGER.setOnOpNotedCallback($CALLBACK)
+    - pattern-inside: |
+        class $CLASS {
+          ...
+          void $METHOD(...) {
+            ...
+            $APP_OPS_MANAGER.setOnOpNotedCallback($CALLBACK);
+            ...
+          }
+          ...
+        }
+  pattern-not: |
+    $APP_OPS_MANAGER.setOnOpNotedCallback(null)
+  severity: INFO

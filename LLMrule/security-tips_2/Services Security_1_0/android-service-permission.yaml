@@ -1,0 +1,13 @@
+rules:
+- id: android-service-permission
+  languages:
+  - xml
+  message: Service is protected with a permission. Ensure the permission is correctly
+    defined and used.
+  metadata:
+    cwe: CWE-200
+    owasp: 'M1: Improper Platform Usage'
+  path: AndroidManifest.xml
+  patterns:
+  - pattern: "<service\n  android:permission=\"...\"\n  ... />\n"
+  severity: ERROR

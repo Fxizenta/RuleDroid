@@ -1,0 +1,17 @@
+rules:
+  - id: android-no-imei
+    languages:
+      - java
+    message: "Avoid using non-reset identifiers such as IMEI directly. Instead, use advertising ID (only for user profiling or advertising purposes), privately stored GUID, or SSAID (only for your own application)."
+    severity: INFO
+    metadata:
+      category: security
+      guideline: "Use resettable identifiers"
+    pattern-either:
+      - pattern: $TM.getDeviceId(...)
+      - pattern: $TM.getImei(...)
+      - pattern: $TM.getMeid(...)
+      - pattern: ((TelephonyManager) $OBJ).getDeviceId(...)
+      - pattern: TelephonyManagerCompat.getImei(...)
+      - pattern: String $VAR = Settings.Secure.ANDROID_ID;
+      - pattern: Settings.Secure.getString($ANYTHING, Settings.Secure.ANDROID_ID);

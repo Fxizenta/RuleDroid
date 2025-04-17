@@ -1,0 +1,44 @@
+rules:
+- id: insecure-broadcast-receiver-dynamic
+  languages:
+    - java
+  message: Broadcast Receiver is dynamically registered without proper access control.
+  severity: ERROR
+  patterns:
+    - pattern: |
+        $RECEIVER = new BroadcastReceiver() {
+          @Override
+          public void onReceive(Context context, Intent intent) {
+            ...
+          }
+        };
+        IntentFilter $INTENT_FILTER = new IntentFilter();
+        $INTENT_FILTER.addAction("...");
+        registerReceiver($RECEIVER, $INTENT_FILTER);
+    - pattern-not: |
+        $RECEIVER = new BroadcastReceiver() {
+          @Override
+          public void onReceive(Context context, Intent intent) {
+            ...
+          }
+        };
+        IntentFilter $INTENT_FILTER = new IntentFilter();
+        $INTENT_FILTER.addAction("...");
+        registerReceiver($RECEIVER, $INTENT_FILTER, $PERMISSION, null);
+    - pattern-not-inside: |
+        if ($CONDITION) {
+          registerReceiver($RECEIVER, $INTENT_FILTER);
+        }
+  metavariable-regex:
+    metavariable: $PERMISSION
+    regex: .+
+  metadata:
+    description: |
+      Detects insecure dynamic registration of Broadcast Receivers without proper access control.
+      Ensures that a permission is specified when dynamically registering a Broadcast Receiver.
+    references:
+      - https://developer.android.com/reference/android/content/Context#registerReceiver(android.content.BroadcastReceiver,%20android.content.IntentFilter,%20java.lang.String,%20android.os.Handler)
+    tags:
+      - security
+      - android
+      - broadcast-receiver

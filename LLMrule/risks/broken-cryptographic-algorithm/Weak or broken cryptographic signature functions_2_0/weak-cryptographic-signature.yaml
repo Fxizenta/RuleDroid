@@ -1,0 +1,34 @@
+rules:
+  - id: weak-cryptographic-signature
+    languages:
+      - java
+    message: >
+      Weak or broken cryptographic signature function detected. Avoid using insecure algorithms
+      like SHA-1, MD5, or weak RSA/DSA/ECDSA variants. Use strong algorithms such as RSA-2048/RSA-4096 with PSS padding or ECDSA with secure curves (e.g., secp256r1, secp384r1).
+    metadata:
+      cwe: CWE-327 Use of a Broken or Risky Cryptographic Algorithm
+      owasp: A3:2017-Sensitive Data Exposure
+    severity: ERROR
+    patterns:
+      # Match weak or broken signature algorithms
+      - pattern-either:
+          - pattern: Signature.getInstance($ALGO)
+          - pattern: Signature.getInstance($ALGO, $PROVIDER)
+      # Match specific weak algorithms
+      - metavariable-pattern:
+          metavariable: $ALGO
+          patterns:
+            - pattern: "SHA1withRSA"
+            - pattern: "MD5withRSA"
+            - pattern: "SHA1withDSA"
+            - pattern: "SHA0withDSA"
+            - pattern: "MD5withDSA"
+            - pattern: "SHA1withECDSA"
+            - pattern: "MD5withECDSA"
+      # Match scenarios where the algorithm is suppressed with a warning annotation
+      - pattern-not: |
+          @SuppressWarnings("WeakCryptography")
+      # Exclude test code and non-production code paths
+    references:
+      - https://developer.android.com/reference/java/security/Signature
+      - https://developer.android.com/training/articles/security-gms-provider

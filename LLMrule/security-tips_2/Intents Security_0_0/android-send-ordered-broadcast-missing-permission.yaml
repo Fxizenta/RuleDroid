@@ -1,0 +1,35 @@
+rules:
+  - id: android-send-ordered-broadcast-missing-permission
+    languages:
+      - java
+    message: sendOrderedBroadcast() called without specifying a permission. Consider specifying a permission to restrict receivers.
+    patterns:
+      - pattern: |
+          $CONTEXT.sendOrderedBroadcast($INTENT, null)
+      - pattern: |
+          $CONTEXT.sendOrderedBroadcast($INTENT, $PERMISSION)
+      - pattern-either:
+          # 增加对权限动态传递的支持
+          - pattern: |
+              $CONTEXT.sendOrderedBroadcast($INTENT, "null")
+          - pattern: |
+              $CONTEXT.sendOrderedBroadcast($INTENT, $DYNAMIC_PERMISSION)
+      - pattern-not: |
+          $CONTEXT.sendOrderedBroadcast($INTENT, $PERMISSION)
+      - pattern-not: |
+          $CONTEXT.sendOrderedBroadcast($INTENT, "PERMISSION_CONSTANT")
+    severity: WARNING
+    metadata:
+      references:
+        - https://developer.android.com/reference/android/content/Context#sendOrderedBroadcast(android.content.Intent,%20java.lang.String)
+        - https://developer.android.com/training/articles/security-tips#BroadcastReceivers
+        - https://owasp.org/www-project-mobile-top-10/
+    variables:
+      CONTEXT: |
+        android.content.Context
+      INTENT: |
+        android.content.Intent
+      PERMISSION: |
+        java.lang.String
+      DYNAMIC_PERMISSION: |
+        java.lang.String

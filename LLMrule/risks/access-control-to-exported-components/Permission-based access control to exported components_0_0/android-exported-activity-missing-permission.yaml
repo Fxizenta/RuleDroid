@@ -1,0 +1,20 @@
+rules:
+  - id: android-exported-activity-missing-permission
+    languages:
+      - xml
+    message: "\u5BFC\u51FA\u7684 Activity \u7F3A\u5C11\u660E\u786E\u7684 android:permission \u5C5E\u6027\uFF0C\u8BF7\u8003\u8651\u6DFB\u52A0\u6743\u9650\u68C0\u67E5\u3002"
+    metadata:
+      category: security
+      reference: https://developer.android.com/guide/topics/manifest/permission-element
+    paths:
+      include:
+        - '**/AndroidManifest.xml'
+    severity: ERROR
+    patterns:
+      - pattern-either:
+          - pattern: '<activity ... android:exported="true" ...>'
+          - pattern: |
+              <activity ...>
+                ... <intent-filter> ... </intent-filter> ...
+              </activity>
+      - pattern-not: 'android:permission='

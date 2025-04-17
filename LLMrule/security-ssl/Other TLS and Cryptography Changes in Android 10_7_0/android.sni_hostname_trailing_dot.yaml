@@ -1,0 +1,9 @@
+rules:
+  - id: android.sni_hostname_trailing_dot
+    languages:
+      - java
+    message: >
+      SNI hostnames with a trailing dot are not considered valid in Android 10.
+      Remove the trailing dot from the hostname.
+    pattern-regex: 'new\s+SNIHostName\(\s*"[^"]*\."\s*\)'
+    severity: INFO

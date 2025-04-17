@@ -1,0 +1,45 @@
+rules:
+- id: weak_hash_md5
+  languages:
+  - java
+  message: 'Weak Hash algorithm (MD5) used. The hash algorithm is known to have hash
+    collisions.
+
+    '
+  metadata:
+    cwe: cwe-327
+    masvs: crypto-4
+    owasp-mobile: m5
+    reference: 'https://github.com/MobSF/owasp-mstg/blob/master/Document/0x04g-Testing-Cryptography.md#identifying-insecure-andor-deprecated-cryptographic-algorithms-mstg-crypto-4
+
+      '
+  patterns:
+  - pattern-either:
+    - pattern: '$C.getInstance("MD5", ...);
+
+        '
+    - pattern: '$C.getInstance("md5", ...);
+
+        '
+    - pattern: '$C.getInstance("MD4", ...);
+
+        '
+    - pattern: '$C.getInstance("md4", ...);
+
+        '
+    - pattern: '$C.Files.hash(..., Hashing.md5());
+
+        '
+    - pattern: 'Files.hash(..., Hashing.md5());
+
+        '
+    - pattern: 'DigestUtils.md5Hex(...);
+
+        '
+    - pattern: 'DigestUtils.md5(...);
+
+        '
+  - pattern-not: '$C.getInstance("SHA-256", ...);
+
+      '
+  severity: ERROR

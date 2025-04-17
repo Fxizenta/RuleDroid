@@ -1,0 +1,22 @@
+rules:
+- id: pbe-ciphers-missing-IV
+  languages:
+    - java
+    - kotlin
+  message: >
+    When using Password-Based Encryption (PBE) ciphers, always pass an explicit IV.
+    If you do not supply an IV, Android assumes an IV of zero, which is insecure.
+  metadata:
+    cwe: CWE-329
+    masvs: CRYPTO-5
+    owasp-mobile: M5
+    reference: https://developer.android.com/training/articles/keystore
+  severity: ERROR
+  patterns:
+    - pattern-either:
+        - pattern: 'Cipher.getInstance($ALGORITHM).init(Cipher.ENCRYPT_MODE, $KEY)'
+        - pattern: 'Cipher.getInstance($ALGORITHM).init(Cipher.DECRYPT_MODE, $KEY)'
+    - pattern-not-inside: |
+        Cipher.getInstance($ALGORITHM).init($MODE, $KEY, new IvParameterSpec($IV))
+    - pattern-not-inside: |
+        Cipher.getInstance($ALGORITHM).init($MODE, $KEY, new IvParameterSpec(new byte[16]))

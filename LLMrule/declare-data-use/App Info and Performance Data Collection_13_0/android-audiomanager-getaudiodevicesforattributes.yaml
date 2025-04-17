@@ -1,0 +1,13 @@
+rules:
+- id: android-audiomanager-getaudiodevicesforattributes
+  languages:
+  - java
+  message: The app calls getAudioDevicesForAttributes() from the AudioManager API,
+    which may access user data related to app info and performance.
+  metadata:
+    category: Android Security
+    technology: Android
+  patterns:
+  - pattern: $X.getAudioDevicesForAttributes(...);
+  - pattern-not: $X == null
+  severity: INFO

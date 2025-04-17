@@ -1,0 +1,29 @@
+rules:
+- id: android-health-info
+  languages:
+    - java
+  message: |
+    This app may be handling health information, which requires compliance with privacy regulations.
+    Ensure that health-related data is handled securely and appropriately.
+  severity: INFO
+  patterns:
+    - pattern: |
+        // Health info: Information about a user's health, such as medical records or symptoms.
+    - pattern: |
+        private HealthData $VAR;
+    - pattern: |
+        public void processHealthData($ARG) { ... }
+    - pattern: |
+        class HealthInfoManager { ... }
+    - pattern-not: |
+        // This is a comment about health info
+    - pattern-not: |
+        /* Health-related comment not involving user data */
+  metadata:
+    category: security
+    technology: android
+    references:
+      - https://developer.android.com/training/articles/security-privacy
+  fix: |
+    Review your handling of health-related data. Ensure that any sensitive information is 
+    properly secured and handled according to relevant regulations, such as HIPAA (if applicable).

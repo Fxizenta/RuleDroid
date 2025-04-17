@@ -1,0 +1,29 @@
+rules:
+- id: android-external-storage-sensitive-data
+  languages:
+  - java
+  message: >
+    Sensitive data should not be stored in external storage. Consider using internal
+    storage (e.g., `context.getFilesDir()`) or encrypting the data before storage.
+  metadata:
+    cwe: CWE-312
+    owasp: 'M2: Insecure Data Storage'
+    references:
+    - https://developer.android.com/training/data-storage
+    - https://developer.android.com/training/articles/security-tips.html#StoringData
+  severity: ERROR
+  path: .*src/.*\.java
+  patterns:
+  - pattern-either:
+    - pattern: |
+        $STORAGE = Environment.getExternalStorageDirectory()
+    - pattern: |
+        $STORAGE = Environment.getExternalStoragePublicDirectory($DIR)
+    - pattern: |
+        $STORAGE = context.getExternalFilesDir($DIR)
+    - pattern: |
+        $STORAGE = context.getExternalCacheDir()
+  - pattern-not: $X = $C.getFilesDir();
+  - pattern-not: $X = $C.getDir($NAME, Context.MODE_PRIVATE);
+  - pattern-not: $X = $C.getCacheDir();
+  - pattern-not: $X = new File($C.getFilesDir(), $NAME);

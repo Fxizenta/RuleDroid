@@ -1,0 +1,22 @@
+rules:
+  - id: android-fragment-injection-basic
+    severity: ERROR
+    languages:
+      - java
+    message: "Fragment Injection vulnerability: Using untrusted data from Intent to load Fragments"
+    patterns:
+      - pattern-either:
+        # 模式1：检测在代码中同时存在从Intent获取字符串和使用该字符串创建Fragment的情况
+        - pattern: getIntent().getStringExtra(...)
+        - pattern: Util.getFragmentInstance($FNAME)
+        
+        # 模式2：直接检测所有调用Util.getFragmentInstance的实例
+        - pattern: |
+            FragmentTransaction $FT = $ANY.beginTransaction();
+            $FT.replace($ID, Util.getFragmentInstance(...));
+            $FT.commit();
+            
+    metadata:
+      category: security
+      cwe: "CWE-470"
+      confidence: medium

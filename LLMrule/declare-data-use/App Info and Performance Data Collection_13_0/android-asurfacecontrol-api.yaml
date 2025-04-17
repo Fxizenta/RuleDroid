@@ -1,0 +1,28 @@
+rules:
+  - id: android-asurfacecontrol-api
+    languages:
+      - java
+    message: |
+      The app uses the ASurfaceControl API, which may access user data related to app info and performance. 
+      Ensure it complies with security best practices, especially when dealing with sensitive information like screen content.
+    metadata:
+      category: Android Security
+      technology: Android
+      references:
+        - https://developer.android.com/reference/android/view/SurfaceControl
+    severity: INFO
+    patterns:
+      - pattern: |
+          ASurfaceControl $X = $Y;
+      - pattern-either:
+          - pattern: |
+              $X.setBuffer($BUFFER);
+          - pattern: |
+              $X.release();
+          - pattern: |
+              $X.setProtectedContent($CONTENT);
+      - pattern-not: |
+          // Exclude cases where ASurfaceControl is used in a controlled or development environment
+    fix: |
+      Review the usage of ASurfaceControl and ensure that it is used securely, particularly when handling sensitive data 
+      such as screen content. Consider using higher-level abstractions or secure environments when working with these APIs.

@@ -1,0 +1,8 @@
+rules:
+  - id: query-all-packages-permission-xml
+    languages: [xml]
+    message: "The app declares the QUERY_ALL_PACKAGES permission, which may allow broad access to installed app data. Please confirm whether it is necessary and ensure that data processing meets security requirements."
+    metadata:
+      category: Android Security
+    pattern-regex: '<uses-permission\\s+[^>]*android:name\\s*=\\s*["'']android\\.permission\\.QUERY_ALL_PACKAGES["''][^>]*>'
+    severity: INFO

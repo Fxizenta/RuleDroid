@@ -1,0 +1,31 @@
+rules:
+- id: android-exported-service-no-permission
+  languages:
+  - xml
+  message: Exported service without required permission.
+  metadata:
+    cwe: CWE-284
+    owasp: 'M1: Improper Platform Usage'
+  path: AndroidManifest.xml
+  severity: ERROR
+  patterns:
+  - pattern-either:
+    # Match exported services without permissions
+    - pattern: |
+        <service
+          android:name="$SERVICE_NAME"
+          android:exported="true"
+          ... />
+    # Match exported services with empty permissions
+    - pattern: |
+        <service
+          android:name="$SERVICE_NAME"
+          android:exported="true"
+          android:permission=""
+          ... />
+  - pattern-not: |
+      <service
+        android:name="$SERVICE_NAME"
+        android:exported="true"
+        android:permission="$PERMISSION"
+        ... />

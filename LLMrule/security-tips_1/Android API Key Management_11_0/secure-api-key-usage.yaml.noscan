@@ -1,0 +1,74 @@
+rules:
+  - id: secure-api-key-usage
+    languages:
+      - java
+    message: "Security issue detected: Ensure API keys and credentials are securely stored and not exposed."
+    metadata:
+      category: security
+      technology: android
+      cwe: "CWE-798: Use of Hard-coded Credentials"
+      owasp: "A07:2021 - Identification and Authentication Failures"
+      references:
+        - "https://owasp.org/www-community/vulnerabilities/Use_of_hard-coded_password"
+        - "https://developer.android.com/topic/security/best-practices"
+      remediation: "Avoid hardcoding API keys or logging credentials. Use secure storage mechanisms like Android Keystore, encrypted SharedPreferences, or environment variables."
+    severity: ERROR
+    pattern-either:
+      # Pattern set 1: Hardcoded API keys in variable assignments
+      - pattern: |
+          $TYPE $NAME = "$VALUE";
+      - pattern: |
+          $TYPE $NAME = "$VALUE".trim();
+      - pattern: |
+          $TYPE $NAME = "$VALUE" + $SUFFIX;
+      - pattern: |
+          $NAME = "$VALUE";
+          
+      # Pattern set 2: API client configuration with hardcoded keys
+      - pattern: |
+          new $BUILDER().api$KEY("$VALUE")
+      - pattern: |
+          $CLIENT.setApiKey("$VALUE")
+      - pattern: |
+          $CLIENT.addHeader("$HEADER", "$VALUE")
+          
+      # Pattern set 3: Logging of sensitive information
+      - pattern: |
+          Log.$LEVEL($TAG, $MESSAGE + $SENSITIVE);
+      - pattern: |
+          Log.$LEVEL($TAG, String.format($FORMAT, $SENSITIVE));
+      - pattern: |
+          $LOGGER.log($LEVEL, $SENSITIVE);
+      - pattern: |
+          System.out.println($SENSITIVE);
+    
+    # Exclude test and development scenarios
+    pattern-not-regex: "localhost|127.0.0.1|test|demo|example|sample"
+    
+    # Exclude secure loading methods
+    pattern-not:
+      - pattern: |
+          $TYPE $NAME = System.getenv($VAR);
+      - pattern: |
+          $TYPE $NAME = BuildConfig.$FIELD;
+      - pattern: |
+          $TYPE $NAME = context.getSharedPreferences($PREF, $MODE).getString($KEY, $DEFAULT);
+      - pattern: |
+          $TYPE $NAME = SecurePreferences.getString($KEY, $DEFAULT);
+      - pattern: |
+          $TYPE $NAME = KeyStore.getInstance($TYPE).getKey($ALIAS, $PASSWORD);
+      - pattern: |
+          $TYPE $NAME = properties.getProperty($KEY);
+      - pattern: |
+          $TYPE $NAME = getResources().getString($RES_ID);
+      - pattern: |
+          $TYPE $NAME = decryptValue($ENCRYPTED);
+    
+    # Define metavariables with regex constraints
+    metavariable-regex:
+      NAME: "(?i).*(api_?key|auth_?token|secret|password|credential|token|client_?id|access_?key).*"
+      VALUE: "(?!.*(dummy|example|test|placeholder|your))([A-Za-z0-9_\\-+/=]{16,})"
+      TYPE: "(?:final\\s+)?(?:static\\s+)?(?:String|CharSequence)"
+      HEADER: "(?i).*(Authorization|X-Api-Key|Api-Key|Token|Authentication|Bearer).*"
+      SENSITIVE: "(?i).*(api_?key|auth_?token|secret|password|credential|token|client_?id|access_?key).*"
+      LEVEL: "(?:v|d|i|w|e|wtf)"

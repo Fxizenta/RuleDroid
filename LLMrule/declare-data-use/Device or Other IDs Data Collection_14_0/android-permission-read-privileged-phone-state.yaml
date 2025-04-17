@@ -1,0 +1,41 @@
+rules:
+  - id: android-read-privileged-phone-state-api-usage
+    languages:
+      - java
+      - kotlin
+    message: >
+      Usage of the API associated with READ_PRIVILEGED_PHONE_STATE detected.
+      Ensure this complies with privacy guidelines and is necessary for the app's functionality.
+    severity: ERROR
+    patterns:
+      # Detect usage of TelephonyManager API, which is associated with the sensitive permission
+      - pattern: |
+          TelephonyManager $X = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+      - pattern-either:
+          # Detect calls to sensitive APIs like getDeviceId() and getCellLocation()
+          - pattern: |
+              $X.getDeviceId()
+          - pattern: |
+              $X.getCellLocation()
+      # Detect cases where API usage is within conditions or methods which may be questionable in production code
+      - pattern: |
+          if (BuildConfig.DEBUG) { $X.getDeviceId(); }
+      - pattern: |
+          if ($ENV == "test") { $X.getCellLocation(); }
+      # Exclude cases where usage is justified and comments indicate it's compliant with privacy policies
+      - pattern-not: |
+          // Usage should be clearly justified and comply with privacy guidelines
+      - pattern-not: |
+          // Consider alternative methods for better privacy protection
+      - pattern-not: |
+          $X.getDeviceId(); // Justified for debugging
+      # Specific exclusion for usage within test environments (e.g., mock testing)
+      - pattern-not: |
+          if ($ENV == "test") { $X.getDeviceId(); }
+    metadata:
+      category: Android API Usage
+      remediation: >
+        Ensure that usage of the TelephonyManager and other APIs related to privileged phone state is compliant
+        with privacy policies. Consider using alternative methods where possible, and ensure that any usage of
+        these APIs is explicitly justified and logged as part of the app's privacy and security audit.
+    path: .*\.(java|kt)$

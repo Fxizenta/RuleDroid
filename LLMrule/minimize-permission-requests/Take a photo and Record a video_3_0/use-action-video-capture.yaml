@@ -1,0 +1,27 @@
+rules:
+- id: use-action-video-capture
+  languages:
+  - java
+  message: >
+    Using the ACTION_VIDEO_CAPTURE intent action for recording videos.
+    Ensure the intent is securely configured and consider setting output URI for better control.
+  metadata:
+    category: best-practice
+    technology: Android
+  severity: INFO
+  patterns:
+  # 匹配常见的 ACTION_VIDEO_CAPTURE 初始化形式
+  - pattern-either:
+    - pattern: 'Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);'
+    - pattern: |
+        Intent intent = new Intent();
+        intent.setAction(MediaStore.ACTION_VIDEO_CAPTURE);
+  # 排除非目标场景
+  pattern-not-inside:
+  - pattern: 'Intent intent = new Intent($OTHER_ACTION$);'
+  fix: |
+    Use `ACTION_VIDEO_CAPTURE` securely by setting an output URI:
+    ```java
+    Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File("path_to_output_file")));
+    ```

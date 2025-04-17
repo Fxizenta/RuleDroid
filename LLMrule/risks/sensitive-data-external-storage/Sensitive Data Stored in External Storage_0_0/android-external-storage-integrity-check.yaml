@@ -1,0 +1,30 @@
+rules:
+- id: android-external-storage-integrity-check
+  languages:
+  - java
+  - kotlin
+  message: Ensure integrity checks are performed when loading data from external storage.
+  metadata:
+    cwe: CWE-353
+    owasp: 'M9: Reverse Engineering'
+    references:
+    - https://developer.android.com/training/data-storage
+    - https://developer.android.com/training/articles/security-tips.html#StoringData
+  path: .*\.(java|kt)
+  pattern-not: '// This pattern-not ensures that we are not matching unrelated MessageDigest
+    instances
+
+    MessageDigest.getInstance("MD5")
+
+    '
+  patterns:
+  - pattern: 'MessageDigest.getInstance("SHA-256")
+
+      '
+  - pattern: 'md.update($BUFFER, 0, $BYTES_READ)
+
+      '
+  - pattern: 'md.digest()
+
+      '
+  severity: ERROR

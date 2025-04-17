@@ -1,0 +1,14 @@
+rules:
+- id: android-manifest-messages-permission
+  languages:
+  - xml
+  message: 'Manifest declares a messaging-related permission ($PERMISSION) that may allow access to or management of messages data. Verify that its use is justified and complies with privacy requirements.'
+  metadata:
+    category: privacy
+    reference: Android Messaging Permissions
+  patterns:
+  - pattern: <uses-permission android:name="$PERMISSION" />
+  - metavariable-regex:
+      metavariable: $PERMISSION
+      regex: android\.permission\.(READ_SMS|SEND_SMS|WRITE_SMS|RECEIVE_SMS|RECEIVE_MMS|RECEIVE_WAP_PUSH|SEND_RESPOND_VIA_MESSAGE|BROADCAST_SMS|BROADCAST_WAP_PUSH)
+  severity: INFO

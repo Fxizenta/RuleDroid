@@ -1,0 +1,9 @@
+rules:
+  - id: search-interface-xml
+    languages:
+      - xml
+    message: "A SearchView component was detected in the XML layout. Please check whether the handling of search history and other private data complies with the requirements."
+    metadata:
+      category: Android Privacy
+    pattern-regex: '(?x)<(?:\w+\.)*SearchView\b'
+    severity: INFO

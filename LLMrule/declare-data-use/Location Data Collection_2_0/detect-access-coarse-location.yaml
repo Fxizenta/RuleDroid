@@ -1,0 +1,22 @@
+rules:
+- id: detect-access-coarse-location
+  languages:
+    - java
+  message: Usage of ACCESS_COARSE_LOCATION detected. Ensure that location data is handled securely.
+  severity: INFO
+  patterns:
+    # Detect methods annotated with @RequiresPermission(ACCESS_COARSE_LOCATION)
+    - pattern: |
+        @RequiresPermission(ACCESS_COARSE_LOCATION)
+        public $RET $METHOD($ARGS) {
+          ...
+        }
+    # Detect calls to requestPermissions for ACCESS_COARSE_LOCATION
+    - pattern: |
+        $X.requestPermissions(new String[] {ACCESS_COARSE_LOCATION, ...}, $Y);
+    # Exclude methods annotated with @RequiresPermission(ACCESS_FINE_LOCATION)
+    - pattern-not: |
+        @RequiresPermission(ACCESS_FINE_LOCATION)
+        public $RET $METHOD($ARGS) {
+          ...
+        }

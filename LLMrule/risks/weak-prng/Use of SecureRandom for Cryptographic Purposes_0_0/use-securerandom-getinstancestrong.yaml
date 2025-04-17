@@ -1,0 +1,26 @@
+rules:
+  - id: use-securerandom-getinstancestrong
+    languages:
+      - java
+      - kotlin
+    message: Use `SecureRandom.getInstanceStrong()` for better security when blocking the thread is acceptable.
+    metadata:
+      cwe: cwe-330
+      masvs: crypto-6
+      owasp-mobile: m5
+      reference: https://github.com/OWASP/owasp-mastg/blob/v1.5.0/Document/0x05e-Testing-Cryptography.md#testing-random-number-generation-mstg-crypto-6
+    paths:
+      exclude:
+        - '**/test/**'
+        - '**/example/**'
+    pattern-not: |
+      SecureRandom.getInstanceStrong()
+    patterns:
+      - pattern-either:
+          - pattern: |
+              SecureRandom $RANDOM = new SecureRandom();
+          - pattern: |
+              SecureRandom $RANDOM = SecureRandom.getInstance(...);
+          - pattern: |
+              SecureRandom $RANDOM = SecureRandom.getInstance($ALGORITHM);
+    severity: ERROR

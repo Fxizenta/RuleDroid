@@ -1,0 +1,16 @@
+rules:
+- id: app-activity-bind-system-service
+  languages:
+  - java
+  message: "\u4EE3\u7801\u4E2D\u7ED1\u5B9A\u5230\u4E86\u654F\u611F\u7684\u7CFB\u7EDF\
+    \u670D\u52A1\uFF08AccessibilityService \u6216 TextService\uFF09\u3002\u8BF7\u4ED4\
+    \u7EC6\u68C0\u67E5\u4EE5\u786E\u8BA4\u8BE5\u7ED1\u5B9A\u662F\u5426\u662F\u5FC5\
+    \u8981\u4E14\u7B26\u5408\u7528\u6237\u6570\u636E\u4FDD\u62A4\u8981\u6C42\u3002"
+  metadata:
+    category: Android Security
+    reference: App Activity Data Collection
+  name: "\u7ED1\u5B9A\u7CFB\u7EDF\u670D\u52A1 (AccessibilityService/TextService)"
+  patterns:
+  - pattern: class $CLASS extends AccessibilityService
+  - pattern: class $CLASS extends TextService
+  severity: WARNING

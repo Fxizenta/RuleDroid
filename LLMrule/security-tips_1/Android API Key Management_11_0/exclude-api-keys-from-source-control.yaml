@@ -1,0 +1,21 @@
+rules:
+- id: exclude-api-keys-from-source-control
+  languages:
+  - java
+  message: Ensure API keys are excluded from source control. Use environment variables
+    or secure storage.
+  metadata:
+    category: security
+    technology: android
+  patterns:
+  - pattern: '// Add your API key here
+
+      String apiKey = "$API_KEY";
+
+      '
+  - pattern-not: '// This is a comment
+
+      String apiKey = "example_key";
+
+      '
+  severity: ERROR

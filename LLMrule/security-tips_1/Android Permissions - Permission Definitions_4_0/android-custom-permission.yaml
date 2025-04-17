@@ -1,0 +1,48 @@
+rules:
+  - id: android-custom-permission
+    languages:
+      - xml
+    message: >
+      Custom permission is defined without specifying a protection level or with insufficient protection. 
+      This could lead to security issues. Consider using existing permissions where appropriate or 
+      define protection level with at least 'signature' protection level.
+    severity: ERROR
+    patterns:
+      - pattern-either:
+          - pattern: |
+              <permission android:name="$PERMISSION_NAME" />
+          - pattern: |
+              <permission
+                  android:name="$PERMISSION_NAME"
+                  ...
+              />
+              
+      - pattern-not: |
+          <permission
+              android:name="android.permission.$PERMISSION_NAME"
+              ...
+          />
+      - pattern-not: |
+          <permission
+              android:name="$PERMISSION_NAME"
+              android:protectionLevel="signature"
+              ...
+          />
+      - pattern-not: |
+          <permission
+              android:name="$PERMISSION_NAME"
+              android:protectionLevel="signature|privileged"
+              ...
+          />
+      - pattern-not: |
+          <permission
+              android:name="$PERMISSION_NAME"
+              android:protectionLevel="signature|system"
+              ...
+          />
+    metadata:
+      cwe: CWE-732
+      owasp-mobile: M3
+      masvs: auth-3
+      reference: >
+        https://developer.android.com/guide/topics/permissions/defining

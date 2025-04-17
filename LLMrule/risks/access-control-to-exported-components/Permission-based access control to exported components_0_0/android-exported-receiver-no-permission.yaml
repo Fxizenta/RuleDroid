@@ -1,0 +1,15 @@
+rules:
+- id: android-exported-receiver-no-permission
+  languages:
+  - xml
+  message: Exported receiver without required permission.
+  metadata:
+    cwe: CWE-284
+    owasp: 'M1: Improper Platform Usage'
+  path: AndroidManifest.xml
+  patterns:
+  - pattern: "<receiver\n  android:name=\"$RECEIVER_NAME\"\n  android:exported=\"\
+      true\"\n  ... />\n"
+  - pattern-not: "<receiver\n  android:name=\"$RECEIVER_NAME\"\n  android:exported=\"\
+      true\"\n  android:permission=\"$PERMISSION\"\n  ... />\n"
+  severity: ERROR

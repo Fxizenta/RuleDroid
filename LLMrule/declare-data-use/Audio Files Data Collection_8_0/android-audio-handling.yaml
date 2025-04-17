@@ -1,0 +1,25 @@
+rules:
+  - id: android-audio-handling
+    languages:
+      - java
+    message: This app handles media files which may include audio files. Ensure proper security measures are in place (e.g., permissions, secure configurations).
+    metadata:
+      category: security
+      technology: android
+      remediation: Ensure proper permissions and secure configurations when handling audio files.
+    severity: INFO
+    patterns:
+      - pattern-either:
+          - pattern: |
+              MediaRecorder $RECORDER = new MediaRecorder();
+          - pattern: |
+              MediaPlayer $PLAYER = new MediaPlayer();
+          - pattern: |
+              AudioRecord $AUDIO_RECORD = new AudioRecord(...);
+          - pattern: |
+              AudioTrack $AUDIO_TRACK = new AudioTrack(...);
+    pattern-not: |
+      @Test
+      public void $TEST_METHOD(...) {
+        ...
+      }

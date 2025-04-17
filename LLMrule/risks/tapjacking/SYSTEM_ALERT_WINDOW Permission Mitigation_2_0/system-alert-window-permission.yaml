@@ -1,0 +1,21 @@
+rules:
+  - id: system-alert-window-permission
+    languages:
+      - xml
+    message: The app requests SYSTEM_ALERT_WINDOW permission. Ensure that the app handles overlay windows securely.
+    metadata:
+      cwe: CWE-276
+      owasp: A5:2021
+    patterns:
+      - pattern: |
+          <manifest>
+            ...
+            <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+            ...
+          </manifest>
+    pattern-not: |
+      <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" tools:node="remove" />
+    references:
+      - https://developer.android.com/reference/android/Manifest.permission.html#SYSTEM_ALERT_WINDOW
+      - https://developer.android.com/about/versions/12/behavior-changes-12#hide-overlay-windows
+    severity: INFO

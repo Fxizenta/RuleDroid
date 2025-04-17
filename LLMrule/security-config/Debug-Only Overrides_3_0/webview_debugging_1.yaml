@@ -1,0 +1,20 @@
+rules:
+  - id: webview_debugging_1
+    languages:
+      - java
+    message: >
+      Remote WebView debugging is enabled. This allows an attacker with debugging
+      access to interact with the webview and steal or corrupt data.
+    metadata:
+      cwe: cwe-489
+      masvs: resilience-2
+      owasp-mobile: m1
+      reference: https://github.com/MobSF/owasp-mstg/blob/master/Document/0x05j-Testing-Resiliency-Against-Reverse-Engineering.md#testing-anti-debugging-detection-mstg-resilience-2
+    patterns:
+      - pattern-either:
+          - pattern: $WB.setWebContentsDebuggingEnabled(true);
+          - pattern: |
+              $X = true;
+              ...
+              $WB.setWebContentsDebuggingEnabled($X);
+    severity: ERROR

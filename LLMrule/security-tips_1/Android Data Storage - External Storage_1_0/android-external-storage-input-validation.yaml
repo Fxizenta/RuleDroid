@@ -1,0 +1,60 @@
+rules:
+  - id: android-external-storage-input-validation
+    languages:
+      - java
+    message: |
+        Perform input validation when handling data from external storage as you would with data from any untrusted source.
+    metadata:
+      category: security
+      technology: android
+      owasp-mobile: M1
+      cwe: CWE-20
+    severity: INFO
+    patterns:
+      # 检测外部存储访问和文件操作
+      - pattern: |
+          File file = new File($EXTERNAL_STORAGE, $FILENAME);
+          $FILE_OPERATION = new $FILE_CLASS(file);
+      # 检测通过 Context 获取外部存储的方式
+      - pattern: |
+          File file = new File($CONTEXT.getExternalFilesDir($TYPE), $FILENAME);
+          $FILE_OPERATION = new $FILE_CLASS(file);
+      # 检测其他方式获取外部存储
+      - pattern: |
+          File file = new File($CONTEXT.getExternalStoragePublicDirectory($TYPE), $FILENAME);
+          $FILE_OPERATION = new $FILE_CLASS(file);
+      # 检测直接使用外部存储的路径
+      - pattern: |
+          File file = new File($EXTERNAL_STORAGE_PATH, $FILENAME);
+          $FILE_OPERATION = new $FILE_CLASS(file);
+      # 排除明确的输入验证逻辑
+      - pattern-not: |
+          if ($VALIDATION_LOGIC) {
+              $FILE_OPERATION = new $FILE_CLASS(file);
+          }
+      - pattern-not: |
+          $VALIDATION_LOGIC;
+          $FILE_OPERATION = new $FILE_CLASS(file);
+      # 检测不安全的文件写入操作
+      - pattern: |
+          $FILE_OPERATION = new $FILE_CLASS($EXTERNAL_STORAGE_PATH + $FILENAME);
+      # 检测从外部存储读取文件内容时没有验证
+      - pattern: |
+          $FILE_OPERATION = new $FILE_CLASS($EXTERNAL_STORAGE_PATH + $FILENAME);
+          $CONTENT = $FILE_OPERATION.read();
+    metavariable-pattern:
+      # 约束 $EXTERNAL_STORAGE 的值
+      - metavariable: $EXTERNAL_STORAGE
+        pattern: 'Environment.get(ExternalFilesDir|ExternalStorageDirectory)'
+      # 约束 $EXTERNAL_STORAGE_PATH 的值
+      - metavariable: $EXTERNAL_STORAGE_PATH
+        pattern: '(Environment.getExternalStorageDirectory())|(getExternalStoragePublicDirectory(.+))'
+      # 约束 $FILE_CLASS 的值
+      - metavariable: $FILE_CLASS
+        pattern: 'FileInputStream|FileReader|BufferedReader|RandomAccessFile|FileOutputStream|FileWriter'
+      # 约束 $VALIDATION_LOGIC 的值
+      - metavariable: $VALIDATION_LOGIC
+        pattern: '(validateInput|isValidFile|checkFileSafety|file.exists()|file.canRead()|$CUSTOM_VALIDATION)'
+      # 约束 $CUSTOM_VALIDATION 的值
+      - metavariable: $CUSTOM_VALIDATION
+        pattern: '([a-zA-Z_]+(file))'

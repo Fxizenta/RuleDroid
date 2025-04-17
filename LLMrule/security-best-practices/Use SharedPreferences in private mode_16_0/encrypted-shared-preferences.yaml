@@ -1,0 +1,37 @@
+rules:
+  - id: encrypted-shared-preferences
+    languages:
+      - java
+      - kotlin
+    message: |
+      Consider using EncryptedSharedPreferences to encrypt keys and values automatically.
+      SharedPreferences stores data in plain text, which could be accessed by attackers.
+    metadata:
+      cwe: 'CWE-311: Missing Encryption of Sensitive Data'
+      owasp: 'M9: Reverse Engineering'
+    severity: INFO
+    patterns:
+      - pattern-either:
+          - pattern: getSharedPreferences($KEY, $MODE)
+          - pattern: PreferenceManager.getDefaultSharedPreferences($CONTEXT)
+      - pattern-not-inside: |
+          EncryptedSharedPreferences.create(
+              $KEY,
+              $MASTER_KEY_ALIAS,
+              $CONTEXT,
+              EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+              EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+          )
+      - pattern-not-inside: |
+          $SP = EncryptedSharedPreferences.create(...)
+    fix: |
+      Use `EncryptedSharedPreferences` to ensure data encryption:
+      ```java
+      val sharedPreferences = EncryptedSharedPreferences.create(
+          "my_prefs",
+          MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
+          context,
+          EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+          EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+      )
+      ```

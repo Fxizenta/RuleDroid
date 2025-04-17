@@ -1,0 +1,19 @@
+rules:
+- id: android-sms-sensitive-operations
+  languages:
+  - java
+  message: Sending SMS messages directly can be insecure. Consider using Firebase
+    Cloud Messaging (FCM) for sending data messages.
+  metadata:
+    cwe: 'CWE-319: Cleartext Transmission of Sensitive Information'
+    owasp: 'M3: Insecure Communication'
+  patterns:
+  - pattern: 'SmsManager smsManager = SmsManager.getDefault();
+
+      smsManager.sendTextMessage($PHONE_NUMBER, null, $MESSAGE, null, null);
+
+      '
+  - pattern-not: '
+      secureSmsManager.sendTextMessage($PHONE_NUMBER, null, $MESSAGE, null, null);
+      '
+  severity: WARNING

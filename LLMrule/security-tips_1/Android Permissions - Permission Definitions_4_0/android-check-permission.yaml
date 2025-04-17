@@ -1,0 +1,15 @@
+rules:
+- id: android-check-permission
+  languages:
+  - java
+  message: Ensure that the permission check is necessary and follows the Principle of Least Privilege.
+  patterns:
+  - pattern: ContextCompat.checkSelfPermission($CONTEXT, $PERMISSION)
+  - pattern-not-inside: |
+      // ...
+      ContextCompat.checkSelfPermission($CONTEXT, $PERMISSION)
+  severity: INFO
+  metadata:
+    category: security
+    technology: android
+    cwe: "CWE-285: Improper Authorization"

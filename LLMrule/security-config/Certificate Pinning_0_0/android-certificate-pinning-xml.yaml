@@ -1,0 +1,42 @@
+rules:
+  - id: android-certificate-pinning-xml
+    languages:
+      - xml
+    message: "A certificate binding configuration is detected in network_security_config.xml. Please confirm whether the primary pin and backup pin are bound in the pin-set, and check whether the expiration time is appropriate."
+    severity: ERROR
+    metadata:
+      cwe: CWE-295
+      masvs: network-4
+      owasp-mobile: M3
+      reference: https://developer.android.com/training/articles/security-config#CertificatePinning
+    pattern-either:
+      - patterns:
+          - pattern: |
+              <network-security-config>
+                ...
+                <pin-set expiration=$EXP>
+                  ... <pin digest=$DIGEST>$PIN</pin> ...
+                </pin-set>
+                ...
+              </network-security-config>
+          - pattern-not: |
+              <network-security-config>
+                ...
+                <pin-set expiration=$EXP>
+                  ... <pin digest=$DIGEST>$PIN</pin> ...
+                  ... <pin digest=$DIGEST2>$PIN2</pin> ...
+                </pin-set>
+                ...
+              </network-security-config>
+      - patterns:
+          - pattern: |
+              <network-security-config>
+                ...
+                <pin-set expiration=$EXP>
+                  ... <pin digest=$DIGEST>$PIN</pin> ...
+                </pin-set>
+                ...
+              </network-security-config>
+          - metavariable-comparison:
+              metavariable: $EXP
+              comparison: strptime($EXP, "%Y-%m-%d") < today()

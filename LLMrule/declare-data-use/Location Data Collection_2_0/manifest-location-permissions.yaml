@@ -1,0 +1,22 @@
+rules:
+- id: manifest-location-permissions
+  languages:
+  - xml
+  message: 'The Android manifest declares a location-based permission (ACCESS_FINE_LOCATION,
+    ACCESS_COARSE_LOCATION, or ACCESS_MEDIA_LOCATION). Verify that only necessary
+    permissions are requested and that proper user consent is obtained.
+
+    '
+  metadata:
+    category: privacy
+    references:
+    - https://developer.android.com/training/permissions/usage-notes#requesting-permissions
+  name: Detect Android Location Permission Declarations in AndroidManifest.xml
+  pattern-either:
+  - pattern: <uses-permission ... android:name="android.permission.ACCESS_FINE_LOCATION"
+      .../>
+  - pattern: <uses-permission ... android:name="android.permission.ACCESS_COARSE_LOCATION"
+      .../>
+  - pattern: <uses-permission ... android:name="android.permission.ACCESS_MEDIA_LOCATION"
+      .../>
+  severity: INFO

@@ -1,0 +1,22 @@
+rules:
+  - id: android-api-mac-address
+    languages:
+      - java
+    message: >
+      Usage of MAC address detected. MAC addresses are considered sensitive information and
+      should not be used unless absolutely necessary. Ensure compliance with privacy policies 
+      and regulations (e.g., GDPR, CCPA).
+    severity: INFO
+    patterns:
+      - pattern: |
+          WifiInfo.getMacAddress()
+      - pattern-not: |
+          // Exclude legitimate use cases (e.g., for debugging or testing)
+          Log.$METHOD(WifiInfo.getMacAddress())
+    metadata:
+      references:
+        - https://developer.android.com/reference/android/net/wifi/WifiInfo#getMacAddress()
+      category: Privacy
+      remediation: >
+        Avoid using MAC addresses unless necessary, and ensure compliance with privacy regulations 
+        such as GDPR and CCPA. Consider alternatives that do not compromise user privacy.

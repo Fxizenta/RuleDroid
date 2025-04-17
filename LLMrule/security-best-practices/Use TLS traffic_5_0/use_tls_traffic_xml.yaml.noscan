@@ -1,0 +1,33 @@
+rules:
+  - id: use_tls_traffic_xml
+    languages:
+      - xml
+    message: >
+      Insecure usage detected in XML: an HTTP URL was found.
+
+      When communicating with a web server that has a certificate issued by a well-known CA,
+      secure the connection by using an HTTPS request.
+    fix: >
+      Replace the HTTP URL with an HTTPS URL to ensure secure communication.
+    metadata:
+      cwe: "CWE-295: Improper Certificate Validation"
+      masvs: "Network-2: Ensure secure transport mechanisms"
+      owasp-mobile: "M3: Insecure Communication"
+      reference: "https://developer.android.com/training/articles/security-config.html"
+    patterns:
+      - pattern-either:
+          # Match <tag>http://example.com</tag>
+          - pattern: "<$TAG ...>$URL</$TAG>"
+          # Match attributes containing an HTTP URL (e.g., <config url="http://example.com" />)
+          - pattern: '$ATTR="$URL"'
+    metavariable-regex:
+      # Match only XML tags related to URLs to avoid false positives
+      - metavariable: $TAG
+        regex: "(?i)^(url|link|endpoint|base|address|server|location|resource|api|webview|redirect)$"
+      # Match only attributes that typically contain URLs
+      - metavariable: $ATTR
+        regex: "(?i)^(android:host|android:scheme|url|href|link|src|data|action)$"
+      # Strictly match 'http://' but exclude localhost, internal IPs, loopback, and XML comments
+      - metavariable: $URL
+        regex: "(?i)^http://(?!localhost|127\\.|192\\.168\\.|10\\.|172\\.(1[6-9]|2[0-9]|3[0-1])\\.|.*(-->|<!)).*"
+    severity: ERROR

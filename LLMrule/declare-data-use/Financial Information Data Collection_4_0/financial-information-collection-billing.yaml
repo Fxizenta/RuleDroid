@@ -1,0 +1,16 @@
+rules:
+  - id: financial-information-collection-billing
+    languages:
+      - java
+    message: >
+      Detected usage of the Google Play Billing Library. This may indicate that
+      the app (or one of its libraries) handles sensitive financial data (e.g. payment
+      info or purchase history).
+    metadata:
+      category: financial-data-collection
+      description: >
+        This rule identifies import statements for the Google Play Billing Library.
+        By using a metavariable ($X), it captures both explicit class imports and
+        wildcard imports, reducing the risk of false negatives.
+    pattern: import com.android.billingclient.api.$X;
+    severity: INFO

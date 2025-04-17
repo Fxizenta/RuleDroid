@@ -1,0 +1,30 @@
+rules:
+  - id: uses_cleartext_traffic
+    languages:
+      - xml
+    message: Only load web content over HTTPS by setting android:usesCleartextTraffic to false.
+    metadata:
+      cwe: cwe-319
+      masvs: platform-7
+      owasp-mobile: m1
+    patterns:
+      - pattern: |
+          <application
+            android:usesCleartextTraffic="true"
+            ...
+          >
+      - pattern: |
+          <application
+            ...
+            android:usesCleartextTraffic="true"
+            ...
+          >
+    severity: ERROR
+    path-regex: .*AndroidManifest\.xml$
+    fix: |
+      Ensure that the `android:usesCleartextTraffic` attribute is explicitly set to `false` in your AndroidManifest.xml file:
+      ```xml
+      <application
+          android:usesCleartextTraffic="false"
+          ...>
+      ```

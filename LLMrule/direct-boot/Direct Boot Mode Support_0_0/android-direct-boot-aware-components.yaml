@@ -1,0 +1,84 @@
+rules:
+  - id: android-direct-boot-aware-components
+    languages:
+      - xml
+    message: >
+      Ensure that components are registered as encryption aware for Direct Boot mode.
+      Use android:directBootAware="true" for BroadcastReceivers, Services, and ContentProviders
+      that need to function before the user unlocks the device.
+    metadata:
+      cwe: 'CWE-312: Cleartext Storage of Sensitive Information'
+      owasp: 'M5: Insufficient Cryptography'
+    path: AndroidManifest.xml
+    severity: ERROR
+    patterns:
+      - pattern-either:
+          # 1. BroadcastReceiver 监听 LOCKED_BOOT_COMPLETED 或 BOOT_COMPLETED，但未声明 directBootAware="true"
+          - pattern: |
+              <receiver
+                ...
+              >
+                ...
+                <intent-filter>
+                  <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+                </intent-filter>
+              </receiver>
+          - pattern: |
+              <receiver
+                ...
+              >
+                ...
+                <intent-filter>
+                  <action android:name="android.intent.action.BOOT_COMPLETED" />
+                </intent-filter>
+              </receiver>
+          # 2. Service 监听 LOCKED_BOOT_COMPLETED，但未声明 directBootAware="true"
+          - pattern: |
+              <service
+                ...
+              >
+                ...
+                <intent-filter>
+                  <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+                </intent-filter>
+              </service>
+          # 3. ContentProvider 存在但未声明 directBootAware="true"
+          - pattern: |
+              <provider
+                ...
+              />
+      - pattern-not: |
+          <receiver
+            android:directBootAware="true"
+            ...
+          >
+            ...
+            <intent-filter>
+              <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+            </intent-filter>
+          </receiver>
+      - pattern-not: |
+          <receiver
+            android:directBootAware="true"
+            ...
+          >
+            ...
+            <intent-filter>
+              <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+          </receiver>
+      - pattern-not: |
+          <service
+            android:directBootAware="true"
+            ...
+          >
+            ...
+            <intent-filter>
+              <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+            </intent-filter>
+          </service>
+      - pattern-not: |
+          <provider
+            android:directBootAware="true"
+            ...
+          />

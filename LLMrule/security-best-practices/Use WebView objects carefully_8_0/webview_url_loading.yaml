@@ -1,0 +1,34 @@
+rules:
+- id: webview_url_loading
+  languages:
+  - java
+  message: WebView objects in your app shouldn't let users navigate to sites that
+    are outside of your control.  Whenever possible, use an allowlist to restrict
+    the content loaded by your app's WebView objects.
+  metadata:
+    cwe: cwe-601
+    masvs: platform-7
+    owasp-mobile: m1
+    reference: https://developer.android.com/reference/android/webkit/WebView#loadUrl(java.lang.String)
+  patterns:
+  - pattern-either:
+    - pattern: '$WB.loadUrl($URL);
+
+        '
+    - pattern: '$WB.loadData($DATA, $MIME_TYPE, $ENCODING);
+
+        '
+    - pattern: '$WB.loadDataWithBaseURL($BASE_URL, $DATA, $MIME_TYPE, $ENCODING, $HISTORY_URL);
+
+        '
+  patterns-not:
+  - pattern: '$WB.loadUrl("about:blank");
+
+      '
+  - pattern: '$WB.loadUrl("file://$FILE");
+
+      '
+  - pattern: '$WB.loadUrl("content://$CONTENT");
+
+      '
+  severity: WARNING

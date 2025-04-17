@@ -1,0 +1,13 @@
+rules:
+- id: android-dangerous-permission
+  languages:
+  - xml
+  message: Using dangerous permissions requires careful consideration. Ensure the
+    permission string is concise, localized, and clearly explains the security decision
+    to the user.
+  patterns:
+  - pattern: "<permission\n    android:name=\"$PERMISSION_NAME\"\n    android:protectionLevel=\"\
+      dangerous\" />\n"
+  - pattern-not: "<permission\n    android:name=\"android.permission.$PERMISSION_NAME\"\
+      \n    android:protectionLevel=\"dangerous\" />\n"
+  severity: INFO

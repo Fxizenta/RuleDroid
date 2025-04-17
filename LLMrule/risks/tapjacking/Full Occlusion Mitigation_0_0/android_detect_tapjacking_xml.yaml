@@ -1,0 +1,17 @@
+rules:
+- id: android_detect_tapjacking_xml
+  languages:
+  - xml
+  message: This XML attribute sets `filterTouchesWhenObscured="true"` to prevent tapjacking
+    attacks by blocking touches passed by an overlay.
+  metadata:
+    cwe: cwe-200
+    masvs: platform-9
+    owasp-mobile: m1
+    reference: https://github.com/MobSF/owasp-mstg/blob/master/Document/0x05h-Testing-Platform-Interaction.md#testing-for-overlay-attacks-mstg-platform-9
+  patterns:
+  - pattern: android:filterTouchesWhenObscured="true"
+  - pattern-not-inside: '<!-- This is a comment to ignore -->
+
+      '
+  severity: ERROR

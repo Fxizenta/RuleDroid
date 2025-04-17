@@ -1,0 +1,14 @@
+rules:
+- id: android-null-sslsocketfactory
+  languages:
+  - java
+  message: >
+    In Android 10, passing null to setSSLSocketFactory() throws an IllegalArgumentException.
+    Ensure that instead of passing null, the current default SSL factory is used.
+    Note: If this call is guarded by a check ensuring that Build.VERSION.SDK_INT is less than 29,
+    then it is considered safe.
+  pattern: $OBJ.setSSLSocketFactory(null)
+  pattern-not-inside:
+  - /if\s*\(\s*(?:android\.os\.)?Build\.VERSION\.SDK_INT\s*<\s*29\s*\)/
+  - /if\s*\(\s*(?:android\.os\.)?Build\.VERSION\.SDK_INT\s*<=\s*28\s*\)/
+  severity: ERROR

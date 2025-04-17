@@ -1,0 +1,14 @@
+rules:
+  - id: android-sharedpreferences-insecure-mode
+    languages:
+      - java
+      - kotlin
+    name: "Using the unsafe SharedPreferences pattern"
+    message: "Do not use MODE_WORLD_READABLE or MODE_WORLD_WRITEABLE to access SharedPreferences, always use MODE_PRIVATE. EncryptedSharedPreferences is recommended for additional security."
+    metadata:
+      category: security
+      technology: android
+    severity: ERROR
+    pattern: getSharedPreferences(..., $MODE)
+    metavariable-regex:
+      MODE: '.*(MODE_WORLD_READABLE|MODE_WORLD_WRITEABLE).*'

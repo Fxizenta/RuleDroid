@@ -1,0 +1,26 @@
+rules:
+- id: downloadmanager-uri-parse
+  languages:
+  - java
+  message: 'Use of Uri.parse() for constructing a DownloadManager.Request may be insecure
+    because Uri.parse() performs minimal validation. Ensure that the URL is properly
+    sanitized before use.
+
+    '
+  metadata:
+    cwe: CWE-20
+    masvs: platform-7
+    owasp-mobile: M3
+    reference: https://developer.android.com/reference/android/app/DownloadManager.Request
+  patterns:
+  - pattern-either:
+    - pattern: 'new DownloadManager.Request(Uri.parse($URI))
+
+        '
+    - pattern: '$VAR = Uri.parse($URI);
+
+        '
+    - pattern: 'new DownloadManager.Request($VAR)
+
+        '
+  severity: WARNING

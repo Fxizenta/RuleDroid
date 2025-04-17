@@ -1,0 +1,13 @@
+rules:
+- id: use-fileprovider
+  languages:
+    - java
+  message: Use FileProvider to generate content:// URIs instead of using Uri.parse.
+  metadata:
+    cwe: CWE-927 # CWE-927: Use of Incorrectly-Resolved URI Schemes
+  severity: ERROR
+  patterns:
+    - pattern-not: |
+        Uri uri = Uri.parse("content://$URI");
+    - pattern: |
+        Uri uri = FileProvider.getUriForFile($CONTEXT, "$AUTHORITY", $FILE);

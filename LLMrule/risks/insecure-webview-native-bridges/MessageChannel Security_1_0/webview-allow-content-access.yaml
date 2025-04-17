@@ -1,0 +1,16 @@
+rules:
+  - id: webview-allow-content-access
+    languages:
+      - java
+    message: >-
+      Avoid setting WebView.setAllowContentAccess(true), as it can expose sensitive local files to untrusted sources.
+    severity: WARNING
+    patterns:
+      - pattern: |
+          $WV.setAllowContentAccess(true);
+      - pattern-not:
+          $WV.setAllowContentAccess(false);
+    metadata:
+      cwe: CWE-200
+      owasp-mobile: M4
+      reference: https://owasp.org/www-project-mobile-top-10/

@@ -1,0 +1,20 @@
+rules:
+- id: android-add-permission
+  languages:
+  - java
+  message: |
+    Dynamically adding permissions should be done with caution. 
+    Ensure that the permission is necessary and follows the Principle of Least Privilege.
+  severity: INFO
+  patterns:
+  - pattern: |
+      $PM = getPackageManager();
+      ...
+      $PM.addPermission($PERMISSION); 
+  metadata:
+    cwe: "CWE-285" # Improper Authorization
+    references:
+      - "https://developer.android.com/reference/android/content/pm/PackageManager#addPermission(android.content.pm.PermissionInfo)"
+  fix: |
+    Review the use of addPermission and ensure it is strictly necessary. 
+    Avoid dynamically adding permissions unless absolutely required. Ensure this operation is subject to appropriate checks and justifications.

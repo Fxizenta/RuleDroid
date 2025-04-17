@@ -1,0 +1,32 @@
+rules:
+- id: android-sms-broadcast-intent
+  languages:
+  - xml
+  message: >
+    SMS messages are transmitted as broadcast intents and can be intercepted by other applications.
+    Ensure sensitive data is not transmitted via SMS and that proper permissions are in place.
+  metadata:
+    cwe: 'CWE-319: Cleartext Transmission of Sensitive Information'
+    owasp: 'M3: Insecure Communication'
+  severity: ERROR
+  patterns:
+  - pattern: |
+      <receiver android:name="$RECEIVER_CLASS">
+        <intent-filter>
+          <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+        </intent-filter>
+      </receiver>
+  - pattern-not: |
+      <receiver android:name="$RECEIVER_CLASS" android:permission="android.permission.BROADCAST_SMS">
+        <intent-filter>
+          <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+        </intent-filter>
+      </receiver>
+  - pattern-not: |
+      <!-- Exclude cases where secure handling is explicitly documented -->
+      <receiver android:name="$RECEIVER_CLASS" tools:ignore="SecureHandling">
+        <intent-filter>
+          <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+        </intent-filter>
+      </receiver>
+  path: "AndroidManifest.xml"

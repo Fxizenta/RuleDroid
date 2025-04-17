@@ -1,0 +1,22 @@
+rules:
+  - id: android-certificate-pinning-java
+    languages:
+      - java
+    message: "A certificate binding implementation is detected in the code. Please check whether the binding configuration is correct and confirm that a backup certificate has been configured to correspond to the certificate replacement situation."
+    metadata:
+      cwe: CWE-295
+      masvs: network-4
+      owasp-mobile: M3
+      reference: "https://developer.android.com/training/articles/security-config#CertificatePinning"
+    patterns:
+      - pattern-either:
+          - pattern: "import org.thoughtcrime.ssl.pinning"
+          - pattern: "new CertificatePinner.Builder($ARGS)"
+          - pattern: "CertificatePinner.Builder($ARGS)"
+          - pattern: "TrustKit.initializeWithNetworkSecurityConfiguration($CONFIG)"
+          - pattern: "TrustKit.getInstance().getSSLSocketFactory($ARGS)"
+          - pattern: "OkHttp2Helper.getPinningInterceptor($ARGS)"
+          - pattern: "OkHttp3Helper.getPinningInterceptor($ARGS)"
+          - pattern: "new PinningHostnameVerifier($ARGS)"
+          - pattern: "PinningHelper.getPinnedHttpsURLConnection($ARGS)"
+    severity: INFO

@@ -1,0 +1,41 @@
+rules:
+- id: android-collect-address
+  languages:
+  - java
+  message: |
+      The app collects the user's address using the getAddress() method.
+      Ensure that personal information is handled securely.
+  metadata:
+    category: Personal Information Data Collection
+    cwe: CWE-359  # 不安全的个人数据存储
+    owasp-mobile: M2  # 不安全的数据存储
+  severity: INFO
+  patterns:
+    - pattern-either:
+        # 1. 直接调用 getAddress() 获取地址信息
+        - pattern: |
+            String $ADDRESS = $OBJ.getAddress();
+        # 2. Geocoder 获取地址
+        - pattern: |
+            Geocoder $GEOCODER = new Geocoder($CTX);
+            List<Address> $ADDR_LIST = $GEOCODER.getFromLocation($LAT, $LON, 1);
+        - pattern: |
+            Geocoder $GEOCODER = new Geocoder($CTX);
+            List<Address> $ADDR_LIST = $GEOCODER.getFromLocationName($PLACE, 1);
+  
+  pattern-not-either:
+    # 排除无害的硬编码地址
+    - pattern: |
+        String $ADDRESS = "example address";
+    - pattern: |
+        String $ADDRESS = "localhost";
+    - pattern: |
+        String $ADDRESS = "127.0.0.1";
+    # 排除空值或默认值
+    - pattern: |
+        String $ADDRESS = null;
+    - pattern: |
+        String $ADDRESS = "";
+    # 排除对不涉及用户隐私的 `getAddress()` 调用
+    - pattern: |
+        String $ADDRESS = SomeOtherClass.getAddress();

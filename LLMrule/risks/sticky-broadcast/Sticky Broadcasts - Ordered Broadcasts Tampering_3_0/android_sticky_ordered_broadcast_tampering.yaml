@@ -1,0 +1,14 @@
+rules:
+- id: android_sticky_ordered_broadcast_tampering
+  languages: [java]
+  message: "Sticky ordered broadcasts sent using sendStickyOrderedBroadcast may allow attackers to tamper with the broadcast result data or interfere with the broadcast. Please consider using a more secure broadcast mechanism or explicitly specifying broadcast receivers."
+  metadata:
+    cwe: CWE-284
+    masvs: platform-10
+    owasp-mobile: M10
+    reference: "https://developer.android.com/reference/android/content/Context#sendStickyOrderedBroadcast(android.content.Intent,android.content.BroadcastReceiver,android.os.Handler,int,java.lang.String,android.os.Bundle)"
+  patterns:
+  - pattern-either:
+    - pattern: $CTX.sendStickyOrderedBroadcast(...)
+    - pattern: sendStickyOrderedBroadcast(...)
+  severity: WARNING

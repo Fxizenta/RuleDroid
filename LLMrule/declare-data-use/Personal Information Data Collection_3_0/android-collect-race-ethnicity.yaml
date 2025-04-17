@@ -1,0 +1,27 @@
+rules:
+  - id: android-collect-race-ethnicity
+    languages:
+      - java
+    message: >
+      The app collects information about the user's race or ethnicity, which is personal information.
+      Ensure this is handled appropriately according to privacy regulations.
+    metadata:
+      category: Personal Information Data Collection
+      references:
+        - https://developer.android.com/topic/security/best-practices
+    severity: INFO
+    patterns:
+      - pattern: |
+          String $RACE_ETHNICITY = $OBJ.getRaceEthnicity();
+      - pattern-not: |
+          // Ignore cases where the method is used in non-sensitive contexts
+          String $RACE_ETHNICITY = "example value";
+      - pattern-inside: |
+          class $CLASS {
+              ...
+              String getRaceEthnicity() { ... }
+              ...
+          }
+    remediation: >
+      Ensure that race or ethnicity data is not collected unnecessarily, and that user consent is obtained.
+      Avoid storing or sharing such sensitive data without explicit consent from the user.

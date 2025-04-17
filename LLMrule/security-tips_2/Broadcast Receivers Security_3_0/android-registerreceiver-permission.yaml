@@ -1,0 +1,18 @@
+rules:
+- id: android-registerreceiver-permission
+  languages:
+  - java
+  - kotlin
+  message: Consider specifying a permission when registering the BroadcastReceiver
+    programmatically.
+  metadata:
+    cwe: CWE-200
+    owasp: 'M1: Improper Platform Usage'
+  patterns:
+  - pattern: 'registerReceiver($RECEIVER, $INTENT_FILTER)
+
+      '
+  - pattern-not: 'registerReceiver($RECEIVER, $INTENT_FILTER, $PERMISSION, $HANDLER)
+
+      '
+  severity: WARNING

@@ -1,0 +1,44 @@
+rules:
+- id: zip-path-traversal-mitigation-java
+  languages:
+    - java
+  message: >
+    Ensure that the target path is a child of the destination directory to mitigate Zip Path Traversal vulnerability.
+    Use `getCanonicalPath()` to verify the extracted file paths against the destination directory.
+  metadata:
+    cwe: CWE-22
+    owasp-mobile: M1
+    references:
+      - https://developer.android.com/training/articles/security-ssl#java
+      - https://cwe.mitre.org/data/definitions/22.html
+  severity: INFO
+  patterns:
+    - pattern: |
+        public static $RETURNTYPE $METHOD(File $TARGETPATH, ZipEntry $ZIPENTRY) throws IOException {
+            String $NAME = $ZIPENTRY.getName();
+            File $F = new File($TARGETPATH, $NAME);
+            String $CANONICALPATH = $F.getCanonicalPath();
+            if (!$CANONICALPATH.startsWith($TARGETPATH.getCanonicalPath() + File.separator)) {
+                throw new ZipException("Illegal name: " + $NAME);
+            }
+            return $F;
+        }
+    - pattern-not: |
+        public static $RETURNTYPE $METHOD(File $TARGETPATH, ZipEntry $ZIPENTRY) throws IOException {
+            // some other condition
+            if ($SOMEOTHERCONDITION) {
+                throw new ZipException("Illegal name: " + $NAME);
+            }
+            return $F;
+        }
+  fix: |
+    // Verify that the extracted file paths are within the destination directory
+    public static File getValidatedFile(File targetPath, ZipEntry zipEntry) throws IOException {
+        String name = zipEntry.getName();
+        File file = new File(targetPath, name);
+        String canonicalPath = file.getCanonicalPath();
+        if (!canonicalPath.startsWith(targetPath.getCanonicalPath() + File.separator)) {
+            throw new ZipException("Illegal name: " + name);
+        }
+        return file;
+    }

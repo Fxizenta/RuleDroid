@@ -1,0 +1,13 @@
+rules:
+- id: android-healthstats-api
+  languages:
+  - java
+  message: The app uses the HealthStats API, which may access user data related to
+    app info and performance.
+  metadata:
+    category: Android Security
+    technology: Android
+  patterns:
+  - pattern: HealthStats $X = $Y;
+  - pattern-not: $X = null
+  severity: INFO

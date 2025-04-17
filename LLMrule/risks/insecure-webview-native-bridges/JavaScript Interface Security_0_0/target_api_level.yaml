@@ -1,0 +1,15 @@
+rules:
+- condition: '$VERSION != "" && Integer.parseInt($VERSION) < 21
+
+    '
+  id: target_api_level
+  languages:
+  - xml
+  message: Target API level 21 or higher to avoid reflection-based attacks on JavaScript
+    interfaces.
+  metadata:
+    cwe: cwe-749
+    masvs: platform-7
+    owasp-mobile: m1
+  pattern: "<uses-sdk\n    android:minSdkVersion=\"$VERSION\"\n    ...\n>\n"
+  severity: WARNING

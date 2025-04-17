@@ -1,0 +1,10 @@
+rules:
+  - id: manifest_safe_browsing_disabled
+    languages:
+      - xml
+    message: "Safe Browsing is not correctly enabled in AndroidManifest.xml. Please ensure that Safe Browsing is enabled (android:value is \"true\") to delineate the URL passed to WebView to avoid the risk of phishing or malicious domains."
+    severity: WARNING
+    metadata:
+      owasp-mobile: m3
+      reference: "https://developer.android.com/reference/android/webkit/WebView#EnableSafeBrowsing"
+    pattern: '<meta-data android:name="android.webkit.WebView.EnableSafeBrowsing" ... android:value="false"'

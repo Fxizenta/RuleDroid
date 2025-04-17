@@ -1,0 +1,29 @@
+rules:
+- id: android-hardcoded-package-pendingintent
+  languages:
+    - java
+    - kotlin
+  message: |
+    Hardcoded package name detected in PendingIntent API. Avoid using setPackage() with hardcoded values, 
+    as it can lead to security issues if an attacker gains control over the target application.
+  metadata:
+    category: security
+    cwe: CWE-706
+    owasp-mobile: M9
+    technology: android
+  severity: WARNING
+  patterns:
+    - pattern-either:
+        - pattern: |
+            PendingIntent.getActivity($CONTEXT, $REQ_CODE, new Intent().setPackage($PACKAGE), $FLAGS);
+        - pattern: |
+            PendingIntent.getService($CONTEXT, $REQ_CODE, new Intent().setPackage($PACKAGE), $FLAGS);
+        - pattern: |
+            PendingIntent.getBroadcast($CONTEXT, $REQ_CODE, new Intent().setPackage($PACKAGE), $FLAGS);
+        - pattern: |
+            PendingIntent.getForegroundService($CONTEXT, $REQ_CODE, new Intent().setPackage($PACKAGE), $FLAGS);
+    - pattern-regex: 'setPackage\(\s*"[a-zA-Z0-9_.]+"\s*\)' 
+    - pattern-not: |
+        PendingIntent.$FUNC($CONTEXT, $REQ_CODE, new Intent().setPackage(getPackageName()), $FLAGS);
+    - pattern-not: |
+        PendingIntent.$FUNC($CONTEXT, $REQ_CODE, new Intent().setPackage($VAR), $FLAGS);

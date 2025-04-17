@@ -1,0 +1,14 @@
+rules:
+- id: android-data-backup
+  languages:
+  - xml
+  message: The application allows data backup, which may expose sensitive information.
+  metadata:
+    area: storage
+    category: security
+    owasp-mobile: M2
+    reference: https://developer.android.com/guide/topics/data/backup
+  pattern-either:
+  - pattern: '<application android:allowBackup="true" />'
+  - pattern: '<application android:fullBackupContent="true" />'
+  severity: INFO

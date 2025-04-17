@@ -1,0 +1,44 @@
+rules:
+- id: unsafe-hostname-verifier
+  languages:
+  - java
+  message: Unsafe HostnameVerifier implementation detected. Use NetworkSecurityConfig.xml
+    for proper hostname verification.
+  metadata:
+    area: network
+    authors:
+    - Your Name
+    category: security
+    owasp-mobile: M3
+    references:
+    - https://developer.android.com/training/articles/security-config
+    - https://github.com/OWASP/owasp-mastg/blob/v1.5.0/Document/0x05g-Testing-Network-Communication.md#testing-endpoint-identify-verification-mstg-network-3
+    verification-level:
+    - L1
+    - L2
+  pattern-either:
+  - patterns:
+    - pattern-inside: "class $CLASS implements HostnameVerifier {\n  ...\n  public\
+        \ boolean verify(String hostname, SSLSession session) {\n    return $RET;\n\
+        \  }\n  ...\n}\n"
+    - pattern: "public boolean verify(String hostname, SSLSession session) {\n  return\
+        \ true;\n}\n"
+    - pattern-not: "public boolean verify(String hostname, SSLSession session) {\n\
+        \  return hostname.equals(session.getPeerHost());\n}\n"
+  - patterns:
+    - pattern: "void checkServerTrusted(X509Certificate[] chain, String authType)\
+        \ throws CertificateException {\n  ...\n}\n"
+    - pattern-not: "void checkServerTrusted(X509Certificate[] chain, String authType)\
+        \ throws CertificateException {\n  throw new CertificateException(...);\n\
+        }\n"
+  - pattern: "new HostnameVerifier() {\n  public boolean verify(String hostname, SSLSession\
+      \ session) {\n    return true;\n  }\n}\n"
+  - pattern: 'ALLOW_ALL_HOSTNAME_VERIFIER
+
+      '
+  - patterns:
+    - pattern: "void onReceivedSslError(WebView view, SslErrorHandler handler, SslError\
+        \ error) {\n  handler.proceed();\n}\n"
+    - pattern-not: "void onReceivedSslError(WebView view, SslErrorHandler handler,\
+        \ SslError error) {\n  // Custom handling logic\n  ...\n}\n"
+  severity: ERROR

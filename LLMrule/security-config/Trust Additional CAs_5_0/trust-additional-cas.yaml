@@ -1,0 +1,41 @@
+rules:
+  - id: trust-additional-cas
+    languages:
+      - xml
+    message: The app is configured to trust additional CAs that aren't trusted by the system.
+    metadata:
+      cwe: CWE-295
+      owasp: MSTG-NETWORK-1
+    options:
+      xml_attrs_implicit_ellipsis: true
+    patterns:
+      # Look for a network security configuration that defines trust anchors
+      - pattern-inside: |
+          <network-security-config>
+            ...
+            <trust-anchors>
+              ...
+              $X
+              ...
+            </trust-anchors>
+            ...
+          </network-security-config>
+      # Match certificate elements that reference additional CA files from various sources
+      - pattern-either:
+          - pattern: |
+              <certificates src="@raw/$..."/>
+          - pattern: |
+              <certificates src="@xml/$..."/>
+          - pattern: |
+              <certificates src="@assets/$..."/>
+          - pattern: |
+              <certificates src="$..."/>
+    # Exclude safe configurations that use the system trust store
+    pattern-not-inside:
+      - pattern: |
+          <trust-anchors>
+            <certificates src="@system"/>
+          </trust-anchors>
+      - pattern: |
+          <certificates src="@system"/>
+    severity: ERROR

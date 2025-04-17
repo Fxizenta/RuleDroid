@@ -1,0 +1,15 @@
+rules:
+  - id: android-sticky-broadcasts-security-shortcoming
+    languages:
+      - java
+    message: >
+      Detected usage of a Sticky Broadcast API (sendStickyBroadcast, sendStickyBroadcastAsUser, or sendStickyOrderedBroadcast).
+      Sticky broadcasts cannot be restricted to receivers that hold specific permissions
+      when the Intent is re-broadcast from the sticky cache, potentially exposing sensitive information.
+    name: Sticky Broadcasts - Security Shortcomings
+    patterns:
+      - pattern-either:
+          - pattern: $OBJ.sendStickyBroadcast($ARGS)
+          - pattern: $OBJ.sendStickyBroadcastAsUser($ARGS)
+          - pattern: $OBJ.sendStickyOrderedBroadcast($ARGS)
+    severity: WARNING

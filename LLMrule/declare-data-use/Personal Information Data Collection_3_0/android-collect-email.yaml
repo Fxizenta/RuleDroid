@@ -1,0 +1,61 @@
+rules:
+  - id: android-collect-email
+    languages:
+      - java
+    message: >
+      The app collects the user's email address, which is personal information.
+      Ensure this data is handled securely and complies with privacy policies.
+    severity: ERROR
+    patterns:
+      # Detect common methods to retrieve email address
+      - pattern: |
+          String $EMAIL = $OBJ.getEmail();
+      - pattern: |
+          String $EMAIL = $OBJ.getUserEmail();
+      - pattern: |
+          String $EMAIL = $OBJ.getAccountEmail();
+      - pattern: |
+          String $EMAIL = $OBJ.getEmailAddress();
+      - pattern: |
+          $OBJ.getEmail();
+      - pattern: |
+          $OBJ.getUserEmail();
+      - pattern: |
+          $OBJ.getAccountEmail();
+      - pattern: |
+          $OBJ.getEmailAddress();
+      # Additional detection for methods that could involve email collection
+      - pattern: |
+          android.accounts.AccountManager $AM = android.accounts.AccountManager.get($CONTEXT);
+          Account[] accounts = $AM.getAccountsByType("com.google");
+          String $EMAIL = accounts[0].name;
+      - pattern: |
+          Cursor $C = $DB.query("SELECT * FROM user WHERE id = ?", $ARGS);
+          String $EMAIL = $C.getString($COLUMN_EMAIL);
+      # Exclude cases where the email is used for mock data or testing
+      - pattern-not: |
+          // Ignore cases where the email is used for logging or mock data
+          String $EMAIL = "example@example.com";
+      - pattern-not: |
+          // Ignore cases where the email is used as a placeholder in mock data or testing
+          String $EMAIL = "test@domain.com";
+      - pattern-not: |
+          String $EMAIL = "user@fakeemail.com"; // Placeholder for testing purposes
+      - pattern-not: |
+          String $EMAIL = "placeholder@mockdata.com"; // Mock data example
+    metavariable-types:
+      - metavariable: $OBJ
+        type: android.accounts.Account
+      - metavariable: $OBJ
+        type: android.accounts.UserAccount
+      - metavariable: $OBJ
+        type: com.somepackage.UserProfile
+    metadata:
+      references:
+        - "https://developer.android.com/topic/security/best-practices"
+        - "https://www.privacyinternational.org/learn/what-are-personal-data-and-sensitive-data"
+      category: Personal Information Data Collection
+    remediation: >
+      Avoid collecting sensitive personal information, such as email addresses, unless necessary.
+      Ensure compliance with privacy regulations and obtain user consent where applicable. Consider encrypting personal data in transit and at rest.
+    min-version: 1.31.0

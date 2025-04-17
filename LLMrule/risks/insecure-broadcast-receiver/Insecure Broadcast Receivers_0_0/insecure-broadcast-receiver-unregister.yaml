@@ -1,0 +1,61 @@
+rules:
+- id: insecure-broadcast-receiver-unregister
+  languages:
+  - java
+  message: >
+    The application registers a broadcast receiver but does not unregister it in the
+    onStop(), onPause(), or onDestroy() method of the activity. Ensure that all registered
+    broadcast receivers are properly unregistered to avoid memory leaks or security risks.
+  severity: ERROR
+  patterns:
+  - pattern: |
+      public class $CLASS {
+        ...
+        $M(...) {
+          ...
+          registerReceiver($RECEIVER, ...);
+          ...
+        }
+        ...
+      }
+  - pattern-not: |
+      public class $CLASS {
+        ...
+        onStop(...) {
+          ...
+          unregisterReceiver($RECEIVER);
+          ...
+        }
+        ...
+      }
+  - pattern-not: |
+      public class $CLASS {
+        ...
+        onPause(...) {
+          ...
+          unregisterReceiver($RECEIVER);
+          ...
+        }
+        ...
+      }
+  - pattern-not: |
+      public class $CLASS {
+        ...
+        onDestroy(...) {
+          ...
+          unregisterReceiver($RECEIVER);
+          ...
+        }
+        ...
+      }
+  - pattern-not-inside: |
+      if ($CONDITION) {
+        registerReceiver($RECEIVER, ...);
+      }
+  metadata:
+    category: Android Security
+    technology: Broadcast Receivers
+    remediation: >
+      Ensure that any broadcast receiver registered using `registerReceiver` is properly
+      unregistered in the appropriate lifecycle method (`onStop`, `onPause`, or `onDestroy`)
+      to prevent memory leaks or security vulnerabilities.

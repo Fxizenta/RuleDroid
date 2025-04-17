@@ -1,0 +1,71 @@
+rules:
+  - id: improperly-exposed-directories-to-fileprovider
+    languages:
+      - xml
+    message: >
+      The application has an improperly configured FileProvider that can unintentionally
+      expose files and directories to an attacker. Ensure that sensitive directories
+      are not exposed and paths are explicitly restricted. Avoid using overly permissive
+      configurations such as <root-path> or <external-path>.
+    metadata:
+      area: storage
+      authors:
+        - Your Name
+      category: security
+      owasp-mobile: M2
+      references:
+        - https://developer.android.com/guide/topics/providers/content-provider-basics
+    paths:
+      include:
+        - '**/res/xml/filepaths.xml'
+    severity: ERROR
+    patterns:
+      # Match overly permissive root path
+      - pattern: |
+          <paths>
+            <root-path path="/" ... />
+          </paths>
+      # Match overly permissive external path
+      - pattern: |
+          <paths>
+            <external-path path="/" ... />
+          </paths>
+      # Match overly permissive files-path with root or general path (e.g., ".", "/")
+      - pattern: |
+          <paths>
+            <files-path path="/" ... />
+          </paths>
+      - pattern: |
+          <paths>
+            <files-path path="." ... />
+          </paths>
+      # Match any cases where a path is exposed without explicit restrictions
+      - pattern: |
+          <paths>
+            <files-path path="*" ... />
+          </paths>
+      # Match cases where sensitive directories are exposed improperly
+      - pattern: |
+          <paths>
+            <files-path path="images/" ... />
+          </paths>
+      - pattern: |
+          <paths>
+            <files-path path="public/" ... />
+          </paths>
+    pattern-not-inside:
+      # Exclude correctly configured paths
+      - pattern: |
+          <paths>
+            <files-path name="images" path="images/" />
+            <files-path name="docs" path="docs/" />
+            <cache-path name="cache" path="net-export/" />
+          </paths>
+      - pattern: |
+          <paths>
+            <files-path name="safe" path="safe/" />
+          </paths>
+      - pattern: |
+          <paths>
+            <files-path name="public" path="public/" />
+          </paths>

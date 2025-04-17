@@ -1,0 +1,13 @@
+rules:
+- id: android-manifest-missing-use-embedded-dex
+  languages: [xml]
+  name: "Check for missing or incorrect useEmbeddedDex configuration in AndroidManifest.xml"
+  message: "The attribute android:useEmbeddedDex=\"true\" must be included in the <application> element to enable shipping of embedded DEX code directly from the APK, preventing the risk of tampering with the locally compiled code."
+  severity: INFO
+  paths:
+    include:
+      - '**/AndroidManifest.xml'
+  patterns:
+    - pattern: '<application $ATTRS>'
+    - pattern-not: '<application $ATTRS android:useEmbeddedDex="true">'
+    - pattern-not: "<application $ATTRS android:useEmbeddedDex='true'>"

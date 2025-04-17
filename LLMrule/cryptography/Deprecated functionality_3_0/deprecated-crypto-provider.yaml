@@ -1,0 +1,41 @@
+rules:
+  - id: deprecated-crypto-provider
+    languages:
+      - java
+    message: >
+      The application uses a deprecated Crypto provider, which is insecure. Consider using a modern provider
+      such as "SHA1PRNG", "AES", or other secure cryptographic providers.
+    metadata:
+      cwe: "CWE-327: Use of a Broken or Risky Cryptographic Algorithm"
+      owasp: "A9:2017 - Using Components with Known Vulnerabilities"
+      references:
+        - https://developer.android.com/reference/java/security/Crypto
+        - https://owasp.org/www-project-mobile-top-10/
+      tags:
+        - security
+        - android
+        - cryptography
+        - deprecated
+    severity: ERROR
+    patterns:
+      # Detect usage of deprecated providers like "Crypto", "MD5", "SHA1", etc.
+      - pattern-either:
+          - pattern: SecureRandom.getInstance("Crypto", ...)
+          - pattern: SecureRandom.getInstance("SHA1PRNG", ...)
+          - pattern: Cipher.getInstance("Crypto", ...)
+          - pattern: Cipher.getInstance("RC4", ...)
+          - pattern: Cipher.getInstance("MD5", ...)
+          - pattern: Cipher.getInstance("SHA1", ...)
+          - pattern: Cipher.getInstance("AES/CBC/PKCS5Padding");
+          - pattern: Cipher.getInstance("AES/CBC/NoPadding");
+      # Exclude known secure providers like AES, SHA256, etc.
+      - pattern-not: SecureRandom.getInstance("SHA256PRNG", ...)
+      - pattern-not: Cipher.getInstance("AES", ...)
+      - pattern-not: Cipher.getInstance("SHA-256", ...)
+      - pattern-not: Cipher.getInstance("AES/GCM/NoPadding", ...)
+    fix: |
+      Replace deprecated cryptographic providers with secure alternatives such as AES or SHA-256. Example:
+      ```java
+      SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");  // Secure random provider
+      Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");           // Modern encryption algorithm
+      ```

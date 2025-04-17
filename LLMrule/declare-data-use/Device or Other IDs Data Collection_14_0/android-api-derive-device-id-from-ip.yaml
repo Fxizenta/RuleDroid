@@ -1,0 +1,29 @@
+rules:
+  - id: android-api-derive-device-id-from-ip
+    languages:
+      - java
+    message: >
+      Deriving device or other identifier information from IP address or access
+      point name detected. Ensure this is necessary and complies with privacy policies.
+      Avoid using this information to track or identify users without explicit consent.
+    severity: INFO
+    patterns:
+      - pattern: '$IP_ADDRESS = $REQUEST.getRemoteAddr();'
+      - pattern-not: |
+          // Ignore cases where IP address is used for logging
+          Log.$METHOD($IP_ADDRESS);
+      - pattern: '$ACCESS_POINT_NAME = $REQUEST.getHeader("APN");'
+      - pattern-not: |
+          // Ignore cases where APN is used for logging
+          Log.$METHOD($ACCESS_POINT_NAME);
+      - pattern-either:
+          - pattern: '$USER_ID = generateUserIdFrom($IP_ADDRESS);'
+          - pattern: '$DEVICE_ID = generateDeviceIdFrom($ACCESS_POINT_NAME);'
+    metadata:
+      category: Android Privacy
+      description: Detects the use of IP address or APN for deriving sensitive user or device identifiers.
+      remediation: >
+        Ensure that IP address or APN information is not used to derive sensitive identifiers
+        unless absolutely necessary and that it complies with privacy policies. 
+        If used, ensure user consent is obtained.
+    path: .*src/.*\.java$
