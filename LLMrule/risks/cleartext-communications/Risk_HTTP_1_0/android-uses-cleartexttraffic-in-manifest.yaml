@@ -1,0 +1,17 @@
+rules:
+  - id: android-uses-cleartexttraffic-in-manifest
+    languages:
+      - xml
+    message: >
+      The AndroidManifest.xml explicitly enables cleartext traffic via
+      android:usesCleartextTraffic="true". This increases the risk of insecure HTTP
+      communications. Consider using a secure network configuration.
+    metadata:
+      category: security
+      references:
+        - https://developer.android.com/training/articles/security-config
+    paths:
+      include:
+        - '**/AndroidManifest.xml'
+    pattern: <application ... android:usesCleartextTraffic="true" ...>
+    severity: ERROR

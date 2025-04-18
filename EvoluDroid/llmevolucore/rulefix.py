@@ -126,7 +126,7 @@ def run_semgrep_validate(rules_folder, output_file):
     if os.path.exists(output_file):
         os.remove(output_file)
     command = [
-        "sudo", "semgrep",
+        "semgrep",
         "-c", rules_folder,
         "--validate",
         "--json",

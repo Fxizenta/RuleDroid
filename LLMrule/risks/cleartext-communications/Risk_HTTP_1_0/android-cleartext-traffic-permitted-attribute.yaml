@@ -1,0 +1,24 @@
+rules:
+- id: android-cleartext-traffic-permitted-attribute
+  languages:
+  - xml
+  message: Cleartext traffic is permitted. Consider setting cleartextTrafficPermitted to false.
+  metadata:
+    cwe: CWE-319
+    owasp: A6-Security Misconfiguration
+  patterns:
+  - pattern-either:
+    - pattern: |
+        <base-config cleartextTrafficPermitted="true" />
+    - pattern: |
+        <domain-config cleartextTrafficPermitted="true" />
+    - pattern: |
+        <base-config cleartextTrafficPermitted="true">
+          ...
+        </base-config>
+    - pattern: |
+        <domain-config cleartextTrafficPermitted="true">
+          ...
+        </domain-config>
+  severity: ERROR
+  path: "**/res/xml/network_security_config.xml"

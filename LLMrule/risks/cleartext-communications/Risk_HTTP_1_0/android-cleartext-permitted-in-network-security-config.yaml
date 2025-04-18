@@ -1,0 +1,18 @@
+rules:
+  - id: android-cleartext-permitted-in-network-security-config
+    languages:
+      - xml
+    severity: ERROR
+    message: "Cleartext traffic is permitted in your network security configuration, which might expose sensitive data. It is recommended to set cleartextTrafficPermitted to 'false'."
+    metadata:
+      category: security
+      references:
+        - https://developer.android.com/training/articles/security-config#CleartextTrafficPermitted
+    paths:
+      include:
+        - '**/network_security_config.xml'
+    pattern-either:
+      - pattern: '<base-config ... cleartextTrafficPermitted="true" ...>'
+      - pattern: "<base-config ... cleartextTrafficPermitted='true' ...>"
+      - pattern: '<domain-config ... cleartextTrafficPermitted="true" ...>'
+      - pattern: "<domain-config ... cleartextTrafficPermitted='true' ...>"

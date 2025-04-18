@@ -1,0 +1,69 @@
+rules:
+  - id: android-cleartext-traffic-permitted
+    languages:
+      - xml
+    severity: ERROR
+    message: Cleartext traffic is permitted for a domain. Consider setting cleartextTrafficPermitted to false.
+    metadata:
+      cwe: CWE-319
+      owasp: A6-Security Misconfiguration
+    patterns:
+      # Match the network security config with cleartextTrafficPermitted="true" for a domain
+      - pattern: |
+          <network-security-config>
+            <domain-config cleartextTrafficPermitted="true">
+            ...
+            </domain-config>
+          </network-security-config>
+
+      # Match the entire network-security-config with cleartextTrafficPermitted="true" at the root level
+      - pattern: |
+          <network-security-config cleartextTrafficPermitted="true">
+          ...
+          </network-security-config>
+
+      # Detect if cleartextTrafficPermitted is set to true for multiple domains
+      - pattern: |
+          <network-security-config>
+            <domain-config cleartextTrafficPermitted="true">
+              ...
+            </domain-config>
+            <domain-config cleartextTrafficPermitted="true">
+              ...
+            </domain-config>
+          </network-security-config>
+
+      # Match any domain-config elements with cleartextTrafficPermitted="true"
+      - pattern: |
+          <domain-config cleartextTrafficPermitted="true">
+          ...
+          </domain-config>
+
+      # Match cases where the cleartextTrafficPermitted setting might be conditionally applied
+      - pattern: |
+          <network-security-config>
+            <domain-config cleartextTrafficPermitted="$CONDITION">
+            ...
+            </domain-config>
+          </network-security-config>
+
+      # Match for other settings in the network-security-config
+      - pattern-not: |
+          <network-security-config cleartextTrafficPermitted="false">
+          ...
+          </network-security-config>
+
+    description: |
+      This rule detects the use of cleartext traffic for domains in Android's `network-security-config`. 
+      Cleartext traffic (i.e., HTTP instead of HTTPS) should be disabled to prevent potential man-in-the-middle (MITM) attacks and data leakage.
+    fix: |
+      Set `cleartextTrafficPermitted="false"` for each domain or for the entire `network-security-config` to ensure secure traffic is enforced.
+
+      Example fix:
+      ```xml
+      <network-security-config>
+          <domain-config cleartextTrafficPermitted="false">
+              ...
+          </domain-config>
+      </network-security-config>
+      ```

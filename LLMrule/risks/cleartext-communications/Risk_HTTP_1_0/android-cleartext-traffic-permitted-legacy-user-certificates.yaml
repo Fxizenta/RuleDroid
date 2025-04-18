@@ -1,0 +1,15 @@
+rules:
+- id: android-cleartext-traffic-permitted-legacy-user-certificates
+  languages:
+  - xml
+  message: Cleartext traffic is permitted in the base configuration for legacy Android
+    versions with user certificates. Consider setting cleartextTrafficPermitted to
+    false.
+  metadata:
+    cwe: CWE-319
+    owasp: A6-Security Misconfiguration
+  patterns:
+  - pattern: "<base-config cleartextTrafficPermitted=\"true\">\n  <trust-anchors>\n\
+      \    <certificates src=\"system\" />\n    <certificates src=\"user\" />\n  </trust-anchors>\n\
+      </base-config>\n"
+  severity: WARNING

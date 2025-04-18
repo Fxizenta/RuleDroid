@@ -16,18 +16,22 @@ rules:
       reference: "https://developer.android.com/training/articles/security-config.html"
     patterns:
       - pattern-either:
-          # Match <tag>http://example.com</tag>
           - pattern: "<$TAG ...>$URL</$TAG>"
-          # Match attributes containing an HTTP URL (e.g., <config url="http://example.com" />)
           - pattern: '$ATTR="$URL"'
+      - pattern-not-inside: |
+          <!--
+            ...$URL...
+          -->
     metavariable-regex:
-      # Match only XML tags related to URLs to avoid false positives
       - metavariable: $TAG
-        regex: "(?i)^(url|link|endpoint|base|address|server|location|resource|api|webview|redirect)$"
-      # Match only attributes that typically contain URLs
+        regex: "(?i)^(url|href|endpoint|link|api|webview)$"
       - metavariable: $ATTR
-        regex: "(?i)^(android:host|android:scheme|url|href|link|src|data|action)$"
-      # Strictly match 'http://' but exclude localhost, internal IPs, loopback, and XML comments
+        regex: "(?i)^(android:host|android:scheme|url|href|link|endpoint|action)$"
       - metavariable: $URL
-        regex: "(?i)^http://(?!localhost|127\\.|192\\.168\\.|10\\.|172\\.(1[6-9]|2[0-9]|3[0-1])\\.|.*(-->|<!)).*"
+        regex: "(?i)^http://(?!localhost|127\\.|192\\.168\\.|10\\.|172\\.(1[6-9]|2[0-9]|3[0-1])\\.|.*(-->|<!|.*\\.local)).*"
+    paths:
+      include:
+        - "**/AndroidManifest.xml"
+        - "**/network_security_config.xml"
+        - "**/res/xml/**"
     severity: ERROR
