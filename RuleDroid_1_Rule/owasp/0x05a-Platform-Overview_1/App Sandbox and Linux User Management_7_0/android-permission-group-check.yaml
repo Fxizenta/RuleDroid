@@ -1,0 +1,17 @@
+rules:
+  - id: android-permission-group-check
+    languages:
+      - xml
+    message: "Permissions are mapped to Linux groups. Review the permission and group mapping to ensure it aligns with the app's security requirements."
+    metadata:
+      category: Linux User Management
+      reference: "https://developer.android.com/guide/topics/permissions/overview"
+    pattern-not-inside: |
+      <!-- Ignore cases where permissions are explicitly marked as safe -->
+      <permission name="android.permission.SAFE">
+    patterns:
+      - pattern: |
+          <permission name=$PERMISSION_NAME>
+            <group gid=$GROUP_ID />
+          </permission>
+    severity: INFO

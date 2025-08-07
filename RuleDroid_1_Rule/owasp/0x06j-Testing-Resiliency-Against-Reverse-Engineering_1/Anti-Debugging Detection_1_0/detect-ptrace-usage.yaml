@@ -1,0 +1,12 @@
+rules:
+- id: detect-ptrace-usage
+  languages: [c, cpp]
+  message: Usage of ptrace detected. This may be an anti-debugging technique.
+  metadata:
+    cwe: cwe-532
+    owasp-mobile: m8
+  severity: ERROR
+  patterns:
+  - pattern: 'ptrace($MODE, $PID, $ADDR, $DATA)'
+  - pattern-not: |
+      // This is a comment explaining ptrace usage

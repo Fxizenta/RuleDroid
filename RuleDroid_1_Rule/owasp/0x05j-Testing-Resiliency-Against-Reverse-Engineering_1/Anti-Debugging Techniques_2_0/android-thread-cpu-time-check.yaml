@@ -1,0 +1,20 @@
+rules:
+- id: android-thread-cpu-time-check
+  languages:
+  - java
+  message: 'Detects timer-based checks using `Debug.threadCpuTimeNanos()`. This is
+    a common JDWP anti-debugging technique.
+
+    '
+  pattern-not-inside: '// Ignore cases where the timer is used for performance measurement
+
+    Log.d($LOGGER, "Thread CPU time measured");
+
+    '
+  patterns:
+  - pattern: 'long startTime = Debug.threadCpuTimeNanos();
+
+      long elapsedTime = Debug.threadCpuTimeNanos() - startTime;
+
+      '
+  severity: INFO

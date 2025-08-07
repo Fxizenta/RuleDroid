@@ -1,0 +1,12 @@
+rules:
+  - id: detect-debuggable-manifest
+    languages:
+      - xml
+    message: "android:debuggable attribute set to true in the manifest. This allows debugging and may be a security risk."
+    severity: ERROR
+    metadata:
+      cwe: cwe-532
+      owasp-mobile: m8
+    patterns:
+      - pattern-regex: '<application[^>]*android:debuggable\s*=\s*"true"'
+      - pattern-not-inside: '<!-- Debuggable attribute set for testing purposes -->'

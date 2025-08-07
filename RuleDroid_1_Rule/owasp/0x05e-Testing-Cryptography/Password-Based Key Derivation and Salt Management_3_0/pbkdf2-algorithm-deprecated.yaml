@@ -1,0 +1,16 @@
+rules:
+- id: pbkdf2-algorithm-deprecated
+  languages:
+  - java
+  message: PBKDF2WithHmacSHA1 is deprecated for Android 8.0 and above. Use PBKDF2WithHmacSHA256
+    instead.
+  metadata:
+    references:
+    - https://developer.android.com/reference/javax/crypto/SecretKeyFactory
+  patterns:
+  - pattern: 'SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
+
+      '
+  - pattern-not-inside: "if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {\n \
+      \ SecretKeyFactory.getInstance(\"PBKDF2WithHmacSHA256\");\n}\n"
+  severity: ERROR

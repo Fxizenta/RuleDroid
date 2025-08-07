@@ -1,0 +1,22 @@
+rules:
+  - id: android-revoke-uri-permissions
+    languages:
+      - java
+    message: >
+      Ensure that URI permissions are revoked when no longer needed to prevent unauthorized access,
+      and that the call is wrapped in a try-catch block to handle potential exceptions.
+    metadata:
+      category: Security
+      references:
+        - https://developer.android.com/reference/android/content/Context#revokeUriPermission(android.net.Uri,%20int)
+      technology: Android
+    severity: INFO
+    patterns:
+      - pattern: '$CTX.revokeUriPermission($URI, $FLAGS)'
+      - pattern-not: '$CTX.revokeUriPermission($URI, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION)'
+      - pattern-inside: |
+          try {
+              ...
+          } catch($EXCEPTION_TYPE $EXCEPTION_NAME) {
+              ...
+          }

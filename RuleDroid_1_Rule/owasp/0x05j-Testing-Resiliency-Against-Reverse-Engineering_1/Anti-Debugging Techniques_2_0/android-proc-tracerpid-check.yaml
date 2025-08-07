@@ -1,0 +1,14 @@
+rules:
+- id: android-proc-tracerpid-check
+  languages:
+    - java
+  message: "Detects checks for `TracerPid` in `/proc/self/status` to identify native debugging attempts."
+  severity: INFO
+  pattern: |
+    BufferedReader $READER = new BufferedReader(new FileReader("/proc/self/status"));
+    ...
+    if ($LINE.startsWith("TracerPid:")) {
+        $TRACERPID_CHECK_ACTION
+    }
+  pattern-not-inside: |
+    Log.d($LOGGER, "TracerPid checked");

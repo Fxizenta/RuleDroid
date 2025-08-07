@@ -1,0 +1,11 @@
+rules:
+  - id: android-default-config-api-level-28
+    languages:
+      - xml
+    message: Default configuration for API level 28 and higher detected. Ensure it meets security requirements.
+    severity: INFO
+    paths:
+      include:
+        - '*.xml'
+    pattern-regex: '(?s)<base-config\s+cleartextTrafficPermitted="false">.*?<trust-anchors>.*?<certificates\s+src="system"\s*/?>.*?</trust-anchors>.*?</base-config>'
+    multiline: true

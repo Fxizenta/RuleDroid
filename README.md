@@ -4,11 +4,11 @@
 
 ### Already provided
 
-- RuleDroid source code in /EvoluDroid
+- RuleDroid source code in /RuleDroid
 - VulsTotal-CVE ++ benchmark in /DroidCVE_benchmark
-- Examples of generated rules can be found in /LLMrule
+- Examples of generated rules can be found in /RuleDroid_1_Rule
 
-CVE id：CVE-2025-7XXX、CVE-2025-7XXX、CVE-2025-7XXX、CVE-2025-7XXX、CVE-2025-7XXX、CVE-2025-7XXX、CVE-2025-8XXX、CVE-2025-8XXX、CVE-2025-8XXX、CVE-2025-8XXX、CVE-2025-8XXX
+CVE id：CVE-2025-7XXX、CVE-2025-7XXX、CVE-2025-7XXX、CVE-2025-7XXX、CVE-2025-7XXX、CVE-2025-7XXX、CVE-2025-8XXX、CVE-2025-8XXX、CVE-2025-8XXX、CVE-2025-8XXX、CVE-2025-8XXX、CVE-2025-8XXX、CVE-2025-8XXX、CVE-2025-8XXX、CVE-2025-8XXX
 
 
 

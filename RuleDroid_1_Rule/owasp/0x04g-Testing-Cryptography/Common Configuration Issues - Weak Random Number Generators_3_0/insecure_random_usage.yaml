@@ -1,0 +1,24 @@
+rules:
+- id: insecure_random_usage
+  languages:
+  - java
+  message: Insecure Random Number Generator detected. Use SecureRandom for cryptographic
+    operations.
+  metadata:
+    cwe: cwe-330
+    masvs: crypto-6
+    owasp-mobile: M5
+    reference: https://github.com/MobSF/owasp-mstg/blob/master/Document/0x04g-Testing-Cryptography.md#weak-random-number-generators
+  pattern-not-inside:
+  - pattern: 'SecureRandom $S = new SecureRandom();
+
+      '
+  patterns:
+  - pattern-either:
+    - pattern: 'Random $R = new Random();
+
+        '
+    - pattern: 'ThreadLocalRandom $T = ThreadLocalRandom.current();
+
+        '
+  severity: ERROR

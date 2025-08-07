@@ -1,0 +1,16 @@
+rules:
+- id: android-uid-range-check
+  languages:
+    - bash
+  message: >
+    Android assigns UIDs in the range of 10000 to 99999 for apps.
+    Ensure that the UID is within this range to maintain proper app isolation.
+  metadata:
+    category: Linux User Management
+    reference: https://developer.android.com/topic/security/best-practices
+  severity: INFO
+  pattern: 'uid=$UID'
+  pattern-not: |
+    # Ignore cases where UID is explicitly set for system-level apps
+    uid=0
+  condition: $UID >= 10000 and $UID <= 99999

@@ -1,0 +1,10 @@
+rules:
+  - id: android-cleartext-traffic-permitted
+    languages:
+      - xml
+    message: "Cleartext traffic is permitted. This may expose sensitive data to interception."
+    severity: WARNING
+    paths:
+      include:
+        - "*.xml"
+    pattern-regex: '(?s)<base-config\s+cleartextTrafficPermitted\s*=\s*"true"\s*/>'

@@ -1,0 +1,38 @@
+rules:
+- id: insecure-file-storage
+  languages: [java]
+  message: |
+    Writing sensitive data to files without proper encryption or protection is insecure.
+    Consider using Android's KeyStore or encrypting the data before writing it to the file.
+  severity: ERROR
+  fix: |
+    Use Android's KeyStore or encrypt the data before writing it to the file.
+    For example, a secure implementation might be:
+    
+      Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding"); // or PKCS7Padding if applicable
+      SecretKey key = ...; // Obtain a key from Android's KeyStore
+      cipher.init(Cipher.ENCRYPT_MODE, key);
+      byte[] encryptedData = cipher.doFinal(data.getBytes());
+      FileOutputStream fos = new FileOutputStream(file);
+      fos.write(encryptedData);
+      fos.close();
+  metadata:
+    category: security
+    technology: android
+    references:
+      - https://developer.android.com/training/articles/keystore
+      - https://developer.android.com/training/data-storage
+  patterns:
+  - pattern: |
+      File file = new File($DIR, $FILENAME);
+      FileOutputStream fos = new FileOutputStream(file);
+      fos.write($DATA.getBytes());
+      fos.close();
+  - pattern-not: |
+      Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+      SecretKey key = ...;
+      cipher.init(Cipher.ENCRYPT_MODE, key);
+      byte[] encryptedData = cipher.doFinal($DATA.getBytes());
+      FileOutputStream fos = new FileOutputStream(file);
+      fos.write(encryptedData);
+      fos.close();

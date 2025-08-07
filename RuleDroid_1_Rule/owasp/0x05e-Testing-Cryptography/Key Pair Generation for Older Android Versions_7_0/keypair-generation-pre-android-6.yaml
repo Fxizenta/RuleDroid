@@ -1,0 +1,29 @@
+rules:
+- id: keypair-generation-pre-android-6
+  languages:
+    - java
+  message: >
+    Detected RSA key pair generation using `KeyPairGeneratorSpec`. Note that this method
+    is typically used for Android versions prior to 6.0 (API level 23).
+    Ensure this is necessary and consider using `KeyGenParameterSpec` for newer Android versions.
+  metadata:
+    android_version: "< 6.0"
+    category: cryptography
+  pattern-not: |
+    KeyGenParameterSpec.Builder($PARAMS)
+  patterns:
+    - pattern: |
+        KeyPairGeneratorSpec keyPairGeneratorSpec = new KeyPairGeneratorSpec.Builder($CONTEXT)
+            .setAlias($ALIAS)
+            .setSubject(new X500Principal($SUBJECT))
+            .setSerialNumber($SERIAL)
+            .setStartDate($START_DATE)
+            .setEndDate($END_DATE)
+            .build();
+    - pattern: |
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA", "AndroidKeyStore");
+        
+        keyPairGenerator.initialize(keyPairGeneratorSpec);
+        
+        KeyPair keyPair = keyPairGenerator.generateKeyPair();
+  severity: WARNING

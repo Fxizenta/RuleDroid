@@ -1,0 +1,41 @@
+rules:
+  - id: android_implicit_intent_risk
+    languages:
+      - java
+    message: |
+      Implicit intents can lead to security risks, such as leaking sensitive data
+      to unauthorized third parties or processing return values without proper verification.
+      Avoid broadcasting sensitive information using implicit intents. Refer to CWE-927,
+      DRD03-J, and other resources for mitigation strategies.
+    metadata:
+      cwe: CWE-927
+      owasp-mobile: M1
+      reference: "https://cwe.mitre.org/data/definitions/927.html, https://wiki.sei.cmu.edu/confluence/display/android/DRD03-J.+Do+not+broadcast+sensitive+information+using+an+implicit+intent, https://blog.oversecured.com/Interception-of-Android-implicit-intents/"
+    pattern-either:
+      - pattern-inside: |
+          class $CLASS {
+            void $FUNC(...) {
+              ...
+              Intent $INTENT = new Intent();
+              $INTENT.setAction($ACTION);
+              $METHOD($INTENT);
+              ...
+            }
+          }
+      - pattern-inside: |
+          void $FUNC(...) {
+            ...
+            Intent $INTENT = new Intent();
+            $INTENT.setAction($ACTION);
+            $METHOD($INTENT);
+            ...
+          }
+      - pattern: |
+          Intent $INTENT = new Intent();
+          $INTENT.setAction($ACTION);
+          $METHOD($INTENT);
+    pattern-not-inside: |
+        Intent $INTENT = new Intent($EXPLICIT_COMPONENT);
+        $INTENT.setAction($ACTION);
+        $METHOD($INTENT);
+    severity: WARNING

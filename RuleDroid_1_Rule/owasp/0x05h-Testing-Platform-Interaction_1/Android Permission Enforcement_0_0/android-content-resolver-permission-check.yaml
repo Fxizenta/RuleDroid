@@ -1,0 +1,12 @@
+rules:
+- id: android-content-resolver-permission-check
+  languages:
+  - java
+  message: Ensure proper permissions are enforced when using ContentResolver methods
+    like query, insert, update, or delete.
+  patterns:
+  - pattern: 'ContentResolver.$METHOD($ARGS);
+
+      '
+  - pattern-inside: "if ($CONDITION) {\n  ContentResolver.$METHOD($ARGS);\n}\n"
+  severity: INFO

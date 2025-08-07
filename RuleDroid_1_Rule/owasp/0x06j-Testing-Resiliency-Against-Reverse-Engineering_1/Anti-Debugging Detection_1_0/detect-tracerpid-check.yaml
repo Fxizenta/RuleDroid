@@ -1,0 +1,21 @@
+rules:
+- id: detect-tracerpid-check
+  languages: [java]
+  message: "Checking TracerPid in /proc/pid/status detected. This may be an anti-debugging technique."
+  severity: INFO
+  metadata:
+    cwe: cwe-532
+    owasp-mobile: m8
+  patterns:
+  - pattern: |
+      BufferedReader reader = new BufferedReader(new FileReader("/proc/" + android.os.Process.myPid() + "/status"));
+      String line;
+      while ((line = reader.readLine()) != null) {
+          if (line.startsWith("TracerPid:")) {
+              $DEBUG_ACTION
+          }
+      }
+  - pattern-not-inside: |
+      if (!line.startsWith("TracerPid:")) {
+          $DEBUG_ACTION
+      }

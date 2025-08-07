@@ -1,0 +1,11 @@
+rules:
+  - id: android-data-directory-access
+    languages: [bash]
+    message: "Accessing `/data/data/[package-name]` directly can bypass sandboxing mechanisms. Ensure that this access is necessary and secure."
+    metadata:
+      category: "App Sandbox"
+      reference: "https://developer.android.com/topic/security/best-practices"
+    severity: WARNING
+    pattern: "/data/data/$PACKAGE_NAME"
+    pattern-not-inside:
+      - "/data/data/com.example.safe"

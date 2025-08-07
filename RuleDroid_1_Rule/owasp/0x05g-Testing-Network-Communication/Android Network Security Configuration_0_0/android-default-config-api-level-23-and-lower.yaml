@@ -1,0 +1,16 @@
+rules:
+  - id: android-default-config-api-level-23-and-lower
+    languages: [xml]
+    message: Default configuration for API level 23 and lower detected. Cleartext traffic is permitted by default.
+    severity: WARNING
+    paths:
+      include:
+        - "**/network_security_config.xml"
+    pattern-regex: |
+      <base-config\s+cleartextTrafficPermitted\s*=\s*"true".*?>
+      [\s\S]*?
+      <trust-anchors>[\s\S]*?
+      <certificates\s+src\s*=\s*"system"\s*/>[\s\S]*?
+      <certificates\s+src\s*=\s*"user"\s*/>[\s\S]*?
+      </trust-anchors>[\s\S]*?
+      </base-config>

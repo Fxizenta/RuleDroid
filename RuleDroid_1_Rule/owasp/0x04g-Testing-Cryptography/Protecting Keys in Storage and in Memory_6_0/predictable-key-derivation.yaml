@@ -1,0 +1,9 @@
+rules:
+  - id: predictable-key-derivation
+    languages:
+      - java
+    message: Avoid predictable key derivation functions based on stable attributes. Use strong KDFs with sufficient salt.
+    severity: ERROR
+    pattern: 'SecretKeySpec secretKey = new SecretKeySpec($KEY, $ALGORITHM);'
+    pattern-not-inside: |
+      new SecretKeySpec($KEY, "AES");

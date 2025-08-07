@@ -1,0 +1,8 @@
+rules:
+  - id: fingerprintmanager-authenticate-cryptoobject
+    languages: [java]
+    message: "Do not pass a null CryptoObject to fingerprintManager.authenticate. This could allow bypassing authentication."
+    severity: ERROR
+    pattern-either:
+      - pattern: 'fingerprintManager.authenticate(null, $CANCELLATION_SIGNAL, $FLAGS, $CALLBACK, $HANDLER);'
+      - pattern: 'fingerprintManager.authenticate(new FingerprintManager.CryptoObject(null), $CANCELLATION_SIGNAL, $FLAGS, $CALLBACK, $HANDLER);'

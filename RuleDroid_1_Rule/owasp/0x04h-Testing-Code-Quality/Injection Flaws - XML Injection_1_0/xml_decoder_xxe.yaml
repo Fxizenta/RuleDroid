@@ -1,0 +1,37 @@
+rules:
+  - id: xml_decoder_xxe
+    languages:
+      - java
+    message: >
+      Avoid using XMLDecoder to parse untrusted data. It can lead to arbitrary
+      code execution.
+
+      Use secure alternatives and explicitly disable external entities.
+    metadata:
+      cwe: CWE-611
+      masvs: Platform-2
+      owasp-mobile: M8
+    options:
+      vardef_assign: true
+    patterns:
+      - pattern: |
+          $X $METHOD(...) {
+            ...
+            new XMLDecoder(...);
+            ...
+          }
+      - pattern-not: |
+          $X $METHOD(...) {
+            ...
+            new XMLDecoder("...");
+            ...
+          }
+      - pattern-not: |
+          $X $METHOD(...) {
+            ...
+            String $STR = "...";
+            ...
+            new XMLDecoder($STR);
+            ...
+          }
+    severity: ERROR

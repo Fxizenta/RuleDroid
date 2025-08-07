@@ -1,0 +1,12 @@
+rules:
+  - id: fingerprint-enrolled-check
+    languages:
+      - java
+    message: "Ensure at least one fingerprint is registered before enabling fingerprint authentication."
+    severity: ERROR
+    patterns:
+      - pattern: fingerprintManager.hasEnrolledFingerprints()
+      - pattern-not-inside: |
+          if (!fingerprintManager.hasEnrolledFingerprints()) {
+              throw new SecurityException("No fingerprints enrolled.");
+          }

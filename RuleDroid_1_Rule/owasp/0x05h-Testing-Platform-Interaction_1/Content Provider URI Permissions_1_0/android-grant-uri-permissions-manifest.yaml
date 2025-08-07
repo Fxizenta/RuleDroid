@@ -1,0 +1,19 @@
+rules:
+- id: android-grant-uri-permissions-manifest
+  languages:
+  - xml
+  message: 'Ensure that the `android:grantUriPermissions` attribute is used appropriately
+    in the manifest to restrict URI access. Consider setting `android:exported="false"`
+    to limit exposure.
+
+    '
+  metadata:
+    category: Security
+    references:
+    - https://developer.android.com/guide/topics/manifest/provider-element#gprmsn
+    technology: Android
+  patterns:
+  - pattern: "<provider\n  android:grantUriPermissions=\"true\"\n  ... />\n"
+  - pattern-not-inside: "<provider\n  android:grantUriPermissions=\"true\"\n  android:exported=\"\
+      false\"\n  ... />\n"
+  severity: ERROR

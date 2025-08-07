@@ -1,0 +1,19 @@
+rules:
+  - id: detect-debuggable-flag
+    languages:
+      - java
+    message: Checking the android:debuggable flag detected. This may indicate JDWP anti-debugging.
+    metadata:
+      cwe: cwe-532
+      owasp-mobile: m8
+    severity: WARNING
+    patterns:
+      - pattern: |
+          ApplicationInfo appInfo = $APP.getApplicationInfo();
+          if ((appInfo.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
+            $DEBUG_ACTION
+          }
+      - pattern-not-inside: |
+          if (BuildConfig.DEBUG) {
+            $DEBUG_ACTION
+          }

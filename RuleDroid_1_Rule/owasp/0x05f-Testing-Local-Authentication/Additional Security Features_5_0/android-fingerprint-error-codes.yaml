@@ -1,0 +1,23 @@
+rules:
+  - id: android-fingerprint-error-codes
+    languages: [java]
+    message: >
+      Android 8.0 introduced FINGERPRINT_ERROR_LOCKOUT_PERMANENT and
+      FINGERPRINT_ERROR_VENDOR for better error handling.
+      Ensure these constants are properly handled in your code to improve security and error management.
+    metadata:
+      references:
+        - https://developer.android.com/reference/android/hardware/fingerprint/FingerprintManager#FINGERPRINT_ERROR_LOCKOUT_PERMANENT
+        - https://developer.android.com/reference/android/hardware/fingerprint/FingerprintManager#FINGERPRINT_ERROR_VENDOR
+      tags: [security, android]
+    pattern-not-inside: |
+      // Ignore test cases or mock implementations
+      @Test
+      class $CLASS {
+          ...
+      }
+    patterns:
+      - pattern-either:
+          - pattern: '$FINGERPRINT_MANAGER_CONSTANT == FingerprintManager.FINGERPRINT_ERROR_LOCKOUT_PERMANENT'
+          - pattern: '$FINGERPRINT_MANAGER_CONSTANT == FingerprintManager.FINGERPRINT_ERROR_VENDOR'
+    severity: ERROR

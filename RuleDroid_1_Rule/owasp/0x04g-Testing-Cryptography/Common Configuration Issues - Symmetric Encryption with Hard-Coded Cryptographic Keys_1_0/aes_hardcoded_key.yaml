@@ -1,0 +1,25 @@
+rules:
+  - id: aes_hardcoded_key
+    languages:
+      - java
+    message: >
+      Hardcoded encryption key detected. Avoid hardcoding encryption keys in the
+      source code. Use secure storage mechanisms like Android Keystore or iOS Keychain.
+    metadata:
+      cwe: cwe-321
+      masvs: crypto-1
+      owasp-mobile: m5
+      reference: https://github.com/MobSF/owasp-mstg/blob/master/Document/0x04g-Testing-Cryptography.md#common-configuration-issues-mstg-crypto-1-mstg-crypto-2-and-mstg-crypto-3
+    pattern-not: |
+      $S = new SecretKeySpec($secureKey.getBytes(), "AES");
+      $C.init(..., $S);
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $S = new SecretKeySpec("...".getBytes(), "AES");
+              $C.init(..., $S);
+          - pattern: |
+              $P = "...";
+              $S = new SecretKeySpec($P.getBytes(), "AES");
+              $C.init(..., $S);
+    severity: ERROR

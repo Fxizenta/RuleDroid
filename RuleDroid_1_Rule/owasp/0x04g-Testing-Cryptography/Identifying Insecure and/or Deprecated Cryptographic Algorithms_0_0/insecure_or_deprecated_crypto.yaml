@@ -1,0 +1,22 @@
+rules:
+  - id: insecure_or_deprecated_crypto
+    languages:
+      - java
+    message: Insecure or deprecated cryptographic algorithm detected. Replace with secure alternatives such as AES-GCM-256, ChaCha20-Poly1305, SHA-256, SHA-384, SHA-512, BLAKE3, RSA (3072 bits and higher), ECDSA with NIST P-384, DH (3072 bits or higher), or ECDH with NIST P-384.
+    metadata:
+      cwe: cwe-327
+      masvs: crypto-4
+      owasp-mobile: m5
+      reference: https://github.com/MobSF/owasp-mstg/blob/master/Document/0x04g-Testing-Cryptography.md#identifying-insecure-andor-deprecated-cryptographic-algorithms-mstg-crypto-4
+    # Look for insecure algorithms using regex to catch common variants.
+    patterns:
+      - pattern-either:
+          - pattern: $C.getInstance("=~/(DES|DESede|RC4|RC2|Blowfish)(\\/.*)?/", ...)
+          - pattern: $H.getInstance("=~/(MD5|SHA1)(\\/.*)?/", ...)
+          - pattern: $R.getInstance("=~/(Dual_EC_DRBG|SHA1PRNG)(\\/.*)?/", ...)
+    # Do not flag constructions that instantiate known safe algorithms.
+    pattern-not-inside:
+      - pattern: $C.getInstance("=~/(AES)(\\/GCM\\/NoPadding)?/", ...)
+      - pattern: $H.getInstance("=~/(SHA-256|SHA-384|SHA-512)(\\/.*)?/", ...)
+      - pattern: $R.getInstance("SecureRandom", ...)
+    severity: ERROR

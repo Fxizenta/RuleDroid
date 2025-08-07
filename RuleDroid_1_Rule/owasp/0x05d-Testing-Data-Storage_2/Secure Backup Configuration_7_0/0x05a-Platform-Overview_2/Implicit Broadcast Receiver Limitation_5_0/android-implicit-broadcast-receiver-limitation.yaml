@@ -1,0 +1,21 @@
+rules:
+- id: android-implicit-broadcast-receiver-limitation
+  languages: [xml]
+  message: >
+    Avoid registering implicit Broadcast Receivers in the manifest 
+    for apps targeting Android 8.0 (API level 26) or higher.
+    Use Context.registerReceiver() instead.
+  severity: ERROR
+  patterns:
+    - pattern: |
+        <receiver android:name="$RECEIVER_NAME" ...>
+          <intent-filter ...>
+            <action android:name="$ACTION_NAME" />
+          </intent-filter>
+        </receiver>
+    - pattern-not: |
+        <receiver android:name="$RECEIVER_NAME" ... android:exported="false" ...>
+          <intent-filter ...>
+            <action android:name="$ACTION_NAME" />
+          </intent-filter>
+        </receiver>

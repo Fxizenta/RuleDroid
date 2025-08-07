@@ -1,0 +1,11 @@
+rules:
+  - id: pbkdf2-iteration-count
+    languages: [java]
+    message: PBKDF2 iteration count should be at least 10,000 to resist brute-force attacks.
+    metadata:
+      references:
+        - https://developer.android.com/reference/javax/crypto/spec/PBEKeySpec
+    severity: ERROR
+    patterns:
+      - pattern: 'new PBEKeySpec($PASSWORD, $SALT, $ITERATION_COUNT, $KEY_LENGTH)'
+      - pattern-not: '$ITERATION_COUNT >= 10000'

@@ -1,0 +1,18 @@
+rules:
+  - id: android-webview-untrusted-input
+    languages:
+      - java
+    message: "Potential XSS vulnerability: WebView is loading a URL that may include untrusted user input."
+    severity: ERROR
+    metadata:
+      category: security
+      technology: android
+    fix: >
+      Ensure the URL is properly sanitized and encoded before passing it to WebView.loadUrl(). 
+      Use a whitelist of trusted domains.
+    patterns:
+      - pattern: '$WEBVIEW.loadUrl($URL)'
+      - pattern-not: '$URL = "https://trusted-domain.com"'
+      - metavariable-regex:
+          metavariable: $URL
+          regex: '.*userInput.*'

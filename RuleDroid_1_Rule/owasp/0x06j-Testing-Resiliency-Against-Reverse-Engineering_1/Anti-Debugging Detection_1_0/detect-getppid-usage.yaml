@@ -1,0 +1,19 @@
+rules:
+- id: detect-getppid-usage
+  languages: [java]
+  message: "Usage of getppid detected. This may be an anti-debugging technique."
+  severity: WARNING
+  metadata:
+    cwe: cwe-532
+    owasp-mobile: m8
+  patterns:
+    - pattern: |
+        int $PID_VAR = getppid();
+    - pattern: |
+        if ($PID_VAR == $DEBUGGER_PID) {
+          $DEBUG_ACTION...
+        }
+    - pattern-not-inside: |
+        if ($PID_VAR != $DEBUGGER_PID) {
+          $DEBUG_ACTION...
+        }

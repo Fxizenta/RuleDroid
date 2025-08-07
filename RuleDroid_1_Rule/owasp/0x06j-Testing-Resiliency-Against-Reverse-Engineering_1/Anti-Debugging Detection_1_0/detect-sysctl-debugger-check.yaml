@@ -1,0 +1,12 @@
+rules:
+  - id: detect-sysctl-debugger-check
+    languages: [java]
+    message: Usage of sysctl to detect debugger detected. This may be an anti-debugging technique.
+    severity: WARNING
+    metadata:
+      cwe: cwe-532
+      owasp-mobile: m8
+    pattern: |
+      Runtime.getRuntime().exec($CMD)
+    metavariable-regex:
+      $CMD: ".*sysctl.*"

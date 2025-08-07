@@ -1,0 +1,9 @@
+rules:
+  - id: insecure-memory-handling
+    languages:
+      - java
+    message: Minimize the time keys remain in memory and zero out keys after use.
+    patterns:
+      - pattern: byte[] keyBytes = $KEY;
+      - pattern-not-inside: Arrays.fill($KEY, (byte) 0);
+    severity: INFO

@@ -1,0 +1,11 @@
+rules:
+  - id: salt-storage-backup
+    languages: [java]
+    message: "Salt should be excluded from Android backup mechanisms to prevent synchronization risks."
+    severity: ERROR
+    metadata:
+      references:
+        - https://developer.android.com/reference/android/content/SharedPreferences.Editor
+    patterns:
+      - pattern: 'SharedPreferences.Editor.putString("salt", $VALUE)'
+      - pattern-not-inside: 'SharedPreferences.Editor.putString("salt", $VALUE).excludeFromBackup();'

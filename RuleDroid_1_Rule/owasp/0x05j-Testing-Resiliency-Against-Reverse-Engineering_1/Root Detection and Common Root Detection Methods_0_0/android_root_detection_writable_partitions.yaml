@@ -1,0 +1,17 @@
+rules:
+  - id: android_root_detection_writable_partitions
+    languages:
+      - java
+    message: Detects checks for writable partitions or system directories, which may indicate a rooted device.
+    metadata:
+      cwe: cwe-919
+      masvs: resilience-1
+      owasp-mobile: m8
+    severity: INFO
+    patterns:
+      - pattern: '$DIRECTORY.canWrite()'
+      - pattern-not-inside: |
+          // Ignore cases where writable partition checks are unrelated to root detection
+          if ($CONDITION) {
+              ...
+          }

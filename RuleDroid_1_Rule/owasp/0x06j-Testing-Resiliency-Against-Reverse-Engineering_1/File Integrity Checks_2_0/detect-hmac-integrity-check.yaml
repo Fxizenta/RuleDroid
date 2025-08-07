@@ -1,0 +1,23 @@
+rules:
+- id: detect-hmac-integrity-check
+  languages: [java]
+  message: "Detected HMAC-based integrity check. Ensure the key is securely stored and the algorithm is resistant to attacks."
+  severity: ERROR
+  patterns:
+    - pattern: |
+        Mac mac = Mac.getInstance($ALGORITHM, $PROVIDER);
+        mac.init($KEY);
+        byte[] hmac = mac.doFinal($DATA);
+    - pattern-inside: |
+        // Ensure HMAC is used within a secure context
+        if ($CONDITION) {
+            Mac mac = Mac.getInstance($ALGORITHM, $PROVIDER);
+            mac.init($KEY);
+            byte[] hmac = mac.doFinal($DATA);
+        }
+    - pattern-not: |
+        // Ignore cases where HMAC is used for non-integrity purposes
+        Mac mac = Mac.getInstance("HmacSHA256");
+        mac.init($KEY);
+        byte[] hmac = mac.doFinal($DATA);
+        System.out.println(hmac);

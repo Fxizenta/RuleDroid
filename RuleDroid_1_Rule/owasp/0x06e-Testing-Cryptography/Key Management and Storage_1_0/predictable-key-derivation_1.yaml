@@ -1,0 +1,15 @@
+rules:
+  - id: predictable-key-derivation_1
+    languages:
+      - java
+    message: >
+      Avoid using predictable key derivation functions. Use PBKDF2 or similar secure methods.
+    metadata:
+      category: security
+      technology: android
+    severity: ERROR
+    patterns:
+      - pattern: |-
+          new SecretKeySpec($KEY.getBytes(), $ALGORITHM)
+      - pattern-not-inside: |-
+          new SecretKeySpec(PBKDF2($PARAMS), $ALGORITHM)

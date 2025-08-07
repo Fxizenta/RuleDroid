@@ -1,0 +1,13 @@
+rules:
+  - id: detect-custom-permissions
+    languages: [xml]
+    message: >
+      Custom permissions detected. Ensure they adhere to the Principle of Least Privilege and are properly defined with meaningful labels, descriptions, and appropriate protection levels. Avoid using overly permissive protection levels such as "signatureOrSystem".
+    metadata:
+      category: Android Security
+      reference: https://developer.android.com/guide/topics/permissions/defining
+    severity: ERROR
+    patterns:
+      - pattern: |
+          <permission ... android:label=$LABEL ... android:description=$DESCRIPTION ... android:protectionLevel=$PROTECTION_LEVEL ... />
+      - pattern-not: 'android:protectionLevel="signatureOrSystem"'

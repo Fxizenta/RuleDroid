@@ -1,0 +1,17 @@
+rules:
+- id: android-content-provider-permission-enforcement
+  languages:
+    - xml
+  message: ContentProvider does not enforce permissions. Consider adding "android:permission", "android:readPermission", or "android:writePermission" attributes to restrict access.
+  severity: ERROR
+  pattern: |
+    <provider ... android:name=$PROVIDER_NAME ... />
+  pattern-not:
+    - |
+      <provider ... android:permission=$PERMISSION ... />
+    - |
+      <provider ... android:readPermission=$READ_PERMISSION ... />
+    - |
+      <provider ... android:writePermission=$WRITE_PERMISSION ... />
+    - |
+      <provider ... android:exported="false" ... />

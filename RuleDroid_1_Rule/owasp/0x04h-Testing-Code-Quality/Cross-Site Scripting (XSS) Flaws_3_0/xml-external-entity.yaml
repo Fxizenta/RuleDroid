@@ -1,0 +1,13 @@
+rules:
+  - id: xml-external-entity
+    languages:
+      - java
+    message: 'Potential XXE vulnerability: XML parser is configured to allow external entities.'
+    severity: ERROR
+    metadata:
+      category: security
+      technology: android
+    fix: 'Disable external entity processing by setting the feature to false: $FACTORY.setFeature("http://xml.org/sax/features/external-general-entities", false);'
+    patterns:
+      - pattern: '$FACTORY.setFeature("http://xml.org/sax/features/external-general-entities", true)'
+      - pattern-not: '$FACTORY.setFeature("http://xml.org/sax/features/external-general-entities", false)'

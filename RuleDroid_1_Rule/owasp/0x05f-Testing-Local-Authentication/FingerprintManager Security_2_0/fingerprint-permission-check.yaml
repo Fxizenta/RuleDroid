@@ -1,0 +1,11 @@
+rules:
+  - id: fingerprint-permission-check
+    languages:
+      - java
+    message: "Ensure the application has permission to use fingerprint authentication."
+    severity: ERROR
+    pattern: '$CONTEXT.checkSelfPermission(Manifest.permission.USE_FINGERPRINT) == PackageManager.PERMISSION_GRANTED'
+    pattern-not-inside: |
+      if ($CONTEXT.checkSelfPermission(Manifest.permission.USE_FINGERPRINT) != PackageManager.PERMISSION_GRANTED) {
+          throw new SecurityException("Fingerprint permission not granted.");
+      }

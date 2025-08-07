@@ -1,0 +1,16 @@
+rules:
+  - id: secure_random_with_seed
+    languages:
+      - java
+    message: Specifying a seed in SecureRandom may reduce randomness. Avoid using seeds unless absolutely necessary.
+    metadata:
+      cwe: cwe-330
+      masvs: crypto-6
+      owasp-mobile: M5
+      reference: https://android-developers.googleblog.com/2013/08/some-securerandom-thoughts.html
+    pattern-not: |
+      new SecureRandom()
+    patterns:
+      - pattern: |
+          new SecureRandom($SEED)
+    severity: WARNING

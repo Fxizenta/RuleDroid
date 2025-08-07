@@ -1,0 +1,28 @@
+rules:
+- id: biometric-authentication-flow-security
+  languages:
+  - java
+  message: Ensure proper implementation of BiometricPrompt and secure key creation
+    practices.
+  metadata:
+    area: biometric-authentication
+    category: security
+    references:
+    - https://developer.android.com/reference/android/hardware/biometrics/BiometricPrompt
+    - https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder
+  pattern-inside: KeyGenParameterSpec.Builder $KEYGEN = new KeyGenParameterSpec.Builder($KEY_NAME,
+    $PURPOSE);
+  patterns:
+  - pattern-either:
+    - pattern: "$RET authenticate(\n  BiometricPrompt.CryptoObject $CRYPTO, \n  CancellationSignal\
+        \ $CANCEL, \n  Executor $EXECUTOR, \n  BiometricPrompt.AuthenticationCallback\
+        \ $CALLBACK\n)\n"
+    - pattern: "$RET authenticate(\n  FingerprintManager.CryptoObject $CRYPTO, \n\
+        \  CancellationSignal $CANCEL, \n  int $FLAGS, \n  FingerprintManager.AuthenticationCallback\
+        \ $CALLBACK, \n  Handler $HANDLER\n)\n"
+  - pattern-not: '$KEYGEN.setUserAuthenticationRequired(true);
+
+      $KEYGEN.setInvalidatedByBiometricEnrollment(true);
+
+      '
+  severity: WARNING

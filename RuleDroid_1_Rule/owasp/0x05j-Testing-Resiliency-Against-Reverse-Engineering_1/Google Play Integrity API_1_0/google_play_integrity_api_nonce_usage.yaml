@@ -1,0 +1,22 @@
+rules:
+  - id: google_play_integrity_api_nonce_usage
+    languages:
+      - java
+    message: "Ensure that a secure NONCE is used when requesting the integrity token. Avoid using null or predictable values for the NONCE."
+    severity: WARNING
+    metadata:
+      cwe: cwe-353
+      masvs: resilience-1
+      owasp-mobile: m8
+      reference: https://developer.android.com/google/play/integrity
+    patterns:
+      - pattern: |
+          IntegrityTokenRequest integrityTokenRequest = new IntegrityTokenRequest.Builder()
+              .setNonce($NONCE)
+              .build();
+      - pattern-not: |
+          IntegrityTokenRequest integrityTokenRequest = new IntegrityTokenRequest.Builder()
+              .setNonce(null)
+              .build();
+      - pattern-not-inside: |
+          @Test

@@ -1,0 +1,14 @@
+rules:
+  - id: enforce-custom-permissions-on-components
+    languages: [xml]
+    severity: ERROR
+    message: >
+      Custom permissions are enforced on components.
+      Ensure that activities secured with custom permissions are not inadvertently exposed.
+      Do not set android:exported="true" unless absolutely necessary.
+    metadata:
+      category: Android Security
+      reference: https://developer.android.com/guide/topics/permissions/overview
+    patterns:
+      - pattern: |
+          <activity ... android:permission="$PERMISSION_NAME" ... android:exported="true" ...>

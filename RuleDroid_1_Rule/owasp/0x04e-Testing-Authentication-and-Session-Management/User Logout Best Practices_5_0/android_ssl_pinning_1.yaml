@@ -1,0 +1,24 @@
+rules:
+  - id: android_ssl_pinning_1
+    languages:
+      - java
+      - kotlin
+    message: >-
+      Detected possible implementation of TLS/SSL certificate or public key pinning.
+      Please verify that pinning is correctly implemented to mitigate MITM attacks.
+    severity: INFO
+    metadata:
+      cwe: CWE-295
+      masvs: network-4
+      owasp-mobile: M3
+      reference: https://github.com/MobSF/owasp-mstg/blob/master/Document/0x05g-Testing-Network-Communication.md#testing-custom-certificate-stores-and-certificate-pinning-mstg-network-4
+    pattern-either:
+      - pattern: "org.thoughtcrime.ssl.pinning"
+      - pattern: "$TMF = TrustManagerFactory.getInstance(...);\n\n      ...\n\n      $TMF.getTrustManagers();"
+      - pattern: "CertificatePinner.Builder(...)" 
+      - pattern: "PinningHelper.getPinnedHttpsURLConnection"
+      - pattern: "PinningHelper.getPinnedHttpClient"
+      - pattern: "PinningSSLSocketFactory(...)"
+      - pattern: "$KS.setCertificateEntry(...);"
+      - pattern: "PinningHostnameVerifier(...)"
+      - pattern: "DynamicPinningHostnameVerifier(...)"

@@ -1,0 +1,20 @@
+rules:
+  - id: detect-runtime-integrity-check
+    languages:
+      - java
+    message: >
+      Detected runtime memory integrity check. Ensure this mechanism is robust
+      against runtime patching or hooking.
+    severity: ERROR
+    patterns:
+      - pattern: |
+          CC_MD5($PTR, $SIZE, $DIGEST);
+      - pattern-inside: |
+          // Ensure runtime integrity checks are used within a secure context
+          if ($CONDITION) {
+            CC_MD5($PTR, $SIZE, $DIGEST);
+          }
+      - pattern-not: |
+          // Ignore cases where MD5 is used for non-security purposes
+          CC_MD5($PTR, $SIZE, $DIGEST);
+          System.out.println("MD5 checksum calculated");

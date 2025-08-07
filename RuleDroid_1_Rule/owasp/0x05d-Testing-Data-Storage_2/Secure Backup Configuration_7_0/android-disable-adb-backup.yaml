@@ -1,0 +1,17 @@
+rules:
+  - id: android-disable-adb-backup
+    languages:
+      - xml
+    message: The application allows ADB backups. Set android:allowBackup="false" in the AndroidManifest.xml to disable ADB backups.
+    severity: ERROR
+    metadata:
+      area: backup
+      authors:
+        - Security Audit Expert
+      category: security
+    paths:
+      include:
+        - '**/AndroidManifest.xml'
+    patterns:
+      - pattern: '<application $ATTRS />'
+      - pattern-not: 'android:allowBackup="false"'

@@ -1,0 +1,18 @@
+rules:
+  - id: insecure-key-storage-core-data
+    languages:
+      - java
+    message: >-
+      Avoid storing sensitive keys in databases like SQLite without proper encryption.
+      Use Android KeyStore for secure storage.
+    metadata:
+      category: security
+      technology: android
+    severity: ERROR
+    patterns:
+      - pattern: |
+          ContentValues values = new ContentValues();
+          values.put($KEY, $VALUE);
+          $DB.insert($TABLE, null, values);
+      - pattern-not-inside: |
+          encrypt($VALUE);

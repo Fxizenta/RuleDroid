@@ -1,0 +1,20 @@
+rules:
+  - id: android_root_detection
+    languages:
+      - java
+    message: >-
+      This app does not have root detection capabilities. Running a sensitive application
+      on a rooted device questions the device integrity and affects user data.
+    metadata:
+      cwe: cwe-919
+      masvs: resilience-1
+      owasp-mobile: m8
+      reference: https://github.com/MobSF/owasp-mstg/blob/master/Document/0x05j-Testing-Resiliency-Against-Reverse-Engineering.md#testing-root-detection-mstg-resilience-1
+    patterns:
+      - pattern-either:
+          - pattern: '$OBJ.isRooted(...)'
+          - pattern: '$OBJ.isDeviceRooted(...)'
+          - pattern: '$OBJ.isJailBroken(...)'
+          - pattern: 'RootTools.isAccessGiven(...)'
+          - pattern: '$OBJ.contains("test-keys")'
+    severity: INFO

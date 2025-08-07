@@ -1,0 +1,30 @@
+rules:
+  - id: google_play_integrity_api_error_handling
+    languages:
+      - java
+    message: Ensure proper error handling for IntegrityErrorException to avoid exposing sensitive information or causing app crashes.
+    severity: INFO
+    metadata:
+      cwe: cwe-209
+      masvs: resilience-1
+      owasp-mobile: m7
+      reference: https://developer.android.com/google/play/integrity
+    patterns:
+      - pattern: |
+          try {
+              ...
+          } catch (IntegrityErrorException $X) {
+              ...
+          }
+      - pattern-not: |
+          catch (IntegrityErrorException $X) {
+              // No error handling
+          }
+      - pattern-not-inside: |
+          @Test
+      - pattern-not-inside: |
+          /* 
+          catch (IntegrityErrorException $X) {
+              // No error handling
+          }
+          */

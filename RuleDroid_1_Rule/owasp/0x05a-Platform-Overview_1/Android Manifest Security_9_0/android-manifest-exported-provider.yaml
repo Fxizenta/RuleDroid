@@ -1,0 +1,12 @@
+rules:
+  - id: android-manifest-exported-provider
+    languages:
+      - xml
+    message: Provider is exported. Ensure this is intentional and does not expose sensitive data.
+    severity: ERROR
+    metadata:
+      category: Security
+      technology: Android
+    patterns:
+      - pattern: <provider ... android:exported="true" ...>
+      - pattern-not: <provider ... android:name="com.example.testprovider" ... android:exported="true" ...>

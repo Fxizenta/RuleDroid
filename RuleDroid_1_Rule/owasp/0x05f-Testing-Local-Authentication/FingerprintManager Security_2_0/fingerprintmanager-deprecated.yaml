@@ -1,0 +1,10 @@
+rules:
+  - id: fingerprintmanager-deprecated
+    languages:
+      - java
+    message: "FingerprintManager is deprecated in Android 9 (API level 28). Consider using the Biometric library instead."
+    severity: WARNING
+    pattern-not-inside: |
+      BiometricManager biometricManager = (BiometricManager) $CONTEXT.getSystemService(Context.BIOMETRIC_SERVICE);
+    pattern: |
+      FingerprintManager fingerprintManager = (FingerprintManager) $CONTEXT.getSystemService(Context.FINGERPRINT_SERVICE);

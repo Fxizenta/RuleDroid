@@ -1,0 +1,20 @@
+rules:
+- id: hardcoded-encryption-key_1
+  languages:
+  - java
+  message: Avoid hardcoding encryption keys in the source code. Use secure key generation
+    methods.
+  metadata:
+    category: security
+    technology: android
+  patterns:
+  - pattern: 'String encryptionKey = "$KEY";
+
+      '
+  - pattern-not-inside: 'String encryptionKey = generateKey($PARAMS);
+
+      '
+  - pattern-not-inside: 'String encryptionKey = decrypt($ENCRYPTED_KEY);
+
+      '
+  severity: ERROR

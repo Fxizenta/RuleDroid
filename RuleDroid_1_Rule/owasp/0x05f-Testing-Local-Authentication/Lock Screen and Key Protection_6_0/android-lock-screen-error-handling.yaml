@@ -1,0 +1,29 @@
+rules:
+  - id: android-lock-screen-error-handling
+    languages:
+      - java
+    message: Implement proper error handling for lock screen operations to ensure secure fallback mechanisms.
+    severity: WARNING
+    metadata:
+      category: Error Handling
+      cwe: cwe-703
+      owasp-mobile: m5
+    patterns:
+      # Match a try/catch block around lock screen related operations (e.g., use of KeyguardManager)
+      - pattern-inside: KeyguardManager
+      - pattern: |
+          try {
+            ...
+          } catch ($EXCEPTION e) {
+            ...
+          }
+      # Do not flag a catch block that rethrows as a RuntimeException
+      - pattern-not-inside: |
+          catch ($EXCEPTION e) {
+            throw new RuntimeException(..., e);
+          }
+      # Do not flag a catch block that logs the exception (if that is an acceptable fallback)
+      - pattern-not: |
+          catch ($EXCEPTION e) {
+            Log.e(..., ..., e);
+          }

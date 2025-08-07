@@ -1,0 +1,15 @@
+rules:
+- id: android-service-permission-enforcement
+  languages:
+  - xml
+  message: Service does not enforce permissions. Consider adding 'android:permission'
+    attribute to restrict access.
+  patterns:
+  - pattern: '<service android:name="$SERVICE_NAME" />
+
+      '
+  - pattern-not: '<service android:name="$SERVICE_NAME" android:permission="$PERMISSION"
+      />
+
+      '
+  severity: WARNING

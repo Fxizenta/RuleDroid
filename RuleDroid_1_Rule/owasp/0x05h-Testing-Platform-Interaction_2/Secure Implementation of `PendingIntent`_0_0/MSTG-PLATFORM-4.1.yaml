@@ -1,0 +1,27 @@
+rules:
+  - id: MSTG-PLATFORM-4.1
+    severity: WARNING
+    languages:
+      - java
+    message: "PendingIntents must be declared as immutable using FLAG_IMMUTABLE and specify the exact package, action, and component to mitigate risks."
+    patterns:
+      - pattern-inside: |
+          $T(...){
+            ...
+            PendingIntent $I = PendingIntent.$M($A, $B, $C, $D);
+            ...
+          }
+      - pattern-not-inside: |
+          $T(...){
+            ...
+            PendingIntent $I = PendingIntent.$M(...);
+            ...
+            $I.setClassName(...);
+            ...
+          }
+      - pattern: PendingIntent.$M($A, $B, $C, $D)
+      - metavariable-regex:
+          metavariable: $M
+          regex: (getActivity|getActivities|getBroadcast|getForegroundService|getService)
+      - metavariable-comparison:
+          comparison: $D & 0x04000000 > 0

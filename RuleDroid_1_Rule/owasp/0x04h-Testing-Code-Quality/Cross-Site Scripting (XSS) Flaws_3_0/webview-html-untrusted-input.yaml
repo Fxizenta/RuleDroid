@@ -1,0 +1,16 @@
+rules:
+  - id: webview-html-untrusted-input
+    languages:
+      - java
+    message: "Potential XSS vulnerability: WebView is loading HTML data that may include untrusted user input. Ensure the HTML content is properly sanitized and encoded before passing it to loadData()."
+    severity: ERROR
+    metadata:
+      category: security
+      technology: android
+    patterns:
+      - pattern: '$WEBVIEW.loadData($HTML, $MIME_TYPE, $ENCODING)'
+      - metavariable-regex:
+          metavariable: $HTML
+          regex: '.*userInput.*'
+      - pattern-not: '$HTML = "<html><body>Safe Content</body></html>"'
+      - pattern-not: 'Html.escapeHtml($HTML)'

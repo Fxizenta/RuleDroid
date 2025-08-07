@@ -1,0 +1,17 @@
+rules:
+- id: android-fork-ptrace-check
+  languages:
+  - java
+  message: 'Detects usage of `fork` and `ptrace` for anti-debugging purposes.
+
+    '
+  pattern-not-inside: '// Ignore cases where fork and ptrace are used for legitimate
+    process management
+
+    Log.d($LOGGER, "Fork and ptrace used");
+
+    '
+  patterns:
+  - pattern: "int pid = fork();\nif (pid == 0) {\n    ptrace(PTRACE_TRACEME, 0, NULL,\
+      \ NULL);\n    $CHILD_PROCESS_LOGIC\n} else {\n    $PARENT_PROCESS_LOGIC\n}\n"
+  severity: INFO
