@@ -21,7 +21,25 @@ RuleDroid is a new framework that leverages large language models (LLMs) to auto
 ```
 
 
+### Setup
 
+1. **Prerequisites**
+   - Python 3.x
+   - Required Python packages (install via requirements.txt)
+   - Access to LLM APIs
+
+2. **Configuration**
+   - Configure LLM API settings in the respective modules:
+     - Set base URL and API key in `llmevolucore/makerule.py`
+     - Set base URL and API key in `llmevolucore/rulestren.py`
+   - Adjust thread count based on:
+     - Your runtime environment
+     - LLM vendor's TPM (Tokens Per Minute) limits
+
+3. **Installation**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 
 ## Will available following the publication of this paper
