@@ -1,21 +1,32 @@
 # RuleDroid
 
+RuleDroid is a new framework that leverages large language models (LLMs) to automatically generate Semgrep-compatible static detection rules from up-to-date official Android security documentation. \sysname simultaneously addresses two issues: (i) the substantial manual time and effort required for rule generation and maintenance in traditional Static Application Security Testing (SAST), and (ii) the instability and difficulty of applying LLM-based methods to analyzing large-scale Android apps. \sysname grounds LLM outputs with Retrieval-Augmented Generation (RAG) and a modular workflow, and then applies proven static-analysis techniques to deliver explainable, repeatable findings. This design bridges the breadth of LLMs with the precision and maintainability of SAST.
 
 
-### Already provided
+## Already provided
 
 - RuleDroid source code in /RuleDroid
 - VulsTotal-CVE ++ benchmark in /DroidCVE_benchmark
 - Examples of generated rules can be found in /RuleDroid_1_Rule
 
-CVE id：CVE-2025-7XXX、CVE-2025-7XXX、CVE-2025-7XXX、CVE-2025-7XXX、CVE-2025-7XXX、CVE-2025-7XXX、CVE-2025-8XXX、CVE-2025-8XXX、CVE-2025-8XXX、CVE-2025-8XXX、CVE-2025-8XXX、CVE-2025-8XXX、CVE-2025-8XXX、CVE-2025-8XXX、CVE-2025-8XXX
+
+### RuleDroid Project Structure
+
+```
+├── EvoluDroid.py           # Main execution script
+├── llog.py                 # Logging utility
+├── requirements.txt        # Project dependencies
+├── llmevolucore/          # Core LLM-based rule evolution modules
+└── saevolucore/          # Supporting analysis modules
+```
 
 
 
-### Will available following the publication of this paper
 
-- System prompt for each LLM Instant
-- Complete CVE detail
+
+## Will available following the publication of this paper
+
+- System prompt for each LLM Instant in the workflow
 - RAG knowledge base database and corresponding docker
 
 
