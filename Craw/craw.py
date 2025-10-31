@@ -3,6 +3,7 @@ import aiohttp
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse, urlunparse
 import os
+import json
 
 visited_urls = set()
 max_stack_size = 70000
@@ -18,6 +19,17 @@ focus_keywords = [
 ]
 
 proxy = "http://ip:port"
+
+etag_file = "etag_map.json"
+if os.path.exists(etag_file):
+    with open(etag_file, "r", encoding="utf-8") as f:
+        etag_map = json.load(f)
+else:
+    etag_map = {}
+
+def save_etag_map():
+    with open(etag_file, "w", encoding="utf-8") as f:
+        json.dump(etag_map, f)
 
 def save_page_content(url, content):
     parsed_url = urlparse(url)
@@ -41,10 +53,20 @@ async def crawl(url, base_url, session, task_stack, semaphore):
     retries = 0
     while retries < max_retries:
         try:
+            headers = {}
+            if url in etag_map:
+                headers["If-None-Match"] = etag_map[url]
             async with semaphore:
-                async with session.get(url, proxy=proxy, timeout=10) as response:
+                async with session.get(url, proxy=proxy, timeout=10, headers=headers) as response:
+                    if response.status == 304:
+                        print(f"Not modified (ETag matched): {url}")
+                        return
                     if response.status != 200:
                         return
+                    etag = response.headers.get("ETag")
+                    if etag:
+                        etag_map[url] = etag
+                        save_etag_map()
                     content = await response.text()
                     soup = BeautifulSoup(content, 'html.parser')
                     page_text = soup.get_text()
