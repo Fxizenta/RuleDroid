@@ -336,4 +336,5 @@ RuleDroid is a new framework that leverages large language models (LLMs) to auto
 | CVE-2018-9067             | com.lenovo.serviceit611apkmirror                      | IMEI Exposure                             | com.lenovo.serviceit611apkmirror/sources/com/lenovo/serviceit/selfhelp/chat/activity/ChatActivity.java |
 | CVE-2023-29736            | KeyboardThemesForAndroid12751164APKPure               | Path Traversal                            | KeyboardThemesForAndroid12751164APKPure/resources/AndroidManifest.xml<br/>KeyboardThemesForAndroid12751164APKPure/sources/com/timmystudios/redrawkeyboard/themes/SuperThemeReceiver.java<br/>KeyboardThemesForAndroid12751164APKPure/sources/com/timmystudios/redrawkeyboard/themes/go/GoApkThemeInstaller.java |
 | CVE-2021-41993            | prod.com.pingidentity.pingid1180apkmirror             | Improper Handle RSA Encryption            | prod.com.pingidentity.pingid1180apkmirror/sources/com/accells/access/home/v0.java |
+|CVE-2024-50684             | com.isolarcloud.manage21620241017                     | Improper Handle AES Encryption            | com.isolarcloud.manage21620241017/source/com/alipay/sdk/m/l0/a.java |
 
