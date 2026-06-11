@@ -1,340 +1,320 @@
 # RuleDroid
 
-RuleDroid is a new framework that leverages large language models (LLMs) to automatically generate Semgrep-compatible static detection rules from up-to-date official Android security documentation. RuleDroid simultaneously addresses two issues: (i) the substantial manual time and effort required for rule generation and maintenance in traditional Static Application Security Testing (SAST), and (ii) the instability and difficulty of applying LLM-based methods to analyzing large-scale Android apps. RuleDroid grounds LLM outputs with Retrieval-Augmented Generation (RAG) and a modular workflow, and then applies proven static-analysis techniques to deliver explainable, repeatable findings. This design bridges the breadth of LLMs with the precision and maintainability of SAST.
+RuleDroid is a framework that leverages large language models (LLMs) to automatically generate [Semgrep](https://semgrep.dev/)-compatible static detection rules from up-to-date official Android security documentation. It addresses two critical issues: (i) the substantial manual effort required for rule generation and maintenance in traditional Static Application Security Testing (SAST), and (ii) the instability of applying pure LLM-based methods to large-scale Android app analysis. RuleDroid grounds LLM outputs with **Retrieval-Augmented Generation (RAG)** and a **modular 12-phase workflow**, then applies proven static-analysis techniques to deliver explainable, repeatable findings.
 
+---
 
-## Already provided
+## Table of Contents
 
-- RuleDroid source code in /RuleDroid
-- VulsTotal-CVE ++ benchmark in /DroidCVE_benchmark
-- Examples of generated rules can be found in /RuleDroid_1_Rule
+- [How It Works](#how-it-works)
+- [Project Structure](#project-structure)
+- [Quick Start](#quick-start)
+- [Detailed Usage](#detailed-usage)
+  - [1. Crawl Documentation](#1-crawl-documentation)
+  - [2. Run the Rule Generation Pipeline](#2-run-the-rule-generation-pipeline)
+  - [3. Validate & Run Generated Rules](#3-validate--run-generated-rules)
+- [API Configuration](#api-configuration)
+- [DroidCVE++ Benchmark](#droidcve-benchmark)
+- [Example Generated Rules](#example-generated-rules)
+- [Available Materials](#available-materials)
 
+---
 
-### RuleDroid Project Structure
+## How It Works
+
+RuleDroid operates in a **12-phase pipeline**:
+
+| Phase | Module | Description |
+|-------|--------|-------------|
+| 1 | `saevolucore/splitmd.py` | Split oversized Markdown documentation into manageable chunks |
+| 2 | `llmevolucore/textblock.py` | Parse security requirements from docs and extract structured text blocks via LLM |
+| 3 | `llmevolucore/filter_block.py` | LLM voting (5 rounds) to filter out blocks unsuitable for rule generation |
+| 4 | `saevolucore/countvote.py` | Aggregate voting results; blocks marked "unsuitable" ≥4/5 times are excluded |
+| 5 | `llmevolucore/makerule.py` | Generate Semgrep YAML rules from qualifying text blocks via LLM |
+| 6 | `llmevolucore/rulefix.py` | Syntax-validate rules with `semgrep --validate` and auto-fix errors via LLM |
+| 7 | `saevolucore/rmiddup.py` | Detect and rename duplicate rule IDs |
+| 8 | `llmevolucore/rmduplicates.py` | Remove semantically-duplicate rules |
+| 9 | `llmevolucore/rulestren.py` | Strengthen rules via LLM re-evaluation (identifies deficiencies, proposes improvements) |
+| 10 | `llmevolucore/rulefix_r2.py` | Syntax-check the strengthened rules |
+| 11 | `llmevolucore/rmduplicates.py` | Deduplicate the strengthened rule set |
+| 12 | `llmevolucore/securitylevel.py` | Classify each rule's severity level |
+
+This multi-stage design ensures that the final rule set is syntactically valid, semantically non-redundant, and of high detection quality.
+
+---
+
+## Project Structure
 
 ```
-├── EvoluDroid.py           # Main execution script
-├── llog.py                 # Logging utility
-├── requirements.txt        # Project dependencies
-├── llmevolucore/          # Core LLM-based rule evolution modules
-└── saevolucore/          # Supporting analysis modules
+├── Craw/                          # Documentation crawler
+│   └── craw.py                    #   Async crawler for Android/Semgrep doc sites
+├── DroidCVE_benchmark/            # VulsTotal-CVE++ benchmark (88 APKs with CVEs)
+├── RuleDroid_1_Rule/              # Example generated Semgrep rules (organized by category)
+├── RuleDroid/                     # Core RuleDroid framework
+│   ├── EvoluDroid.py              #   Main orchestrator — runs the full 12-phase pipeline
+│   ├── llog.py                    #   Logging + print utility
+│   ├── requirements.txt           #   Python dependencies
+│   ├── llmevolucore/              #   LLM-based rule evolution modules
+│   │   ├── common.py              #     Shared: API client, text/YAML parsing, file I/O
+│   │   ├── textblock.py           #     Phase 2: Generate structured text blocks from docs
+│   │   ├── filter_block.py        #     Phase 3: LLM voting to filter unsuitable blocks
+│   │   ├── makerule.py            #     Phase 5: Generate Semgrep rules from text blocks
+│   │   ├── rulefix.py             #     Phase 6: Validate & auto-fix rule syntax
+│   │   ├── rulefix_r2.py          #     Phase 10: Validate strengthened rules
+│   │   ├── rmduplicates.py        #     Phase 8/11: Remove duplicate rules
+│   │   ├── rulestren.py           #     Phase 9: Strengthen rules via LLM
+│   │   ├── securitylevel.py       #     Phase 12: Classify rule severity
+│   │   └── rule_utils.py          #     Shared rule helpers (validation, ID extraction)
+│   └── saevolucore/               #   Supporting analysis modules (non-LLM)
+│       ├── splitmd.py             #     Phase 1: Split oversize Markdown files
+│       ├── checkfalsenum.py       #     Phase 3 helper: Count false votes
+│       ├── countvote.py           #     Phase 4: Aggregate voting results
+│       ├── nocheck.py             #     Phase 4 helper: Read and extract filenames
+│       ├── rmiddup.py             #     Phase 7: Rename duplicate rule IDs
+│       ├── htmltomd.py            #     HTML-to-Markdown converter
+│       └── splitmd.py             #     Markdown file splitter
+└── README.md
 ```
 
+---
 
-### Setup
+## Quick Start
 
-1. **Prerequisites**
-   - Python 3.x
-   - Required Python packages (install via requirements.txt)
-   - Access to LLM APIs
+### Prerequisites
 
-2. **Configuration**
-   - Configure LLM API settings in the respective modules:
-     - Set base URL and API key in `llmevolucore/makerule.py`
-     - Set base URL and API key in `llmevolucore/rulestren.py`
-   - Adjust thread count based on:
-     - Your runtime environment
-     - LLM vendor's TPM (Tokens Per Minute) limits
+- **Python 3.10+**
+- **Semgrep CLI** (for rule validation: `pip install semgrep`)
+- **Access to an OpenAI-compatible LLM API** (base URL + API key)
 
-3. **Installation**
-   ```bash
-   pip install -r requirements.txt
-   ```
+### Installation
 
+```bash
+cd RuleDroid
+pip install -r requirements.txt
+```
 
-## Will available following the publication of this paper
+Install Semgrep for rule validation:
 
-- System prompt for each LLM Instant in the workflow
-- RAG knowledge base database and corresponding docker
+```bash
+pip install semgrep
+```
 
+---
 
+## Detailed Usage
 
+### 1. Crawl Documentation
 
+The crawler in [Craw/craw.py](Craw/craw.py) asynchronously fetches pages from documentation sites (e.g., `developer.android.com`, `semgrep.dev/docs`), filters pages containing security-relevant keywords, and saves them locally.
 
+**Configuration** — edit these variables in [Craw/craw.py](Craw/craw.py):
 
+```python
+start_url = "https://developer.android.com/"   # Base URL to crawl
+max_stack_size = 70000                          # Max URLs to visit
+concurrent_limit = 30                           # Concurrent connections
+proxy = "http://ip:port"                        # Optional HTTP proxy
+```
 
-## DroidCVE++ benchmark list
+**Run the crawler:**
 
-| ***CVE-id***              | ***The corresponding APK***                           | ***The corresponding groud-truth label*** | *path*                                                       |
-| ------------------------- | ----------------------------------------------------- | ----------------------------------------- | ------------------------------------------------------------ |
-| CVE-2020-35454            | 2b4a394d1e51826XSEdRGWjOO8tPq4                        | Manifest Backup Issue                     | 2b4a394d1e51826XSEdRGWjOO8tPq4/resources/AndroidManifest.xml |
-| CVE-2023-36620            | BoomerangParentalControl1383gpApkpure                 | Manifest Backup Issue                     | BoomerangParentalControl1383gpApkpure/resources/AndroidManifest.xml |
-| CVE-2017-16835            | PhotoVideoLocker-Calculator120Apkpure                 | Manifest Backup Issue                     | PhotoVideoLocker-Calculator120Apkpure/resources/AndroidManifest.xml |
-| CVE-2020-24366            | com.jetbrains.youtrack.mobile.app                     | Manifest Backup Issue                     | com.jetbrains.youtrack.mobile.app_00E648000AD5CD8BF1D0A20E6C3AA182003E8A31E47F634B23191189AB4DF2E9_201911838/resources/AndroidManifest.xml |
-| CVE-2018-14902            | epsonprint664-60604minAPI16apkmirrorcom               | ContentProvider Permissions Issue         | epsonprint664-60604minAPI16apkmirrorcom/resources/AndroidManifest.xml<br/>epsonprint664-60604minAPI16apkmirrorcom/sources/epson/provider/IAFileProvider.java |
-| CVE-2021-43863            | Nextcloud3181Apkpure                                  | ContentProvider Permissions Issue         | Nextcloud3181Apkpure/sources/com/owncloud/android/providers/FileContentProvider.java<br/>Nextcloud3181Apkpure/resources/AndroidManifest.xml<br/>Nextcloud3181Apkpure/sources/com/owncloud/android/providers/DiskLruImageCacheFileProvider.java |
-| CVE-2023-27703            | PikPakSafeCloudVideoSaver1292Apkpure                  | Manifest Debug Issue                      | PikPakSafeCloudVideoSaver1292Apkpure/resources/AndroidManifest.xml |
-| CVE-2022-30083            | EllieGrid341Apkpure                                   | Runtime Command Execution Issue           | EllieGrid341Apkpure/sources/com/facebook/react/modules/systeminfo/AndroidInfoHelpers.java |
-| CVE-2023-36351            | ViHealth27458Apkpure                                  | Runtime Command Execution Issue           | ViHealth27458Apkpure/sources/com/viatom/baselib/mvvm/web/WebViewActivity.java |
-| CVE-2023-29738            | WaveAnimatedKeyboardEmoji1707apkcombocom              | Runtime Command Execution Issue           | WaveAnimatedKeyboardEmoji1707apkcombocom/sources/com/wave/keyboard/inputmethod/dictionarypack/DictionaryProvider.java<br/>WaveAnimatedKeyboardEmoji1707apkcombocom/sources/com/wave/keyboard/inputmethod/dictionarypack/k.java |
-| CVE-2013-6775             | eu.chainfire.supersu                                  | Runtime Command Execution Issue           | eu.chainfire.supersu_103551A95EC8438AE3B8D5871F2AA732AAFA3E9A3E63AD27FD809685FDB4039F_89/sources/eu/chainfire/supersu/Installer.java |
-| CVE-2019-8919             | Seafile2213Apkpure                                    | Hardcoded IV Issue                        | Seafile2213Apkpure/sources/com/seafile/seadroid2/crypto/Crypto.java |
-| CVE-2017-15997            | ContactsBackupRestore11apkcombocom                    | Improper Handle  RC4 Encryption           | ContactsBackupRestore11apkcombocom/sources/com/netqin/antivirus/util/DataUtils.java<br/>ContactsBackupRestore11apkcombocom/sources/com/netqin/antivirus/util/NetQinSharedPreferences.java |
-| CVE-2021-41096            | rucky                                                 | Improper Handle AES Encryption            | rucky/sources/x1/r.java<br/>rucky/sources/com/mayank/rucky/activity/EditorActivity.java |
-| CVE-2023-21443            | SamsungFlow49044Apkpure                               | Improper Handle AES Encryption            | SamsungFlow49044Apkpure/sources/com/samsung/android/galaxycontinuity/auth/util/EncryptionUtil.java |
-| CVE-2017-15998            | ContactsBackupRestore11apkcombocom                    | Improper Handle DES Encryption            | ContactsBackupRestore11apkcombocom/sources/com/netqin/antivirus/codec/DesCript.java |
-| CVE-2018-15753            | MensaMax43Apkpure                                     | Improper Handle DES Encryption            | MensaMax43Apkpure/sources/com/breustedt/mensamax/b/c.java    |
-| CVE-2017-11131            | stashcat177a                                          | Improper Handle Insecure Hash             | stashcat177a/sources/de/heinekingmedia/stashcat_api/a/b.java |
-| CVE-2017-11136            | stashcat177a                                          | Improper Handle Insecure Hash             | stashcat177a/sources/de/heinekingmedia/stashcat_api/a/b.java |
-| CVE-2018-2489             | SAPFioriClient1113Apkpure                             | Inadequate File Deletion Handling         | SAPFioriClient1113Apkpure/sources/com/sap/smp/client/android/federation/FederationClient.java<br/>SAPFioriClient1113Apkpure/resources/AndroidManifest.xml |
-| CVE-2023-22362            | 201Apkpure                                            | Logging Data Exposure                     | 201Apkpure/sources/d/h/b/a.java                              |
-| CVE-2017-2109             | Cybozu3051Apkpure                                     | Logging Data Exposure                     | Cybozu3051Apkpure/sources/com/cybozu/kunailite/base/f/a/c.java<br/>Cybozu3051Apkpure/sources/com/cybozu/kunailite/e/e.java |
-| CVE-2019-17398            | DarkHorseComics1321Apkpure                            | Logging Data Exposure                     | DarkHorseComics1321Apkpure/sources/com/darkhorse/digital/net/DungeonHTTPClient.java |
-| CVE-2016-1518             | GrandstreamWave10121Apkpure                           | Logging Data Exposure                     | GrandstreamWave10121Apkpure/sources/com/softphone/common/view/ad.java |
-| CVE-2020-27413            | Mahavitaran750Apkpure                                 | Logging Data Exposure                     | Mahavitaran750Apkpure/sources/com/msedcl/callcenter/util/AppConfig.java<br/>Mahavitaran750Apkpure/sources/com/msedcl/callcenter/src/WSSLoginActivity.java |
-| CVE-2019-17355            | OrbitzHotelsFlights19311apkcombocom                   | Logging Data Exposure                     | OrbitzHotelsFlights19311apkcombocom/sources/com/expedia/account/AccountService.java<br/>OrbitzHotelsFlights19311apkcombocom/sources/com/expedia/account/AccountView.java |
-| CVE-2019-17396            | PowerSchoolMobile118Apkpure                           | Logging Data Exposure                     | PowerSchoolMobile118Apkpure/sources/com/pearson/powerschool/android/webserviceclient/service/network/SoapCall.java |
-| CVE-2019-17395            | RapidgatornetFileManager071Apkpure                    | Logging Data Exposure                     | RapidgatornetFileManager071Apkpure/sources/net/rapidgator/application/module/ApiModule.java<br/>RapidgatornetFileManager071Apkpure/sources/net/rapidgator/server/AppServerApi.java |
-| CVE-2019-17394            | SeesawParentFamily625apkcombocom                      | Logging Data Exposure                     | SeesawParentFamily625apkcombocom/sources/seesaw/shadowpuppet/co/seesaw/utils/network/NetworkAdaptor.java |
-| CVE-2017-11134            | stashcat177a                                          | Logging Data Exposure                     | stashcat177a/sources/de/heinekingmedia/stashcat_api/model/channel/i.java |
-| CVE-2019-13098            | TronLinkWalletTRONblockchainwallet220Apkpure          | Logging Data Exposure                     | TronLinkWalletTRONblockchainwallet220Apkpure/sources/com/tron/wallet/bussiness/creat/creatwallet/CreateWalletTwoActivity.java |
-| CVE-2019-17397            | com.dd.doordash                                       | Logging Data Exposure                     | com.dd.doordash_21046518EB8D4A1477A1A7AE3C6D115FF2EDD491A56ECF439C2FC96F5857C061_176/sources/com/dd/doordash/network/ConsumerRetrofitFactory.java<br/>com.dd.doordash_21046518EB8D4A1477A1A7AE3C6D115FF2EDD491A56ECF439C2FC96F5857C061_176/sources/com/dd/doordash/network/clients/ExperimentClient.java |
-| CVE-2014-2000             | com.ntt.voip.android.com050plus                       | Logging Data Exposure                     | com.ntt.voip.android.com050plus_80C9084971CD7036C4BF306FDB035075287BAA43E3405F8D6D50A1DC3E042D87_49/sources/com/oki_access/android/ims/call/util/i.java |
-| CVE-2012-5187             | wni.WeathernewsTouch.jp                               | Logging Data Exposure                     | wni.WeathernewsTouch.jp_C88F0A18408DFA6BE6FE7581AC85EE62BDD8EAB6A807E58EE68C077B4F229390_56/sources/wni/WeathernewsTouch/jp/Koyo/KoyoSendReport.java |
-| CVE-2022-23434            | comsamsungandroidvisionintelligence37608-bixby        | Misuse Empty Pending Intent Issue         | comsamsungandroidvisionintelligence37608-bixby/sources/com/samsung/android/visionintelligence/lens/qr/LinkAction.java<br/>comsamsungandroidvisionintelligence37608-bixby/sources/com/samsung/android/visionintelligence/service/spen/util/ForegroundServiceHelper.java<br/>comsamsungandroidvisionintelligence37608-bixby/sources/com/samsung/android/visionintelligence/util/link/bst/ShareBike/BstShareBikeUtil.java <br/>comsamsungandroidvisionintelligence37608-bixby/sources/com/samsung/context/sdk/samsunganalytics/internal/sender/DMA/TimerUtil.java |
-| CVE-2013-0122             | com.avast.android.mobilesecurity                      | Misuse Empty Pending Intent Issue         | com.avast.android.mobilesecurity_196F1157332D6CF82C57BAA4D21671CDAD15526EFF8BFD80FA93C53CE3CFAB9A_1282/sources/com/avast/android/mobilesecurity/app/scanner/DeleteFileActivity.java<br/>com.avast.android.mobilesecurity_196F1157332D6CF82C57BAA4D21671CDAD15526EFF8BFD80FA93C53CE3CFAB9A_1282/sources/com/avast/android/generic/util/h.java |
-| CVE-2013-3579             | com.lookout                                           | Misuse Empty Pending Intent Issue         | com.lookout_3A505595D09DBF9906D1E9F6E807F7CD48D579B6A889C2F18C1E3F0CA4A375D4_71400/sources/com/lookout/security/ScanApkActivity.java<br/>com.lookout_3A505595D09DBF9906D1E9F6E807F7CD48D579B6A889C2F18C1E3F0CA4A375D4_71400/sources/com/lookout/utils/h.java |
-| CVE-2022-41210            | comsapcloud4custex2022-04-07                          | Use Insecure Random                       | comsapcloud4custex2022-04-07/sources/com/sap/byd/cod/pushnotificationplugin/FCMService.java |
-| CVE-2017-11133            | stashcat177a                                          | Use Insecure Random                       | stashcat177a/sources/com/b/a/c/d/e/g.java                    |
-| CVE-2019-12367            | EmailBlueMailCalendar19536apkcombocom                 | Webview Local File Access                 | EmailBlueMailCalendar19536apkcombocom/sources/defpackage/ehe.java |
-| CVE-2019-12368            | EmailFastSecureMail171apkcombocom                     | Webview Local File Access                 | EmailFastSecureMail171apkcombocom/sources/com/easilydo/mail/ui/webview/BaseWebView.java |
-| CVE-2019-12365            | NewtonMailEmailAppfoGm10023Apkpure                    | Webview Local File Access                 | NewtonMailEmailAppfoGm10023Apkpure/sources/com/cloudmagic/android/SignatureActivity.java<br/>NewtonMailEmailAppfoGm10023Apkpure/sources/com/cloudmagic/android/fragments/ComposeViewFragment.java |
-| CVE-2019-12366            | NineEmailCalendar453aapkcombocom                      | Webview Local File Access                 | NineEmailCalendar453aapkcombocom/sources/com/ninefolders/hd3/mail/browse/MailPreviewActivity.java<br/>NineEmailCalendar453aapkcombocom/resources/AndroidManifest.xml |
-| CVE-2019-12370            | SparkEmail202apkcombocom                              | Webview Local File Access                 | SparkEmail202apkcombocom/resources/AndroidManifest.xml<br/>SparkEmail202apkcombocom/sources/com/readdle/spark/ui/common/HtmlPreviewWebView.java |
-| CVE-2019-12369            | TypeAppmailemailapp19535apkcombocom                   | Webview Local File Access                 | TypeAppmailemailapp19535apkcombocom/sources/defpackage/ehe.java |
-| CVE-2023-27647            | applockmaster224                                      | SQL Injection                             | applockmaster224/sources/com/ludashi/superlock/util/pref/SharedPrefProvider.java |
-| CVE-2023-29725            | BT21xBTSWallpaperHD4K120Apkpure                       | SQL Injection                             | BT21xBTSWallpaperHD4K120Apkpure/sources/com/zayviusdigital/wallpaper_json/provider/DataProvider.java<br/>BT21xBTSWallpaperHD4K120Apkpure/resources/AndroidManifest.xml<br/>BT21xBTSWallpaperHD4K120Apkpure/sources/com/zayviusdigital/wallpaper_json/db/Helper.java |
-| CVE-2023-29723            | GlitterUnicornWallpaper4K80Apkpure                    | SQL Injection                             | GlitterUnicornWallpaper4K80Apkpure/resources/AndroidManifest.xml<br/>GlitterUnicornWallpaper4K80Apkpure/sources/com/zayviusdigital/wallpaper_json/provider/DataProvider.java<br/>GlitterUnicornWallpaper4K80Apkpure/sources/com/zayviusdigital/wallpaper_json/db/Helper.java |
-| CVE-2021-43863            | Nextcloud3181Apkpure                                  | SQL Injection                             | Nextcloud3181Apkpure/sources/com/owncloud/android/providers/FileContentProvider.java<br/>Nextcloud3181Apkpure/resources/AndroidManifest.xml |
-| CVE-2023-23948            | ownCloud2211Apkpure                                   | SQL Injection                             | ownCloud2211Apkpure/sources/com/owncloud/android/providers/FileContentProvider.java |
-| CVE-2016-1562             | com.dteenergy.insight                                 | SQL Injection                             | com.dteenergy.insight_4F2E590CB3EBC31EAF709D046F5F9380E72700988268BEEC135A2CFCB1D01C61_5/sources/com/vectorform/wattsonandroid/b/l.java<br/>com.dteenergy.insight_4F2E590CB3EBC31EAF709D046F5F9380E72700988268BEEC135A2CFCB1D01C61_5/sources/com/vectorform/wattsonandroid/b/q.java |
-| CVE-2019-5454             | com.nextcloud.client                                  | SQL Injection                             | com.nextcloud.client_2D9759AB2DDB03AF1DBF26179A1B920D3871E07B251FBB8BE1306CBB4E0A73AE_10040099/sources/com/owncloud/android/providers/FileContentProvider.java |
-| CVE-2023-29724            | BT21xBTSWallpaperHD4K120Apkpure                       | SQLite Data Exposure                      | BT21xBTSWallpaperHD4K120Apkpure/sources/com/zayviusdigital/wallpaper_json/provider/DataProvider.java<br/>BT21xBTSWallpaperHD4K120Apkpure/resources/AndroidManifest.xml<br/>BT21xBTSWallpaperHD4K120Apkpure/sources/com/zayviusdigital/wallpaper_json/db/Helper.java |
-| CVE-2022-27875            | F5Access308Apkpure                                    | Task Affinity Issue                       | F5Access308Apkpure/resources/AndroidManifest.xml             |
-| CVE-2021-20728            | gooblog1222Apkpure                                    | Custom URL Scheme Issue                   | gooblog1222Apkpure/resources/AndroidManifest.xml             |
-| CVE-2021-20777            | GU502Apkpure                                          | Custom URL Scheme Issue                   | GU502Apkpure/resources/AndroidManifest.xml                   |
-| CVE-2022-41797            | Lemon8LifestyleCommunity330apkcombocom                | Custom URL Scheme Issue                   | Lemon8LifestyleCommunity330apkcombocom/resources/AndroidManifest.xml |
-| CVE-2023-39507            | rikunabinext1150Apkpure                               | Custom URL Scheme Issue                   | rikunabinext1150Apkpure/resources/AndroidManifest.xml        |
-| CVE-2023-40530            | Skylark6212Apkpure                                    | Custom URL Scheme Issue                   | Skylark6212Apkpure/resources/AndroidManifest.xml             |
-| CVE-2020-5627             | Yodobashi187Apkpure                                   | Custom URL Scheme Issue                   | Yodobashi187Apkpure/resources/AndroidManifest.xml            |
-| CVE-2021-20834            | com.nike.omega                                        | Custom URL Scheme Issue                   | com.nike.omega_0082EF10F56A652322B7105A8D66724C45B2CA84D7DCD025F20C487C0849151C_2012211877/resources/AndroidManifest.xml |
-| CVE-2021-20693            | jp.co.gnavi.activity                                  | Custom URL Scheme Issue                   | jp.co.gnavi.activity_017473E81F693AFF024BF6C955B9F2A340BD68E2FE32DDFB89C3CC51567D64A2_115/resources/AndroidManifest.xml |
-| CVE-2020-5623             | jp.co.nitori                                          | Custom URL Scheme Issue                   | jp.co.nitori_026769FC411BD9A68D30AE4CF12B2A6321CC8DB2E01D6EA939C3F51DA751D377_29/resources/AndroidManifest.xml |
-| CVE-2021-20715            | jp.co.recruit.mtl.android.hotpepper                   | Custom URL Scheme Issue                   | jp.co.recruit.mtl.android.hotpepper_022AA970E7A7AD23A8164BD5F0B8C9CC47C4926A85E30F914E446FBAB8BFCC69_277/resources/AndroidManifest.xml |
-| CVE-2021-20873            | li.yapp                                               | Custom URL Scheme Issue                   | li.yapp_09B0DDD156C328843A60749861D40D6181BB10B7AA5DB40AE1E7668E0FE1B3EE_168/resources/AndroidManifest.xml |
-| CVE-2014-7340             | com.magazinecloner.oldbike                            | Use Allow All Hostname Verification       | com.magazinecloner.oldbike_F0536594DCA8905E6AFFD00F72B6D5A80D85FF0DFEBD7CB02E805A97020DE9D6_602/sources/server/volley/MCHurlStack.java<br/>com.magazinecloner.oldbike_F0536594DCA8905E6AFFD00F72B6D5A80D85FF0DFEBD7CB02E805A97020DE9D6_602/sources/server/volley/MCVolley.java |
-| CVE-2014-5905             | com.meucarrinho                                       | Use Allow All Hostname Verification       | com.meucarrinho_DE823FEA164C7543BA7CB9DD0F16A23811B20E71543ADBEA0F91BD1659DA76B4_51400/sources/in/ubee/api/p000private/cr.java |
-| CVE-2014-6752             | com.mindless.behavior.fan.base                        | Use Allow All Hostname Verification       | com.mindless.behavior.fan.base_A1C1CFDB92F496E9EC2ED0972EBB9A8C31DC6494BF2334D2C80CEDABEAB3DDDB_10/sources/com/appyet/f/w.java |
-| CVE-2014-5902             | com.mtel.uacinemaapps                                 | Use Allow All Hostname Verification       | com.mtel.uacinemaapps_63C0AB730F414CC5A90C3C87AB3AB4EFB31505B70E186DC22D78A7E3E0F6AE6B_45/sources/com/mtel/Tools/Net/NetUtil.java<br/>com.mtel.uacinemaapps_63C0AB730F414CC5A90C3C87AB3AB4EFB31505B70E186DC22D78A7E3E0F6AE6B_45/sources/com/amaze/ad/BaseNetworkManager.java |
-| CVE-2014-7028             | com.myapphone.android.myappibispaucentre              | Use Allow All Hostname Verification       | com.myapphone.android.myappibispaucentre_5E5E6371C7B884EE934686FD04C01B2F70521CBBEF94FBE1FCBEFE5CD20C4319_1/sources/com/myapphone/android/net/MySSLSocketFactory.java |
-| CVE-2014-5900             | com.myhomeowork                                       | Use Allow All Hostname Verification       | com.myhomeowork_7137C63AD735A29E060B0DED8D06EAE71DF9BA237BC8CFEAA1B6CCC3C744FABF_202/sources/com/instin/util/TrustAllSSL.java |
-| CVE-2014-7344             | com.magazinecloner.classicarmsandm                    | Use Allow All Hostname Verification       | com.magazinecloner.classicarmsandm_DD0C5412303D2D621181C634B2E3B6CCB845DE29D4C1D52595517BAE2CE2595A_602/sources/server/volley/MCHurlStack.java<br/>com.magazinecloner.classicarmsandm_DD0C5412303D2D621181C634B2E3B6CCB845DE29D4C1D52595517BAE2CE2595A_602/sources/server/volley/MCVolley.java |
-| CVE-2014-5899             | com.nespresso.activities                              | Use Allow All Hostname Verification       | com.nespresso.activities_2B8D99FFD103076BE50C435160EE236152336119F3ACF7A2C5663620D084D1BD_80/sources/com/nespresso/mobile/nespresso/service/gateway/NespressoHTTPClient.java<br/>com.nespresso.activities_2B8D99FFD103076BE50C435160EE236152336119F3ACF7A2C5663620D084D1BD_80/sources/com/nespresso/mobile/nespresso/service/queuemanagement/esirius/sitewaitingindicator/SiteWaitingIndicatorService.java |
-| CVE-2014-4906             | com.queensland.alert                                  | Use Allow All Hostname Verification       | com.queensland.alert_CED74A100C8DBC1EB4A62A82D557FF0AF790801A9F6D54102EFAD10229C8202B_58/sources/com/appyet/g/j.java<br/>com.queensland.alert_CED74A100C8DBC1EB4A62A82D557FF0AF790801A9F6D54102EFAD10229C8202B_58/sources/com/appyet/g/h.java<br/>com.queensland.alert_CED74A100C8DBC1EB4A62A82D557FF0AF790801A9F6D54102EFAD10229C8202B_58/sources/com/appyet/f/y.java |
-| CVE-2014-5896             | com.seawolftech.globaltalk                            | Use Allow All Hostname Verification       | com.seawolftech.globaltalk_45EBBAEA9C45FEC59A7C96AB43B91D4051DEAC310433666F9A6DC945FC9C919C_109/sources/com/seawolftech/globaltalk/NetworkManager.java<br/>com.seawolftech.globaltalk_45EBBAEA9C45FEC59A7C96AB43B91D4051DEAC310433666F9A6DC945FC9C919C_109/sources/com/seawolftech/globaltalk/SSLSocketFactoryEx.java |
-| CVE-2014-7342             | com.solo.report                                       | Use Allow All Hostname Verification       | com.solo.report_BBF4F797FF437C842984B43F0A3F70223D6C0DECD13F561E2CFF232C1DD7FD67_10/sources/com/appyet/g/j.java<br/>com.solo.report_BBF4F797FF437C842984B43F0A3F70223D6C0DECD13F561E2CFF232C1DD7FD67_10/sources/com/appyet/f/y.java<br/>com.solo.report_BBF4F797FF437C842984B43F0A3F70223D6C0DECD13F561E2CFF232C1DD7FD67_10/sources/com/appyet/g/h.java |
-| CVE-2014-6642             | com.tapatalk.marksdailyapplecomforum                  | Use Allow All Hostname Verification       | com.tapatalk.marksdailyapplecomforum_12ED7747FB9D0D63E3F7B62ACD11573F514575F3F4A538FC29C6EB2B3B9EF2BA_104/sources/com/quoord/tapatalkpro/util/GeoPictureUploader.java<br/>com.tapatalk.marksdailyapplecomforum_12ED7747FB9D0D63E3F7B62ACD11573F514575F3F4A538FC29C6EB2B3B9EF2BA_104/sources/com/quoord/tapatalkpro/util/MySSLSocketFactory.java<br/>com.tapatalk.marksdailyapplecomforum_12ED7747FB9D0D63E3F7B62ACD11573F514575F3F4A538FC29C6EB2B3B9EF2BA_104/sources/com/quoord/tapatalkpro/util/Util.java |
-| CVE-2014-6880             | com.tradehero.th                                      | Use Allow All Hostname Verification       | com.tradehero.th_61169484ADA5AA5CFC7528FA3C0C6CD6C4A3985E430728DF36EC4CD57A6C524A_129/sources/com/tradehero/th/utils/NetworkUtils.java |
-| CVE-2014-6885             | com.usbank.icsmobile.academysports                    | Use Allow All Hostname Verification       | com.usbank.icsmobile.academysports_84DAB4A15291D15E128FAFF99B47A8B55DE5838D04ECCD24FB74DA87466560CE_19/sources/com/a/a/a/h.java<br/>com.usbank.icsmobile.academysports_84DAB4A15291D15E128FAFF99B47A8B55DE5838D04ECCD24FB74DA87466560CE_19/sources/com/usbank/icsmobile/c/b/a.java<br/>com.usbank.icsmobile.academysports_84DAB4A15291D15E128FAFF99B47A8B55DE5838D04ECCD24FB74DA87466560CE_19/sources/com/usbank/icsmobile/c/b/e.java |
-| CVE-2014-6891             | com.vodafone.avantajcepte.main                        | Use Allow All Hostname Verification       | com.vodafone.avantajcepte.main_E0A96C3BC6A9BEC48EAABF1BBC950FF412141E97BFC89D020010C4F941128C3C_8/sources/com/amvg/avantajcepte/task/AsSSLSocketFactory.java |
-| CVE-2014-6886             | com.wephoneapp                                        | Use Allow All Hostname Verification       | com.wephoneapp_2418CF424A55F59357CF7C80EEE1428B460B6EA8EEC70786C570BF93B0691295_14071701/sources/com/wephoneapp/service/l.java |
-| CVE-2014-5758             | com.yellowbook.android2                               | Use Allow All Hostname Verification       | com.yellowbook.android2_2913188ADA57B300D07B20138C19D9DBC6BBE22B2917714F62550452A912E5AC_86/sources/com/yellowbook/android2/api/request/mid_tier/bv/SubmitPhotoRequest.java<br/>com.yellowbook.android2_2913188ADA57B300D07B20138C19D9DBC6BBE22B2917714F62550452A912E5AC_86/sources/com/yellowbook/android2/api/net/MySslSocketFactory.java |
-| CVE-2014-5760             | com.yum.pizzahut                                      | Use Allow All Hostname Verification       | com.yum.pizzahut_677BEE4AB5686D85C696815D637781183E5A3947E59E0F1DEBC38DBFE43985AF_16/sources/com/yum/pizzahut/quickorder/QuickOrderAPI.java |
-| CVE-2014-5765             | de.lotumlabs.buddypainting                            | Use Allow All Hostname Verification       | de.lotumlabs.buddypainting_7CCE04F29EA1C94E28B1A2CC599E7516AF91D47BAC41C7C27D987FF83EBBDDEE_25/sources/com/chartboost/sdk/CBAPIConnection.java<br/>de.lotumlabs.buddypainting_7CCE04F29EA1C94E28B1A2CC599E7516AF91D47BAC41C7C27D987FF83EBBDDEE_25/sources/de/bnjmnrhl/fundament/service/ImageRequestService.java<br/>de.lotumlabs.buddypainting_7CCE04F29EA1C94E28B1A2CC599E7516AF91D47BAC41C7C27D987FF83EBBDDEE_25/sources/de/bnjmnrhl/fundament/service/RequestService.java |
-| CVE-2014-5767             | de.shapeservices.impluslite                           | Use Allow All Hostname Verification       | de.shapeservices.impluslite_B49830BA4E4C8559859ABEA24CC0F3D732B3EB19115A7D55014B2C37552DCAA6_662/sources/com/flurry/android/n.java<br/>de.shapeservices.impluslite_B49830BA4E4C8559859ABEA24CC0F3D732B3EB19115A7D55014B2C37552DCAA6_662/sources/com/getjar/sdk/comm/SSLSocketFactoryTrustAll.java<br/>de.shapeservices.impluslite_B49830BA4E4C8559859ABEA24CC0F3D732B3EB19115A7D55014B2C37552DCAA6_662/sources/com/jirbo/adcolony/ADCDownload.java |
-| CVE-2016-5648             | AcerPortal3932006Apkpure                              | Use Allow All Hostname Verification       | AcerPortal3932006Apkpure/sources/com/acer/vpl/android/TLSSocketFactory.java<br/>AcerPortal3932006Apkpure/sources/com/acer/android_services/CcdiService.java |
-| CVE-2021-20732            | ATOM1711Apkpure                                       | Use Allow All Hostname Verification       | ATOM1711Apkpure/sources/org/jsoup/helper/HttpConnection.java |
-| CVE-2020-5526             | AWMSMobile204Apkpure                                  | Use Allow All Hostname Verification       | AWMSMobile204Apkpure/sources/fujixerox/apeosware/mobileapps/android/HttpURLConnectionBuilder.java<br/>AWMSMobile204Apkpure/sources/fujixerox/apeosware/mobileapps/android/HttpsSSLSocketFactory.java |
-| CVE-2019-7728             | BoschSmartCamera130Apkpure                            | Use Allow All Hostname Verification       | BoschSmartCamera130Apkpure/sources/md5b81eb0e3e255798cb024fafabe141f86/NonServerCertificateVerifyingTrustManager.java |
-| CVE-2014-8538             | HijabModern10Apkpure                                  | Use Allow All Hostname Verification       | HijabModern10Apkpure/sources/org/apache/http/conn/ssl/SSLSocketFactory.java |
-| CVE-2017-2103             | LaLaCall050IP247Apkpure                               | Use Allow All Hostname Verification       | LaLaCall050IP247Apkpure/sources/com/oki_access/b/ag.java     |
-| CVE-2017-2104             | LaLaCall147Apkpure                                    | Use Allow All Hostname Verification       | LaLaCall147Apkpure/sources/com/access_company/android/mangochat/lib/restclient/d.java |
-| CVE-2018-15898            | SubsonicMusicStreamer44Apkpure                        | Use Allow All Hostname Verification       | SubsonicMusicStreamer44Apkpure/sources/net/sourceforge/subsonic/androidapp/service/ssl/SSLSocketFactory.java<br/>SubsonicMusicStreamer44Apkpure/sources/net/sourceforge/subsonic/androidapp/service/ssl/TrustManagerDecorator.java |
-| CVE-2014-7649             | com.magazinecloner.carbuyer                           | Use Allow All Hostname Verification       | com.magazinecloner.carbuyer_3B6728C4D41E2EC322785FCFF453F9A3B809EBC34660EC29540BB339A8B7C338_409/sources/server/volley/MCHurlStack.java<br/>com.magazinecloner.carbuyer_3B6728C4D41E2EC322785FCFF453F9A3B809EBC34660EC29540BB339A8B7C338_409/sources/server/volley/MCVolley.java |
-| CVE-2014-7666             | com.magazinecloner.americanwaterfowler                | Use Allow All Hostname Verification       | com.magazinecloner.americanwaterfowler_E14CB805CCBDD508B84BED5DA10369C95C326035EB7D5E4AADEC4FAD8CAE6CA0_602/sources/server/volley/MCHurlStack.java<br/>com.magazinecloner.americanwaterfowler_E14CB805CCBDD508B84BED5DA10369C95C326035EB7D5E4AADEC4FAD8CAE6CA0_602/sources/server/volley/MCVolley.java |
-| CVE-2014-6876             | com.serve.mobile                                      | Use invalid hostname verification         | com.serve.mobile_BD5550055BC994404E17CB11DB0629E3786C7C868FEE3AFAE5DFB8E7276A416B_48/sources/com/omniture/RequestHandlerSe.java<br/>com.serve.mobile_BD5550055BC994404E17CB11DB0629E3786C7C868FEE3AFAE5DFB8E7276A416B_48/sources/com/revolutionmoney/moneyexchange/WebserviceClient.java |
-| CVE-2014-6765             | com.soln.SA2CAA74BBC3AFEFE7C8BE3F3AAC499E7            | Use invalid hostname verification         | com.soln.SA2CAA74BBC3AFEFE7C8BE3F3AAC499E7_1B2582ADF678EBA7E7C79C14B21DBF3870EC2BBC50DC4D65FEBDD8A103474533_35/sources/com/smartonline/mobileapp/SmartApplication.java |
-| CVE-2014-6646             | com.tapatalk.bellyhoodcom                             | Use invalid hostname verification         | com.tapatalk.bellyhoodcom_8253EAF596886B1948051C74C653D986A28B762EED65AA659F5596BDFB1B872D_135/sources/com/quoord/tapatalkpro/util/MySSLSocketFactory.java |
-| CVE-2014-4885             | com.tapatalk.closeprotectionworldcom                  | Use invalid hostname verification         | com.tapatalk.closeprotectionworldcom_01F493CCBEC73AC6024545F3B518E8CAB3733B60BA69AE1D8FEE0C9104AA6FCA_21000010/sources/com/quoord/tapatalkpro/util/MySSLSocketFactory.java |
-| CVE-2014-7020             | com.tapatalk.diabetescoukdiabetesforum                | Use invalid hostname verification         | com.tapatalk.diabetescoukdiabetesforum_A58CCD566FC61404063FF6C9ACAABE5455A2DA8F7621D6B72AB72E3E8F90628E_148/sources/com/quoord/tapatalkpro/util/MySSLSocketFactory.java |
-| CVE-2014-7345             | com.tapatalk.diychatroomcom                           | Use invalid hostname verification         | com.tapatalk.diychatroomcom_903318DC1ADAEFF021871F497FB3CB262AAD8D138C50F23DA56B51EE15F59A09_21000002/sources/com/quoord/tapatalkpro/util/MySSLSocketFactory.java |
-| CVE-2014-6647             | com.tapatalk.elforrocom                               | Use invalid hostname verification         | com.tapatalk.elforrocom_C9820090904D960A7286D64FFABBC4D62BD2B77EB1BCA99C4652CDA240A90078_111/sources/com/tapatalk/elforrocom/util/MySSLSocketFactory.java |
-| CVE-2014-6755             | com.tapatalk.forumshiftdeletenet                      | Use invalid hostname verification         | com.tapatalk.forumshiftdeletenet_A92C90882DDC0EABA090D3B6EA8D54F652C57AD30FEC7AB285EED4E4AAF4E30F_21000012/sources/com/quoord/tapatalkpro/util/MySSLSocketFactory.java |
-| CVE-2014-6641             | com.tapatalk.homesteadingtodaycom                     | Use invalid hostname verification         | com.tapatalk.homesteadingtodaycom_A098514F6FB326F5AA8325C8A0EA4F43C1A694FA9FEA8891E0BF4F4AAEBD1446_21000030/sources/com/quoord/tapatalkpro/util/MySSLSocketFactory.java |
-| CVE-2014-7022             | com.tapatalk.modelismecomforum                        | Use invalid hostname verification         | com.tapatalk.modelismecomforum_4B6C3C22EB0CB24957162D3E080E8486F8B7A2FF4279E5FD93170810E9491C3A_114/sources/com/quoord/tapatalkpro/util/MySSLSocketFactory.java |
-| CVE-2014-6649             | com.tapatalk.mybroadbandcozavb                        | Use invalid hostname verification         | com.tapatalk.mybroadbandcozavb_507335956EFAD92CC3658595F3128D466021FCA78956D34B9A496B55333C6F29_21000039/sources/com/quoord/tapatalkpro/util/MySSLSocketFactory.java |
-| CVE-2014-6650             | com.tapatalk.nextgenupdatecomforums                   | Use invalid hostname verification         | com.tapatalk.nextgenupdatecomforums_D9061BE6FD68F007584C21208B0D3A0128440F6F8F5990F202E469DC95A9D64F_21000011/sources/com/quoord/tapatalkpro/util/MySSLSocketFactory.java |
-| CVE-2014-6651             | com.tapatalk.planetofthevapescoukforums               | Use invalid hostname verification         | com.tapatalk.planetofthevapescoukforums_4EC71C40BC487F269F6E417817B387ED9A27516D1E0348108EEA0581DEAD0B59_21000017/sources/com/quoord/tapatalkpro/util/MySSLSocketFactory.java |
-| CVE-2014-4887             | com.nobexinc.wls_69685189.rc                          | Use invalid hostname verification         | com.nobexinc.wls_69685189.rc_08E87A44B551F7E84DF775578FD60C0EDD37AD5B6A7F428B23CFD0BFCD1CDE23_30203/sources/com/scringo/utils/ScringoHttpFetcher.java |
-| CVE-2014-5766             | de.mobileeventguide.uberb2b                           | Use invalid hostname verification         | de.mobileeventguide.uberb2b_C3343D08005CA737CAE7698DC186212928F5A3B52F46B305AD301B76782BBDB6_9/sources/com/mobileeventguide/service/HttpsNetworkManager.java |
-| CVE-2014-7025             | de.profiler.android.whoisit                           | Use invalid hostname verification         | de.profiler.android.whoisit_AA6D4F51C22E2181073F559A63267EBDE1CEE9E3323C138CB7380A8A70DF6922_1/sources/de/profiler/android/whoisit/BasicGetSiteTask.java |
-| CVE-2014-5771             | Fi_Mobile.CUOT                                        | Use invalid hostname verification         | Fi_Mobile.CUOT_6CDBFE3AF64EB7EA68AEA997E3260D185398B2D940E016EF4CD28AA8BE2F810B_2/sources/a/a/a/c/d/a.java |
-| CVE-2014-7498             | it.thespacecinema.android                             | Use invalid hostname verification         | it.thespacecinema.android_02DC35C19DA6131303F363EDC58E716AD148EBEE615F6814EED2BA43EE5361D7_206/sources/it/thespacecinema/android/CustomSSLSocketFactory.java |
-| CVE-2014-7339             | com.makeitpossible.CuantoConocesAunAmigo              | Use invalid hostname verification         | com.makeitpossible.CuantoConocesAunAmigo_CE2B65FCAC03D8B02539F133AF176AE5C9CC0DC9937543D8E75BBF4E722FC384_8/sources/com/phonegap/FileTransfer.java |
-| CVE-2014-6655             | org.tortoiseforum.android.forumrunner                 | Use invalid hostname verification         | org.tortoiseforum.android.forumrunner_5C066EE18D1E171512A4E21BA8082F22BCDDA78DB33777E1F37767F3CC9999A0_21000019/sources/com/quoord/tapatalkpro/util/MySSLSocketFactory.java |
-| CVE-2016-1187             | Cybozu303Apkpure                                      | Use invalid hostname verification         | Cybozu303Apkpure/sources/com/cybozu/kunailite/base/aa.java   |
-| CVE-2018-0650             | linemusic364                                          | Use invalid hostname verification         | linemusic364/sources/com/linecorp/uniplayer/core/upstream/HttpClient.java |
-| CVE-2017-2278             | RBBSPEEDTEST202Apkpure                                | Use invalid hostname verification         | RBBSPEEDTEST202Apkpure/sources/it/partytrack/sdk/a/h.java<br/>RBBSPEEDTEST202Apkpure/sources/it/partytrack/sdk/a/g.java |
-|                           |                                                       |                                           |                                                              |
-| CVE-2014-5646             | com.iobit.mobilecare                                  | Use invalid hostname verification         | com.iobit.mobilecare_119BD70394C8C0F7552191C7FDD62885E557610089B7F04A9412D498C06BAF13_40401/sources/com/avl/engine/a/d.java<br/>com.iobit.mobilecare_119BD70394C8C0F7552191C7FDD62885E557610089B7F04A9412D498C06BAF13_40401/sources/com/iobit/mobilecare/e/e.java |
-| CVE-2014-5647             | com.islonline.isllight.mobile.android                 | Use invalid hostname verification         | com.islonline.isllight.mobile.android_56B5F89438EADE32003760875DBA807CC983E25606421B5BE342287EB67888BB_12/sources/com/islonline/isllight/android/IslLightApplication.java<br/>com.islonline.isllight.mobile.android_56B5F89438EADE32003760875DBA807CC983E25606421B5BE342287EB67888BB_12/sources/com/islonline/isllight/android/webapi/NoCheckCertHttpClient.java |
-| CVE-2014-7652             | mobi.magicam.editor                                   | Use invalid hostname verification         | mobi.magicam.editor_21499821A80F2EFD94B1D7951490A7B03F8B3841D24DA8BADE7BDC9620DC9AE1_5/sources/com/scringo/utils/ScringoJsonFetcher.java |
-| CVE-2014-6877             | com.sovereign.santander                               | Use invalid server verification           | com.sovereign.santander_89E14B685E45A0A0EE2233DD3B2CEA582465DEF64660B25EFF709CC868751D6A_6/sources/com/sovereign/santander/netinsight/TagNI.java |
-| CVE-2014-6652             | com.tapatalk.wizazplforum                             | Use invalid server verification           | com.tapatalk.wizazplforum_BD649B77266F2B89ABC116F1668A95080B4CF0C633DC43B692E1B3F09261E922_107/sources/com/quoord/tapatalkpro/util/MySSLSocketFactory.java |
-| CVE-2014-4888             | com.tequilamobile.warshipslivegold                    | Use invalid server verification           | com.tequilamobile.warshipslivegold_678D37FA3D5F770B47E93BD3DE3A6E3934475502A75819B3560378B09397F3B8_11/sources/com/getjar/sdk/comm/GetJarHttpClient.java<br/>com.tequilamobile.warshipslivegold_678D37FA3D5F770B47E93BD3DE3A6E3934475502A75819B3560378B09397F3B8_11/sources/com/getjar/sdk/comm/SSLSocketFactoryTrustAll.java |
-| CVE-2014-6639             | com.tionetworks.mobile.android.tioclient              | Use invalid server verification           | com.tionetworks.mobile.android.tioclient_D04BC67223B346B6067FF677C98E7FA246C1AA3BF29E10E72A26DC2A07275E55_28/sources/com/tionetworks/mobile/android/tioclient/service/ApiResponseIntentProvider.java<br/>com.tionetworks.mobile.android.tioclient_D04BC67223B346B6067FF677C98E7FA246C1AA3BF29E10E72A26DC2A07275E55_28/sources/com/tionetworks/mobile/android/tioclient/utilities/MySSLSocketFactory.java |
-| CVE-2014-4898             | com.upasanhar.marathi.harivijay                       | Use invalid server verification           | com.upasanhar.marathi.harivijay_8D435C57FF700C74B472834ECC86ED9FAA3C27F37F23C5F251D4DB233DC94A57_4/sources/com/amazonaws/http/HttpClientFactory.java |
-| CVE-2014-6022             | com.versentbooks                                      | Use invalid server verification           | com.versentbooks_1D4D0BFB90938339EDF45CEEE7DCD87A7A1956B4D173D2F9EE1ED4D5B18EDDE9_12379/sources/com/byarger/exchangeit/NaiveTrustManager.java |
-| CVE-2014-6875             | com.woodforest                                        | Use invalid server verification           | com.woodforest_D438197304058A17B1CA89B63440FAC0ABE465C3C70A7037291AF0AC3D55FC35_18/sources/com/woodforest/services/MySSLSocketFactory.java<br/>com.woodforest_D438197304058A17B1CA89B63440FAC0ABE465C3C70A7037291AF0AC3D55FC35_18/sources/com/woodforest/services/Webservices.java |
-| CVE-2014-6653             | com.wordbox.afghanRadio                               | Use invalid server verification           | com.wordbox.afghanRadio_9972761C021041EC4CFF9BA7BBA6BEF4FD4BB8A62C786C699A437515B6767C27_14/sources/com/scringo/utils/ScringoHttpFetcher.java |
-| CVE-2014-5757             | com.xcr.android.buytickets                            | Use invalid server verification           | com.xcr.android.buytickets_CA025DA95DB1B894E8B50DE40F395C71FEF4B964EB0FD0FA7F421574010B535C_11/sources/com/xcr/mta/http/TrustAllManager.java |
-| CVE-2014-5759             | com.yoursite.top5antivirus2014                        | Use invalid server verification           | com.yoursite.top5antivirus2014_1F75A0E913E2E4C77336D2D03E0F217978BC110675C18FC589502C519BA9CF1D_1/sources/org/apache/cordova/filetransfer/FileTransfer.java |
-| CVE-2014-6766             | com.zero.themelock.tambourine                         | Use invalid server verification           | com.zero.themelock.tambourine_4F6BDF0C4FFFFE0946A19B17ABC45EEE4A6C12EA959A8C95FFEF2002970E1021_5/sources/com/loopj/android/http/MySSLSocketFactory.java |
-| CVE-2014-5763             | com.zoodles.kidmode                                   | Use invalid server verification           | com.zoodles.kidmode_C496CC6732DC137E4FAB33E89C06AB776B770102059529B237E1FEAD6A030B12_498/sources/com/zoodles/kidmode/gateway/HTTPClientFactory.java |
-| CVE-2014-5764             | com.zrgiu.antivirus                                   | Use invalid server verification           | com.zrgiu.antivirus_8FB4966C7468E088CF2701906A6E733BC619584AD8376A9FE3186B64863E7464_328/sources/com/netqin/android/nqhttp/NqHttp.java<br/>com.zrgiu.antivirus_8FB4966C7468E088CF2701906A6E733BC619584AD8376A9FE3186B64863E7464_328/sources/com/netqin/android/nqhttp/d.java |
-| CVE-2014-5768             | dk.boggie.madplan.android                             | Use invalid server verification           | dk.boggie.madplan.android_0D95AD8ADB5A2A61EA2365D0ECB562C34250A3F84F23AC5A442CFCB9870EC9BE_48432/sources/org/acra/e/g.java |
-| CVE-2014-7502             | es.lacabradev.escuchaeldiario                         | Use invalid server verification           | es.lacabradev.escuchaeldiario_E683BA098838B116FF88D95A49FEA584824C736D852491214DCAEB0602800EB9_14/sources/es/lacabradev/escuchaeldiario/services/JSoupService.java |
-| CVE-2014-5772             | hksarg.isd.sop.govbookstore                           | Use invalid server verification           | hksarg.isd.sop.govbookstore_476F86E208EEB4AC13D7E12B78BDBBD85DAE8C977052E23CA7A76A44CF70EEB8_2/sources/hksarg/isd/sop/govbookstore/tools/SSLSocketFactoryEx.java |
-| CVE-2014-7012             | lt.lemonlabs.android.coffeeinn                        | Use invalid server verification           | lt.lemonlabs.android.coffeeinn_908809400D2E4278912795D56CF33A67ECE0A19A8102DB69AEB27FEFE6B99F0D_7/sources/nsoft/onego/SSLTruster.java<br/>lt.lemonlabs.android.coffeeinn_908809400D2E4278912795D56CF33A67ECE0A19A8102DB69AEB27FEFE6B99F0D_7/sources/nsoft/onego/Onego.java |
-| CVE-2014-6888             | net.idt.pennytalk.android                             | Use invalid server verification           | net.idt.pennytalk.android_30D9C765268D97DD3F1B6FA447869DF687A75D9818594FECF7B33E4B3C037DD1_2030/sources/net/idt/pennytalk/android/soap/connection/HttpConnectionHandler.java |
-| CVE-2023-29501            | 350Apkpure                                            | Use invalid server verification           | 350Apkpure/sources/io/fabric/sdk/android/services/network/PinningTrustManager.java |
-| CVE-2016-4840             | CoordinatePlus102Apkpure                              | Use invalid server verification           | CoordinatePlus102Apkpure/sources/jp/co/toshiba/vft/comm/VFitHttpsClient.java<br/>CoordinatePlus102Apkpure/sources/jp/co/toshiba/vft/comm/VFitSSLSocketFactory.java<br/>CoordinatePlus102Apkpure/sources/jp/co/toshiba/vft/view/NotifyView.java |
-| CVE-2018-0622             | DHCN310Apkpure                                        | Use invalid server verification           | DHCN310Apkpure/sources/jp/co/dhc/android/dhc/dkhttpclient/DKMySSLSocketFactory.java<br/>DHCN310Apkpure/sources/jp/co/dhc/android/dhc/dkhttpclient/DKHttpBaseClient.java |
-| CVE-2021-22131            | FortiTokenMobile5030040Apkpure                        | Use invalid server verification           | FortiTokenMobile5030040Apkpure/sources/defpackage/cf.java    |
-| CVE-2014-7804             | GangstaAutoThiefIII11Apkpure                          | Use invalid server verification           | GangstaAutoThiefIII11Apkpure/sources/com/flurry/sdk/ev.java<br/>GangstaAutoThiefIII11Apkpure/sources/com/flurry/sdk/eu.java |
-| CVE-2016-1519             | GrandstreamWave10121Apkpure                           | Use invalid server verification           | GrandstreamWave10121Apkpure/sources/com/unboundid/util/ssl/TrustAllTrustManager.java |
-| CVE-2018-0553             | iRemoconWiFi417Apkpure                                | Use invalid server verification           | iRemoconWiFi417Apkpure/sources/jp/co/glamo/android/iremocon/util/f.java |
-| CVE-2019-14516            | mAadhaar127Apkpure                                    | Use invalid server verification           | mAadhaar127Apkpure/sources/org/jsoup/helper/HttpConnection.java |
-| CVE-2022-42979            | RYDERideHailingMore5843Apkpure                        | Use invalid server verification           | RYDERideHailingMore5843Apkpure/sources/com/sts/ryde/v5/home/V5HomeActivity.java |
-| CVE-2018-2460             | SAPBusinessOne129Apkpure                              | Use invalid server verification           | SAPBusinessOne129Apkpure/sources/b1/mobile/http/client/BaseHttpClient.java<br/>SAPBusinessOne129Apkpure/sources/b1/mobile/http/client/TrustAnyTrustManager.java |
-| CVE-2018-4849             | SiveillanceVMSVideo112aApkpure                        | Use invalid server verification           | SiveillanceVMSVideo112aApkpure/sources/com/milestonesys/mobile/s.java |
-| CVE-2019-5961             | TootdonforMastodon341Apkpure                          | Use invalid server verification           | TootdonforMastodon341Apkpure/sources/com/mobirocket/sslib/as.java<br/>TootdonforMastodon341Apkpure/sources/org/jsoup/helper/HttpConnection.java |
-| CVE-2017-11133            | stashcat177a                                          | Weak CBC Cipher Modes                     | stashcat177a/sources/de/heinekingmedia/stashcat_api/a/b.java |
-| CVE-2012-2649             | jp.co.fenrir.android.sleipnir                         | Webview Java Objects Exposure             | jp.co.fenrir.android.sleipnir_7468FB390F3A086716B8D9A33456A87CF279892251ABA575A301CC6A47C381D9_1070001/sources/jp/co/fenrir/android/sleipnir/tab/Tab.java |
-| CVE-2014-0514             | com.adobe.reader                                      | Webview Java Objects Exposure             | com.adobe.reader_3B90D5209B6093138A10EC4D7C081B280D8D76B329273073AAEB51C0F19FD39A_93602/sources/com/adobe/reader/javascript/ARJavaScript.java |
-| CVE-2015-2980             | com.yodobashi.iShop                                   | Webview Java Objects Exposure             | com.yodobashi.iShop_910F16CEF4224FC6E6B33DB6A300DFF32900FC6DB2048C2E16813CBCB25EC201_4/sources/com/yodobashi/iShop/YdMainActivity.java |
-| CVE-2023-29459            | FCRedBullSalzburgApp519-RApkpure                      | Webview Java Objects Exposure             | FCRedBullSalzburgApp519-RApkpure/sources/at/redbullsalzburg/android/AppMode/Default/Splash/SplashActivity.java |
-| CVE-2017-16905            | TinycardsbyDuolingoFunFreeFlashcards10APKpure         | Webview Java Objects Exposure             | TinycardsbyDuolingoFunFreeFlashcards10APKPure/sources/com/duolingo/tinycards/webviewtinycards/BuildConfig.java<br/>TinycardsbyDuolingoFunFreeFlashcards10APKPure/sources/com/duolingo/tinycards/webviewtinycards/MainActivity.java |
-| CVE-2022-28799            | comzhiliaoappmusically2373apkmirror                   | Webview JavaScript Execution              | comzhiliaoappmusically2373apkmirror/sources/com/ss/android/ugc/aweme/legoImp/task/InitWebViewHookTask.java<br/>comzhiliaoappmusically2373apkmirror/sources/com/ss/android/ugc/aweme/deeplink/DeepLinkHandlerActivity.java |
-| CVE-2023-41898            | HomeAssistant202381fullApkpure                        | Webview JavaScript Execution              | HomeAssistant202381fullApkpure/sources/io/homeassistant/companion/android/launch/my/MyActivity.java |
-| CVE-2023-42470            | ImouLife680Apkpure                                    | Webview JavaScript Execution              | ImouLife680Apkpure/sources/com/mm/android/react/webview/ImouWebViewFragment.java<br/>ImouLife680Apkpure/sources/com/mm/android/easy4ip/MainActivity.java |
-| CVE-2023-42471            | WaveAIBrowserbasedonGPT1035Apkpure                    | Webview JavaScript Execution              | WaveAIBrowserbasedonGPT1035Apkpure/resources/AndroidManifest.xml<br/>WaveAIBrowserbasedonGPT1035Apkpure/sources/wave/ai/browser/ui/splash/SplashScreen.java |
-| CVE-2014-4968             | com.boatbrowser.free                                  | Webview JavaScript Execution              | com.boatbrowser.free_D87579257968DD436799E2D3587DD87704A5AB90988FE8F62A16779C9BA51C95_4892/sources/com/inmobi/commons/analytics/iat/impl/net/AdTrackerWebViewLoader.java |
-| CVE-2020-5604             | com.mercariapp.mercari                                | Webview JavaScript Execution              | com.mercariapp.mercari_25763C346FD51D500AFF0AED143E5DEFCFF8050831A97605D9A5B1815CDE056F_50/sources/com/mercariapp/mercari/util/WebViewUtil.java |
-| CVE-2016-6585             | com.symantec.mobilesecurity                           | Webview JavaScript Execution              | com.symantec.mobilesecurity_0DDA54F8F4DD943FC15FCD854637A9DA7F494FB910201B5C014FFA53D0D4998A_970/sources/com/symantec/drm/malt/ui/LicenseWebViewActivity.java |
-| CVE-2022-37857            | androidv161signed                                     | Hardcoded Sensitive Data Exposure         | androidv161signed/sources/info/varden/hauk/Constants.java<br/>androidv161signed/sources/info/varden/hauk/BuildConfig.java |
-| CVE-2020-7999             | AptusHome102Apkpure                                   | Hardcoded Sensitive Data Exposure         | AptusHome102Apkpure/resources/res/values/strings.xml         |
-| CVE-2020-8001             | AptusHome102Apkpure                                   | Hardcoded Sensitive Data Exposure         | AptusHome102Apkpure/sources/se/aptus/aptushome/LoginActivity.java |
-| CVE-2017-13106            | cmlauncher503                                         | Hardcoded Sensitive Data Exposure         | cmlauncher503/sources/com/cmcm/adsdk/config/d.java           |
-| CVE-2017-15998            | ContactsBackupRestore11apkcombocom                    | Hardcoded Sensitive Data Exposure         | ContactsBackupRestore11apkcombocom/sources/com/netqin/antivirus/codec/DesCript.java |
-| CVE-2017-15999            | ContactsBackupRestore11apkcombocom                    | Improper Handle Insecure Hash             | ContactsBackupRestore11apkcombocom/sources/com/netqin/antivirus/net/accountservice/UserAccountCreateReq.java |
-| CVE-2023-32274            | EnphaseInstallerToolkit3270Apkpure                    | Hardcoded Sensitive Data Exposure         | EnphaseInstallerToolkit3270Apkpure/resources/res/values/strings.xml |
-| CVE-2018-14901            | epsonprint664-60604minAPI16apkmirrorcom               | Hardcoded Sensitive Data Exposure         | epsonprint664-60604minAPI16apkmirrorcom/sources/epson/server/utils/Define.java |
-| CVE-2021-43512            | Flightradar248103apkcombocom                          | Hardcoded Sensitive Data Exposure         | Flightradar248103apkcombocom/resources/res/values/strings.xml |
-| CVE-2018-16222            | iSmartAlarm208Apkpure                                 | Hardcoded Sensitive Data Exposure         | iSmartAlarm208Apkpure/sources/andon/isa/database/SharePreferenceOperator.java<br/>iSmartAlarm208Apkpure/sources/iSA/common/GCMIntentService.java |
-| CVE-2020-27413            | Mahavitaran750Apkpure                                 | Hardcoded Sensitive Data Exposure         | Mahavitaran750Apkpure/sources/com/msedcl/callcenter/util/AppConfig.java<br/>Mahavitaran750Apkpure/sources/com/msedcl/callcenter/src/WSSLoginActivity.java |
-| CVE-2018-11242            | makemytrip724                                         | SQLite Data Exposure                      | makemytrip724/sources/com/mmt/travel/app/common/tracker/MMTEventDB.java<br/>makemytrip724/sources/com/mmt/travel/app/rightstay/utils/p.java<br/>makemytrip724/sources/com/mmt/travel/app/common/provider/a.java |
-| CVE-2018-15752            | MensaMax43Apkpure                                     | Hardcoded Sensitive Data Exposure         | MensaMax43Apkpure/sources/com/breustedt/mensamax/b/c.java    |
-| CVE-2018-15753            | MensaMax43Apkpure                                     | Hardcoded Sensitive Data Exposure         | MensaMax43Apkpure/sources/com/breustedt/mensamax/b/c.java    |
-| CVE-2016-11058            | NETGEARGenie2428Apkpure                               | Hardcoded Sensitive Data Exposure         | NETGEARGenie2428Apkpure/sources/com/dragonflow/GenieRequest.java |
-| CVE-2021-20748            | retty4812                                             | Hardcoded Sensitive Data Exposure         | retty4812/sources/me/retty/r4j/BuildConfig.java              |
-| CVE-2017-11129            | stashcat177a                                          | Hardcoded Sensitive Data Exposure         | stashcat177a/sources/de/heinekingmedia/stashcat/f/d.java<br/>stashcat177a/sources/de/heinekingmedia/stashcat/utils/l.java |
-| CVE-2021-32612            | VeryFitPro328Apkpure                                  | Hardcoded Sensitive Data Exposure         | VeryFitPro328Apkpure/sources/com/ido/veryfitpro/common/http/HttpClient.java<br/>VeryFitPro328Apkpure/sources/com/ido/veryfitpro/Constants.java |
-| CVE-2017-5249             | WinkSmartHome61019apkcombocom                         | Sensitive Data Storage                    | WinkSmartHome61019apkcombocom/sources/com/twitter/sdk/android/core/identity/OAuthActivity.java<br/>WinkSmartHome61019apkcombocom/sources/com/twitter/sdk/android/core/internal/oauth/d.java |
-| CVE-2023-22429            | WoltDeliveryFoodandmore4272Apkpure                    | Hardcoded Sensitive Data Exposure         | WoltDeliveryFoodandmore4272Apkpure/resources/res/values/strings.xml |
-| CVE-2018-10812            | com.bitpie                                            | Sensitive Data Storage                    | com.bitpie_236903E80CA9F8B6A1164502157BC0DD4FA03989297A97A2338ADD91EA5D9FE0_324/sources/com/bitpie/preference/Preference_.java |
-| CVE-2019-13100            | com.estmob.android.sendanywhere                       | Mode World Storage Readable Issue         | com.estmob.android.sendanywhere_182C198C2E4BB158FC6C8A1250ADE936A2CC8744AFED9794DA9A40664CD1F7D1_432096/sources/com/estmob/paprika/transfer/b.java<br/>com.estmob.android.sendanywhere_182C198C2E4BB158FC6C8A1250ADE936A2CC8744AFED9794DA9A40664CD1F7D1_432096/sources/com/estmob/paprika/transfer/a/b.java |
-| CVE-2017-5250             | com.insteon.insteon3                                  | sensitive data storage                    | com.insteon.insteon3_2A2D9AE4100BAC0F9953AEE9C083F9DF7D0453A84702CDCC8D8FE7FE0909B546_206/sources/com/androidquery/auth/TwitterHandle.java |
-| CVE-2023-28387            | com.newspicks                                         | Hardcoded Sensitive Data Exposure         | com.newspicks_03B12A99DCC31A6296DB27EF3DF87223B73BF5D135960C547297C5FE3BD3B7EC_3866/resources/res/values/strings.xml |
-| CVE-2013-7202             | com.paypal.android.p2pmobile                          | sensitive data storage                    | com.paypal.android.p2pmobile_0A7FC7AC5A7131FF5712539F42F6FB8083FAE55960ABA89232C1700808522E54_16/sources/com/paypal/android/p2pmobile/paypallocal/PayPalLocalPreferences.java |
-| CVE-2019-11836            | com.rediff.mail.and                                   | sensitive data storage                    | com.rediff.mail.and_C3C0F38DC1231DDA5FF885FD0CA2D28DE34354A32CC09CA8A88F6929D1F7D9CC_49/sources/com/rediff/mail/and/d.java<br/>com.rediff.mail.and_C3C0F38DC1231DDA5FF885FD0CA2D28DE34354A32CC09CA8A88F6929D1F7D9CC_49/sources/com/rediff/mail/and/RediffmailPlugin.java |
-| CVE-2023-2863             | diary.journal.lock.mood.daily                         | sensitive data storage                    | diary.journal.lock.mood.daily_83EB2FFBD9FC8195C29E4BECA5D0519D7C93E7055D4EE2BAAFFAB6B78A45190D_12/sources/o9/a.java<br/>diary.journal.lock.mood.daily_83EB2FFBD9FC8195C29E4BECA5D0519D7C93E7055D4EE2BAAFFAB6B78A45190D_12/sources/o9/b.java |
-| CVE-2020-5667             | jp.studyplus.android.app                              | Hardcoded Sensitive Data Exposure         | jp.studyplus.android.app_09CD51F1B2716427A2A143E7AC9E6F36FE01D48D585284CBF9108C4A79A33E03_30020080/resources/AndroidManifest.xml |
-| CVE-2017-17551            | DolphinBrowserFastPrivate1202Apkpure                  | Mode World Storage Writable Issue         | DolphinBrowserFastPrivate1202Apkpure/sources/com/dolphin/browser/util/bs.java |
-| CVE-2021-46841            | AppleMusic345apkcombocom                              | Using HTTP Issue                          | AppleMusic345apkcombocom/sources/com/apple/android/music/playback/player/datasource/PlayerHttpDataSource.java |
-| CVE-2020-8507             | Citytv4080Apkpure                                     | Using HTTP Issue                          | Citytv4080Apkpure/sources/com/comscore/android/vce/c.java    |
-| CVE-2019-8345             | ESFileExplorerFileManager41974Apkpure                 | Using HTTP Issue                          | ESFileExplorerFileManager41974Apkpure/sources/com/estrongs/android/pop/app/HelpActivity.java |
-| CVE-2020-8506             | GlobalTV232Apkpure                                    | Using HTTP Issue                          | GlobalTV232Apkpure/sources/com/adobe/mobile/AnalyticsWorker.java |
-| CVE-2017-9045             | GoogleIO2019503APKPure                                | Using HTTP Issue                          | GoogleIO2019503APKPure/sources/com/google/samples/apps/iosched/sync/RemoteConferenceDataFetcher.java |
-| CVE-2017-9245             | GoogleNewsWeather314150465541APKPure                  | Using HTTP Issue                          | GoogleNewsWeather314150465541APKPure/sources/com/google/android/apps/genie/geniewidget/bcm.java<br/>GoogleNewsWeather314150465541APKPure/resources/res/values/strings.xml |
-| CVE-2016-1520             | GrandstreamWave10121Apkpure                           | Using HTTP Issue                          | GrandstreamWave10121Apkpure/sources/com/softphone/b/i.java<br/>GrandstreamWave10121Apkpure/resources/assets/config.properties |
-| CVE-2018-16225            | QBeeCam105Apkpure                                     | Using HTTP Issue                          | QBeeCam105Apkpure/sources/com/vestiacom/qbeecamera/http/d.java<br/>QBeeCam105Apkpure/resources/res/values/strings.xml |
-| CVE-2018-6019             | SAMSUNGDisplaySolutions301Apkpure                     | Using HTTP Issue                          | SAMSUNGDisplaySolutions301Apkpure/sources/com/sds/samsung/global/App.java |
-| CVE-2019-8632             | Texture42204Apkpure                                   | Using HTTP Issue                          | Texture42204Apkpure/resources/res/values/strings.xml         |
-| CVE-2019-14319            | TikTok1222apkcombocom                                 | Using HTTP Issue                          | TikTok1222apkcombocom/sources/bytedance/framwork/core/sdkmonitor/SDKMonitor.java |
-| CVE-2021-32612            | VeryFitPro328Apkpure                                  | Using HTTP Issue                          | VeryFitPro328Apkpure/sources/com/ido/veryfitpro/common/http/HttpClient.java<br/>VeryFitPro328Apkpure/sources/com/ido/veryfitpro/Constants.java |
-| CVE-2017-11706            | com.boozt                                             | Using HTTP Issue                          | com.boozt_1D85DD505285EEB01315EC013BC850FC246F28C581A14AD8DA23031108869EAA_21100/resources/res/values/strings.xml |
-| CVE-2018-20582            | com.gree.greeplus                                     | Using HTTP Issue                          | com.gree.greeplus_507560F88BC50706AAB93DEE4F207552F204B707E224C4E28EA4625F0084EEB2_201810168/sources/com/gree/corelibrary/Bean/Constants.java |
-| CVE-2019-19463            | com.xiaomi.hm.health                                  | Using HTTP Issue                          | com.xiaomi.hm.health_0402A5954C79EB85B1F3C548A18EBA14D96BCD0C5F59738F30B2264E566DD5BD_3292/sources/com/xiaomi/market/sdk/XiaomiUpdateAgent.java<br/>com.xiaomi.hm.health_0402A5954C79EB85B1F3C548A18EBA14D96BCD0C5F59738F30B2264E566DD5BD_3292/sources/com/xiaomi/market/sdk/Constants.java |
-| CVE-2015-0897             | jp.naver.line.android                                 | Using HTTP Issue                          | jp.naver.line.android_04E52D190645F699AC1B3B7562BA063AB5FAA00C71C77F4A5184AC23D70A1912_150/resources/res/values-zh-rTW/strings.xml<br/>jp.naver.line.android_04E52D190645F699AC1B3B7562BA063AB5FAA00C71C77F4A5184AC23D70A1912_150/resources/app-config.properties |
-| CVE-2020-35173            | AmazeFileManager341Apkpure                            | Misuse Implicit Intent Issue              | AmazeFileManager341Apkpure/resources/AndroidManifest.xml<br/>AmazeFileManager341Apkpure/sources/com/amaze/filemanager/asynchronous/services/ftp/FtpReceiver.java |
-| CVE-2022-39915            | comsamsungandroidcalendar116080                       | Misuse Implicit Intent Issue              | comsamsungandroidcalendar116080/resources/AndroidManifest.xml<br/>comsamsungandroidcalendar116080/sources/com/samsung/android/app/icalendar/ICalendarImportActivity. |
-| CVE-2019-11380            | ESFileExplorerFileManager41974Apkpure                 | Misuse Implicit Intent Issue              | ESFileExplorerFileManager41974Apkpure/sources/com/estrongs/android/pop/ftp/ESFtpShortcut.java<br/>ESFileExplorerFileManager41974Apkpure/resources/AndroidManifest.xml |
-| CVE-2023-21445            | SamsungMyFiles13101321Apkpure                         | Misuse Implicit Intent Issue              | SamsungMyFiles13101321Apkpure/sources/com/sec/android/app/myfiles/external/receiver/SmartSwitchBackupAndRestoreReceiver.java<br/>SamsungMyFiles13101321Apkpure/resources/AndroidManifest.xml |
-| CVE-2023-21446            | SamsungMyFiles13101321Apkpure                         | Misuse Implicit Intent Issue              | SamsungMyFiles13101321Apkpure/resources/AndroidManifest.xml<br/>SamsungMyFiles13101321Apkpure/sources/com/sec/android/app/myfiles/external/providers/MyFilesProvider.java |
-| CVE-2019-1677             | com.cisco.webex.meetings                              | Misuse Implicit Intent Issue              | com.cisco.webex.meetings_257E226D4946A4A25BDF04F2B482B6F97082AC5AD8CDE992153C48E87E054638_21170236/sources/com/cisco/webex/meetings/ui/integration/IntegrationActivity.java<br/>com.cisco.webex.meetings_257E226D4946A4A25BDF04F2B482B6F97082AC5AD8CDE992153C48E87E054638_21170236/sources/com/cisco/webex/meetings/ui/premeeting/recording/DialogFragmentPlayRecording.java |
-| CVE-2015-5661             | com.sand.airdroid                                     | Misuse Implicit Intent Issue              | com.sand.airdroid_12D6E6879BEFDC22FF7309B4B46AE2F66E52062F2CB8AD19E6327291A58ADF4D_28/sources/com/sand/airdroid/FileManagerActivity.java<br/>com.sand.airdroid_12D6E6879BEFDC22FF7309B4B46AE2F66E52062F2CB8AD19E6327291A58ADF4D_28/resources/AndroidManifest.xml |
-| CVE-2012-4005             | jp.naver.line.android                                 | Misuse Implicit Intent Issue              | jp.naver.line.android_4602E5E8B2B6B1DFA42F15CF34BA738498249109AC5D5BB600D5FF4A675C93A9_34/resources/AndroidManifest.xml<br/>jp.naver.line.android_4602E5E8B2B6B1DFA42F15CF34BA738498249109AC5D5BB600D5FF4A675C93A9_34/sources/jp/naver/android/npush/service/NPushMessageService.java |
-| CVE-2022-39210            | Nextcloud3160apkcombocom                              | External/Internal Data Exposure           | Nextcloud3160apkcombocom/sources/com/owncloud/android/ui/helpers/UriUploader.java<br/>Nextcloud3160apkcombocom/sources/com/owncloud/android/files/services/FileUploader.java |
-| CVE-2018-3988             | Signal4248apkcombocom                                 | External/Internal Data Exposure           | Signal4248apkcombocom/sources/org/thoughtcrime/securesms/components/AttachmentTypeSelector.java |
-| CVE-2021-25266            | SophosAuthenticator34Apkpure                          | External/Internal Data Exposure           | SophosAuthenticator34Apkpure/sources/com/sophos/sophtoken/EnterKeyActivity.java<br/>SophosAuthenticator34Apkpure/sources/com/sophos/sophtoken/SophTokenActivity.java<br/>SophosAuthenticator34Apkpure/sources/com/sophos/sophtoken/AccountDb.java |
-| CVE-2013-0718             | com.adamrocker.android.input.simeji                   | External/Internal Data Exposure           | com.adamrocker.android.input.simeji_FDC0693DF662B2693D3E15C79DAE72CB8130F2A4C2B5B909592823D8359F17EC_161/sources/com/adamrocker/android/input/simeji/pref/ImportDictionaryPreferenceView.java<br/>com.adamrocker.android.input.simeji_FDC0693DF662B2693D3E15C79DAE72CB8130F2A4C2B5B909592823D8359F17EC_161/sources/com/adamrocker/android/input/simeji/util/SimejiPreference.java |
-| CVE-2022-25339            | com.owncloud.android                                  | External/Internal Data Exposure           | com.owncloud.android_27B176E5F95A98681F889DD68C3FAF270B46F9271771493213A81254A57733E5_22000000/sources/com/owncloud/android/data/storage/LegacyStorageProvider.java<br/>com.owncloud.android_27B176E5F95A98681F889DD68C3FAF270B46F9271771493213A81254A57733E5_22000000/resources/AndroidManifest.xml |
-| CVE-2016-6587             | com.symantec.mobilesecurity                           | External/Internal Data Exposure           | com.symantec.mobilesecurity_0DDA54F8F4DD943FC15FCD854637A9DA7F494FB910201B5C014FFA53D0D4998A_970/sources/com/symantec/b/a/e.java |
-| CVE-2019-12763            | cz.scamera.securitycamera                             | External/Internal Data Exposure           | cz.scamera.securitycamera_4290C367737907AE647A5C2A895FDDF2B2AA5E69BDAB4D6541896C9ACB040CD7_74/sources/cz/scamera/securitycamera/common/r.java |
-| CVE-2012-0326             | jp.r246.twicca                                        | External/Internal Data Exposure           | jp.r246.twicca_86F307FCF2B5C60CB61D5382DF99E11CE3E2CA509DCBE435EE7D057C60A865C1_923/sources/jp/r246/twicca/base/activity/TwiccaActivity.java |
-| CVE-2023-27895            | SAPAuthenticator130Apkpure                            | Manifest Screenshot Harvest               | SAPAuthenticator130Apkpure/resources/AndroidManifest.xml     |
-| CVE-2023-29747            | storysaverdownloaderphotovideorepostbyrk106apksos     | Unprotected Content Provider              | storysaverdownloaderphotovideorepostbyrk106apksos/sources/com/bytedance/sdk/openadsdk/multipro/TTMultiProvider.java<br/>storysaverdownloaderphotovideorepostbyrk106apksos/resources/AndroidManifest.xml<br/>storysaverdownloaderphotovideorepostbyrk106apksos/sources/com/bytedance/sdk/openadsdk/multipro/f.java |
-| CVE-2023-29739            | AlarmClockforHeavySleepers532apkcombocom              | Exported Not Protected Components         | AlarmClockforHeavySleepers532apkcombocom/resources/AndroidManifest.xml<br/>AlarmClockforHeavySleepers532apkcombocom/sources/com/amdroidalarmclock/amdroid/ApiCalls.java |
-| CVE-2023-29727   provider | CallBlockerCallerID663apkcombocom                     | Exported Not Protected Components         | CallBlockerCallerID663apkcombocom/resources/AndroidManifest.xml<br/>CallBlockerCallerID663apkcombocom/sources/com/cuiet/blockCalls/contentProvider/ContProvBlockCalls.java |
-| CVE-2019-14339   provider | CanonPRINT255apkcombocom                              | Exported Not Protected Components         | CanonPRINT255apkcombocom/resources/AndroidManifest.xml<br/>CanonPRINT255apkcombocom/sources/ij/IJPrinterCapabilityProvider.java |
-| CVE-2023-42468            | ColorPhoneDialerCallID2182Apkpure                     | Exported Not Protected Components         | ColorPhoneDialerCallID2182Apkpure/resources/AndroidManifest.xml<br/>ColorPhoneDialerCallID2182Apkpure/sources/com/cutestudio/dialer/activities/DialerActivity.java |
-| CVE-2018-14902            | epsonprint664-60604minAPI16apkmirrorcom               | Exported Not Protected Components         | epsonprint664-60604minAPI16apkmirrorcom/resources/AndroidManifest.xml<br/>epsonprint664-60604minAPI16apkmirrorcom/sources/epson/provider/IAFileProvider.java |
-| CVE-2023-29459            | FCRedBullSalzburgApp519-RApkpure                      | Exported Not Protected Components         | FCRedBullSalzburgApp519-RApkpure/sources/at/redbullsalzburg/android/AppMode/Default/Splash/SplashActivity.java<br/>FCRedBullSalzburgApp519-RApkpure/resources/AndroidManifest.xml |
-| CVE-2020-25203            | FramerPreview12Apkpure                                | Exported Not Protected Components         | FramerPreview12Apkpure/resources/AndroidManifest.xml<br/>FramerPreview12Apkpure/sources/com/framer/viewer/FramerViewActivity.java |
-| CVE-2023-42469            | FullDialer101Apkpure                                  | Exported Not Protected Components         | FullDialer101Apkpure/sources/com/full/dialer/top/secure/encrypted/activities/DialerActivity.java<br/>FramerPreview12Apkpure/resources/AndroidManifest.xml |
-| CVE-2020-25204            | GodKings0601Apkpure                                   | Exported Not Protected Components         | GodKings0601Apkpure/resources/AndroidManifest.xml<br/>GodKings0601Apkpure/sources/com/innogames/core/frontend/notifications/receivers/LocalNotificationBroadcastReceiver.java |
-| CVE-2023-42470            | ImouLife680Apkpure                                    | Exported Not Protected Components         | ImouLife680Apkpure/sources/com/mm/android/easy4ip/MainActivity.java<br/>ImouLife680Apkpure/resources/AndroidManifest.xml |
-| CVE-2022-41926            | NextcloudTalk1402Apkpure                              | Exported Not Protected Components         | NextcloudTalk1402Apkpure/sources/com/nextcloud/talk/activities/CallActivity.java<br/>NextcloudTalk1402Apkpure/resources/AndroidManifest.xml |
-| CVE-2023-39957            | NextcloudTalk1601Apkpure                              | Exported Not Protected Components         | NextcloudTalk1601Apkpure/sources/com/nextcloud/talk/jobs/UploadAndShareFilesWorker.java<br/>NextcloudTalk1601Apkpure/sources/com/nextcloud/talk/utils/FileUtils.java |
-| CVE-2020-11882            | o2Business120Apkpure                                  | Exported Not Protected Components         | o2Business120Apkpure/resources/AndroidManifest.xml<br/>o2Business120Apkpure/sources/canvasm/myo2/SplashActivity.java |
-| CVE-2021-25343            | SamsungMembers248511Apkpure                           | Exported Not Protected Components         | SamsungMembers248511Apkpure/resources/AndroidManifest.xml    |
-| CVE-2023-29731            | SoLiveLiveVideoChat1619Apkpure                        | Exported Not Protected Components         | SoLiveLiveVideoChat1619Apkpure/resources/AndroidManifest.xml |
-| CVE-2023-29732            | SoLiveLiveVideoChat1619Apkpure                        | Exported Not Protected Components         | SoLiveLiveVideoChat1619Apkpure/resources/AndroidManifest.xml |
-| CVE-2020-12621            | TeamwireBusinessMessenger530Apkpure                   | Exported Not Protected Components         | TeamwireBusinessMessenger530Apkpure/resources/AndroidManifest.xml<br/>TeamwireBusinessMessenger530Apkpure/sources/com/teamwire/messenger/LoadingActivity.java |
-| CVE-2023-36351            | ViHealth27458Apkpure                                  | Exported Not Protected Components         | ViHealth27458Apkpure/sources/com/viatom/baselib/mvvm/web/WebViewActivity.java<br/>ViHealth27458Apkpure/resources/AndroidManifest.xml |
-| CVE-2023-42471            | WaveAIBrowserbasedonGPT1035Apkpure                    | Exported Not Protected Components         | WaveAIBrowserbasedonGPT1035Apkpure/resources/AndroidManifest.xml<br/>WaveAIBrowserbasedonGPT1035Apkpure/sources/wave/ai/browser/ui/splash/SplashScreen.java |
-|                           |                                                       |                                           |                                                              |
-| CVE-2023-24804            | ownCloud2211Apkpure                                   | Path Traversal                            | ownCloud2211Apkpure/sources/com/owncloud/android/ui/activity/ReceiveExternalFilesActivity.java |
-| CVE-2021-40668            | HTTPFileServerWebDAV141APKPure                        | Path Traversal                            | HTTPFileServerWebDAV141APKPure/sources/f/a/d.java            |
-| CVE-2023-29753            | Facemoji_Keyboard-2.9.1.2                             | Exported Not Protected Components         | Facemoji_Keyboard-2.9.1.2/resources/AndroidManifest.xml<br/>Facemoji_Keyboard-2.9.1.2/sources/com/preff/kb/dpreference/PreferenceProvider.java |
-| CVE-2023-29758            | com.eyefilter.nightmode.bluelightfilter15583apkmirror | Exported Not Protected Components         | com.eyefilter.nightmode.bluelightfilter15583apkmirror/resources/AndroidManifest.xml<br/>com.eyefilter.nightmode.bluelightfilter15583apkmirror/sources/com/eyefilter/nightmode/bluelightfilter/utils/MultiprocessPreferences.java |
-| CVE-2016-6256             | SAPBusinessOne123APKPure                              | XML External Entity Injection             | SAPBusinessOne123APKPure/sources/b1/mobile/http/agent/SOAPCallAgent2.java |
-| CVE-2019-13096            | TronLinkWalletTRONblockchainwallet220APKPure          | Insecure App Data Sharing                 | TronLinkWalletTRONblockchainwallet220APKPure/sources/org/tron/net/WalletUtils.java |
-| CVE-2018-11544            | TheOliveTreeFtpServer132APKPure                       | Insecure App Data Sharing                 | TheOliveTreeFtpServer132APKPure/sources/com/theolivetree/ftpserverlib/MainActivity.java<br/>TheOliveTreeFtpServer132APKPure/sources/com/theolivetree/ftpserverlib/Prefs.java<br/>TheOliveTreeFtpServer132APKPure/resources/res/xml/preference.xml |
-| CVE-2019-11383            | com.medhaapps.wififtpserver_183APK4Fun                | Insecure App Data Sharing                 | com.medhaapps.wififtpserver_183APK4Fun/resources/res/xml/preferences.xml<br/>com.medhaapps.wififtpserver_183APK4Fun/sources/com/medhaapps/wififtpserver/activity/SettingsActivity.java |
-| CVE-2024-26131 1          | ElementSecureMessenger1610APKPure                     | intent redirection                        | ElementSecureMessenger1610APKPure/sources/im/vector/app/features/MainActivity.java |
-| CVE-2024-23727 1          | YISmart10020231219APKPure                             | Misuse Implicit Intent Issue              | YISmart10020231219APKPure/sources/com/ants360/yicamera/activity/WebViewActivity.java<br/>YISmart10020231219APKPure/resources/AndroidManifest.xml |
-| CVE-2023-42547 1          | Samsungaccount142011APKPure                           | Misuse Implicit Intent Issue              | Samsungaccount142011APKPure/sources/com/samsung/android/samsungaccount/authentication/ui/authcode/RequestAuthCodeActivity.java |
-| CVE-2015-5629             | japan-wi-fi                                           | WebView Insecure URL Loading              | japan-wi-fi/sources/cm/aptoide/pt/util/ReferrerUtils.java    |
-| CVE-2015-5636             | AIReversi103APKPure                                   | WebView Insecure URL Loading              | AIReversi103APKPure_SAST/sources/jp/co/newphoria/html5app/WebActivity.java |
-| CVE-2015-5637             | Photon11APKPure                                       | WebView Insecure URL Loading              | Photon11APKPure/sources/com/photoneconomy/photon/MainActivity.java |
-| CVE-2018-5298             | com.pg.oralb.oralbapp_500APK4Fun                      | Hardcoded Sensitive Data Exposure         | com.pg.oralb.oralbapp_500APK4Fun/sources/com/pg/oralb/oralbapp/application/OralBApplication.java |
-| CVE-2014-7798             | com.enyetech.radio.coca_colafmbr                      | Use invalid server verification           | com.enyetech.radio.coca_colafmbr/sources/com/enyetech/httprest/MySSLSocketFactory.java |
-| CVE-2017-14582            | MobilePollerforSite24x7114APKPure                     | Use invalid server verification           | MobilePollerforSite24x7114APKPure/sources/com/site24x7/android/agent/httpclient/TimedSSLConnectionSocketFactory.java |
-| CVE-2020-13129            | stashcat391                                           | Logging Data Exposure                     | stashcat391/sources/de/heinekingmedia/stashcat_api/model/cloud/File.java |
-| CVE-2024-0245             | app.simple.inure                                      | taskAffinity                              | app.simple.inure/resources/AndroidManifest.xml               |
-| CVE-2025-1629             | myExcitel3130APKPure                                  | Exported Not Protected Components         | myExcitel3130APKPure/sources/com/scaleforce/mobile/myexcitel/ui/verifyotp/VerifyOtpView.java |
-| CVE-2019-17356            | InfiniteDesign3412APKPure                             | ClearText Traffic Issue                   | InfiniteDesign3412APKPure/sources/com/brakefield/infinitestudio/account/UserFunctions.java |
-| CVE-2024-25731            | eSmartCam215APKPure                                   | Improper Handle AES Encryption            | eSmartCam215APKPure/sources/com/elink/lib/offlinelock/a.java |
-| CVE-2024-37575            | ShouldIAnswer14264APKPure                             | Exported Not Protected Components         | ShouldIAnswer14264APKPure/sources/org/mistergroup/shouldianswer/ui/default_dialer/DefaultDialerActivity.java<br/>ShouldIAnswer14264APKPure/resources/AndroidManifest.xml |
-| CVE-2023-42469            | FullDialer101APKPure                                  | Exported Not Protected Components         | FullDialer101APKPure/resources/AndroidManifest.xml<br/>FullDialer101APKPure/sources/com/full/dialer/top/secure/encrypted/activities/DialerActivity.java |
-| CVE-2024-37573            | com.talkatone.android                                 | Exported Not Protected Components         | com.talkatone.android/resources/AndroidManifest.xml<br/>com.talkatone.android/sources/com/talkatone/vedroid/ui/launcher/OutgoingCallInterceptor.java |
-| CVE-2023-51219            | com.kakao.talk10.4.3apkmirror                         | WebView Insecure URL Loading              | com.kakao.talk10.4.3apkmirror/sources/com/kakao/talk/commerce/ui/buy/CommerceBuyActivity.java<br/>com.kakao.talk10.4.3apkmirror/resources/AndroidManifest.xml |
-| CVE-2018-11505            | com.werewolfapps.online                               | Use Firebase exposed                      | com.werewolfapps.online/sources/io/invertase/firebase/messaging/RNFirebaseMessaging.java<br/>com.werewolfapps.online/resources/AndroidManifest.xml |
-| CVE-2022-36878            | com.samsung.android.fmm7224apkmirror                  | IMEI Exposure                             | com.samsung.android.fmm7224apkmirror/sources/com/samsung/android/fmm/push/d.java<br/>com.samsung.android.fmm7224apkmirror/sources/com/samsung/android/fmm/common/b.java |
-| CVE-2018-9067             | com.lenovo.serviceit611apkmirror                      | IMEI Exposure                             | com.lenovo.serviceit611apkmirror/sources/com/lenovo/serviceit/selfhelp/chat/activity/ChatActivity.java |
-| CVE-2023-29736            | KeyboardThemesForAndroid12751164APKPure               | Path Traversal                            | KeyboardThemesForAndroid12751164APKPure/resources/AndroidManifest.xml<br/>KeyboardThemesForAndroid12751164APKPure/sources/com/timmystudios/redrawkeyboard/themes/SuperThemeReceiver.java<br/>KeyboardThemesForAndroid12751164APKPure/sources/com/timmystudios/redrawkeyboard/themes/go/GoApkThemeInstaller.java |
-| CVE-2021-41993            | prod.com.pingidentity.pingid1180apkmirror             | Improper Handle RSA Encryption            | prod.com.pingidentity.pingid1180apkmirror/sources/com/accells/access/home/v0.java |
-|CVE-2024-50684             | com.isolarcloud.manage21620241017                     | Improper Handle AES Encryption            | com.isolarcloud.manage21620241017/source/com/alipay/sdk/m/l0/a.java |
+```bash
+cd Craw
+python craw.py
+```
 
+Saved HTML pages are stored under the configured `savepath` directory. These crawled docs become the input for the RuleDroid pipeline.
+
+---
+
+### 2. Run the Rule Generation Pipeline
+
+The main entry point is [RuleDroid/EvoluDroid.py](RuleDroid/EvoluDroid.py). It orchestrates all 12 phases in sequence.
+
+#### Step 1: Configure API Credentials
+
+Edit [RuleDroid/llmevolucore/common.py](RuleDroid/llmevolucore/common.py) to set your LLM API endpoint:
+
+```python
+api_base_url = "https://your-llm-api.example.com/v1/chat/completions"
+api_key = "your-api-key-here"
+```
+
+The API must be OpenAI-format compatible (supports `{"messages": [...], "stream": false}`).
+
+#### Step 2: Set Input/Output Paths
+
+Edit the paths in [RuleDroid/EvoluDroid.py](RuleDroid/EvoluDroid.py) (lines 57–64):
+
+```python
+doc_path = "/path/to/crawled/docs/"          # Input: crawled HTML/Markdown files
+base_path = "/path/to/output/"               # Output root directory
+textblock_path = base_path + "textblock_fin/" # Phase 2 output
+vote_path = base_path + "vote_res/"           # Phase 3-4 output
+rule_path = base_path + "LLMrule/"            # Phase 5+ output
+```
+
+#### Step 3: Adjust Thread Counts
+
+Thread counts control the concurrency of LLM API calls. Adjust them based on your API provider's TPM (Tokens Per Minute) limits:
+
+| Module | Parameter | Default | Location |
+|--------|-----------|---------|----------|
+| `makerule.py` | `max_workers` | `20` | `process_directory()` call |
+| `filter_block.py` | `max_workers` | `30` | `process_directory()` call |
+| `rulestren.py` | `max_threads` | `10` (10 in main, 20 in EvoluDroid) | `parse_and_save_rules_with_api_multithreaded()` call |
+| `securitylevel.py` | `max_workers` | `20` | `process_files_in_directory()` call |
+
+#### Step 4: Run the Pipeline
+
+```bash
+cd RuleDroid
+python EvoluDroid.py
+```
+
+The pipeline will execute all 12 phases sequentially and log progress to both stdout and log files (`LLMmakerule.log`, `LLMmakerule2.log`).
+
+#### Step 5: Run Individual Phases (Optional)
+
+Each module can also be run standalone. For example, to only generate rules from existing text blocks:
+
+```python
+# In llmevolucore/makerule.py
+if __name__ == "__main__":
+    readpath = "/path/to/textblocks/"
+    savepath = "/path/to/output/rules/"
+    false_name_list = []  # or load from vote results
+    process_directory(readpath, savepath, false_name_list)
+```
+
+Similarly, to only validate and fix existing rules:
+
+```python
+# In llmevolucore/rulefix.py
+if __name__ == "__main__":
+    rules_folder = "/path/to/rules/"
+    output_file = "/path/to/debug.json"
+    fix_debug(rules_folder, output_file)
+```
+
+---
+
+### 3. Validate & Run Generated Rules
+
+The final output is a directory of Semgrep YAML rule files. Use them with the Semgrep CLI:
+
+```bash
+# Validate all rules
+semgrep --config /path/to/rules/ --validate
+
+# Scan an Android project
+semgrep --config /path/to/rules/ /path/to/android/source/
+```
+
+---
+
+## API Configuration
+
+RuleDroid uses an OpenAI-compatible chat completions API. Configure it in [llmevolucore/common.py](RuleDroid/llmevolucore/common.py):
+
+```python
+# In llmevolucore/common.py
+api_base_url = "https://api.openai.com/v1/chat/completions"  # or any compatible endpoint
+api_key = "sk-..."
+```
+
+The request format:
+
+```json
+{
+  "stream": false,
+  "detail": false,
+  "chatId": "<unique-session-id>",
+  "messages": [
+    {"role": "user", "content": "<prompt>"}
+  ]
+}
+```
+
+The `chatId` parameter enables multi-turn conversations (used in `makerule.py` for rule generation → optimization flows).
+
+> **Note:** System prompts for each LLM instantiation in the workflow will be released following publication of the paper.
+
+---
+
+## DroidCVE++ Benchmark
+
+The [DroidCVE_benchmark/](DroidCVE_benchmark/) directory contains a curated benchmark of **88 real-world Android APKs** with known CVEs, organized by vulnerability category:
+
+| Category | Example CVEs |
+|----------|-------------|
+| Manifest Backup Issue | CVE-2020-35454, CVE-2023-36620, CVE-2017-16835 |
+| ContentProvider Permissions | CVE-2018-14902, CVE-2021-43863 |
+| Runtime Command Execution | CVE-2022-30083, CVE-2023-36351, CVE-2023-29738 |
+| Hardcoded Encryption Issues | CVE-2019-8919 (IV), CVE-2017-15997 (RC4), CVE-2021-41096 (AES) |
+| Logging Data Exposure | CVE-2016-1518, CVE-2019-17398, CVE-2020-27413 (and 10+ more) |
+| WebView Vulnerabilities | CVE-2019-12367~12370 (Local File Access), CVE-2022-28799 (JS Execution) |
+| Allow All Hostname Verification | 40+ CVEs across many apps |
+| SQL Injection | CVE-2023-27647, CVE-2023-29725, CVE-2021-43863 |
+| Custom URL Scheme Issues | CVE-2021-20728, CVE-2022-41797, CVE-2023-39507 |
+| Exported Not Protected Components | 20+ CVEs |
+| Misuse Implicit Intent | CVE-2020-35173, CVE-2022-39915, CVE-2019-1677 |
+| Hardcoded Sensitive Data | CVE-2022-37857, CVE-2020-7999, CVE-2017-13106 |
+| Using HTTP (Cleartext Traffic) | CVE-2017-9045, CVE-2019-8345, CVE-2016-1520 |
+| External/Internal Data Exposure | CVE-2022-39210, CVE-2018-3988, CVE-2021-25266 |
+| Path Traversal | CVE-2023-24804, CVE-2021-40668 |
+| Intent Redirection | CVE-2024-26131 |
+| Other | IMEI Exposure, XXE Injection, Insecure Data Sharing |
+
+Each benchmark entry maps to the specific vulnerable source files and `AndroidManifest.xml`, enabling precise evaluation of rule detection accuracy.
+
+---
+
+## Example Generated Rules
+
+Example rules generated by RuleDroid are available in [RuleDroid_1_Rule/](RuleDroid_1_Rule/), organized by security category from the Android documentation:
+
+```
+RuleDroid_1_Rule/androidoc/declare-data-use/
+├── Device or Other IDs Data Collection_14_0/
+│   ├── android-api-advertising-identifier.yaml
+│   ├── android-permission-read-privileged-phone-state.yaml
+│   ├── android-api-mac-address.yaml
+│   └── ... (7 rules)
+├── Health and Fitness Data Collection_5_0/
+│   ├── android-health-fitness-permissions.yaml
+│   └── ... (4 rules)
+├── Location Data Collection_2_0/
+│   ├── detect-access-coarse-location.yaml
+│   └── ... (4 rules)
+├── Contacts Data Collection_10_0/
+├── Files and Docs Data Collection_9_0/
+├── App Activity Data Collection_11_0/
+└── App Info and Performance Data Collection_13_0/
+```
+
+Each `.yaml` file is a fully-compliant Semgrep rule with `id`, `languages`, `patterns`, `severity`, `message`, `metadata`, and `remediation` fields.
+
+---
+
+## Available Materials
+
+### Already Provided
+
+| Resource | Location | Description |
+|----------|----------|-------------|
+| RuleDroid Source | [RuleDroid/](RuleDroid/) | Full 12-phase pipeline implementation |
+| DroidCVE++ Benchmark | [DroidCVE_benchmark/](DroidCVE_benchmark/) | 88 real-world CVE-labeled APKs for evaluation |
+| Example Generated Rules | [RuleDroid_1_Rule/](RuleDroid_1_Rule/) | Sample Semgrep rules generated from Android docs |
+| Doc Crawler | [Craw/](Craw/) | Async crawler for security documentation |
+
+### To Be Released (following publication)
+
+- System prompts for each LLM instantiation in the workflow
+- RAG knowledge base database and corresponding Docker image
+
+---
+
+## Citation
+
+If you use RuleDroid or the DroidCVE++ benchmark in your research, please cite the corresponding paper (details forthcoming upon publication).
