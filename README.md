@@ -1,6 +1,12 @@
-# RuleDroid
+# RuleDroid and DroidCVE++ Benchmark
 
-RuleDroid is a framework that leverages large language models (LLMs) to automatically generate [Semgrep](https://semgrep.dev/)-compatible static detection rules from up-to-date official Android security documentation. It addresses two critical issues: (i) the substantial manual effort required for rule generation and maintenance in traditional Static Application Security Testing (SAST), and (ii) the instability of applying pure LLM-based methods to large-scale Android app analysis. RuleDroid grounds LLM outputs with **Retrieval-Augmented Generation (RAG)** and a **modular 12-phase workflow**, then applies proven static-analysis techniques to deliver explainable, repeatable findings.
+**RuleDroid** is a framework that leverages large language models (LLMs) to automatically generate [Semgrep](https://semgrep.dev/)-compatible static detection rules from up-to-date official Android security documentation. It addresses two critical issues: (i) the substantial manual effort required for rule generation and maintenance in traditional Static Application Security Testing (SAST), and (ii) the instability of applying pure LLM-based methods to large-scale Android app analysis. RuleDroid grounds LLM outputs with Retrieval-Augmented Generation (RAG) and a modular 12-phase workflow, then applies proven static-analysis techniques to deliver explainable, repeatable findings.
+
+**DroidCVE++** is an extended benchmark that expands existing CVE-based datasets by covering more vulnerability types and providing precise, easily verifiable ground truth (e.g., vulnerability location details).
+
+If you use RuleDroid or DroidCVE++ in your project, please cite our paper:
+
+[Zhentao Xie](https://fxizenta.github.io/), Mingyang Chen, Yaqi Gao, Shishuai Yang, [Wenrui Diao](https://diaowenrui.github.io/) (✉️), Xiangyu Liu, and Kehuan Zhang. RuleDroid: LLM-Augmented Synthesis of Static Security Detection Rules for Android Apps. IEEE Transactions on Software Engineering, 2026.
 
 ---
 
