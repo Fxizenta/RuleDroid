@@ -21,6 +21,12 @@ from llmevolucore.rule_utils import (
     extract_rule_ids_from_folder,
     get_rule_source_code,
 )
+from llmevolucore.doublecheck import (
+    DEFAULT_RULE_IDS,
+    DoubleCheckConfig,
+    double_check_report,
+    parse_verdict,
+)
 
 __all__ = [
     # common
@@ -37,4 +43,9 @@ __all__ = [
     "find_debug_files",
     "extract_rule_ids_from_folder",
     "get_rule_source_code",
+    # optional report post-processing
+    "DEFAULT_RULE_IDS",
+    "DoubleCheckConfig",
+    "double_check_report",
+    "parse_verdict",
 ]

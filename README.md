@@ -19,6 +19,7 @@ If you use RuleDroid or DroidCVE++ in your project, please cite **our IEEE TSE p
   - [1. Crawl Documentation](#1-crawl-documentation)
   - [2. Run the Rule Generation Pipeline](#2-run-the-rule-generation-pipeline)
   - [3. Validate & Run Generated Rules](#3-validate--run-generated-rules)
+  - [4. Optionally Filter False Positives with an LLM](#4-optionally-filter-false-positives-with-an-llm)
 - [API Configuration](#api-configuration)
 - [DroidCVE++ Benchmark](#droidcve-benchmark)
 - [Example Generated Rules](#example-generated-rules)
@@ -58,6 +59,8 @@ This multi-stage design ensures that the final rule set is syntactically valid, 
 ├── RuleDroid_1_Rule/              # Example generated Semgrep rules (organized by category)
 ├── RuleDroid/                     # Core RuleDroid framework
 │   ├── EvoluDroid.py              #   Main orchestrator — runs the full 12-phase pipeline
+│   ├── scan.py                    #   Semgrep scan + optional final LLM filtering
+│   ├── doublecheck.py             #   Standalone report post-processor
 │   ├── llog.py                    #   Logging + print utility
 │   ├── requirements.txt           #   Python dependencies
 │   ├── llmevolucore/              #   LLM-based rule evolution modules
@@ -70,6 +73,7 @@ This multi-stage design ensures that the final rule set is syntactically valid, 
 │   │   ├── rmduplicates.py        #     Phase 8/11: Remove duplicate rules
 │   │   ├── rulestren.py           #     Phase 9: Strengthen rules via LLM
 │   │   ├── securitylevel.py       #     Phase 12: Classify rule severity
+│   │   ├── doublecheck.py         #     Optional LLM false-positive review
 │   │   └── rule_utils.py          #     Shared rule helpers (validation, ID extraction)
 │   └── saevolucore/               #   Supporting analysis modules (non-LLM)
 │       ├── splitmd.py             #     Phase 1: Split oversize Markdown files
@@ -219,6 +223,48 @@ semgrep --config /path/to/rules/ /path/to/android/source/
 
 ---
 
+### 4. Optionally Filter False Positives with an LLM
+
+`scan.py` writes the raw Semgrep JSON report first, then optionally runs an
+LLM false-positive review as the final step. The review is **disabled by
+default** and runs only when `--llm-double-check` is present:
+
+```bash
+cd RuleDroid
+export RULEDROID_LLM_API_BASE_URL="https://your-llm.example/v1/chat/completions"
+export RULEDROID_LLM_API_KEY="replace-with-your-key"
+export RULEDROID_LLM_MODEL="optional-model-name"
+
+python scan.py /path/to/android/source \
+  --config /path/to/rules \
+  --output /path/to/semgrep-report.json \
+  --llm-double-check
+```
+
+The filtered sidecar defaults to `semgrep-report.llm-filtered.json`; the raw
+report is never overwritten. Confirmed false positives are removed from the
+sidecar's `results` array but retained under
+`llm_double_check.suppressed_results` for audit. Confirmed and undecidable
+findings remain in `results` with the decision in
+`extra.llm_double_check`. Request, parsing, and source-file failures fail open
+as `unknown`, so an unavailable LLM cannot silently remove a finding.
+
+The built-in allowlist contains the 184 candidate rule IDs from the original
+double-check implementation. Use `--all-rules` to review every finding, or
+`--rule-id-file ids.txt` to provide one eligible rule ID per line. For an
+existing Semgrep JSON report, run the same final step independently:
+
+```bash
+python doublecheck.py /path/to/semgrep-report.json --llm-double-check
+```
+
+The reusable API is available as
+`llmevolucore.doublecheck.double_check_report()`. Only a bounded source excerpt
+around each finding is sent to the configured API. Credentials must be
+provided at runtime and must not be committed.
+
+---
+
 ## API Configuration
 
 RuleDroid uses an OpenAI-compatible chat completions API. Configure it in [llmevolucore/common.py](RuleDroid/llmevolucore/common.py):
@@ -245,6 +291,11 @@ The request format:
 The `chatId` parameter enables multi-turn conversations (used in `makerule.py` for rule generation → optimization flows).
 
 > **Note:** System prompts for each LLM instantiation in the workflow will be released following publication of the paper.
+
+The optional report double-check reads its endpoint, key, and model from
+`RULEDROID_LLM_API_BASE_URL`, `RULEDROID_LLM_API_KEY`, and
+`RULEDROID_LLM_MODEL`, respectively. Equivalent CLI flags are also available;
+run `python scan.py --help` for the complete option list.
 
 ---
 
