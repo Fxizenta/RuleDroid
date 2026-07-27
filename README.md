@@ -4,9 +4,9 @@
 
 **DroidCVE++** is an extended benchmark that expands existing CVE-based datasets by covering more vulnerability types and providing precise, easily verifiable ground truth (e.g., vulnerability location details).
 
-If you use RuleDroid or DroidCVE++ in your project, please cite **our IEEE TSE paper**:
+If you use RuleDroid or DroidCVE++ in your project, please cite our **IEEE TSE paper**:
 
-[Zhentao Xie](https://fxizenta.github.io/), Mingyang Chen, Yaqi Gao, Shishuai Yang, [Wenrui Diao](https://diaowenrui.github.io/) (✉️), Xiangyu Liu, and Kehuan Zhang. RuleDroid: LLM-Augmented Synthesis of Static Security Detection Rules for Android Apps. IEEE Transactions on Software Engineering, Early Access, 2026. \[[Link](https://ieeexplore.ieee.org/document/11551147)\]
+[Zhentao Xie](https://fxizenta.github.io/), Mingyang Chen, Yaqi Gao, Shishuai Yang, [Wenrui Diao](https://diaowenrui.github.io/) (✉️), Xiangyu Liu, and Kehuan Zhang. [RuleDroid: LLM-Augmented Synthesis of Static Security Detection Rules for Android Apps](https://diaowenrui.github.io/paper/tse26-xie.pdf). IEEE Transactions on Software Engineering, Early Access, 2026.
 
 ---
 
