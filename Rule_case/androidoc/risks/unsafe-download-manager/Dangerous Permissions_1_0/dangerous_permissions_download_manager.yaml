@@ -1,0 +1,18 @@
+rules:
+- id: dangerous_permissions_download_manager
+  languages:
+  - java
+  message: >
+    DownloadManager in API levels lower than 29 requires dangerous permissions –
+    `android.permission.WRITE_EXTERNAL_STORAGE`. For API level 29 and higher,
+    `android.permission.WRITE_EXTERNAL_STORAGE` permissions are not required, but
+    the URI must refer to a path within the directories owned by the application
+    or a path within the top-level "Downloads" directory.
+  metadata:
+    cwe: cwe-284
+    masvs: platform-6
+    owasp-mobile: m2
+    reference: >
+      https://developer.android.com/reference/android/app/DownloadManager.Request#setDestinationInExternalPublicDir(java.lang.String,%20java.lang.String)
+  pattern: $REQUEST.setDestinationInExternalPublicDir(...)
+  severity: INFO

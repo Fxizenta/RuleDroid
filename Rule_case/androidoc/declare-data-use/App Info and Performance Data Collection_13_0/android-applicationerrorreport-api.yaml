@@ -1,0 +1,20 @@
+rules:
+  - id: android-applicationerrorreport-api
+    languages:
+      - java
+    message: |
+      The app uses the ApplicationErrorReport API, which may access user data related
+      to app info and performance. Ensure that sensitive data is handled securely and 
+      that crash information is appropriately sanitized or encrypted before reporting.
+    metadata:
+      category: Android Security
+      technology: Android
+    severity: INFO
+    pattern-either:
+      - pattern: new ApplicationErrorReport(...)
+      - pattern: new ApplicationErrorReport.CrashInfo(...)
+      - pattern: ApplicationErrorReport.getErrorReportReceiver(...)
+    fix: |
+      If crash information or app data is being collected, ensure that sensitive information such as stack traces,
+      user data, or app details are properly encrypted or anonymized before being reported. Ensure crash reports
+      do not expose personal or sensitive information unless required and appropriate consent has been obtained.

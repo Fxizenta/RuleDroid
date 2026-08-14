@@ -1,0 +1,21 @@
+rules:
+- id: webview-allow-universal-access-from-file-urls
+  languages:
+    - java
+  message: Avoid enabling universal access from file URLs in WebView.
+  severity: ERROR
+  patterns:
+    - pattern: |
+        $W.getSettings().setAllowUniversalAccessFromFileURLs(true)
+    - pattern-not-inside: |
+        if (BuildConfig.DEBUG) {
+          $W.getSettings().setAllowUniversalAccessFromFileURLs(true);
+        }
+  metadata:
+    category: security
+    references:
+      - https://developer.android.com/reference/android/webkit/WebSettings#setAllowUniversalAccessFromFileURLs(boolean)
+    tags:
+      - android
+      - webview
+      - security

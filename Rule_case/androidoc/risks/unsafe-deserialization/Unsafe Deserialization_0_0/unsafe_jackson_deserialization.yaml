@@ -1,0 +1,22 @@
+rules:
+  - id: unsafe_jackson_deserialization
+    languages:
+      - java
+    message: |
+      Jackson default typing is enabled without a restrictive subtype validator.
+      Disable default typing for untrusted JSON, or use a PolymorphicTypeValidator
+      that allowlists only the application types that must be deserialized.
+    metadata:
+      cwe: CWE-502
+      masvs: platform-8
+      owasp-mobile: M1
+      reference: https://github.com/MobSF/owasp-mstg/blob/master/Document/0x05h-Testing-Platform-Interaction.md#testing-object-persistence-mstg-platform-8
+    patterns:
+      - pattern-either:
+          - pattern: $OBJ.enableDefaultTyping(...)
+          - pattern: $OBJ.enableDefaultTypingAsProperty(...)
+          - pattern: $OBJ.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ...)
+          - pattern: $OBJ.activateDefaultTyping(com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator.instance, ...)
+          - pattern: $OBJ.activateDefaultTypingAsProperty(LaissezFaireSubTypeValidator.instance, ...)
+          - pattern: $OBJ.activateDefaultTypingAsProperty(com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator.instance, ...)
+    severity: WARNING

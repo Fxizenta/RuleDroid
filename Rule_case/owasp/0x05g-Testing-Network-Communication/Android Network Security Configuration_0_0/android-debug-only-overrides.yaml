@@ -1,0 +1,13 @@
+rules:
+  - id: android-debug-only-overrides
+    languages:
+      - xml
+    message: Debug-only trust anchors are configured. Android applies this block only when android:debuggable is true.
+    severity: INFO
+    paths:
+      include:
+        - '**/*.xml'
+    pattern: |
+      <debug-overrides>
+          ...
+      </debug-overrides>

@@ -1,0 +1,15 @@
+rules:
+  - id: android-collect-address
+    languages: [java]
+    message: The app resolves or reads a postal address. Treat this as personal data and verify that collection and retention are disclosed and necessary.
+    severity: INFO
+    metadata:
+      category: Personal Information Data Collection
+      cwe: CWE-359
+    pattern-either:
+      - pattern: $GEOCODER.getFromLocation(...)
+      - pattern: $GEOCODER.getFromLocationName(...)
+      - pattern: $ADDRESS.getAddressLine(...)
+      - pattern: $ADDRESS.getLocality()
+      - pattern: $ADDRESS.getPostalCode()
+      - pattern: $ADDRESS.getCountryName()

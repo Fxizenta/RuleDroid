@@ -1,0 +1,6 @@
+rules:
+  - id: android-grant-uri-permission
+    languages: [java]
+    message: A URI permission is granted programmatically. Verify that the package, URI, access mode, and revocation lifetime are as narrow as possible.
+    severity: INFO
+    pattern: $CONTEXT.grantUriPermission($PACKAGE, $URI, $MODE)

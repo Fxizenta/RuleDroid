@@ -1,0 +1,21 @@
+rules:
+  - id: android_prevent_screenshot_1
+    languages:
+      - java
+    message: FLAG_SECURE is enabled to reduce screenshots and non-secure display mirroring for this window.
+    severity: INFO
+    metadata:
+      cwe: cwe-200
+      owasp-mobile: m2
+      masvs: storage-9
+      reference: https://github.com/MobSF/owasp-mstg/blob/master/Document/0x05d-Testing-Data-Storage.md#finding-sensitive-information-in-auto-generated-screenshots-mstg-storage-9
+    patterns:
+      - pattern-either:
+          - pattern: |
+              getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, ...)
+          - pattern: |
+              getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE, ...)
+          - pattern: |
+              $A.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, ...)
+          - pattern: |
+              $A.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE, ...)

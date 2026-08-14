@@ -1,0 +1,21 @@
+rules:
+- id: android-attribution-tag
+  languages:
+  - xml
+  message: |
+      An Android data-access attribution tag is declared. Verify that the tag accurately
+      identifies the feature responsible for accessing protected data.
+  metadata:
+    area: platform
+    category: security
+    owasp-mobile: M1
+    references:
+    - https://developer.android.com/about/versions/12/behavior-changes-12#attribution-tags
+    verification-level:
+    - L1
+    - L2
+  paths:
+    include:
+    - '**/AndroidManifest.xml'
+  pattern: <attribution ... android:tag=$TAG ... />
+  severity: INFO

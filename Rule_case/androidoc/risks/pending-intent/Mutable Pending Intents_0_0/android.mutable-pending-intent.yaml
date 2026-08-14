@@ -1,0 +1,89 @@
+rules:
+  - id: android.mutable-pending-intent
+    languages: [java, kotlin]
+    message: >-
+      A mutable PendingIntent is created. Mutability is required for a small set
+      of features; otherwise use FLAG_IMMUTABLE. If it must remain mutable, make
+      the base Intent explicit by setting its component or package.
+    severity: WARNING
+    metadata:
+      cwe: CWE-927
+      references:
+        - https://developer.android.com/privacy-and-security/risks/pending-intent
+    patterns:
+      - pattern-either:
+          - pattern: PendingIntent.getActivity($CONTEXT, $REQ, $INTENT, $FLAGS)
+          - pattern: PendingIntent.getActivity($CONTEXT, $REQ, $INTENT, $FLAGS, $BUNDLE)
+          - pattern: PendingIntent.getBroadcast($CONTEXT, $REQ, $INTENT, $FLAGS)
+          - pattern: PendingIntent.getService($CONTEXT, $REQ, $INTENT, $FLAGS)
+          - pattern: PendingIntent.getForegroundService($CONTEXT, $REQ, $INTENT, $FLAGS)
+      - metavariable-regex:
+          metavariable: $FLAGS
+          regex: .*(?:PendingIntent\.)?FLAG_MUTABLE.*
+      - focus-metavariable: $FLAGS
+  - id: android.mutable-pending-intent-numeric
+    languages: [java, kotlin]
+    message: >-
+      A mutable PendingIntent is created using a numeric flag. Prefer the named
+      FLAG_IMMUTABLE constant unless mutability is required, and make a required
+      mutable PendingIntent explicit.
+    severity: WARNING
+    metadata:
+      cwe: CWE-927
+    patterns:
+      - pattern-either:
+          - pattern: PendingIntent.getActivity($CONTEXT, $REQ, $INTENT, $FLAGS)
+          - pattern: PendingIntent.getActivity($CONTEXT, $REQ, $INTENT, $FLAGS, $BUNDLE)
+          - pattern: PendingIntent.getBroadcast($CONTEXT, $REQ, $INTENT, $FLAGS)
+          - pattern: PendingIntent.getService($CONTEXT, $REQ, $INTENT, $FLAGS)
+          - pattern: PendingIntent.getForegroundService($CONTEXT, $REQ, $INTENT, $FLAGS)
+      - metavariable-regex:
+          metavariable: $FLAGS
+          regex: '^[0-9]+$'
+      - metavariable-comparison:
+          metavariable: $FLAGS
+          comparison: (int($FLAGS) & 33554432) != 0
+  - id: android.pending-intent-missing-mutability
+    languages: [java, kotlin]
+    message: >-
+      PendingIntent mutability is not explicit. Apps targeting Android 12 or
+      later must select FLAG_IMMUTABLE or FLAG_MUTABLE; prefer immutable unless
+      the receiving feature must fill in fields.
+    severity: WARNING
+    metadata:
+      cwe: CWE-927
+      references:
+        - https://developer.android.com/guide/components/intents-filters#DeclareMutabilityPendingIntent
+    patterns:
+      - pattern-either:
+          - pattern: PendingIntent.getActivity($CONTEXT, $REQ, $INTENT, $FLAGS)
+          - pattern: PendingIntent.getBroadcast($CONTEXT, $REQ, $INTENT, $FLAGS)
+          - pattern: PendingIntent.getService($CONTEXT, $REQ, $INTENT, $FLAGS)
+          - pattern: PendingIntent.getForegroundService($CONTEXT, $REQ, $INTENT, $FLAGS)
+      - metavariable-regex:
+          metavariable: $FLAGS
+          regex: '^(?![0-9]+$)(?!.*(?:FLAG_IMMUTABLE|FLAG_MUTABLE)).*$'
+  - id: android.pending-intent-missing-mutability-numeric
+    languages: [java, kotlin]
+    message: >-
+      PendingIntent mutability is not explicit in this numeric flag value. Apps
+      targeting Android 12 or later must select FLAG_IMMUTABLE or FLAG_MUTABLE;
+      prefer immutable unless the receiving feature must fill in fields.
+    severity: WARNING
+    metadata:
+      cwe: CWE-927
+      references:
+        - https://developer.android.com/guide/components/intents-filters#DeclareMutabilityPendingIntent
+    patterns:
+      - pattern-either:
+          - pattern: PendingIntent.getActivity($CONTEXT, $REQ, $INTENT, $FLAGS)
+          - pattern: PendingIntent.getActivity($CONTEXT, $REQ, $INTENT, $FLAGS, $BUNDLE)
+          - pattern: PendingIntent.getBroadcast($CONTEXT, $REQ, $INTENT, $FLAGS)
+          - pattern: PendingIntent.getService($CONTEXT, $REQ, $INTENT, $FLAGS)
+          - pattern: PendingIntent.getForegroundService($CONTEXT, $REQ, $INTENT, $FLAGS)
+      - metavariable-regex:
+          metavariable: $FLAGS
+          regex: '^[0-9]+$'
+      - metavariable-comparison:
+          metavariable: $FLAGS
+          comparison: (int($FLAGS) & 100663296) == 0

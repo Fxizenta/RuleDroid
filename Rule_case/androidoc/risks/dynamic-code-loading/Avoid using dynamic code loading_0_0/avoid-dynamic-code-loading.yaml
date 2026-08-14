@@ -1,0 +1,36 @@
+rules:
+  - id: externally-controlled-dynamic-code-loading
+    languages: [java, kotlin]
+    mode: taint
+    message: >-
+      An externally controlled path reaches a class loader. Package code in the
+      APK when possible; otherwise authenticate the downloaded artifact before
+      loading it and keep it in app-internal storage.
+    severity: ERROR
+    metadata:
+      category: Android Security Practices
+      technology: Android
+    pattern-sources:
+      - pattern-either:
+          - pattern: Environment.getExternalStorageDirectory()
+          - pattern: Environment.getExternalStoragePublicDirectory(...)
+          - pattern: $CONTEXT.getExternalFilesDir(...)
+          - pattern: $CONTEXT.getExternalCacheDir()
+          - pattern: $INTENT.getStringExtra(...)
+      - patterns:
+          - pattern: $URI.getPath()
+          - metavariable-type:
+              metavariable: $URI
+              type: android.net.Uri
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: new DexClassLoader($PATH, ...)
+              - pattern: new dalvik.system.DexClassLoader($PATH, ...)
+              - pattern: new PathClassLoader($PATH, ...)
+              - pattern: new dalvik.system.PathClassLoader($PATH, ...)
+          - focus-metavariable: $PATH
+    pattern-sanitizers:
+      - pattern-either:
+          - pattern: verifySignature(...)
+          - pattern: verifyDigest(...)

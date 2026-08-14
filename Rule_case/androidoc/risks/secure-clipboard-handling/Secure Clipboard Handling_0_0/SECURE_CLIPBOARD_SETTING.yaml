@@ -1,0 +1,10 @@
+rules:
+  - id: SECURE_CLIPBOARD_SETTING
+    languages: [java]
+    message: Clipboard content is marked sensitive, which suppresses its preview on supported Android versions.
+    severity: INFO
+    metadata:
+      category: security-control
+    pattern-either:
+      - pattern: $EXTRAS.putBoolean(ClipDescription.EXTRA_IS_SENSITIVE, true)
+      - pattern: $EXTRAS.putBoolean("android.content.extra.IS_SENSITIVE", true)

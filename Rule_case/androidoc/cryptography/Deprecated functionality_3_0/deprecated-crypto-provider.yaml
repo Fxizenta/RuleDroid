@@ -1,0 +1,20 @@
+rules:
+  - id: deprecated-crypto-provider
+    languages:
+      - java
+    message: >
+      The deprecated Android "Crypto" provider is selected explicitly. Do not rely
+      on its deterministic SHA1PRNG behavior; use the platform SecureRandom default.
+    metadata:
+      cwe: "CWE-327: Use of a Broken or Risky Cryptographic Algorithm"
+      owasp: "A9:2017 - Using Components with Known Vulnerabilities"
+      references:
+        - https://developer.android.com/reference/java/security/Crypto
+        - https://owasp.org/www-project-mobile-top-10/
+      tags:
+        - security
+        - android
+        - cryptography
+        - deprecated
+    severity: ERROR
+    pattern: SecureRandom.getInstance($ALGORITHM, "Crypto")

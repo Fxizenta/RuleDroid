@@ -1,0 +1,44 @@
+rules:
+  - id: unsafe-hostname-verifier
+    languages: [java]
+    message: >-
+      Hostname verification is unconditionally accepted. Use the platform default
+      verifier and never return true without comparing the requested hostname to
+      the authenticated certificate identity.
+    metadata:
+      category: security
+      technology: android
+      cwe: CWE-297
+      references:
+        - https://developer.android.com/privacy-and-security/security-ssl
+    severity: ERROR
+    pattern-either:
+      - pattern: |
+          public boolean verify(String $HOSTNAME, SSLSession $SESSION) {
+            return true;
+          }
+      - pattern: |
+          boolean verify(String $HOSTNAME, SSLSession $SESSION) {
+            return true;
+          }
+      - pattern: $SSL.ALLOW_ALL_HOSTNAME_VERIFIER
+      - pattern: NoopHostnameVerifier.INSTANCE
+
+  - id: webview-ignore-ssl-errors
+    languages: [java]
+    message: >-
+      The WebView continues after a TLS certificate error. Never call proceed();
+      cancel the load because proceeding exposes WebView traffic to interception.
+    metadata:
+      category: security
+      technology: android
+      cwe: CWE-295
+      references:
+        - https://developer.android.com/reference/android/webkit/WebViewClient#onReceivedSslError(android.webkit.WebView,%20android.webkit.SslErrorHandler,%20android.net.http.SslError)
+    severity: ERROR
+    patterns:
+      - pattern-inside: |
+          void onReceivedSslError(WebView $VIEW, SslErrorHandler $HANDLER, SslError $ERROR) {
+            ...
+          }
+      - pattern: $HANDLER.proceed()

@@ -1,0 +1,20 @@
+rules:
+  - id: android-exported-service-no-permission
+    languages: [xml]
+    message: >-
+      An explicitly exported service has no manifest permission. Verify that its
+      start and Binder entry points are safe for arbitrary apps, or protect it with
+      a permission/set exported=false.
+    metadata:
+      category: security
+      technology: android
+      cwe: CWE-926
+    paths:
+      include: ["**/AndroidManifest.xml"]
+    severity: WARNING
+    patterns:
+      - pattern-either:
+          - pattern: <service ... android:exported="true" ... />
+          - pattern: <service ... android:exported="true" ...> ... </service>
+      - pattern-not: <service ... android:permission=$PERMISSION ... />
+      - pattern-not: <service ... android:permission=$PERMISSION ...> ... </service>

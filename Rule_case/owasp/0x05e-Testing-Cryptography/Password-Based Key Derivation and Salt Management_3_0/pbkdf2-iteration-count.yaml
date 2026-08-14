@@ -1,0 +1,36 @@
+rules:
+  - id: pbkdf2-iteration-count
+    languages: [java]
+    message: >-
+      A hard-coded PBKDF2 work factor is below the current OWASP password-storage
+      recommendation for the selected PRF. Benchmark the recommended value on
+      supported devices and increase it over time.
+    metadata:
+      references:
+        - https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
+    severity: ERROR
+    pattern-either:
+      - patterns:
+          - pattern-inside: |
+              $FACTORY = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+              ...
+          - pattern: new PBEKeySpec($PASSWORD, $SALT, $ITERATIONS, $KEY_LENGTH)
+          - metavariable-comparison:
+              metavariable: $ITERATIONS
+              comparison: int($ITERATIONS) < 600000
+      - patterns:
+          - pattern-inside: |
+              $FACTORY = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
+              ...
+          - pattern: new PBEKeySpec($PASSWORD, $SALT, $ITERATIONS, $KEY_LENGTH)
+          - metavariable-comparison:
+              metavariable: $ITERATIONS
+              comparison: int($ITERATIONS) < 220000
+      - patterns:
+          - pattern-inside: |
+              $FACTORY = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+              ...
+          - pattern: new PBEKeySpec($PASSWORD, $SALT, $ITERATIONS, $KEY_LENGTH)
+          - metavariable-comparison:
+              metavariable: $ITERATIONS
+              comparison: int($ITERATIONS) < 1400000

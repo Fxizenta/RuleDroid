@@ -1,0 +1,13 @@
+rules:
+  - id: android-lock-screen-check
+    languages:
+      - java
+    message: Ensure the device has a secure lock screen (using isKeyguardSecure or isDeviceSecure) before creating keys.
+    severity: INFO
+    metadata:
+      category: Lock Screen Security
+      cwe: cwe-287
+      owasp-mobile: m5
+    pattern-either:
+      - pattern: $MANAGER.isKeyguardSecure()
+      - pattern: $MANAGER.isDeviceSecure()

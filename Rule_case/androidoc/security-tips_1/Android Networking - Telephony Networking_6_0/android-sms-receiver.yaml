@@ -1,0 +1,23 @@
+rules:
+  - id: android-sms-receiver
+    languages:
+      - java
+    message: |
+      Handling SMS messages in broadcast receivers can be insecure. Ensure sensitive
+      data is not processed or transmitted via SMS.
+    metadata:
+      cwe: 'CWE-319: Cleartext Transmission of Sensitive Information'
+      owasp: 'M3: Insecure Communication'
+    severity: INFO
+    pattern-either:
+      - pattern: Telephony.Sms.Intents.getMessagesFromIntent(...)
+      - pattern: $INTENT.getAction().equals("android.provider.Telephony.SMS_RECEIVED")
+      - pattern: '"android.provider.Telephony.SMS_RECEIVED".equals($INTENT.getAction())'
+    fix: |
+      // Ensure SMS is handled securely or avoid processing sensitive data through SMS
+      public void onReceive(Context context, Intent intent) {
+          if (intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")) {
+              // Secure handling of SMS data
+              secureHandleSms(intent);
+          }
+      }

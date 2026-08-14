@@ -1,0 +1,293 @@
+rules:
+  - id: android-path-traversal
+    languages: [java]
+    mode: taint
+    message: >-
+      Android-controlled input reaches a file-system operation. Canonicalize the
+      resolved path and reject it unless it remains inside the exact expected
+      directory; also consider symlink and overwrite behavior for the operation.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-22
+      references:
+        - https://developer.android.com/privacy-and-security/risks/path-traversal
+    pattern-sources:
+      - pattern-either:
+          - pattern: $INTENT.getStringExtra(...)
+          - pattern: $INTENT.getDataString()
+          - pattern: $URI.getQueryParameter(...)
+          - pattern: $URI.getLastPathSegment()
+          - pattern: $RESULT.getData().getDataString()
+          - pattern: $RESULT.getData().getData().getPath()
+          - pattern: $INTENT.getParcelableExtra($KEY, Uri.class).getPath()
+          - pattern: $INTENT.getParcelableExtra($KEY, android.net.Uri.class).getPath()
+          - pattern: IntentCompat.getParcelableExtra($INTENT, $KEY, Uri.class).getPath()
+      - patterns:
+          - pattern: $INTENT.getData()
+          - metavariable-type:
+              metavariable: $INTENT
+              type: android.content.Intent
+      - patterns:
+          - pattern: $URI.getPath()
+          - metavariable-type:
+              metavariable: $URI
+              type: android.net.Uri
+      - patterns:
+          - pattern: $BUNDLE.getString(...)
+          - metavariable-type:
+              metavariable: $BUNDLE
+              type: android.os.Bundle
+    pattern-propagators:
+      - pattern: $FILE = new File($PATH)
+        from: $PATH
+        to: $FILE
+      - pattern: $FILE = new File($PARENT, $CHILD)
+        from: $CHILD
+        to: $FILE
+      - pattern: $PATH_OBJECT = $BASE.resolve($CHILD)
+        from: $CHILD
+        to: $PATH_OBJECT
+      - pattern: $BUILDER.append($VALUE)
+        from: $VALUE
+        to: $BUILDER
+      - pattern: $COLLECTION.add($VALUE)
+        from: $VALUE
+        to: $COLLECTION
+    pattern-sinks:
+      - pattern-either:
+          - pattern: new FileInputStream(...)
+          - pattern: new FileOutputStream(...)
+          - pattern: new FileReader(...)
+          - pattern: new FileWriter(...)
+          - pattern: new RandomAccessFile(...)
+          - pattern: Files.newInputStream(...)
+          - pattern: Files.newOutputStream(...)
+          - pattern: Files.readAllBytes(...)
+          - pattern: Files.readString(...)
+          - pattern: Files.write(...)
+          - pattern: Files.delete(...)
+          - pattern: Files.deleteIfExists(...)
+          - pattern: Files.copy(...)
+          - pattern: Files.move(...)
+          - pattern: Files.createFile(...)
+          - pattern: Files.createDirectory(...)
+          - pattern: Files.createDirectories(...)
+          - pattern: ParcelFileDescriptor.open(...)
+          - pattern: android.os.ParcelFileDescriptor.open(...)
+          - pattern: BitmapFactory.decodeFile(...)
+          - pattern: FileProvider.getUriForFile(...)
+      - patterns:
+          - pattern: $FILE.$OP(...)
+          - metavariable-type:
+              metavariable: $FILE
+              type: java.io.File
+          - metavariable-regex:
+              metavariable: $OP
+              regex: ^(?:delete|renameTo|mkdir|mkdirs|list|listFiles|setReadable|setWritable|setExecutable)$
+          - focus-metavariable: $FILE
+      - patterns:
+          - pattern: $FILE.$OP(...)
+          - metavariable-type:
+              metavariable: $FILE
+              type: File
+          - metavariable-regex:
+              metavariable: $OP
+              regex: ^(?:delete|renameTo|mkdir|mkdirs|list|listFiles|setReadable|setWritable|setExecutable)$
+          - focus-metavariable: $FILE
+
+  - id: android-path-traversal-kotlin
+    languages: [kotlin]
+    mode: taint
+    message: >-
+      Android-controlled input reaches a file-system operation. Canonicalize the
+      resolved path and enforce containment in the expected directory before use.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-22
+      references:
+        - https://developer.android.com/privacy-and-security/risks/path-traversal
+    pattern-sources:
+      - pattern-either:
+          - pattern: $INTENT.getStringExtra(...)
+          - pattern: $INTENT.getDataString()
+          - pattern: $INTENT.dataString
+          - pattern: $URI.getQueryParameter(...)
+          - pattern: $URI.getLastPathSegment()
+          - pattern: $URI.path
+          - pattern: $RESULT.data?.data?.path
+          - pattern: $INTENT.getParcelableExtra($KEY, Uri::class.java)?.path
+          - pattern: IntentCompat.getParcelableExtra($INTENT, $KEY, Uri::class.java)?.path
+      - patterns:
+          - pattern: $INTENT.getData()
+          - metavariable-type:
+              metavariable: $INTENT
+              type: android.content.Intent
+      - patterns:
+          - pattern: $URI.getPath()
+          - metavariable-type:
+              metavariable: $URI
+              type: android.net.Uri
+      - patterns:
+          - pattern: $BUNDLE.getString(...)
+          - metavariable-type:
+              metavariable: $BUNDLE
+              type: android.os.Bundle
+    pattern-propagators:
+      - pattern: $FILE = File($PATH)
+        from: $PATH
+        to: $FILE
+      - pattern: $FILE = File($PARENT, $CHILD)
+        from: $CHILD
+        to: $FILE
+      - pattern: $PATH_OBJECT = $BASE.resolve($CHILD)
+        from: $CHILD
+        to: $PATH_OBJECT
+      - pattern: $BUILDER.append($VALUE)
+        from: $VALUE
+        to: $BUILDER
+      - pattern: $COLLECTION.add($VALUE)
+        from: $VALUE
+        to: $COLLECTION
+    pattern-sinks:
+      - pattern-either:
+          - pattern: FileInputStream(...)
+          - pattern: FileOutputStream(...)
+          - pattern: FileReader(...)
+          - pattern: FileWriter(...)
+          - pattern: RandomAccessFile(...)
+          - pattern: Files.newInputStream(...)
+          - pattern: Files.newOutputStream(...)
+          - pattern: Files.readAllBytes(...)
+          - pattern: Files.readString(...)
+          - pattern: Files.write(...)
+          - pattern: Files.delete(...)
+          - pattern: Files.deleteIfExists(...)
+          - pattern: Files.copy(...)
+          - pattern: Files.move(...)
+          - pattern: Files.createFile(...)
+          - pattern: Files.createDirectory(...)
+          - pattern: Files.createDirectories(...)
+          - pattern: ParcelFileDescriptor.open(...)
+          - pattern: BitmapFactory.decodeFile(...)
+          - pattern: FileProvider.getUriForFile(...)
+      - patterns:
+          - pattern: $FILE.$OP(...)
+          - metavariable-regex:
+              metavariable: $OP
+              regex: ^(?:delete|renameTo|mkdir|mkdirs|list|listFiles|setReadable|setWritable|setExecutable)$
+          - focus-metavariable: $FILE
+
+  - id: android-path-traversal-through-field
+    languages: [java]
+    message: >-
+      Android-controlled path data is stored in a field and later reaches a file
+      operation. Review this cross-method flow and enforce canonical containment
+      inside the intended directory immediately before the operation.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-22
+      references:
+        - https://developer.android.com/privacy-and-security/risks/path-traversal
+    pattern-either:
+      - patterns:
+          - pattern: |
+              class $CLASS {
+                ...
+                $RET1 $SOURCE_METHOD(...) {
+                  ...
+                  this.$FIELD = $INTENT.getStringExtra(...);
+                  ...
+                }
+                ...
+                $RET2 $SINK_METHOD(...) {
+                  ...
+                  new $STREAM(this.$FIELD);
+                  ...
+                }
+                ...
+              }
+          - metavariable-regex:
+              metavariable: $STREAM
+              regex: ^(?:(?:java\.io\.)?(?:FileInputStream|FileOutputStream|FileReader|FileWriter|RandomAccessFile))$
+      - patterns:
+          - pattern: |
+              class $CLASS {
+                ...
+                $RET1 $SOURCE_METHOD(...) {
+                  ...
+                  this.$FIELD = $INTENT.getData().getPath();
+                  ...
+                }
+                ...
+                $RET2 $SINK_METHOD(...) {
+                  ...
+                  $FILES.$OP(this.$FIELD, ...);
+                  ...
+                }
+                ...
+              }
+          - metavariable-regex:
+              metavariable: $FILES
+              regex: ^(?:(?:java\.nio\.file\.)?Files|(?:android\.os\.)?ParcelFileDescriptor|(?:androidx\.core\.content\.)?FileProvider)$
+          - metavariable-regex:
+              metavariable: $OP
+              regex: ^(?:newInputStream|newOutputStream|readAllBytes|readString|write|delete|deleteIfExists|copy|move|createFile|createDirectory|createDirectories|open|getUriForFile)$
+
+  - id: android-path-traversal-through-field-kotlin
+    languages: [kotlin]
+    message: >-
+      Android-controlled path data is stored in a property and later reaches a
+      file operation. Enforce canonical containment immediately before use.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-22
+      references:
+        - https://developer.android.com/privacy-and-security/risks/path-traversal
+    pattern-either:
+      - patterns:
+          - pattern: |
+              class $CLASS {
+                ...
+                fun $SOURCE_METHOD(...) {
+                  ...
+                  this.$FIELD = $INTENT.getStringExtra(...)
+                  ...
+                }
+                ...
+                fun $SINK_METHOD(...) {
+                  ...
+                  $STREAM(this.$FIELD)
+                  ...
+                }
+                ...
+              }
+          - metavariable-regex:
+              metavariable: $STREAM
+              regex: ^(?:(?:java\.io\.)?(?:FileInputStream|FileOutputStream|FileReader|FileWriter|RandomAccessFile))$
+      - patterns:
+          - pattern: |
+              class $CLASS {
+                ...
+                fun $SOURCE_METHOD(...) {
+                  ...
+                  this.$FIELD = $INTENT.data?.path
+                  ...
+                }
+                ...
+                fun $SINK_METHOD(...) {
+                  ...
+                  $FILES.$OP(this.$FIELD, ...)
+                  ...
+                }
+                ...
+              }
+          - metavariable-regex:
+              metavariable: $FILES
+              regex: ^(?:(?:java\.nio\.file\.)?Files|(?:android\.os\.)?ParcelFileDescriptor|(?:androidx\.core\.content\.)?FileProvider)$
+          - metavariable-regex:
+              metavariable: $OP
+              regex: ^(?:newInputStream|newOutputStream|readAllBytes|readString|write|delete|deleteIfExists|copy|move|createFile|createDirectory|createDirectories|open|getUriForFile)$

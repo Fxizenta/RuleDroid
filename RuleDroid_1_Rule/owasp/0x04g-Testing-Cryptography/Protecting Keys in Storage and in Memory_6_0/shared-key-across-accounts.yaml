@@ -1,9 +1,0 @@
-rules:
-- id: shared-key-across-accounts
-  languages: [java]
-  message: Avoid sharing the same key among accounts or devices. Generate unique keys for each account/device.
-  severity: ERROR
-  pattern: |
-    String sharedKey = $KEY;
-  pattern-not-inside: |
-    $KEY.contains($ACCOUNT_ID);

@@ -1,0 +1,10 @@
+rules:
+  - id: detect-sysctl-debugger-check
+    languages: [java]
+    message: A sysctl command is executed, which may implement an anti-debugging check. Review the exact command and platform assumptions.
+    severity: INFO
+    patterns:
+      - pattern: Runtime.getRuntime().exec($COMMAND)
+      - metavariable-regex:
+          metavariable: $COMMAND
+          regex: (?i).*sysctl.*

@@ -1,0 +1,8 @@
+rules:
+  - id: android-connectivity-action-broadcast
+    languages: [java]
+    message: >
+      Apps targeting Android 7.0 (API level 24) or higher no longer receive CONNECTIVITY_ACTION
+      broadcasts unless registered dynamically with Context.registerReceiver().
+    severity: INFO
+    pattern: '$CONTEXT.registerReceiver($RECEIVER, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"))'

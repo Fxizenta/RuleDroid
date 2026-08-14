@@ -1,0 +1,35 @@
+rules:
+  - id: avoid-java-util-random-usage-java
+    languages:
+      - java
+    message: "Avoid using java.util.Random for security or authentication purposes. Use SecureRandom for cryptographically secure random generation."
+    severity: ERROR
+    metadata:
+      cwe: CWE-330
+      masvs: crypto-6
+      owasp-mobile: M5
+      reference: "https://github.com/OWASP/owasp-mstg/blob/master/Document/0x04g-Testing-Cryptography.md#weak-random-number-generators"
+    patterns:
+      - pattern-either:
+          - pattern: new Random(...)
+          - pattern: new java.util.Random(...)
+      - pattern-inside: "$RETURN_TYPE $METHOD(...) { ... }"
+      - metavariable-regex:
+          metavariable: $METHOD
+          regex: (?i).*(?:auth|token|pass|credential|secure).*
+  - id: avoid-java-util-random-usage-kotlin
+    languages:
+      - kotlin
+    message: "Avoid using java.util.Random for security or authentication purposes. Use SecureRandom for cryptographically secure random generation."
+    severity: ERROR
+    metadata:
+      cwe: CWE-330
+      masvs: crypto-6
+      owasp-mobile: M5
+      reference: "https://github.com/OWASP/owasp-mstg/blob/master/Document/0x04g-Testing-Cryptography.md#weak-random-number-generators"
+    patterns:
+      - pattern: java.util.Random(...)
+      - pattern-inside: "fun $METHOD(...) { ... }"
+      - metavariable-regex:
+          metavariable: $METHOD
+          regex: (?i).*(?:auth|token|pass|credential|secure).*

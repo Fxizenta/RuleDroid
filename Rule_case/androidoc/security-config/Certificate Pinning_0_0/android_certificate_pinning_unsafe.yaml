@@ -1,0 +1,25 @@
+rules:
+- id: android_certificate_pinning_unsafe
+  languages:
+    - xml
+  message: |
+    This certificate-pinning configuration selects an unsupported or obsolete
+    digest. Android Network Security Configuration supports SHA-256 pins; replace
+    this entry and retain a separately managed backup pin for key rotation.
+  metadata:
+    cwe: CWE-295
+    masvs: NETWORK-4
+    owasp-mobile: M3
+    reference: https://developer.android.com/training/articles/security-config#CertificatePinning
+  paths:
+    include:
+      - "**/*.xml"
+  severity: ERROR
+  patterns:
+    - pattern-inside: |
+        <network-security-config>
+          ...
+        </network-security-config>
+    - pattern-either:
+        - pattern: <pin digest="SHA-1">$PIN</pin>
+        - pattern: <pin digest="MD5">$PIN</pin>

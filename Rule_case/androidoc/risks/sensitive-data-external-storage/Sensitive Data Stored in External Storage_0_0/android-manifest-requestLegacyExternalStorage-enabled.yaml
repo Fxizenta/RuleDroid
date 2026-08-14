@@ -1,0 +1,19 @@
+rules:
+- id: android-manifest-requestLegacyExternalStorage-enabled
+  languages:
+  - xml
+  message: 'The AndroidManifest.xml has requestLegacyExternalStorage set to "true".
+    This allows the app to opt out of scoped storage, potentially exposing sensitive
+    data.
+
+    '
+  metadata:
+    category: security
+    reference: Android scoped storage documentation and security best practices
+    technology: android
+  paths:
+    include: ["**/AndroidManifest.xml"]
+  pattern-either:
+    - pattern: <application ... android:requestLegacyExternalStorage="true" ... />
+    - pattern: <application ... android:requestLegacyExternalStorage="true" ...> ... </application>
+  severity: WARNING

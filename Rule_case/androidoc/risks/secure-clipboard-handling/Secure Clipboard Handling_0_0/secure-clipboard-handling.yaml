@@ -1,0 +1,16 @@
+rules:
+- id: secure-clipboard-handling
+  languages:
+    - java
+    - kotlin
+  message: |
+    Data is copied to the system clipboard. Verify that it is not secret; for sensitive
+    content, set ClipDescription.EXTRA_IS_SENSITIVE and clear the clipboard promptly.
+  metadata:
+    area: clipboard
+    category: security
+    references:
+      - https://developer.android.com/reference/android/content/ClipDescription#EXTRA_IS_SENSITIVE
+      - https://developer.android.com/reference/android/content/ClipboardManager
+  severity: INFO
+  pattern: $CLIPBOARD.setPrimaryClip(...)

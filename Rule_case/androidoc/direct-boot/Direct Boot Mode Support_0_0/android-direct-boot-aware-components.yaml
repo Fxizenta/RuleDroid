@@ -1,0 +1,40 @@
+rules:
+  - id: android-direct-boot-aware-components
+    languages: [xml]
+    message: >-
+      This component handles LOCKED_BOOT_COMPLETED but is not marked
+      android:directBootAware="true", so it cannot run before the first unlock.
+    severity: WARNING
+    metadata:
+      category: correctness
+      references:
+        - https://developer.android.com/privacy-and-security/direct-boot
+    paths:
+      include: ["**/AndroidManifest.xml"]
+    pattern-either:
+      - patterns:
+          - pattern: |
+              <receiver ...>
+                ...
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" ... />
+                ...
+              </receiver>
+          - pattern-not: |
+              <receiver ... android:directBootAware="true" ...>
+                ...
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" ... />
+                ...
+              </receiver>
+      - patterns:
+          - pattern: |
+              <service ...>
+                ...
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" ... />
+                ...
+              </service>
+          - pattern-not: |
+              <service ... android:directBootAware="true" ...>
+                ...
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" ... />
+                ...
+              </service>

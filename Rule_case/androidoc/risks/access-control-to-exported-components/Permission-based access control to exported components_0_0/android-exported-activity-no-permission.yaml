@@ -1,0 +1,32 @@
+rules:
+  - id: android-exported-activity-no-permission
+    languages: [xml]
+    message: >-
+      An explicitly exported activity is not protected by a manifest permission.
+      This can be intentional for a public deep-link entry point, so verify that all
+      incoming actions, URIs, and extras are allowlisted before sensitive work.
+    metadata:
+      category: security
+      technology: android
+      cwe: CWE-926
+    paths:
+      include: ["**/AndroidManifest.xml"]
+    severity: WARNING
+    patterns:
+      - pattern-either:
+          - pattern: <activity ... android:exported="true" ... />
+          - pattern: <activity ... android:exported="true" ...> ... </activity>
+      - pattern-not: <activity ... android:exported="true" ... android:permission=$PERMISSION ... />
+      - pattern-not: <activity ... android:exported="true" ... android:permission=$PERMISSION ...> ... </activity>
+      - pattern-not: |
+          <activity ... android:exported="true" ...>
+            ...
+            <intent-filter ...>
+              ...
+              <action android:name="android.intent.action.MAIN" ... />
+              ...
+              <category android:name="android.intent.category.LAUNCHER" ... />
+              ...
+            </intent-filter>
+            ...
+          </activity>

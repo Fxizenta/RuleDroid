@@ -1,0 +1,20 @@
+rules:
+  - id: android-check-storage-encryption-status
+    languages:
+      - java
+    message: Ensure that the current encryption status of the device is checked using DevicePolicyManager.
+    metadata:
+      cwe: CWE-312
+      owasp: 'M5: Insufficient Cryptography'
+    severity: INFO
+    patterns:
+      - pattern: |
+          DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+          int encryptionStatus = dpm.getStorageEncryptionStatus();
+          if (encryptionStatus == DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE) {
+              ...
+          }
+      - pattern-not: |
+          DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+          int encryptionStatus = dpm.getStorageEncryptionStatus();
+          // Retrieved encryption status but did not check its value

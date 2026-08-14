@@ -1,0 +1,9 @@
+rules:
+  - id: insecure-set-hide-overlay-windows-parameter
+    languages:
+      - java
+    message: >
+      In Android 12 and higher, you should call setHideOverlayWindows(true)
+      to mitigate overlay attacks. Ensure that it is explicitly set to true.
+    pattern: $OBJ.setHideOverlayWindows(false)
+    severity: WARNING

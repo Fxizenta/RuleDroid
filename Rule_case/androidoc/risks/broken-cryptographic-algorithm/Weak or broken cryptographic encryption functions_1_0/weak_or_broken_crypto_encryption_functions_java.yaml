@@ -1,0 +1,53 @@
+rules:
+  - id: weak_or_broken_crypto_encryption_functions_java
+    languages: [java]
+    message: Weak or broken encryption is selected. Replace DES, 3DES, RC2, RC4, Blowfish, or NullCipher with a modern authenticated cipher such as AES-GCM.
+    severity: ERROR
+    metadata:
+      cwe: CWE-327
+    pattern-either:
+      - patterns:
+          - pattern-either:
+              - pattern: Cipher.getInstance($ALGORITHM)
+              - pattern: Cipher.getInstance($ALGORITHM, $PROVIDER)
+          - metavariable-regex:
+              metavariable: $ALGORITHM
+              regex: (?i)^"(?:DES|DESede|TripleDES|RC2|RC4|ARCFOUR|Blowfish)(?:/.*)?"$
+      - pattern: new NullCipher()
+      - pattern: new DESedeEngine(...)
+      - pattern: new RC4Engine(...)
+
+  - id: unauthenticated-or-ecb-cipher-mode
+    languages: [java]
+    message: >-
+      AES is configured with ECB/default mode or CBC without authentication. ECB
+      reveals repeated blocks; CBC is malleable unless paired with a correctly
+      ordered MAC. Prefer AES/GCM/NoPadding or ChaCha20-Poly1305.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-327
+    patterns:
+      - pattern-either:
+          - pattern: Cipher.getInstance($ALGORITHM)
+          - pattern: Cipher.getInstance($ALGORITHM, $PROVIDER)
+      - metavariable-regex:
+          metavariable: $ALGORITHM
+          regex: '(?i)^"(?:AES|AES/(?:ECB|CBC)/[^"/]+)"$'
+
+  - id: rsa-pkcs1-encryption-padding
+    languages: [java]
+    message: >-
+      RSA with PKCS#1 v1.5 encryption padding is selected. Prefer OAEP with SHA-256
+      and use RSA only to wrap randomly generated symmetric keys.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-780
+    patterns:
+      - pattern-either:
+          - pattern: Cipher.getInstance($ALGORITHM)
+          - pattern: Cipher.getInstance($ALGORITHM, $PROVIDER)
+      - metavariable-regex:
+          metavariable: $ALGORITHM
+          regex: '(?i)^"RSA/(?:ECB|NONE)/PKCS1Padding"$'

@@ -1,0 +1,16 @@
+rules:
+- id: xml_decoder_xxe
+  languages:
+  - java
+  message: 'XMLDecoder should not be used to parse untrusted data. Deserializing user
+    input with XMLDecoder can lead to arbitrary code execution. Consider using safer
+    alternatives and explicitly disabling external entities.
+
+    '
+  metadata:
+    cwe: CWE-611
+    masvs: platform-2
+    owasp-mobile: M8
+    reference: https://github.com/MobSF/owasp-mstg/blob/master/Document/0x04h-Testing-Code-Quality.md#injection-flaws-mstg-arch-2-and-mstg-platform-2
+  pattern: new XMLDecoder(...)
+  severity: WARNING

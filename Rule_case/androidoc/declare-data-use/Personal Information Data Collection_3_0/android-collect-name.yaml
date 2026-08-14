@@ -1,0 +1,13 @@
+rules:
+  - id: android-collect-name
+    languages: [java]
+    message: A Firebase user display name is read. Treat it as personal data and verify the declared collection and retention behavior.
+    metadata:
+      category: data_privacy
+      technology: android
+    patterns:
+      - pattern: $USER.getDisplayName()
+      - metavariable-type:
+          metavariable: $USER
+          type: com.google.firebase.auth.FirebaseUser
+    severity: INFO

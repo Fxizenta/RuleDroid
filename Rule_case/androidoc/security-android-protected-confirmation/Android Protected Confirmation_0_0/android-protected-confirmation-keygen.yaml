@@ -1,0 +1,19 @@
+rules:
+  - id: android-protected-confirmation-keygen
+    languages:
+      - java
+      - kotlin
+    message: >
+      This key explicitly disables protected user confirmation. Review whether
+      the key authorizes a high-value action that should require Android Protected
+      Confirmation on supported devices.
+    metadata:
+      cwe: 'CWE-320: Key Management Errors'
+      category: security
+      technology: android
+    severity: WARNING
+    pattern: $BUILDER.setUserConfirmationRequired(false)
+    paths:
+      include:
+        - '**/*.java'
+        - '**/*.kt'

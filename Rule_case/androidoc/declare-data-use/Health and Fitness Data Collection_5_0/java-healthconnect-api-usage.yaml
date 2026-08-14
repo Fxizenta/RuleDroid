@@ -1,0 +1,10 @@
+rules:
+- id: java-healthconnect-api-usage
+  languages:
+    - java
+  message: "The use of Health Connect API has been detected. Please check whether the processing of health data complies with privacy protection requirements."
+  metadata:
+    category: data_privacy
+    technology: android
+  pattern-regex: '(?m)^\s*import\s+(?:androidx|android)\.health\.connect(?:\.[A-Za-z_$][A-Za-z0-9_$]*|\.\*)?\s*;'
+  severity: INFO

@@ -1,0 +1,25 @@
+rules:
+  - id: detect-access-media-location
+    languages:
+      - java
+    message: >
+      Usage of ACCESS_MEDIA_LOCATION permission detected. Ensure that location data is handled securely, 
+      encrypted, and only accessed with user consent.
+    severity: INFO
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $X.requestPermissions(new String[] { ..., android.Manifest.permission.ACCESS_MEDIA_LOCATION, ... }, $REQUEST_CODE)
+          - pattern: |
+              $X.requestPermissions(new String[] { ..., Manifest.permission.ACCESS_MEDIA_LOCATION, ... }, $REQUEST_CODE)
+          - pattern: |
+              ActivityCompat.requestPermissions($ACTIVITY, new String[] { ..., Manifest.permission.ACCESS_MEDIA_LOCATION, ... }, $REQUEST_CODE)
+          - pattern: |
+              ContextCompat.checkSelfPermission($CONTEXT, Manifest.permission.ACCESS_MEDIA_LOCATION)
+    metadata:
+      references:
+        - "https://developer.android.com/reference/android/Manifest.permission#ACCESS_MEDIA_LOCATION"
+      remediation: >
+        Ensure that location data is handled securely by encrypting it, obtaining explicit user consent,
+        and preventing unauthorized access. If the data is sensitive, consider anonymization techniques.
+    min-version: 1.31.0

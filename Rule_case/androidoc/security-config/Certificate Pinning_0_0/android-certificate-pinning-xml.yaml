@@ -1,0 +1,28 @@
+rules:
+  - id: android-certificate-pinning-xml
+    languages:
+      - xml
+    message: "This pin-set has no visible backup pin. Add a separately managed SHA-256 backup pin so certificate rotation does not make the app unavailable, and review the expiration policy."
+    severity: WARNING
+    metadata:
+      cwe: CWE-295
+      masvs: network-4
+      owasp-mobile: M3
+      reference: https://developer.android.com/training/articles/security-config#CertificatePinning
+    patterns:
+      - pattern-inside: |
+          <network-security-config>
+            ...
+          </network-security-config>
+      - pattern: |
+          <pin-set ...>
+            ... <pin digest=$DIGEST>$PIN</pin> ...
+          </pin-set>
+      - pattern-not: |
+          <pin-set ...>
+            ...
+            <pin ...>...</pin>
+            ...
+            <pin ...>...</pin>
+            ...
+          </pin-set>

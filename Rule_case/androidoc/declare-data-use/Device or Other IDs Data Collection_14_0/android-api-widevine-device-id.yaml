@@ -1,0 +1,15 @@
+rules:
+  - id: android-api-widevine-device-id
+    languages:
+      - java
+    message: |
+      Usage of Widevine Device ID detected. Ensure this is necessary and complies
+      with privacy policies. Avoid using this ID to track or identify users without explicit consent.
+    severity: INFO
+    pattern: $MEDIA_DRM.getPropertyByteArray(MediaDrm.PROPERTY_DEVICE_UNIQUE_ID)
+    metadata:
+      category: Android Privacy
+      description: Detects the use of Widevine Device ID for potential privacy violations.
+      remediation: >
+        Ensure that the Widevine Device ID is not used to track users or identify devices without proper user consent. 
+        Avoid storing or transmitting this ID in a manner that violates privacy policies.

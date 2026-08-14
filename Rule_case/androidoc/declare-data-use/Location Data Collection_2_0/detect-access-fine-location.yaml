@@ -1,0 +1,12 @@
+rules:
+- id: detect-access-fine-location
+  languages:
+  - java
+  message: Usage of ACCESS_FINE_LOCATION detected. Ensure that location data is handled
+    securely.
+  pattern-either:
+  - pattern: $X.requestPermissions(new String[] { ..., Manifest.permission.ACCESS_FINE_LOCATION, ... }, $REQUEST_CODE)
+  - pattern: $X.requestPermissions(new String[] { ..., ACCESS_FINE_LOCATION, ... }, $REQUEST_CODE)
+  - pattern: ActivityCompat.requestPermissions($ACTIVITY, new String[] { ..., Manifest.permission.ACCESS_FINE_LOCATION, ... }, $REQUEST_CODE)
+  - pattern: ContextCompat.checkSelfPermission($CONTEXT, Manifest.permission.ACCESS_FINE_LOCATION)
+  severity: INFO

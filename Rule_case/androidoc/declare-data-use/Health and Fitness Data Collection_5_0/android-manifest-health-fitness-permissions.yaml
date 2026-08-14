@@ -1,0 +1,11 @@
+rules:
+  - id: android-manifest-health-fitness-permissions
+    languages:
+      - xml
+    message: "Sensitive permission declarations related to health and fitness have been detected. Please confirm whether they meet privacy and data security requirements."
+    metadata:
+      category: security
+      technology: android
+    patterns:
+      - pattern-regex: "<uses-permission\\s+[^>]*android:name\\s*=\\s*['\"]android\\.permission\\.(ACTIVITY_RECOGNITION|BODY_SENSORS|BODY_SENSORS_BACKGROUND)['\"]"
+    severity: INFO

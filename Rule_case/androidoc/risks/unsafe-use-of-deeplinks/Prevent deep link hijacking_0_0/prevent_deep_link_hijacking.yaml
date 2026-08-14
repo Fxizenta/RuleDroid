@@ -1,0 +1,40 @@
+rules:
+  - id: prevent_deep_link_hijacking
+    languages:
+      - xml
+    message: "Intent-filter for deep links should include android:autoVerify=\"true\" to prevent deep link hijacking."
+    severity: WARNING
+    metadata:
+      cwe: CWE-693
+      masvs: platform-app-link-verification
+      owasp-mobile: M10
+      reference: "https://developer.android.com/training/app-links/verify-android-applinks"
+    paths:
+      include:
+        - "**/AndroidManifest.xml"
+    patterns:
+      - pattern-either:
+          - pattern: |
+              <intent-filter ...>
+                ...
+                <action android:name="android.intent.action.VIEW" ... />
+                ...
+                <category android:name="android.intent.category.BROWSABLE" ... />
+                ...
+                <data ... android:scheme="http" ... />
+                ...
+              </intent-filter>
+          - pattern: |
+              <intent-filter ...>
+                ...
+                <action android:name="android.intent.action.VIEW" ... />
+                ...
+                <category android:name="android.intent.category.BROWSABLE" ... />
+                ...
+                <data ... android:scheme="https" ... />
+                ...
+              </intent-filter>
+      - pattern-not: |
+          <intent-filter ... android:autoVerify="true" ...>
+            ...
+          </intent-filter>

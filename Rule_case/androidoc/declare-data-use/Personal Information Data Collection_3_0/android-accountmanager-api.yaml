@@ -1,0 +1,31 @@
+rules:
+  - id: android-accountmanager-api
+    languages:
+      - java
+    message: >
+      The app uses the AccountManager API, which may access user data related to personal information.
+      Ensure that its usage complies with privacy regulations.
+    metadata:
+      category: Personal Information Data Collection
+      references:
+        - "https://developer.android.com/reference/android/accounts/AccountManager"
+        - "https://www.privacyinternational.org/learn/what-are-personal-data-and-sensitive-data"
+      cwe: "CWE-359" # Exposure of Private Information
+      remediation: >
+        Ensure that the AccountManager API is used appropriately and complies with privacy regulations. Avoid unauthorized access to user data. 
+        Use encrypted communication channels and avoid storing sensitive data in plain text.
+    severity: INFO
+    patterns:
+      - pattern-either:
+          - pattern: $MANAGER.getAccounts()
+          - pattern: $MANAGER.getAccountsByType(...)
+          - pattern: $MANAGER.getPassword(...)
+          - pattern: $MANAGER.getUserData(...)
+          - pattern: $MANAGER.peekAuthToken(...)
+      - metavariable-type:
+          metavariable: $MANAGER
+          type: android.accounts.AccountManager
+    fix: |
+      Ensure that the AccountManager API is used only for the retrieval of user data that is necessary for your app's functionality. 
+      Always encrypt sensitive data and ensure that it is only accessed by authorized components.
+    min-version: 1.31.0

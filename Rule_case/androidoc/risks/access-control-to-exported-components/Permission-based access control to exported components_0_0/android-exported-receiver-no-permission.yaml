@@ -1,0 +1,20 @@
+rules:
+  - id: android-exported-receiver-no-permission
+    languages: [xml]
+    message: >-
+      An explicitly exported receiver has no manifest permission. Verify that all
+      accepted actions and extras are safe for arbitrary apps to send, or protect
+      the receiver with a permission/set exported=false.
+    metadata:
+      category: security
+      technology: android
+      cwe: CWE-926
+    paths:
+      include: ["**/AndroidManifest.xml"]
+    severity: WARNING
+    patterns:
+      - pattern-either:
+          - pattern: <receiver ... android:exported="true" ... />
+          - pattern: <receiver ... android:exported="true" ...> ... </receiver>
+      - pattern-not: <receiver ... android:permission=$PERMISSION ... />
+      - pattern-not: <receiver ... android:permission=$PERMISSION ...> ... </receiver>

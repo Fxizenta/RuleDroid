@@ -1,0 +1,146 @@
+rules:
+  - id: log-info-disclosure-format-args
+    languages: [java]
+    mode: taint
+    message: Sensitive data is passed as a logging format argument. Remove or redact it before logging.
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: CWE-532
+      references:
+        - https://developer.android.com/privacy-and-security/risks/log-info-disclosure
+    pattern-sources:
+      - patterns:
+          - pattern: $SENSITIVE
+          - metavariable-regex:
+              metavariable: $SENSITIVE
+              regex: (?i)^[A-Za-z0-9_$]*(?:password(?:hash)?|passwd|passphrase|credential|secret|authorization|bearer|token|credit_?card|card(?:_?(?:number|no))?|cvv|ssn|date_?of_?birth|dob|email|phone|account_?id|session_?(?:id|token)|cookie|imei|imsi|device_?id|user_?id|username|address)$
+      - pattern-either:
+          - pattern: $TELEPHONY.getDeviceId(...)
+          - pattern: $TELEPHONY.getImei(...)
+          - pattern: $TELEPHONY.getSubscriberId(...)
+          - pattern: $ACCOUNT_MANAGER.getPassword(...)
+          - pattern: $ACCOUNT_MANAGER.peekAuthToken(...)
+      - patterns:
+          - pattern: $INTENT.getStringExtra($KEY)
+          - metavariable-regex:
+              metavariable: $KEY
+              regex: (?i).*?(?:password|passwd|credential|secret|token|auth|credit|card|cvv|pin|ssn|email|phone|account|session|cookie|imei|imsi|device.?id).*?
+    pattern-propagators:
+      - pattern: $BUILDER.append($VALUE)
+        from: $VALUE
+        to: $BUILDER
+    pattern-sinks:
+      - patterns:
+          - pattern: Timber.$LEVEL($FORMAT, $ARG, ...)
+          - metavariable-regex:
+              metavariable: $FORMAT
+              regex: .*?(?:\{\}|%[A-Za-z]).*?
+          - metavariable-regex:
+              metavariable: $LEVEL
+              regex: ^(?:v|d|i|w|e|wtf|log)$
+          - focus-metavariable: $ARG
+      - patterns:
+          - pattern: $LOGGER.$LEVEL($FORMAT, $ARG, ...)
+          - metavariable-regex:
+              metavariable: $FORMAT
+              regex: .*?(?:\{\}|%[A-Za-z]).*?
+          - metavariable-regex:
+              metavariable: $LEVEL
+              regex: ^(?:trace|debug|info|warn|error|fatal|log)$
+          - focus-metavariable: $ARG
+      - patterns:
+          - pattern: $LOG_METHOD($FORMAT, $ARG, ...)
+          - metavariable-regex:
+              metavariable: $FORMAT
+              regex: .*?(?:\{\}|%[A-Za-z]).*?
+          - metavariable-regex:
+              metavariable: $LOG_METHOD
+              regex: (?i)^(?:log|debug|trace|audit|record)(?:[A-Za-z0-9_$]*)$
+          - focus-metavariable: $ARG
+
+  - id: log-info-disclosure-format-args-kotlin
+    languages: [kotlin]
+    mode: taint
+    message: Sensitive data is passed as a Kotlin logging format argument. Remove or redact it before logging.
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: CWE-532
+      references:
+        - https://developer.android.com/privacy-and-security/risks/log-info-disclosure
+    pattern-sources:
+      - pattern-either:
+          - pattern: $TELEPHONY.getDeviceId(...)
+          - pattern: $TELEPHONY.getImei(...)
+          - pattern: $TELEPHONY.getSubscriberId(...)
+          - pattern: $ACCOUNT_MANAGER.getPassword(...)
+          - pattern: $ACCOUNT_MANAGER.peekAuthToken(...)
+      - patterns:
+          - pattern: $INTENT.getStringExtra($KEY)
+          - metavariable-regex:
+              metavariable: $KEY
+              regex: (?i).*?(?:password|passwd|credential|secret|token|auth|credit|card|cvv|pin|ssn|email|phone|account|session|cookie|imei|imsi|device.?id).*?
+    pattern-propagators:
+      - pattern: $BUILDER.append($VALUE)
+        from: $VALUE
+        to: $BUILDER
+    pattern-sinks:
+      - patterns:
+          - pattern: Timber.$LEVEL($FORMAT, $ARG, ...)
+          - metavariable-regex:
+              metavariable: $FORMAT
+              regex: .*?(?:\{\}|%[A-Za-z]).*?
+          - metavariable-regex:
+              metavariable: $LEVEL
+              regex: ^(?:v|d|i|w|e|wtf|log)$
+          - focus-metavariable: $ARG
+      - patterns:
+          - pattern: $LOGGER.$LEVEL($FORMAT, $ARG, ...)
+          - metavariable-regex:
+              metavariable: $FORMAT
+              regex: .*?(?:\{\}|%[A-Za-z]).*?
+          - metavariable-regex:
+              metavariable: $LEVEL
+              regex: ^(?:trace|debug|info|warn|error|fatal|log)$
+          - focus-metavariable: $ARG
+      - patterns:
+          - pattern: $LOG_METHOD($FORMAT, $ARG, ...)
+          - metavariable-regex:
+              metavariable: $FORMAT
+              regex: .*?(?:\{\}|%[A-Za-z]).*?
+          - metavariable-regex:
+              metavariable: $LOG_METHOD
+              regex: (?i)^(?:log|debug|trace|audit|record)(?:[A-Za-z0-9_$]*)$
+          - focus-metavariable: $ARG
+
+  - id: log-info-disclosure-sensitive-format-parameter-kotlin
+    languages: [kotlin]
+    message: >-
+      A Kotlin parameter whose name identifies sensitive data is passed as a
+      logging format argument. Remove or redact the value before logging.
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: CWE-532
+    patterns:
+      - pattern-either:
+          - pattern: $LOGGER.$LOG_METHOD($FORMAT, $SENSITIVE, ...)
+          - pattern: $LOG_METHOD($FORMAT, $SENSITIVE, ...)
+          - pattern: |
+              val $ALIAS = $SENSITIVE
+              ...
+              $LOGGER.$LOG_METHOD($FORMAT, $ALIAS, ...)
+          - pattern: |
+              val $ALIAS = $SENSITIVE
+              ...
+              $LOG_METHOD($FORMAT, $ALIAS, ...)
+      - metavariable-regex:
+          metavariable: $SENSITIVE
+          regex: (?i)^[A-Za-z0-9_$]*(?:password(?:hash)?|passwd|passphrase|credential|secret|authorization|bearer|token|credit_?card|card(?:_?(?:number|no))?|cvv|ssn|date_?of_?birth|dob|email|phone|account_?id|session_?(?:id|token)|cookie|imei|imsi|device_?id|user_?id|username|address)$
+      - metavariable-regex:
+          metavariable: $FORMAT
+          regex: .*?(?:\{\}|%[A-Za-z]).*?
+      - metavariable-regex:
+          metavariable: $LOG_METHOD
+          regex: (?i)^(?:v|d|i|w|e|wtf|log|debug|trace|info|warn|error|fatal|audit|record)(?:[A-Za-z0-9_$]*)$

@@ -1,0 +1,15 @@
+rules:
+  - id: webview_allow_file_access_enabled
+    languages:
+      - java
+      - kotlin
+    message: "A WebView has been detected with file access enabled. Please disable file access to prevent arbitrary access to local files."
+    metadata:
+      cwe: cwe-73
+      owasp-mobile: m7
+      reference: https://github.com/OWASP/owasp-mstg/blob/master/Document/0x05h-Testing-Platform-Interaction.md
+    pattern-either:
+      - pattern: $OBJ.getSettings().setAllowFileAccess(true)
+      - pattern: $OBJ.settings.setAllowFileAccess(true)
+      - pattern: $OBJ.settings.allowFileAccess = true
+    severity: WARNING

@@ -1,0 +1,21 @@
+rules:
+  - id: insecure-x509trustmanager
+    languages:
+      - java
+    message: >
+      X509TrustManager contains an empty certificate-validation method. Delegate to
+      a platform trust manager or perform complete chain and hostname validation.
+    metadata:
+      cwe: CWE-295:Improper Certificate Validation
+      masvs: NETWORK-3
+      owasp-mobile: M3
+      references:
+        - https://developer.android.com/training/articles/security-config
+    severity: ERROR
+    pattern-either:
+      - pattern: |
+          public void checkServerTrusted(X509Certificate[] $CERTS, String $AUTH_TYPE) {
+          }
+      - pattern: |
+          public void checkServerTrusted(java.security.cert.X509Certificate[] $CERTS, String $AUTH_TYPE) {
+          }

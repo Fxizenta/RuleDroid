@@ -1,0 +1,15 @@
+rules:
+  - id: safe-intent-sanitizer-usage
+    languages: [java, kotlin]
+    message: >-
+      IntentSanitizer is used to filter or reject an untrusted Intent. Confirm
+      that the builder allowlists only the required components, actions, data,
+      categories, extras, and URI-grant flags.
+    severity: INFO
+    metadata:
+      category: security
+      references:
+        - https://developer.android.com/reference/androidx/core/content/IntentSanitizer
+    pattern-either:
+      - pattern: $SANITIZER.sanitizeByThrowing(...)
+      - pattern: $SANITIZER.sanitizeByFiltering(...)

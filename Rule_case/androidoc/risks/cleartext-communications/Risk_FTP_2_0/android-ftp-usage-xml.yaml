@@ -1,0 +1,29 @@
+rules:
+  - id: android-ftp-usage-xml
+    languages: [xml]
+    message: A non-local FTP URL is embedded in Android XML. FTP does not protect confidentiality or integrity; use SFTP or HTTPS.
+    severity: ERROR
+    metadata:
+      cwe: CWE-319
+    paths:
+      include:
+        - "**/AndroidManifest.xml"
+        - "**/res/**/*.xml"
+    pattern-either:
+      - patterns:
+          - pattern: <$TAG ...>$URL</$TAG>
+          - metavariable-regex:
+              metavariable: $TAG
+              regex: (?i)^(?:server|endpoint|url|href|address|base|link|location|resource)$
+          - metavariable-regex:
+              metavariable: $URL
+              regex: (?i)^ftp://(?!(?:localhost|127\.|10\.|192\.168\.|172\.(?:1[6-9]|2[0-9]|3[0-1])\.)).+
+      - patterns:
+          - pattern: $ATTR=$VALUE
+          - metavariable-regex:
+              metavariable: $ATTR
+              regex: (?i)^(?:url|href|link|src|address|endpoint)$
+          - metavariable-regex:
+              metavariable: $VALUE
+              regex: (?i)^"ftp://(?!(?:localhost|127\.|10\.|192\.168\.|172\.(?:1[6-9]|2[0-9]|3[0-1])\.)).+"$
+      - pattern: <data ... android:scheme="ftp" ... />

@@ -1,0 +1,7 @@
+rules:
+  - id: detect-bouncy-castle-provider
+    languages:
+      - java
+    message: Detected usage of BouncyCastle for cryptographic operations. Ensure the provider is properly configured and secure.
+    severity: INFO
+    pattern: Mac.getInstance($ALGORITHM, "BC")

@@ -1,0 +1,17 @@
+rules:
+- id: insecure-opendatabase-mode
+  languages: [java]
+  message: "When creating a SQLite database, use Context.MODE_PRIVATE or its fully qualified form to ensure that the database is stored in the internal storage."
+  metadata:
+    cwe: CWE-200
+    owasp: Mobile Security Testing Guide
+    references:
+      - https://developer.android.com/training/data-storage#filesInternal
+  severity: WARNING
+  patterns:
+    - pattern-either:
+        - pattern: $CONTEXT.openOrCreateDatabase($NAME, $MODE, $FACTORY)
+        - pattern: $CONTEXT.openOrCreateDatabase($NAME, $MODE, $FACTORY, $ERROR_HANDLER)
+    - metavariable-regex:
+        metavariable: $MODE
+        regex: .*(?:MODE_WORLD_READABLE|MODE_WORLD_WRITEABLE).*

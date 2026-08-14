@@ -1,0 +1,37 @@
+rules:
+  - id: improper_hostname_verification_with_ssl_socket
+    languages:
+      - java
+    message: >
+      Improper Hostname Verification with SSLSocket detected. Ensure that you are 
+      using HttpsURLConnection.getDefaultHostnameVerifier() and explicitly checking 
+      the boolean result.
+    metadata:
+      cwe: 'CWE-295: Improper Certificate Validation'
+      masvs: 'NETWORK-3'
+      owasp-mobile: 'M3'
+      reference: https://developer.android.com/reference/javax/net/ssl/HttpsURLConnection#getDefaultHostnameVerifier()
+    severity: WARNING
+    patterns:
+      - pattern: $SOCKET.startHandshake()
+      - pattern-inside: |
+          $SOCKET = (SSLSocket) $FACTORY.createSocket(...);
+          ...
+      - pattern-not-inside: |
+          $RET $METHOD(...) {
+            ...
+            if (!HttpsURLConnection.getDefaultHostnameVerifier().verify($HOSTNAME, $SOCKET.getSession())) {
+              ...
+              throw ...;
+            }
+            ...
+          }
+      - pattern-not-inside: |
+          $RET $METHOD(...) {
+            ...
+            if (!$VERIFIER.verify($HOSTNAME, $SOCKET.getSession())) {
+              ...
+              throw ...;
+            }
+            ...
+          }

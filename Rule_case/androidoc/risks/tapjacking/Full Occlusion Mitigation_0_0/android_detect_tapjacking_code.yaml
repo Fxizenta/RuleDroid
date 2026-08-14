@@ -1,0 +1,13 @@
+rules:
+- id: android_detect_tapjacking_code
+  languages:
+  - java
+  message: This code sets `setFilterTouchesWhenObscured(true)` to prevent tapjacking
+    attacks by blocking touches passed by an overlay.
+  metadata:
+    cwe: cwe-200
+    masvs: platform-9
+    owasp-mobile: m1
+    reference: https://github.com/MobSF/owasp-mstg/blob/master/Document/0x05h-Testing-Platform-Interaction.md#testing-for-overlay-attacks-mstg-platform-9
+  pattern: $F.setFilterTouchesWhenObscured(true)
+  severity: INFO

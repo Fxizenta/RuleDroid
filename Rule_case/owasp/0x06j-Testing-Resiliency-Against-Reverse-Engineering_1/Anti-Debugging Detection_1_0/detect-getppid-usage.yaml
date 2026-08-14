@@ -1,0 +1,11 @@
+rules:
+- id: detect-getppid-usage
+  languages: [java]
+  message: "Usage of getppid detected. Review whether this is intentional anti-debugging logic; it is not a security boundary by itself."
+  severity: INFO
+  metadata:
+    cwe: cwe-532
+    owasp-mobile: m8
+  pattern-either:
+    - pattern: getppid()
+    - pattern: $OBJECT.getppid()

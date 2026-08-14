@@ -1,0 +1,475 @@
+rules:
+  - id: android-webview-untrusted-url
+    languages: [java]
+    mode: taint
+    message: >-
+      An Intent-, Bundle-, or URI-controlled value reaches WebView.loadUrl().
+      Parse the URI and enforce an HTTPS scheme plus an exact trusted-host allowlist
+      before loading it; a generic "valid URL" check is not sufficient.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-79
+      references:
+        - https://developer.android.com/privacy-and-security/security-tips#WebView
+    pattern-sources:
+      - pattern-either:
+          - pattern: $INTENT.getStringExtra(...)
+          - pattern: $INTENT.getDataString()
+          - pattern: $INTENT.getData().toString()
+          - pattern: $URI.getQueryParameter(...)
+          - pattern: $REQUEST.getUrl()
+          - pattern: $MESSAGE.getData()
+      - patterns:
+          - pattern: $INTENT.getData()
+          - metavariable-type:
+              metavariable: $INTENT
+              type: android.content.Intent
+      - patterns:
+          - pattern: $BUNDLE.getString(...)
+          - metavariable-type:
+              metavariable: $BUNDLE
+              type: android.os.Bundle
+      - patterns:
+          - pattern: $URL
+          - pattern-inside: |
+              $RET shouldOverrideUrlLoading($WEBVIEW_TYPE $WEBVIEW, String $URL) {
+                ...
+              }
+    pattern-propagators:
+      - pattern: $BUILDER.append($VALUE)
+        from: $VALUE
+        to: $BUILDER
+      - pattern: $URI_BUILDER.appendQueryParameter($KEY, $VALUE)
+        from: $VALUE
+        to: $URI_BUILDER
+      - pattern: $COLLECTION.add($VALUE)
+        from: $VALUE
+        to: $COLLECTION
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: $WEBVIEW.loadUrl($URL)
+              - pattern: $WEBVIEW.loadUrl($URL, ...)
+              - pattern: $WEBVIEW.postUrl($URL, ...)
+              - pattern: $WEBVIEW.loadDataWithBaseURL($URL, ...)
+          - focus-metavariable: $URL
+
+  - id: android-webview-untrusted-html
+    languages: [java]
+    mode: taint
+    message: >-
+      Untrusted Android input reaches a WebView HTML-data sink. Render trusted
+      templates and escape untrusted values for HTML context before insertion.
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: CWE-79
+    pattern-sources:
+      - pattern-either:
+          - pattern: $INTENT.getStringExtra(...)
+          - pattern: $INTENT.getDataString()
+          - pattern: $INTENT.getData().toString()
+          - pattern: $URI.getQueryParameter(...)
+          - pattern: $MESSAGE.getData()
+      - patterns:
+          - pattern: $BUNDLE.getString(...)
+          - metavariable-type:
+              metavariable: $BUNDLE
+              type: android.os.Bundle
+      - patterns:
+          - pattern: $INPUT
+          - pattern-inside: |
+              @JavascriptInterface
+              $RET $METHOD(..., String $INPUT, ...) {
+                ...
+              }
+    pattern-propagators:
+      - pattern: $BUILDER.append($VALUE)
+        from: $VALUE
+        to: $BUILDER
+      - pattern: $COLLECTION.add($VALUE)
+        from: $VALUE
+        to: $COLLECTION
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: $WEBVIEW.loadData($DATA, ...)
+              - pattern: $WEBVIEW.loadDataWithBaseURL($BASE, $DATA, ...)
+          - focus-metavariable: $DATA
+    pattern-sanitizers:
+      - pattern: Html.escapeHtml(...)
+
+  - id: android-webview-untrusted-javascript
+    languages: [java]
+    mode: taint
+    message: >-
+      Untrusted Android input reaches evaluateJavascript(). Avoid constructing
+      script source from input; expose a narrow message API or encode data with a
+      JSON serializer before it enters JavaScript source.
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: CWE-95
+    pattern-sources:
+      - pattern-either:
+          - pattern: $INTENT.getStringExtra(...)
+          - pattern: $INTENT.getDataString()
+          - pattern: $INTENT.getData().toString()
+          - pattern: $URI.getQueryParameter(...)
+          - pattern: $MESSAGE.getData()
+      - patterns:
+          - pattern: $BUNDLE.getString(...)
+          - metavariable-type:
+              metavariable: $BUNDLE
+              type: android.os.Bundle
+      - patterns:
+          - pattern: $INPUT
+          - pattern-inside: |
+              @JavascriptInterface
+              $RET $METHOD(..., String $INPUT, ...) {
+                ...
+              }
+    pattern-propagators:
+      - pattern: $BUILDER.append($VALUE)
+        from: $VALUE
+        to: $BUILDER
+      - pattern: $COLLECTION.add($VALUE)
+        from: $VALUE
+        to: $COLLECTION
+    pattern-sinks:
+      - patterns:
+          - pattern: $WEBVIEW.evaluateJavascript($SCRIPT, ...)
+          - focus-metavariable: $SCRIPT
+    pattern-sanitizers:
+      - pattern-either:
+          - pattern: JSONObject.quote(...)
+          - pattern: org.json.JSONObject.quote(...)
+
+  - id: android-webview-untrusted-url-through-field
+    languages: [java]
+    message: >-
+      An Intent-controlled URL is stored in a field and later loaded by a WebView.
+      Because Semgrep CE does not propagate taint between methods, review this
+      field flow explicitly and require an HTTPS scheme plus an exact trusted-host
+      allowlist before loadUrl().
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-939
+      references:
+        - https://developer.android.com/privacy-and-security/risks/unsafe-uri-loading
+    pattern-either:
+      - pattern: |
+          class $CLASS {
+            ...
+            $RET1 $SOURCE_METHOD(...) {
+              ...
+              this.$FIELD = $INTENT.getStringExtra(...);
+              ...
+            }
+            ...
+            $RET2 $SINK_METHOD(...) {
+              ...
+              $WEBVIEW.loadUrl(this.$FIELD);
+              ...
+            }
+            ...
+          }
+      - pattern: |
+          class $CLASS {
+            ...
+            $RET1 $SOURCE_METHOD(...) {
+              ...
+              this.$FIELD = $INTENT.getStringExtra(...);
+              ...
+            }
+            ...
+            $RET2 $SINK_METHOD(...) {
+              ...
+              String $ALIAS = this.$FIELD;
+              ...
+              $WEBVIEW.loadUrl($ALIAS);
+              ...
+            }
+            ...
+          }
+      - pattern: |
+          class $CLASS {
+            ...
+            $RET1 $SOURCE_METHOD(...) {
+              ...
+              this.$FIELD = $INTENT.getDataString();
+              ...
+            }
+            ...
+            $RET2 $SINK_METHOD(...) {
+              ...
+              String $ALIAS = this.$FIELD;
+              ...
+              $WEBVIEW.loadUrl($ALIAS);
+              ...
+            }
+            ...
+          }
+      - pattern: |
+          class $CLASS {
+            ...
+            $RET1 $SOURCE_METHOD(...) {
+              ...
+              this.$FIELD = $INTENT.getDataString();
+              ...
+            }
+            ...
+            $RET2 $SINK_METHOD(...) {
+              ...
+              $WEBVIEW.postUrl(this.$FIELD, ...);
+              ...
+            }
+            ...
+          }
+
+  - id: android-webview-untrusted-message-channel
+    languages: [java]
+    mode: taint
+    message: >-
+      Android-controlled data is sent into a WebView message channel. Treat the
+      receiving web origin as a separate trust boundary, use an exact HTTPS
+      origin allowlist, and exchange structured data rather than executable code.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-939
+      references:
+        - https://developer.android.com/privacy-and-security/risks/insecure-webview-native-bridges
+    pattern-sources:
+      - pattern-either:
+          - pattern: $INTENT.getStringExtra(...)
+          - pattern: $INTENT.getDataString()
+          - pattern: $URI.getQueryParameter(...)
+          - pattern: $MESSAGE.getData()
+      - patterns:
+          - pattern: $BUNDLE.getString(...)
+          - metavariable-type:
+              metavariable: $BUNDLE
+              type: android.os.Bundle
+    pattern-propagators:
+      - pattern: $MESSAGE = new WebMessage($DATA)
+        from: $DATA
+        to: $MESSAGE
+      - pattern: $MESSAGE = new WebMessageCompat($DATA)
+        from: $DATA
+        to: $MESSAGE
+      - pattern: $BUILDER.append($VALUE)
+        from: $VALUE
+        to: $BUILDER
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: $WEBVIEW.postWebMessage($MESSAGE, ...)
+              - pattern: WebViewCompat.postWebMessage($WEBVIEW, $MESSAGE, ...)
+              - pattern: androidx.webkit.WebViewCompat.postWebMessage($WEBVIEW, $MESSAGE, ...)
+              - pattern: $PORT.postMessage($MESSAGE)
+          - focus-metavariable: $MESSAGE
+
+  - id: android-webview-untrusted-url-kotlin
+    languages: [kotlin]
+    mode: taint
+    message: >-
+      Android- or web-controlled data reaches a WebView URL-loading API. Parse
+      the URI and require HTTPS plus an exact trusted-host allowlist.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-939
+      references:
+        - https://developer.android.com/privacy-and-security/risks/unsafe-uri-loading
+    pattern-sources:
+      - pattern-either:
+          - pattern: $INTENT.getStringExtra(...)
+          - pattern: $INTENT.getDataString()
+          - pattern: $INTENT.dataString
+          - pattern: $INTENT.data.toString()
+          - pattern: $URI.getQueryParameter(...)
+          - pattern: $REQUEST.getUrl()
+          - pattern: $REQUEST.url
+          - pattern: $MESSAGE.getData()
+          - pattern: $MESSAGE.data
+      - patterns:
+          - pattern: $BUNDLE.getString(...)
+          - metavariable-type:
+              metavariable: $BUNDLE
+              type: android.os.Bundle
+      - patterns:
+          - pattern: $URL
+          - pattern-inside: |
+              override fun shouldOverrideUrlLoading($WEBVIEW: $WEBVIEW_TYPE, $URL: String): Boolean {
+                ...
+              }
+    pattern-propagators:
+      - pattern: $BUILDER.append($VALUE)
+        from: $VALUE
+        to: $BUILDER
+      - pattern: $URI_BUILDER.appendQueryParameter($KEY, $VALUE)
+        from: $VALUE
+        to: $URI_BUILDER
+      - pattern: $COLLECTION.add($VALUE)
+        from: $VALUE
+        to: $COLLECTION
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: $WEBVIEW.loadUrl($URL)
+              - pattern: $WEBVIEW.loadUrl($URL, ...)
+              - pattern: $WEBVIEW.postUrl($URL, ...)
+              - pattern: $WEBVIEW.loadDataWithBaseURL($URL, ...)
+          - focus-metavariable: $URL
+
+  - id: android-webview-untrusted-html-kotlin
+    languages: [kotlin]
+    mode: taint
+    message: >-
+      Untrusted Android or web-message data reaches a WebView HTML-data sink.
+      Render trusted templates and apply context-appropriate HTML escaping.
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: CWE-79
+    pattern-sources:
+      - pattern-either:
+          - pattern: $INTENT.getStringExtra(...)
+          - pattern: $INTENT.getDataString()
+          - pattern: $INTENT.dataString
+          - pattern: $URI.getQueryParameter(...)
+          - pattern: $MESSAGE.getData()
+          - pattern: $MESSAGE.data
+      - patterns:
+          - pattern: $BUNDLE.getString(...)
+          - metavariable-type:
+              metavariable: $BUNDLE
+              type: android.os.Bundle
+    pattern-propagators:
+      - pattern: $BUILDER.append($VALUE)
+        from: $VALUE
+        to: $BUILDER
+      - pattern: $COLLECTION.add($VALUE)
+        from: $VALUE
+        to: $COLLECTION
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: $WEBVIEW.loadData($DATA, ...)
+              - pattern: $WEBVIEW.loadDataWithBaseURL($BASE, $DATA, ...)
+          - focus-metavariable: $DATA
+    pattern-sanitizers:
+      - pattern: Html.escapeHtml(...)
+
+  - id: android-webview-untrusted-javascript-kotlin
+    languages: [kotlin]
+    mode: taint
+    message: >-
+      Untrusted Android or web-message data reaches evaluateJavascript(). Avoid
+      constructing script source from input and use a structured message API.
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: CWE-95
+    pattern-sources:
+      - pattern-either:
+          - pattern: $INTENT.getStringExtra(...)
+          - pattern: $INTENT.getDataString()
+          - pattern: $INTENT.dataString
+          - pattern: $URI.getQueryParameter(...)
+          - pattern: $MESSAGE.getData()
+          - pattern: $MESSAGE.data
+      - patterns:
+          - pattern: $BUNDLE.getString(...)
+          - metavariable-type:
+              metavariable: $BUNDLE
+              type: android.os.Bundle
+    pattern-propagators:
+      - pattern: $BUILDER.append($VALUE)
+        from: $VALUE
+        to: $BUILDER
+      - pattern: $COLLECTION.add($VALUE)
+        from: $VALUE
+        to: $COLLECTION
+    pattern-sinks:
+      - patterns:
+          - pattern: $WEBVIEW.evaluateJavascript($SCRIPT, ...)
+          - focus-metavariable: $SCRIPT
+    pattern-sanitizers:
+      - pattern-either:
+          - pattern: JSONObject.quote(...)
+          - pattern: org.json.JSONObject.quote(...)
+
+  - id: android-webview-untrusted-message-channel-kotlin
+    languages: [kotlin]
+    mode: taint
+    message: >-
+      Android-controlled data is sent into a WebView message channel. Require an
+      exact HTTPS origin allowlist and exchange structured, non-executable data.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-939
+      references:
+        - https://developer.android.com/privacy-and-security/risks/insecure-webview-native-bridges
+    pattern-sources:
+      - pattern-either:
+          - pattern: $INTENT.getStringExtra(...)
+          - pattern: $INTENT.getDataString()
+          - pattern: $INTENT.dataString
+          - pattern: $URI.getQueryParameter(...)
+          - pattern: $MESSAGE.getData()
+          - pattern: $MESSAGE.data
+    pattern-propagators:
+      - pattern: $MESSAGE = WebMessage($DATA)
+        from: $DATA
+        to: $MESSAGE
+      - pattern: $MESSAGE = WebMessageCompat($DATA)
+        from: $DATA
+        to: $MESSAGE
+      - pattern: $BUILDER.append($VALUE)
+        from: $VALUE
+        to: $BUILDER
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: $WEBVIEW.postWebMessage($MESSAGE, ...)
+              - pattern: WebViewCompat.postWebMessage($WEBVIEW, $MESSAGE, ...)
+              - pattern: $PORT.postMessage($MESSAGE)
+          - focus-metavariable: $MESSAGE
+
+  - id: android-webview-untrusted-url-through-field-kotlin
+    languages: [kotlin]
+    message: >-
+      Android-controlled data is stored in a property and later loaded by a
+      WebView. Review the cross-method flow and enforce an exact HTTPS host
+      allowlist before using the value.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-939
+      references:
+        - https://developer.android.com/privacy-and-security/risks/unsafe-uri-loading
+    patterns:
+      - pattern: |
+          class $CLASS {
+            ...
+            fun $SOURCE_METHOD(...) {
+              ...
+              this.$FIELD = $INTENT.getStringExtra(...)
+              ...
+            }
+            ...
+            fun $SINK_METHOD(...) {
+              ...
+              $WEBVIEW.$LOAD(this.$FIELD, ...)
+              ...
+            }
+            ...
+          }
+      - metavariable-regex:
+          metavariable: $LOAD
+          regex: ^(?:loadUrl|postUrl|loadDataWithBaseURL)$

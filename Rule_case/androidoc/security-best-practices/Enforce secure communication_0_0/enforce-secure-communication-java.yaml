@@ -1,0 +1,16 @@
+rules:
+  - id: enforce-secure-communication-java
+    languages: [java, kotlin]
+    message: "Detected insecure cleartext HTTP URL construction; use HTTPS for secure communication."
+    severity: ERROR
+    patterns:
+      - pattern-either:
+          - pattern: new URL($URL)
+          - pattern: $BUILDER.url($URL)
+          - pattern: $BUILDER.baseUrl($URL)
+          - pattern: $WEBVIEW.loadUrl($URL)
+          - pattern: HttpUrl.get($URL)
+          - pattern: HttpUrl.parse($URL)
+      - metavariable-regex:
+          metavariable: $URL
+          regex: '(?i)^"http://(?!(?:localhost|127\.|10\.|192\.168\.|172\.(?:1[6-9]|2[0-9]|3[0-1])\.)).+"$'

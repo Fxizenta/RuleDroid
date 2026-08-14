@@ -1,0 +1,14 @@
+rules:
+  - id: android_root_detection_installed_packages
+    languages: [java]
+    message: A known root-management package name is checked. This is a root-detection signal, not proof that the device is compromised.
+    severity: INFO
+    metadata:
+      category: root-detection
+    pattern-either:
+      - pattern: $PACKAGE.equals("com.topjohnwu.magisk")
+      - pattern: '"com.topjohnwu.magisk".equals($PACKAGE)'
+      - pattern: $PACKAGE.equals("eu.chainfire.supersu")
+      - pattern: '"eu.chainfire.supersu".equals($PACKAGE)'
+      - pattern: $PACKAGE.equals("com.noshufou.android.su")
+      - pattern: '"com.noshufou.android.su".equals($PACKAGE)'

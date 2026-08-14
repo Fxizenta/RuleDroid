@@ -1,0 +1,14 @@
+rules:
+  - id: google_play_integrity_api_nonce_usage
+    languages:
+      - java
+    message: "The Play Integrity nonce is null or hard-coded. Generate a unique, unpredictable nonce on a trusted server and bind it to the request."
+    severity: WARNING
+    metadata:
+      cwe: cwe-353
+      masvs: resilience-1
+      owasp-mobile: m8
+      reference: https://developer.android.com/google/play/integrity
+    pattern-either:
+      - pattern: $BUILDER.setNonce(null)
+      - pattern: $BUILDER.setNonce("...")

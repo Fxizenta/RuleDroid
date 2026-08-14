@@ -1,0 +1,33 @@
+rules:
+  - id: android-cleartext-traffic-permitted-globally
+    languages: [xml]
+    severity: ERROR
+    message: >-
+      The base network policy permits cleartext traffic for all unmatched domains.
+      Disable it and add the narrowest possible domain exception only when legacy
+      interoperability is unavoidable.
+    metadata:
+      category: security
+      technology: android
+      cwe: CWE-319
+    paths:
+      include: ["**/*.xml"]
+    pattern-either:
+      - pattern: <base-config ... cleartextTrafficPermitted="true" ... />
+      - pattern: <base-config ... cleartextTrafficPermitted="true" ...> ... </base-config>
+
+  - id: android-cleartext-traffic-permitted-for-domain
+    languages: [xml]
+    severity: WARNING
+    message: >-
+      This domain policy permits cleartext traffic. Confirm that no credentials or
+      sensitive data use the domain and document why TLS cannot be used.
+    metadata:
+      category: security
+      technology: android
+      cwe: CWE-319
+    paths:
+      include: ["**/*.xml"]
+    pattern-either:
+      - pattern: <domain-config ... cleartextTrafficPermitted="true" ... />
+      - pattern: <domain-config ... cleartextTrafficPermitted="true" ...> ... </domain-config>

@@ -1,0 +1,19 @@
+rules:
+- id: use-flag-grant-uri-permission
+  languages:
+    - java
+  message: |
+    This Intent grants temporary URI access. Grant only the read or write capability
+    the recipient needs, and scope the URI to the smallest possible resource.
+  metadata:
+    cwe: CWE-276
+    references:
+      - https://developer.android.com/reference/android/content/Intent#FLAG_GRANT_READ_URI_PERMISSION
+      - https://developer.android.com/reference/android/content/Intent#FLAG_GRANT_WRITE_URI_PERMISSION
+    fix: Grant only the URI permission flags required by the receiving component.
+  severity: INFO
+  pattern-either:
+    - pattern: $INTENT.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    - pattern: $INTENT.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+    - pattern: $INTENT.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    - pattern: $INTENT.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)

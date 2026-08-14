@@ -1,0 +1,15 @@
+rules:
+- id: android-protected-confirmation-prompt
+  languages:
+  - java
+  - kotlin
+  message: Ensure that the ConfirmationPrompt is set up correctly with prompt text and extra data.
+  metadata:
+    cwe: 'CWE-306: Missing Authentication for Critical Function'
+  severity: INFO
+  pattern: |
+      ConfirmationPrompt dialog = (new ConfirmationPrompt.Builder($CONTEXT))
+          .setPromptText($PROMPT_TEXT)
+          .setExtraData($EXTRA_DATA)
+          .build();
+      dialog.presentPrompt($EXECUTOR, $CALLBACK);

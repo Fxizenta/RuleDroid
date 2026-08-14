@@ -1,0 +1,98 @@
+rules:
+  - id: binder-permission-check-missing
+    name: Binder Interfaces Security - Check Permission
+    languages:
+      - java
+    severity: WARNING
+    fix: "In the Binder interaction method (such as onTransact), add checkCallingPermission() to perform permission verification."
+    info: "When implementing the Binder interface, you should ensure that the caller's permissions are verified. If the Binder interface requires access control, you must use checkCallingPermission() to check it in the onTransact() method."
+    message: "Missing permission check in onTransact method of Binder implementation, verify using checkCallingPermission()."
+    metadata:
+      cwe: "CWE-285"
+      owasp: "A5"
+    patterns:
+      - pattern-inside: |
+          class $CLASS extends Binder {
+            ...
+          }
+      - pattern-either:
+          - pattern: |
+              public boolean onTransact(...) {
+                ...
+              }
+          - pattern: |
+              protected boolean onTransact(...) {
+                ...
+              }
+      - pattern-not: |
+          public boolean onTransact(...) {
+            ...
+            checkCallingPermission(...);
+            ...
+          }
+      - pattern-not: |
+          public boolean onTransact(...) {
+            ...
+            enforceCallingPermission(...);
+            ...
+          }
+      - pattern-not: |
+          protected boolean onTransact(...) {
+            ...
+            checkCallingPermission(...);
+            ...
+          }
+      - pattern-not: |
+          protected boolean onTransact(...) {
+            ...
+            enforceCallingPermission(...);
+            ...
+          }
+      - pattern-not: |
+          public boolean onTransact(...) {
+            ...
+            $CONTEXT.checkCallingPermission(...);
+            ...
+          }
+      - pattern-not: |
+          protected boolean onTransact(...) {
+            ...
+            $CONTEXT.checkCallingPermission(...);
+            ...
+          }
+      - pattern-not: |
+          public boolean onTransact(...) {
+            ...
+            $CONTEXT.enforceCallingPermission(...);
+            ...
+          }
+      - pattern-not: |
+          protected boolean onTransact(...) {
+            ...
+            $CONTEXT.enforceCallingPermission(...);
+            ...
+          }
+      - pattern-not: |
+          public boolean onTransact(...) {
+            ...
+            $CONTEXT.checkCallingOrSelfPermission(...);
+            ...
+          }
+      - pattern-not: |
+          protected boolean onTransact(...) {
+            ...
+            $CONTEXT.checkCallingOrSelfPermission(...);
+            ...
+          }
+      - pattern-not: |
+          public boolean onTransact(...) {
+            ...
+            $CONTEXT.enforceCallingOrSelfPermission(...);
+            ...
+          }
+      - pattern-not: |
+          protected boolean onTransact(...) {
+            ...
+            $CONTEXT.enforceCallingOrSelfPermission(...);
+            ...
+          }

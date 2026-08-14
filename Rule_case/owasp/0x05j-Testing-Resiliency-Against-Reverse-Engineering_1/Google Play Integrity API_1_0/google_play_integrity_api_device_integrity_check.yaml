@@ -1,0 +1,12 @@
+rules:
+  - id: google_play_integrity_api_device_integrity_check
+    languages:
+      - java
+    message: Do not compare a Play Integrity verdict string with ==. Validate the server-side verdict structure and compare strings with equals() or collection membership.
+    severity: WARNING
+    metadata:
+      cwe: cwe-693
+      masvs: resilience-1
+      owasp-mobile: m8
+      reference: https://developer.android.com/google/play/integrity
+    pattern: $RESPONSE.getDeviceIntegrity() == "MEETS_DEVICE_INTEGRITY"

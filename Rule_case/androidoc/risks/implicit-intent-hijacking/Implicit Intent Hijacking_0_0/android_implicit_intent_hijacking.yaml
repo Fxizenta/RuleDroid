@@ -1,0 +1,40 @@
+rules:
+- id: android_implicit_intent_hijacking
+  languages:
+    - java
+  message: |
+    A credential- or identity-like value is placed in an implicit Intent and sent
+    outside the app. Restrict the target with a package/component, or use a
+    signature permission when broadcasting within a trusted app family.
+  metadata:
+    cwe: CWE-927
+    masvs: MASVS-PLATFORM-9
+    owasp-mobile: M1
+    reference: 'https://developer.android.com/guide/components/intents-filters#Types'
+  patterns:
+    - pattern-either:
+        - pattern: |
+            Intent $INTENT = new Intent($ACTION);
+            ...
+            $INTENT.putExtra($KEY, $VALUE);
+            ...
+            $CONTEXT.sendBroadcast($INTENT);
+        - pattern: |
+            Intent $INTENT = new Intent($ACTION);
+            ...
+            $INTENT.putExtra($KEY, $VALUE);
+            ...
+            $CONTEXT.startActivity($INTENT);
+        - pattern: |
+            Intent $INTENT = new Intent($ACTION);
+            ...
+            $INTENT.putExtra($KEY, $VALUE);
+            ...
+            startActivity($INTENT);
+    - pattern-not: $INTENT.setPackage($PACKAGE);
+    - pattern-not: $INTENT.setComponent($COMPONENT);
+    - pattern-not: $INTENT.setClassName(...);
+    - metavariable-regex:
+        metavariable: $KEY
+        regex: (?i).*(?:password|passwd|credential|secret|token|auth|account|session|cookie|imei|imsi|device.?id).*
+  severity: WARNING

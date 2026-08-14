@@ -1,0 +1,10 @@
+rules:
+  - id: google-shortcuts-integration
+    languages:
+      - java
+      - kotlin
+    message: "The Google Shortcuts integration library is used in the code. Please confirm that data collection and processing comply with user privacy protection requirements."
+    metadata:
+      category: Android Security
+    severity: INFO
+    pattern-regex: '(?m)^\s*import\s+com\.google\.android\.(?:libraries|gms)\.shortcuts(?:\.[A-Za-z_$][A-Za-z0-9_$]*|\.\*)?\s*;'

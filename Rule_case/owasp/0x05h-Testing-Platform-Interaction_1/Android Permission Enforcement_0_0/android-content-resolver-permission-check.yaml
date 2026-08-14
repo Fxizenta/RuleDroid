@@ -1,0 +1,267 @@
+rules:
+  - id: android-untrusted-content-uri-sensitive-operation
+    languages: [java]
+    mode: taint
+    message: >-
+      A URI received through Android IPC reaches a ContentResolver operation.
+      Verify the exact authority and expected provider ownership before using the
+      app as a read, write, or delete proxy for the caller.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-939
+      references:
+        - https://developer.android.com/privacy-and-security/risks/content-resolver
+    pattern-sources:
+      - pattern: $INTENT.getData()
+      - pattern-either:
+          - pattern: (Uri) $INTENT.getParcelableExtra(...)
+          - pattern: (android.net.Uri) $INTENT.getParcelableExtra(...)
+          - pattern: $INTENT.getParcelableExtra($KEY, Uri.class)
+          - pattern: $INTENT.getParcelableExtra($KEY, android.net.Uri.class)
+          - pattern: IntentCompat.getParcelableExtra($INTENT, $KEY, Uri.class)
+          - pattern: androidx.core.content.IntentCompat.getParcelableExtra($INTENT, $KEY, Uri.class)
+          - pattern: $INTENT.getClipData().getItemAt(...).getUri()
+          - pattern: $CLIP_DATA.getItemAt(...).getUri()
+          - pattern: $REQUEST.getUrl()
+    pattern-propagators:
+      - pattern: $BUNDLE.putParcelable($KEY, $URI)
+        from: $URI
+        to: $BUNDLE
+      - pattern: $COLLECTION.add($URI)
+        from: $URI
+        to: $COLLECTION
+      - pattern: $URI_BUILDER.appendPath($VALUE)
+        from: $VALUE
+        to: $URI_BUILDER
+      - pattern: $URI_BUILDER.appendQueryParameter($KEY, $VALUE)
+        from: $VALUE
+        to: $URI_BUILDER
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: $RESOLVER.query($URI, ...)
+              - pattern: $RESOLVER.openInputStream($URI)
+              - pattern: $RESOLVER.openOutputStream($URI, ...)
+              - pattern: $RESOLVER.openFileDescriptor($URI, ...)
+              - pattern: $RESOLVER.openAssetFileDescriptor($URI, ...)
+              - pattern: $RESOLVER.delete($URI, ...)
+              - pattern: $RESOLVER.update($URI, ...)
+              - pattern: $RESOLVER.insert($URI, ...)
+              - pattern: $RESOLVER.bulkInsert($URI, ...)
+              - pattern: $RESOLVER.call($URI, ...)
+          - focus-metavariable: $URI
+
+  - id: android-untrusted-content-uri-sensitive-operation-kotlin
+    languages: [kotlin]
+    mode: taint
+    message: >-
+      A URI received through Android IPC reaches a ContentResolver operation.
+      Verify the exact authority and expected provider ownership first.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-939
+      references:
+        - https://developer.android.com/privacy-and-security/risks/content-resolver
+    pattern-sources:
+      - pattern-either:
+          - pattern: $INTENT.data
+          - pattern: $INTENT.getData()
+          - pattern: $INTENT.getParcelableExtra<Uri>(...)
+          - pattern: $INTENT.getParcelableExtra<android.net.Uri>(...)
+          - pattern: $INTENT.getParcelableExtra($KEY, Uri::class.java)
+          - pattern: IntentCompat.getParcelableExtra($INTENT, $KEY, Uri::class.java)
+          - pattern: androidx.core.content.IntentCompat.getParcelableExtra($INTENT, $KEY, Uri::class.java)
+          - pattern: $INTENT.clipData?.getItemAt(...)?.uri
+          - pattern: $CLIP_DATA.getItemAt(...).uri
+          - pattern: $REQUEST.url
+    pattern-propagators:
+      - pattern: $BUNDLE.putParcelable($KEY, $URI)
+        from: $URI
+        to: $BUNDLE
+      - pattern: $COLLECTION.add($URI)
+        from: $URI
+        to: $COLLECTION
+      - pattern: $URI_BUILDER.appendPath($VALUE)
+        from: $VALUE
+        to: $URI_BUILDER
+      - pattern: $URI_BUILDER.appendQueryParameter($KEY, $VALUE)
+        from: $VALUE
+        to: $URI_BUILDER
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: $RESOLVER.query($URI, ...)
+              - pattern: $RESOLVER.openInputStream($URI)
+              - pattern: $RESOLVER.openOutputStream($URI, ...)
+              - pattern: $RESOLVER.openFileDescriptor($URI, ...)
+              - pattern: $RESOLVER.openAssetFileDescriptor($URI, ...)
+              - pattern: $RESOLVER.delete($URI, ...)
+              - pattern: $RESOLVER.update($URI, ...)
+              - pattern: $RESOLVER.insert($URI, ...)
+              - pattern: $RESOLVER.bulkInsert($URI, ...)
+              - pattern: $RESOLVER.call($URI, ...)
+          - focus-metavariable: $URI
+
+  - id: android-activity-result-uri-destructive-operation
+    languages: [java]
+    message: >-
+      A URI returned by an external Activity Result contract reaches a mutating
+      ContentResolver operation. Treat the result provider as untrusted and
+      verify its authority before modifying or granting access to its content.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-939
+      references:
+        - https://developer.android.com/privacy-and-security/risks/content-resolver
+    pattern-either:
+      - patterns:
+          - pattern-inside: |
+              registerForActivityResult(new ActivityResultContracts.$CONTRACT(), $URI -> {
+                ...
+              })
+          - pattern: $RESOLVER.$OP($URI, ...)
+          - metavariable-regex:
+              metavariable: $CONTRACT
+              regex: ^(?:GetContent|GetMultipleContents|OpenDocument|OpenMultipleDocuments|OpenDocumentTree)$
+          - metavariable-regex:
+              metavariable: $OP
+              regex: ^(?:openOutputStream|delete|update|insert|bulkInsert)$
+      - patterns:
+          - pattern-inside: |
+              registerForActivityResult(new ActivityResultContracts.$CONTRACT(), $URI -> {
+                ...
+              })
+          - pattern: |
+              $ALIAS = $URI;
+              ...
+              $RESOLVER.$OP($ALIAS, ...);
+          - metavariable-regex:
+              metavariable: $CONTRACT
+              regex: ^(?:GetContent|GetMultipleContents|OpenDocument|OpenMultipleDocuments|OpenDocumentTree)$
+          - metavariable-regex:
+              metavariable: $OP
+              regex: ^(?:openOutputStream|delete|update|insert|bulkInsert)$
+      - patterns:
+          - pattern: |
+              $URI = $RESULT.getData().getData();
+              ...
+              $RESOLVER.$OP($URI, ...);
+          - metavariable-regex:
+              metavariable: $OP
+              regex: ^(?:openOutputStream|delete|update|insert|bulkInsert)$
+
+  - id: android-activity-result-uri-destructive-operation-kotlin
+    languages: [kotlin]
+    message: >-
+      A URI returned by an external Activity Result contract reaches a mutating
+      ContentResolver operation. Verify the provider authority before mutation.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-939
+      references:
+        - https://developer.android.com/privacy-and-security/risks/content-resolver
+    pattern-either:
+      - patterns:
+          - pattern-inside: |
+              registerForActivityResult(ActivityResultContracts.$CONTRACT()) { $URI ->
+                ...
+              }
+          - pattern: $RESOLVER.$OP($URI, ...)
+          - metavariable-regex:
+              metavariable: $CONTRACT
+              regex: ^(?:GetContent|GetMultipleContents|OpenDocument|OpenMultipleDocuments|OpenDocumentTree)$
+          - metavariable-regex:
+              metavariable: $OP
+              regex: ^(?:openOutputStream|delete|update|insert|bulkInsert)$
+      - patterns:
+          - pattern-inside: |
+              registerForActivityResult(ActivityResultContracts.$CONTRACT()) { $URI ->
+                ...
+              }
+          - pattern: |
+              val $ALIAS = $URI
+              ...
+              $RESOLVER.$OP($ALIAS, ...)
+          - metavariable-regex:
+              metavariable: $CONTRACT
+              regex: ^(?:GetContent|GetMultipleContents|OpenDocument|OpenMultipleDocuments|OpenDocumentTree)$
+          - metavariable-regex:
+              metavariable: $OP
+              regex: ^(?:openOutputStream|delete|update|insert|bulkInsert)$
+      - patterns:
+          - pattern: |
+              val $URI = $RESULT.data?.data
+              ...
+              $RESOLVER.$OP($URI, ...)
+          - metavariable-regex:
+              metavariable: $OP
+              regex: ^(?:openOutputStream|delete|update|insert|bulkInsert)$
+
+  - id: android-untrusted-content-uri-through-field
+    languages: [java]
+    message: >-
+      An IPC-controlled URI is stored in a field and later used by a
+      ContentResolver. Review this cross-method flow and validate the exact
+      provider authority immediately before the operation.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-939
+      references:
+        - https://developer.android.com/privacy-and-security/risks/content-resolver
+    patterns:
+      - pattern: |
+          class $CLASS {
+            ...
+            $RET1 $SOURCE_METHOD(...) {
+              ...
+              this.$FIELD = $INTENT.getData();
+              ...
+            }
+            ...
+            $RET2 $SINK_METHOD(...) {
+              ...
+              $RESOLVER.$OP(this.$FIELD, ...);
+              ...
+            }
+            ...
+          }
+      - metavariable-regex:
+          metavariable: $OP
+          regex: ^(?:query|openInputStream|openOutputStream|openFileDescriptor|openAssetFileDescriptor|delete|update|insert|bulkInsert|call)$
+
+  - id: android-untrusted-content-uri-through-field-kotlin
+    languages: [kotlin]
+    message: >-
+      An IPC-controlled URI is stored in a property and later used by a
+      ContentResolver. Validate the provider authority immediately before use.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-939
+      references:
+        - https://developer.android.com/privacy-and-security/risks/content-resolver
+    patterns:
+      - pattern: |
+          class $CLASS {
+            ...
+            fun $SOURCE_METHOD(...) {
+              ...
+              this.$FIELD = $INTENT.data
+              ...
+            }
+            ...
+            fun $SINK_METHOD(...) {
+              ...
+              $RESOLVER.$OP(this.$FIELD, ...)
+              ...
+            }
+            ...
+          }
+      - metavariable-regex:
+          metavariable: $OP
+          regex: ^(?:query|openInputStream|openOutputStream|openFileDescriptor|openAssetFileDescriptor|delete|update|insert|bulkInsert|call)$

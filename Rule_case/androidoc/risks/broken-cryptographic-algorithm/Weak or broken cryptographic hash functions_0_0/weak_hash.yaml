@@ -1,0 +1,32 @@
+rules:
+  - id: weak-hash-function
+    patterns:
+      - pattern-either:
+          - patterns:
+              - pattern-either:
+                  - pattern: MessageDigest.getInstance($ALGORITHM)
+                  - pattern: MessageDigest.getInstance($ALGORITHM, $PROVIDER)
+              - metavariable-regex:
+                  metavariable: $ALGORITHM
+                  regex: (?i)^"(?:MD2|MD4|MD5|SHA-?1)"$
+          - pattern: Files.hash(..., Hashing.md5())
+          - pattern: DigestUtils.md5Hex(...)
+          - pattern: DigestUtils.md5(...)
+          - pattern: DigestUtils.sha1Hex(...)
+          - pattern: DigestUtils.sha1(...)
+          - pattern: DigestUtils.sha(...)
+          - pattern: new MD5Digest(...)
+          - pattern: new SHA1Digest(...)
+    message: >-
+      MD2, MD4, MD5, or SHA-1 is used. These hashes are unsuitable where collision
+      resistance, signatures, password storage, or adversarial integrity matters;
+      use a purpose-appropriate modern primitive. A non-security checksum may be
+      acceptable only when explicitly documented.
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      cwe: CWE-327
+      masvs: CRYPTO-4
+      owasp-mobile: M5
+      reference: https://developer.android.com/privacy-and-security/cryptography

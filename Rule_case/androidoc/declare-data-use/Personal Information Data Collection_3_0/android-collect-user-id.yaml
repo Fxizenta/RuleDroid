@@ -1,0 +1,14 @@
+rules:
+  - id: android-collect-user-id
+    languages: [java]
+    message: The app reads an authenticated user identifier. Treat it as personal data and verify that collection and retention are necessary and disclosed.
+    severity: INFO
+    metadata:
+      category: Personal Information Data Collection
+    pattern-either:
+      - pattern: FirebaseAuth.getInstance().getCurrentUser().getUid()
+      - patterns:
+          - pattern: $USER.getUid()
+          - metavariable-type:
+              metavariable: $USER
+              type: com.google.firebase.auth.FirebaseUser

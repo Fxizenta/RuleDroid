@@ -1,0 +1,19 @@
+rules:
+- id: android.bindservice.implicit-intent
+  languages:
+  - java
+  message: 'Using an implicit Intent in bindService is insecure. Always use an explicit
+    Intent by specifying the target component, for example: new Intent(context, MyService.class).
+
+    '
+  metadata:
+    category: security
+    technology: Android
+  name: Bind Service with Implicit Intent
+  patterns:
+    - pattern-either:
+        - pattern: $CONTEXT.bindService(new Intent(), $CONNECTION, $FLAGS)
+        - pattern: $CONTEXT.bindService(new Intent($ACTION), $CONNECTION, $FLAGS)
+        - pattern: bindService(new Intent(), $CONNECTION, $FLAGS)
+        - pattern: bindService(new Intent($ACTION), $CONNECTION, $FLAGS)
+  severity: ERROR

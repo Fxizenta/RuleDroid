@@ -1,0 +1,143 @@
+rules:
+  - id: intent-redirection-without-validation
+    languages: [java]
+    mode: taint
+    message: >-
+      A nested Intent obtained from another Intent or Bundle reaches a component
+      launch or forwarding API without an IntentSanitizer boundary. Allowlist the
+      target component, action, data, categories, extras, and URI-grant flags, then
+      use sanitizeByThrowing() or sanitizeByFiltering() before forwarding it.
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: CWE-927
+      references:
+        - https://developer.android.com/privacy-and-security/risks/intent-redirection
+        - https://developer.android.com/reference/androidx/core/content/IntentSanitizer
+    pattern-sources:
+      - pattern-either:
+          - pattern: (Intent) $OBJECT.getParcelableExtra(...)
+          - pattern: (android.content.Intent) $OBJECT.getParcelableExtra(...)
+          - pattern: $OBJECT.getParcelableExtra($KEY, Intent.class)
+          - pattern: $OBJECT.getParcelableExtra($KEY, android.content.Intent.class)
+          - pattern: IntentCompat.getParcelableExtra($OBJECT, $KEY, Intent.class)
+          - pattern: IntentCompat.getParcelableExtra($OBJECT, $KEY, android.content.Intent.class)
+          - pattern: androidx.core.content.IntentCompat.getParcelableExtra($OBJECT, $KEY, Intent.class)
+          - pattern: androidx.core.content.IntentCompat.getParcelableExtra($OBJECT, $KEY, android.content.Intent.class)
+          - pattern: BundleCompat.getParcelable($OBJECT, $KEY, Intent.class)
+          - pattern: androidx.core.os.BundleCompat.getParcelable($OBJECT, $KEY, Intent.class)
+    pattern-propagators:
+      - pattern: $BUNDLE.putParcelable($KEY, $FORWARD)
+        from: $FORWARD
+        to: $BUNDLE
+      - pattern: $ARRAY[$INDEX] = $FORWARD
+        from: $FORWARD
+        to: $ARRAY
+      - pattern: $COLLECTION.add($FORWARD)
+        from: $FORWARD
+        to: $COLLECTION
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: startActivity($FORWARD)
+              - pattern: startActivity($FORWARD, ...)
+              - pattern: $CONTEXT.startActivity($FORWARD)
+              - pattern: $CONTEXT.startActivity($FORWARD, ...)
+              - pattern: startActivityForResult($FORWARD, ...)
+              - pattern: $ACTIVITY.startActivityForResult($FORWARD, ...)
+              - pattern: startService($FORWARD)
+              - pattern: $CONTEXT.startService($FORWARD)
+              - pattern: startForegroundService($FORWARD)
+              - pattern: $CONTEXT.startForegroundService($FORWARD)
+              - pattern: bindService($FORWARD, ...)
+              - pattern: $CONTEXT.bindService($FORWARD, ...)
+              - pattern: sendBroadcast($FORWARD)
+              - pattern: sendBroadcast($FORWARD, ...)
+              - pattern: $CONTEXT.sendBroadcast($FORWARD)
+              - pattern: $CONTEXT.sendBroadcast($FORWARD, ...)
+              - pattern: sendOrderedBroadcast($FORWARD, ...)
+              - pattern: $CONTEXT.sendOrderedBroadcast($FORWARD, ...)
+              - pattern: ContextCompat.startActivity($CONTEXT, $FORWARD, ...)
+              - pattern: androidx.core.content.ContextCompat.startActivity($CONTEXT, $FORWARD, ...)
+              - pattern: ActivityCompat.startActivityForResult($ACTIVITY, $FORWARD, ...)
+              - pattern: androidx.core.app.ActivityCompat.startActivityForResult($ACTIVITY, $FORWARD, ...)
+              - pattern: $LAUNCHER.launch($FORWARD)
+          - focus-metavariable: $FORWARD
+    pattern-sanitizers:
+      - pattern-either:
+          - pattern: $SANITIZER.sanitizeByThrowing(...)
+          - pattern: $SANITIZER.sanitizeByFiltering(...)
+      - pattern-either:
+          - pattern: new IntentSanitizer.Builder(). ... .build().sanitizeByThrowing(...)
+          - pattern: new IntentSanitizer.Builder(). ... .build().sanitizeByFiltering(...)
+          - pattern: new androidx.core.content.IntentSanitizer.Builder(). ... .build().sanitizeByThrowing(...)
+          - pattern: new androidx.core.content.IntentSanitizer.Builder(). ... .build().sanitizeByFiltering(...)
+
+  - id: intent-redirection-without-validation-kotlin
+    languages: [kotlin]
+    mode: taint
+    message: >-
+      A nested Intent obtained from another Intent or Bundle reaches a component
+      launch or forwarding API without an IntentSanitizer boundary. Allowlist the
+      complete destination and sanitize the Intent before forwarding it.
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: CWE-927
+      references:
+        - https://developer.android.com/privacy-and-security/risks/intent-redirection
+        - https://developer.android.com/reference/kotlin/androidx/core/content/IntentSanitizer
+    pattern-sources:
+      - pattern-either:
+          - pattern: $OBJECT.getParcelableExtra<Intent>(...)
+          - pattern: $OBJECT.getParcelableExtra<android.content.Intent>(...)
+          - pattern: $OBJECT.getParcelableExtra($KEY, Intent::class.java)
+          - pattern: $OBJECT.getParcelableExtra($KEY, android.content.Intent::class.java)
+          - pattern: IntentCompat.getParcelableExtra($OBJECT, $KEY, Intent::class.java)
+          - pattern: IntentCompat.getParcelableExtra($OBJECT, $KEY, android.content.Intent::class.java)
+          - pattern: androidx.core.content.IntentCompat.getParcelableExtra($OBJECT, $KEY, Intent::class.java)
+          - pattern: BundleCompat.getParcelable($OBJECT, $KEY, Intent::class.java)
+          - pattern: androidx.core.os.BundleCompat.getParcelable($OBJECT, $KEY, Intent::class.java)
+          - pattern: $OBJECT.getParcelable<Intent>(...)
+          - pattern: $OBJECT.getParcelable<android.content.Intent>(...)
+    pattern-propagators:
+      - pattern: $BUNDLE.putParcelable($KEY, $FORWARD)
+        from: $FORWARD
+        to: $BUNDLE
+      - pattern: $COLLECTION.add($FORWARD)
+        from: $FORWARD
+        to: $COLLECTION
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: startActivity($FORWARD)
+              - pattern: startActivity($FORWARD, ...)
+              - pattern: $CONTEXT.startActivity($FORWARD)
+              - pattern: $CONTEXT.startActivity($FORWARD, ...)
+              - pattern: startActivityForResult($FORWARD, ...)
+              - pattern: $ACTIVITY.startActivityForResult($FORWARD, ...)
+              - pattern: startService($FORWARD)
+              - pattern: $CONTEXT.startService($FORWARD)
+              - pattern: startForegroundService($FORWARD)
+              - pattern: $CONTEXT.startForegroundService($FORWARD)
+              - pattern: bindService($FORWARD, ...)
+              - pattern: $CONTEXT.bindService($FORWARD, ...)
+              - pattern: sendBroadcast($FORWARD)
+              - pattern: sendBroadcast($FORWARD, ...)
+              - pattern: $CONTEXT.sendBroadcast($FORWARD)
+              - pattern: $CONTEXT.sendBroadcast($FORWARD, ...)
+              - pattern: sendOrderedBroadcast($FORWARD, ...)
+              - pattern: $CONTEXT.sendOrderedBroadcast($FORWARD, ...)
+              - pattern: ContextCompat.startActivity($CONTEXT, $FORWARD, ...)
+              - pattern: ActivityCompat.startActivityForResult($ACTIVITY, $FORWARD, ...)
+              - pattern: $LAUNCHER.launch($FORWARD)
+          - focus-metavariable: $FORWARD
+    pattern-sanitizers:
+      - pattern-either:
+          - pattern: $SANITIZER.sanitizeByThrowing(...)
+          - pattern: $SANITIZER.sanitizeByFiltering(...)
+      - pattern-either:
+          - pattern: IntentSanitizer.Builder(). ... .build().sanitizeByThrowing(...)
+          - pattern: IntentSanitizer.Builder(). ... .build().sanitizeByFiltering(...)
+          - pattern: androidx.core.content.IntentSanitizer.Builder(). ... .build().sanitizeByThrowing(...)
+          - pattern: androidx.core.content.IntentSanitizer.Builder(). ... .build().sanitizeByFiltering(...)

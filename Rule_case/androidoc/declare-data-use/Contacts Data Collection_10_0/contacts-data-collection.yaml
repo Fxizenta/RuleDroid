@@ -1,0 +1,12 @@
+rules:
+- id: contacts-data-collection
+  languages:
+  - xml
+  message: The application declares permissions related to accessing user contacts data.
+  metadata:
+    area: privacy
+    category: security
+  severity: INFO
+  pattern-either:
+  - pattern: <uses-permission android:name="android.permission.READ_CONTACTS"/>
+  - pattern: <uses-permission android:name="android.permission.WRITE_CONTACTS"/>

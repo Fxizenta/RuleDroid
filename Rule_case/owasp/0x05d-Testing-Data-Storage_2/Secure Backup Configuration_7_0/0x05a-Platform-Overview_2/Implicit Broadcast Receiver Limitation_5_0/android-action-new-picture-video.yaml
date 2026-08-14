@@ -1,0 +1,13 @@
+rules:
+- id: android-action-new-picture-video
+  languages:
+  - java
+  message: 'Apps targeting Android 7.0 (API level 24) or higher no longer receive
+    ACTION_NEW_PICTURE or ACTION_NEW_VIDEO broadcasts unless registered dynamically
+    with Context.registerReceiver().
+
+    '
+  pattern-either:
+  - pattern: $CONTEXT.registerReceiver($RECEIVER, new IntentFilter("android.hardware.action.NEW_PICTURE"))
+  - pattern: $CONTEXT.registerReceiver($RECEIVER, new IntentFilter("android.hardware.action.NEW_VIDEO"))
+  severity: INFO

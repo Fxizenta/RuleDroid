@@ -1,0 +1,19 @@
+rules:
+  - id: android-debug-api
+    languages:
+      - java
+    message: |
+      The app uses the android.os.Debug API, which may access user data related to app info and performance.
+      Ensure that sensitive data is not exposed and that the Debug API is not used in production builds.
+    metadata:
+      category: Android Security
+      technology: Android
+    severity: INFO
+    pattern-either:
+      - pattern: android.os.Debug.dumpHprofData(...)
+      - pattern: android.os.Debug.startMethodTracing(...)
+      - pattern: android.os.Debug.stopMethodTracing()
+      - pattern: android.os.Debug.isDebuggerConnected()
+    fix: |
+      Ensure that the android.os.Debug API is used only in development or testing environments, and never in production. 
+      Consider removing or disabling this API in the production release to avoid exposing sensitive user data.

@@ -1,0 +1,20 @@
+rules:
+- id: android-sms-sensitive-operations
+  languages:
+  - java
+  message: >-
+    The app sends an SMS directly. Verify a user-visible action authorizes the
+    destination and content, and request SEND_SMS only when this is core behavior.
+  metadata:
+    cwe: 'CWE-319: Cleartext Transmission of Sensitive Information'
+    owasp: 'M3: Insecure Communication'
+  patterns:
+  - pattern: 'SmsManager smsManager = SmsManager.getDefault();
+
+      smsManager.sendTextMessage($PHONE_NUMBER, null, $MESSAGE, null, null);
+
+      '
+  - pattern-not: '
+      secureSmsManager.sendTextMessage($PHONE_NUMBER, null, $MESSAGE, null, null);
+      '
+  severity: INFO

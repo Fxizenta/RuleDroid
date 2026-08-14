@@ -1,0 +1,14 @@
+rules:
+- id: webview-set-webcontents-debugging-enabled
+  languages:
+  - java
+  message: Disable WebView debugging in production builds.
+  patterns:
+    - pattern: WebView.setWebContentsDebuggingEnabled(true)
+    - pattern-not-inside: |
+        if (BuildConfig.DEBUG) {
+          ...
+          WebView.setWebContentsDebuggingEnabled(true);
+          ...
+        }
+  severity: WARNING

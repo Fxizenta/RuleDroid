@@ -1,0 +1,33 @@
+rules:
+- id: android-uri-permissions-unsupported-symbolic-flag
+  languages: [java]
+  message: "grantUriPermission uses a symbolic flag that is unsupported by this API. Use only FLAG_GRANT_READ_URI_PERMISSION, FLAG_GRANT_WRITE_URI_PERMISSION, or their combination."
+  metadata:
+    category: Security
+    references:
+      - https://developer.android.com/reference/android/content/Context.html#grantUriPermission(java.lang.String,android.net.Uri,int)
+    technology: Android
+  patterns:
+    - pattern: $CTX.grantUriPermission($PACKAGE, $URI, $FLAGS)
+    - metavariable-regex:
+        metavariable: $FLAGS
+        regex: .*(?:FLAG_GRANT_PERSISTABLE_URI_PERMISSION|FLAG_GRANT_PREFIX_URI_PERMISSION).*
+  severity: WARNING
+
+- id: android-uri-permissions-unsupported-numeric-flag
+  languages: [java]
+  message: "grantUriPermission uses numeric mode bits other than read (1) and write (2). Use only the minimum read/write grant required."
+  metadata:
+    category: Security
+    references:
+      - https://developer.android.com/reference/android/content/Context.html#grantUriPermission(java.lang.String,android.net.Uri,int)
+    technology: Android
+  patterns:
+    - pattern: $CTX.grantUriPermission($PACKAGE, $URI, $FLAGS)
+    - metavariable-regex:
+        metavariable: $FLAGS
+        regex: '^[0-9]+$'
+    - metavariable-comparison:
+        metavariable: $FLAGS
+        comparison: (int($FLAGS) & ~3) != 0
+  severity: WARNING

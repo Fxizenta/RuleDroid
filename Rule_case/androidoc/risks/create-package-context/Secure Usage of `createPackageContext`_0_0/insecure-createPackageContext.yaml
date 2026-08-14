@@ -1,0 +1,30 @@
+rules:
+  - id: insecure-createPackageContext
+    languages:
+      - java
+    severity: ERROR
+    message: >
+      The method `createPackageContext` is used with `CONTEXT_IGNORE_SECURITY`
+      and `CONTEXT_INCLUDE_CODE`, which can lead to arbitrary code execution by a malicious
+      application.
+    metadata:
+      cwe: CWE-927
+      owasp-mobile: M7
+      references:
+        - https://developer.android.com/reference/android/content/Context#createPackageContext(java.lang.String,%20int)
+        - https://blog.oversecured.com/Interception-of-Android-implicit-intents/
+    pattern-either:
+      - pattern: $CTX.createPackageContext($PKG, CONTEXT_IGNORE_SECURITY | CONTEXT_INCLUDE_CODE)
+      - pattern: $CTX.createPackageContext($PKG, CONTEXT_INCLUDE_CODE | CONTEXT_IGNORE_SECURITY)
+      - pattern: $CTX.createPackageContext($PKG, Context.CONTEXT_IGNORE_SECURITY | Context.CONTEXT_INCLUDE_CODE)
+      - pattern: $CTX.createPackageContext($PKG, Context.CONTEXT_INCLUDE_CODE | Context.CONTEXT_IGNORE_SECURITY)
+      
+    description: |
+      This rule detects the usage of `createPackageContext` with the dangerous flag combination `CONTEXT_IGNORE_SECURITY` and `CONTEXT_INCLUDE_CODE`.
+      Such usage can lead to arbitrary code execution vulnerabilities, allowing malicious applications to gain elevated privileges.
+    fix: |
+      Avoid using `CONTEXT_IGNORE_SECURITY` and `CONTEXT_INCLUDE_CODE` flags together. Consider replacing the method with a safer alternative, such as:
+      
+      ```java
+      $CTX.createPackageContext($PKG, 0);  // Avoid insecure flags
+      ```

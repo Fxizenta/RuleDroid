@@ -1,0 +1,25 @@
+rules:
+  - id: android-read-privileged-phone-state-api-usage
+    languages:
+      - java
+      - kotlin
+    message: >
+      Usage of the API associated with READ_PRIVILEGED_PHONE_STATE detected.
+      Ensure this complies with privacy guidelines and is necessary for the app's functionality.
+    severity: INFO
+    patterns:
+      - pattern-either:
+          - pattern: $MANAGER.getDeviceId()
+          - pattern: $MANAGER.getImei(...)
+          - pattern: $MANAGER.getMeid(...)
+          - pattern: $MANAGER.getSubscriberId()
+          - pattern: $MANAGER.getSimSerialNumber()
+      - metavariable-type:
+          metavariable: $MANAGER
+          type: android.telephony.TelephonyManager
+    metadata:
+      category: Android API Usage
+      remediation: >
+        Ensure that usage of the TelephonyManager and other APIs related to privileged phone state is compliant
+        with privacy policies. Consider using alternative methods where possible, and ensure that any usage of
+        these APIs is explicitly justified and logged as part of the app's privacy and security audit.

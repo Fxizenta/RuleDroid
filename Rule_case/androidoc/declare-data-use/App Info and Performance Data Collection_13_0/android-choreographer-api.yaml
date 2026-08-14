@@ -1,0 +1,14 @@
+rules:
+- id: android-choreographer-api
+  languages:
+  - java
+  message: The app uses the Choreographer API, which may access user data related
+    to app info and performance.
+  metadata:
+    category: Android Security
+    technology: Android
+  pattern-either:
+    - pattern: Choreographer.getInstance()
+    - pattern: $CHOREOGRAPHER.postFrameCallback(...)
+    - pattern: $CHOREOGRAPHER.postFrameCallbackDelayed(...)
+  severity: INFO

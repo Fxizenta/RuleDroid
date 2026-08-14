@@ -1,8 +1,0 @@
-rules:
-- id: webview-clear-cache
-  languages:
-  - java
-  message: Ensure WebView cache is cleared if sensitive data is accessed.
-  patterns:
-  - pattern: $W.clearCache(true)
-  severity: INFO

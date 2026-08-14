@@ -1,0 +1,24 @@
+rules:
+  - id: android-fragment-injection-basic
+    languages: [java]
+    mode: taint
+    message: >-
+      An Intent-controlled class name reaches reflective Fragment creation.
+      Replace arbitrary class loading with an allowlist that maps stable IDs to
+      known Fragment classes.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-470
+      confidence: medium
+    pattern-sources:
+      - pattern: $INTENT.getStringExtra(...)
+      - patterns:
+          - pattern: $BUNDLE.getString(...)
+          - metavariable-type:
+              metavariable: $BUNDLE
+              type: android.os.Bundle
+    pattern-sinks:
+      - pattern-either:
+          - pattern: Fragment.instantiate($CONTEXT, ...)
+          - pattern: Class.forName(...)

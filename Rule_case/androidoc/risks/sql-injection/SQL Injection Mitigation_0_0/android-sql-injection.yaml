@@ -1,0 +1,205 @@
+rules:
+  - id: android-sql-injection
+    languages: [java, kotlin]
+    mode: taint
+    message: Untrusted Android input reaches a raw SQL statement. Use placeholders and bind arguments instead of constructing SQL from the input.
+    severity: ERROR
+    metadata:
+      cwe: CWE-89
+      references:
+        - https://developer.android.com/privacy-and-security/risks/sql-injection
+    pattern-sources:
+      - pattern-either:
+          - pattern: $INTENT.getStringExtra(...)
+          - pattern: $INTENT.getCharSequenceExtra(...)
+          - pattern: $INTENT.getDataString()
+          - pattern: $URI.getQueryParameter(...)
+          - pattern: $URI.getLastPathSegment()
+          - pattern: $QUERY_ARGS.getString(ContentResolver.QUERY_ARG_SQL_SELECTION)
+          - pattern: $QUERY_ARGS.getString(ContentResolver.QUERY_ARG_SQL_SORT_ORDER)
+          - pattern: $QUERY_ARGS.getString(ContentResolver.QUERY_ARG_SQL_GROUP_BY)
+          - pattern: $QUERY_ARGS.getString(ContentResolver.QUERY_ARG_SQL_HAVING)
+          - pattern: $QUERY_ARGS.getString(android.content.ContentResolver.QUERY_ARG_SQL_SELECTION)
+          - pattern: $QUERY_ARGS.getString(android.content.ContentResolver.QUERY_ARG_SQL_SORT_ORDER)
+      - patterns:
+          - pattern: $BUNDLE.getString(...)
+          - metavariable-type:
+              metavariable: $BUNDLE
+              type: android.os.Bundle
+      - patterns:
+          - pattern: $EDIT_TEXT.getText()
+          - metavariable-type:
+              metavariable: $EDIT_TEXT
+              type: android.widget.EditText
+    pattern-propagators:
+      - pattern: $BUILDER.append($VALUE)
+        from: $VALUE
+        to: $BUILDER
+      - pattern: $BUFFER.append($VALUE)
+        from: $VALUE
+        to: $BUFFER
+      - pattern: $COLLECTION.add($VALUE)
+        from: $VALUE
+        to: $COLLECTION
+      - pattern: $MAP.put($KEY, $VALUE)
+        from: $VALUE
+        to: $MAP
+      - pattern: $RESULT = String.format($FORMAT, ..., $VALUE, ...)
+        from: $VALUE
+        to: $RESULT
+    pattern-sinks:
+      - patterns:
+          - pattern: $DB.rawQuery($QUERY, ...)
+          - focus-metavariable: $QUERY
+      - patterns:
+          - pattern: $DB.execSQL($QUERY, ...)
+          - focus-metavariable: $QUERY
+      - patterns:
+          - pattern: $DB.query($TABLE, $COLUMNS, $SELECTION, ...)
+          - focus-metavariable: $SELECTION
+      - patterns:
+          - pattern: $RESOLVER.query($URI, $PROJECTION, $SELECTION, ...)
+          - focus-metavariable: $SELECTION
+      - patterns:
+          - pattern-either:
+              - pattern: new SimpleSQLiteQuery($QUERY)
+              - pattern: new SimpleSQLiteQuery($QUERY, ...)
+              - pattern: new androidx.sqlite.db.SimpleSQLiteQuery($QUERY)
+              - pattern: new androidx.sqlite.db.SimpleSQLiteQuery($QUERY, ...)
+              - pattern: SimpleSQLiteQuery($QUERY)
+              - pattern: SimpleSQLiteQuery($QUERY, ...)
+              - pattern: androidx.sqlite.db.SimpleSQLiteQuery($QUERY)
+              - pattern: androidx.sqlite.db.SimpleSQLiteQuery($QUERY, ...)
+          - focus-metavariable: $QUERY
+      - patterns:
+          - pattern: $SUPPORT_DB.query($QUERY)
+          - metavariable-type:
+              metavariable: $SUPPORT_DB
+              type: androidx.sqlite.db.SupportSQLiteDatabase
+          - focus-metavariable: $QUERY
+      - patterns:
+          - pattern: $SUPPORT_DB.query($QUERY)
+          - metavariable-type:
+              metavariable: $SUPPORT_DB
+              type: SupportSQLiteDatabase
+          - focus-metavariable: $QUERY
+      - patterns:
+          - pattern: $ROOM_DB.query($QUERY, ...)
+          - metavariable-type:
+              metavariable: $ROOM_DB
+              type: androidx.room.RoomDatabase
+          - focus-metavariable: $QUERY
+      - patterns:
+          - pattern-either:
+              - pattern: $BUILDER.query($DB, $PROJECTION, $SELECTION, $ARGS, $GROUP, $HAVING, $SORT)
+              - pattern: $BUILDER.query($DB, $PROJECTION, $SELECTION, $ARGS, $GROUP, $HAVING, $SORT, $LIMIT)
+          - metavariable-type:
+              metavariable: $BUILDER
+              type: android.database.sqlite.SQLiteQueryBuilder
+          - focus-metavariable: $SELECTION
+      - patterns:
+          - pattern-either:
+              - pattern: $BUILDER.query($DB, $PROJECTION, $SELECTION, $ARGS, $GROUP, $HAVING, $SORT)
+              - pattern: $BUILDER.query($DB, $PROJECTION, $SELECTION, $ARGS, $GROUP, $HAVING, $SORT, $LIMIT)
+          - metavariable-type:
+              metavariable: $BUILDER
+              type: android.database.sqlite.SQLiteQueryBuilder
+          - focus-metavariable: $SORT
+    pattern-sanitizers:
+      - pattern: DatabaseUtils.sqlEscapeString(...)
+
+  - id: android-contentprovider-untrusted-sql-clause
+    languages: [java]
+    message: >-
+      A ContentProvider passes a caller-controlled projection, selection, or sort
+      clause directly to SQLite. Treat these method parameters as untrusted:
+      expose a fixed query contract, use placeholders for values, and use
+      SQLiteQueryBuilder strict mode where its projection checks are appropriate.
+      Also verify the provider's exported state and permissions.
+    severity: WARNING
+    metadata:
+      cwe: CWE-89
+      references:
+        - https://developer.android.com/privacy-and-security/risks/sql-injection
+    pattern-either:
+      - patterns:
+          - pattern-inside: |
+              class $PROVIDER extends ContentProvider {
+                ...
+              }
+          - pattern-either:
+              - pattern-inside: |
+                  $RET query(Uri $URI, String[] $PROJECTION, String $SELECTION, String[] $ARGS, String $SORT) {
+                    ...
+                  }
+              - pattern-inside: |
+                  $RET query(SQLiteDatabase $DATABASE, Uri $URI, String[] $PROJECTION, String $SELECTION, String[] $ARGS, String $SORT) {
+                    ...
+                  }
+          - pattern-either:
+              - pattern: $DB.query($TABLE, $PROJECTION, $SELECTION, $ARGS, $GROUP, $HAVING, $SORT)
+              - pattern: $DB.query($TABLE, $PROJECTION, $SELECTION, $ARGS, $GROUP, $HAVING, $SORT, $LIMIT)
+      - patterns:
+          - pattern-inside: |
+              class $PROVIDER extends ContentProvider {
+                ...
+              }
+          - pattern-either:
+              - pattern-inside: |
+                  $RET delete(Uri $URI, String $SELECTION, String[] $ARGS) {
+                    ...
+                  }
+              - pattern-inside: |
+                  $RET delete(SQLiteDatabase $DATABASE, Uri $URI, String $SELECTION, String[] $ARGS) {
+                    ...
+                  }
+          - pattern: $DB.delete($TABLE, $SELECTION, $ARGS)
+      - patterns:
+          - pattern-inside: |
+              class $PROVIDER extends ContentProvider {
+                ...
+              }
+          - pattern-either:
+              - pattern-inside: |
+                  $RET update(Uri $URI, ContentValues $VALUES, String $SELECTION, String[] $ARGS) {
+                    ...
+                  }
+              - pattern-inside: |
+                  $RET update(SQLiteDatabase $DATABASE, Uri $URI, ContentValues $VALUES, String $SELECTION, String[] $ARGS) {
+                    ...
+                  }
+          - pattern: $DB.update($TABLE, $VALUES, $SELECTION, $ARGS)
+
+  - id: android-contentprovider-untrusted-sql-clause-kotlin
+    languages: [kotlin]
+    message: >-
+      A Kotlin ContentProvider passes a caller-controlled projection, selection,
+      or sort clause directly to SQLite. Expose a fixed query contract and bind
+      values instead of forwarding raw SQL fragments.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-89
+      references:
+        - https://developer.android.com/privacy-and-security/risks/sql-injection
+    pattern-either:
+      - patterns:
+          - pattern-inside: |
+              override fun query($URI: $URI_TYPE, $PROJECTION: $PROJECTION_TYPE, $SELECTION: $SELECTION_TYPE, $ARGS: $ARGS_TYPE, $SORT: $SORT_TYPE): $RET {
+                ...
+              }
+          - pattern-either:
+              - pattern: $DB.query($TABLE, $PROJECTION, $SELECTION, $ARGS, $GROUP, $HAVING, $SORT)
+              - pattern: $DB.query($TABLE, $PROJECTION, $SELECTION, $ARGS, $GROUP, $HAVING, $SORT, $LIMIT)
+      - patterns:
+          - pattern-inside: |
+              override fun delete($URI: $URI_TYPE, $SELECTION: $SELECTION_TYPE, $ARGS: $ARGS_TYPE): $RET {
+                ...
+              }
+          - pattern: $DB.delete($TABLE, $SELECTION, $ARGS)
+      - patterns:
+          - pattern-inside: |
+              override fun update($URI: $URI_TYPE, $VALUES: $VALUES_TYPE, $SELECTION: $SELECTION_TYPE, $ARGS: $ARGS_TYPE): $RET {
+                ...
+              }
+          - pattern: $DB.update($TABLE, $VALUES, $SELECTION, $ARGS)

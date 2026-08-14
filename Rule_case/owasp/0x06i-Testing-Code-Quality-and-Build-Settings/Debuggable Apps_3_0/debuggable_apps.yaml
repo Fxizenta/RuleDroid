@@ -1,0 +1,19 @@
+rules:
+  - id: debuggable_apps
+    languages:
+      - xml
+    message: Debugging features must be disabled in release builds to prevent attackers from exploiting debugging capabilities.
+    metadata:
+      area: code
+      category: security
+      references:
+        - https://developer.android.com/guide/topics/manifest/application-element.html
+        - https://github.com/OWASP/owasp-mastg/blob/v1.5.0/Document/0x05i-Testing-Code-Quality-and-Build-Settings.md#testing-whether-the-app-is-debuggable-mstg-code-2
+      verification-level:
+        - L2
+    severity: ERROR
+    paths:
+      include: ["**/AndroidManifest.xml"]
+    pattern-either:
+      - pattern: <application ... android:debuggable="true" ... />
+      - pattern: <application ... android:debuggable="true" ...> ... </application>

@@ -1,0 +1,37 @@
+rules:
+  - id: android-contentprovider-filename-trust
+    languages: [java, kotlin]
+    mode: taint
+    message: >-
+      A filename obtained from a ContentProvider reaches a filesystem path.
+      Replace separators and dot segments with an allowlisted filename, then
+      verify the canonical destination remains under the intended directory.
+    severity: ERROR
+    metadata:
+      cwe: CWE-73
+      references:
+        - https://developer.android.com/privacy-and-security/risks/untrustworthy-contentprovider-provided-filename
+    pattern-sources:
+      - patterns:
+          - pattern: $CURSOR.getString($INDEX)
+          - pattern-inside: |
+              $INDEX = $CURSOR.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+              ...
+      - patterns:
+          - pattern: $CURSOR.getString($INDEX)
+          - pattern-inside: |
+              $INDEX = $CURSOR.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME);
+              ...
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: new File($DIR, $NAME)
+              - pattern: new java.io.File($DIR, $NAME)
+          - focus-metavariable: $NAME
+      - pattern-either:
+          - pattern: new FileOutputStream(...)
+          - pattern: new java.io.FileOutputStream(...)
+    pattern-sanitizers:
+      - pattern-either:
+          - pattern: sanitizeFilename(...)
+          - pattern: $VALUE.replaceAll("[^a-zA-Z0-9._-]", "")

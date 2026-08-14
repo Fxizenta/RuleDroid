@@ -1,0 +1,9 @@
+rules:
+- id: get-installed-applications-java
+  languages:
+    - java
+  message: "Calling the getInstalledApplications method may expose installed application data. Please confirm that the call is necessary and pay attention to the security of data processing."
+  metadata:
+    category: Android Security
+  severity: INFO
+  pattern: $MANAGER.getInstalledApplications(...)

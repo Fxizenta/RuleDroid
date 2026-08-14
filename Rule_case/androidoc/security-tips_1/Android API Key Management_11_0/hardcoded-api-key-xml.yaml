@@ -1,0 +1,39 @@
+rules:
+  - id: hardcoded-api-key-xml
+    languages: [xml]
+    message: >-
+      A credential-like resource contains a non-placeholder literal. Values in
+      APK resources are recoverable by anyone who obtains the app; verify that
+      this value is intended to be public or move the secret to a trusted server.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-798
+    paths:
+      include: ["**/res/values/*.xml"]
+    patterns:
+      - pattern: <string name=$NAME>$VALUE</string>
+      - metavariable-regex:
+          metavariable: $NAME
+          regex: (?i)^".*(?:api_?key|auth_?token|secret|password|credential|access_?key|private_?key).*"$
+      - metavariable-regex:
+          metavariable: $VALUE
+          regex: '(?i)^(?!.*(?:example|sample|dummy|placeholder|changeme|your[_-]?|test[_-]?))[A-Za-z0-9_+./=-]{16,}$'
+
+  - id: hardcoded-recognizable-token-xml
+    languages: [xml]
+    message: >-
+      An XML literal has the recognizable shape of a deployable access token or
+      private API credential. APK resources are public to anyone who obtains the
+      app; revoke live secrets and move secret-bearing operations to a backend.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-798
+    paths:
+      include: ["**/res/values/*.xml"]
+    patterns:
+      - pattern: <string ...>$VALUE</string>
+      - metavariable-regex:
+          metavariable: $VALUE
+          regex: '(?i)^(?!.*(?:example|sample|dummy|placeholder|changeme|your[_-]?|test[_-]?))(?:AKIA[0-9A-Z]{16}|ASIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{35}|gh[pousr]_[0-9A-Za-z]{30,255}|sk_live_[0-9A-Za-z]{16,}|xox[baprs]-[0-9A-Za-z-]{16,}|eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,})$'

@@ -1,0 +1,23 @@
+rules:
+  - id: unzip-destination-dir-check-java
+    languages: [java, kotlin]
+    message: A ZIP entry name is joined directly to the destination directory without a visible canonical-path containment check. Reject absolute paths and entries that escape the destination.
+    severity: ERROR
+    metadata:
+      cwe: CWE-22
+    patterns:
+      - pattern: new File($DESTINATION, $ENTRY.getName())
+      - metavariable-type:
+          metavariable: $ENTRY
+          type: java.util.zip.ZipEntry
+      - pattern-not-inside: |
+          $RETURN $METHOD(...) {
+            ...
+            $TARGET = new File($DESTINATION, $ENTRY.getName());
+            ...
+            if (!$TARGET.getCanonicalPath().startsWith($DESTINATION.getCanonicalPath() + File.separator)) {
+              ...
+              throw ...;
+            }
+            ...
+          }

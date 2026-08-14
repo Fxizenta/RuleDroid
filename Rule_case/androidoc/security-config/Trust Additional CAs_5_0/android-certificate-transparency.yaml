@@ -1,0 +1,17 @@
+rules:
+  - id: android-certificate-transparency
+    languages:
+      - java
+    message: >
+      Certificate Transparency verification code is present. Verify that failures are handled closed and that the implementation remains maintained.
+    metadata:
+      cwe: cwe-295
+      masvs: network-4
+      owasp-mobile: m3
+      reference: "https://github.com/MobSF/owasp-mstg/blob/master/Document/0x05g-Testing-Network-Communication.md#testing-custom-certificate-stores-and-certificate-pinning-mstg-network-4"
+    patterns:
+      - pattern-either:
+          - pattern: "import com.babylon.certificatetransparency;"
+          - pattern: "new CTInterceptorBuilder(...);"
+          - pattern: "new CTHostnameVerifierBuilder(...);"
+    severity: INFO

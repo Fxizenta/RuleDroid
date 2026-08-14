@@ -1,0 +1,22 @@
+rules:
+- id: android-health-info
+  languages:
+    - java
+  message: |
+    This app may be handling health information, which requires compliance with privacy regulations.
+    Ensure that health-related data is handled securely and appropriately.
+  severity: INFO
+  pattern-either:
+    - pattern: HealthConnectClient.getOrCreate(...)
+    - pattern: $CLIENT.readRecords(...)
+    - pattern: $CLIENT.insertRecords(...)
+    - pattern: $CLIENT.updateRecords(...)
+    - pattern: $CLIENT.deleteRecords(...)
+  metadata:
+    category: security
+    technology: android
+    references:
+      - https://developer.android.com/health-and-fitness/guides/health-connect
+  fix: |
+    Review your handling of health-related data. Ensure that any sensitive information is 
+    properly secured and handled according to relevant regulations, such as HIPAA (if applicable).

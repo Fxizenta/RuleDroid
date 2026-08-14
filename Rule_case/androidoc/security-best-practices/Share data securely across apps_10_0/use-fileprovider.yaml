@@ -1,0 +1,9 @@
+rules:
+- id: use-fileprovider
+  languages:
+    - java
+  message: FileProvider is used to generate a content URI. Verify that its path XML exposes only the minimum required directories.
+  metadata:
+    cwe: CWE-927 # CWE-927: Use of Incorrectly-Resolved URI Schemes
+  severity: INFO
+  pattern: FileProvider.getUriForFile($CONTEXT, $AUTHORITY, $FILE)

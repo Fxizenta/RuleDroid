@@ -1,0 +1,215 @@
+rules:
+  - id: log-info-disclosure-dynamic-message
+    languages: [java]
+    mode: taint
+    message: >-
+      Sensitive credential, identity, account, or device data reaches a logging
+      API or logging wrapper. Remove or redact the value before logging.
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: CWE-532
+      references:
+        - https://developer.android.com/privacy-and-security/risks/log-info-disclosure
+    pattern-sources:
+      - patterns:
+          - pattern: $SENSITIVE
+          - metavariable-regex:
+              metavariable: $SENSITIVE
+              regex: (?i)^[A-Za-z0-9_$]*(?:password(?:hash)?|passwd|passphrase|credential|secret|authorization|bearer|token|credit_?card|card(?:_?(?:number|no))?|cvv|ssn|date_?of_?birth|dob|email|phone|account_?id|session_?(?:id|token)|cookie|imei|imsi|device_?id|user_?id|username|address)$
+      - pattern-either:
+          - pattern: $TELEPHONY.getDeviceId(...)
+          - pattern: $TELEPHONY.getImei(...)
+          - pattern: $TELEPHONY.getMeid(...)
+          - pattern: $TELEPHONY.getSubscriberId(...)
+          - pattern: $TELEPHONY.getLine1Number(...)
+          - pattern: $TELEPHONY.getSimSerialNumber(...)
+          - pattern: $ACCOUNT_MANAGER.getPassword(...)
+          - pattern: $ACCOUNT_MANAGER.peekAuthToken(...)
+          - pattern: Settings.Secure.getString($RESOLVER, Settings.Secure.ANDROID_ID)
+      - patterns:
+          - pattern: $INTENT.getStringExtra($KEY)
+          - metavariable-regex:
+              metavariable: $KEY
+              regex: (?i).*?(?:password|passwd|credential|secret|token|auth|credit|card|cvv|pin|ssn|email|phone|account|session|cookie|imei|imsi|device.?id).*?
+      - patterns:
+          - pattern: $BUNDLE.getString($KEY)
+          - metavariable-type:
+              metavariable: $BUNDLE
+              type: android.os.Bundle
+          - metavariable-regex:
+              metavariable: $KEY
+              regex: (?i).*?(?:password|passwd|credential|secret|token|auth|credit|card|cvv|pin|ssn|email|phone|account|session|cookie|imei|imsi|device.?id).*?
+      - patterns:
+          - pattern: $PREFERENCES.getString($KEY, ...)
+          - metavariable-type:
+              metavariable: $PREFERENCES
+              type: android.content.SharedPreferences
+          - metavariable-regex:
+              metavariable: $KEY
+              regex: (?i).*?(?:password|passwd|credential|secret|token|auth|credit|card|cvv|pin|ssn|email|phone|account|session|cookie|imei|imsi|device.?id).*?
+    pattern-propagators:
+      - pattern: $BUILDER.append($VALUE)
+        from: $VALUE
+        to: $BUILDER
+      - pattern: $COLLECTION.add($VALUE)
+        from: $VALUE
+        to: $COLLECTION
+      - pattern: $MAP.put($KEY, $VALUE)
+        from: $VALUE
+        to: $MAP
+    pattern-sinks:
+      - patterns:
+          - pattern: Log.$LEVEL($TAG, $MESSAGE)
+          - metavariable-regex:
+              metavariable: $LEVEL
+              regex: ^(?:v|d|i|w|e|wtf)$
+          - focus-metavariable: $MESSAGE
+      - patterns:
+          - pattern: Log.$LEVEL($TAG, $MESSAGE, $THROWABLE)
+          - metavariable-regex:
+              metavariable: $LEVEL
+              regex: ^(?:v|d|i|w|e|wtf)$
+          - focus-metavariable: $MESSAGE
+      - patterns:
+          - pattern: Log.println($PRIORITY, $TAG, $MESSAGE)
+          - focus-metavariable: $MESSAGE
+      - patterns:
+          - pattern: Timber.$LEVEL($MESSAGE, ...)
+          - metavariable-regex:
+              metavariable: $LEVEL
+              regex: ^(?:v|d|i|w|e|wtf|log)$
+          - focus-metavariable: $MESSAGE
+      - patterns:
+          - pattern: $LOGGER.$LEVEL($MESSAGE)
+          - metavariable-regex:
+              metavariable: $LEVEL
+              regex: ^(?:trace|debug|info|warn|error|fatal|log)$
+          - focus-metavariable: $MESSAGE
+      - patterns:
+          - pattern: $LOG_METHOD($MESSAGE)
+          - metavariable-regex:
+              metavariable: $LOG_METHOD
+              regex: (?i)^(?:log|debug|trace|audit|record)(?:[A-Za-z0-9_$]*)$
+          - focus-metavariable: $MESSAGE
+      - patterns:
+          - pattern: $LOGGER.$LEVEL($TAG, $MESSAGE, ...)
+          - metavariable-regex:
+              metavariable: $LEVEL
+              regex: ^(?:trace|debug|info|warn|error|fatal|log|v|d|i|w|e|wtf)$
+          - focus-metavariable: $MESSAGE
+      - patterns:
+          - pattern: $LOG_METHOD($TAG, $MESSAGE, ...)
+          - metavariable-regex:
+              metavariable: $LOG_METHOD
+              regex: (?i)^(?:log|debug|trace|audit|record|info|warn|error|fatal)(?:[A-Za-z0-9_$]*)$
+          - focus-metavariable: $MESSAGE
+
+  - id: log-info-disclosure-dynamic-message-kotlin
+    languages: [kotlin]
+    mode: taint
+    message: >-
+      Sensitive credential, identity, account, or device data reaches a Kotlin
+      logging API or logging wrapper. Remove or redact the value before logging.
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: CWE-532
+      references:
+        - https://developer.android.com/privacy-and-security/risks/log-info-disclosure
+    pattern-sources:
+      - pattern-either:
+          - pattern: $TELEPHONY.getDeviceId(...)
+          - pattern: $TELEPHONY.getImei(...)
+          - pattern: $TELEPHONY.getMeid(...)
+          - pattern: $TELEPHONY.getSubscriberId(...)
+          - pattern: $TELEPHONY.getLine1Number(...)
+          - pattern: $TELEPHONY.getSimSerialNumber(...)
+          - pattern: $ACCOUNT_MANAGER.getPassword(...)
+          - pattern: $ACCOUNT_MANAGER.peekAuthToken(...)
+      - patterns:
+          - pattern: $INTENT.getStringExtra($KEY)
+          - metavariable-regex:
+              metavariable: $KEY
+              regex: (?i).*?(?:password|passwd|credential|secret|token|auth|credit|card|cvv|pin|ssn|email|phone|account|session|cookie|imei|imsi|device.?id).*?
+    pattern-propagators:
+      - pattern: $BUILDER.append($VALUE)
+        from: $VALUE
+        to: $BUILDER
+      - pattern: $COLLECTION.add($VALUE)
+        from: $VALUE
+        to: $COLLECTION
+      - pattern: $MAP.put($KEY, $VALUE)
+        from: $VALUE
+        to: $MAP
+    pattern-sinks:
+      - patterns:
+          - pattern: Log.$LEVEL($TAG, $MESSAGE)
+          - metavariable-regex:
+              metavariable: $LEVEL
+              regex: ^(?:v|d|i|w|e|wtf)$
+          - focus-metavariable: $MESSAGE
+      - patterns:
+          - pattern: Timber.$LEVEL($MESSAGE, ...)
+          - metavariable-regex:
+              metavariable: $LEVEL
+              regex: ^(?:v|d|i|w|e|wtf|log)$
+          - focus-metavariable: $MESSAGE
+      - patterns:
+          - pattern: $LOGGER.$LEVEL($MESSAGE)
+          - metavariable-regex:
+              metavariable: $LEVEL
+              regex: ^(?:trace|debug|info|warn|error|fatal|log)$
+          - focus-metavariable: $MESSAGE
+      - patterns:
+          - pattern: $LOG_METHOD($MESSAGE)
+          - metavariable-regex:
+              metavariable: $LOG_METHOD
+              regex: (?i)^(?:log|debug|trace|audit|record)(?:[A-Za-z0-9_$]*)$
+          - focus-metavariable: $MESSAGE
+      - patterns:
+          - pattern: $LOGGER.$LEVEL($TAG, $MESSAGE, ...)
+          - metavariable-regex:
+              metavariable: $LEVEL
+              regex: ^(?:trace|debug|info|warn|error|fatal|log|v|d|i|w|e|wtf)$
+          - focus-metavariable: $MESSAGE
+      - patterns:
+          - pattern: $LOG_METHOD($TAG, $MESSAGE, ...)
+          - metavariable-regex:
+              metavariable: $LOG_METHOD
+              regex: (?i)^(?:log|debug|trace|audit|record|info|warn|error|fatal)(?:[A-Za-z0-9_$]*)$
+          - focus-metavariable: $MESSAGE
+
+  - id: log-info-disclosure-sensitive-parameter-kotlin
+    languages: [kotlin]
+    message: >-
+      A Kotlin parameter whose name identifies sensitive data is logged directly
+      or through a local alias. Remove or redact the value before logging.
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: CWE-532
+    patterns:
+      - pattern-either:
+          - pattern: Log.$LOG_METHOD($TAG, $SENSITIVE)
+          - pattern: Timber.$LOG_METHOD($SENSITIVE, ...)
+          - pattern: $LOGGER.$LOG_METHOD($SENSITIVE, ...)
+          - pattern: $LOG_METHOD($SENSITIVE)
+          - pattern: |
+              val $ALIAS = $SENSITIVE
+              ...
+              Log.$LOG_METHOD($TAG, $ALIAS)
+          - pattern: |
+              val $ALIAS = $SENSITIVE
+              ...
+              $LOGGER.$LOG_METHOD($ALIAS, ...)
+          - pattern: |
+              val $ALIAS = $SENSITIVE
+              ...
+              $LOG_METHOD($ALIAS)
+      - metavariable-regex:
+          metavariable: $SENSITIVE
+          regex: (?i)^[A-Za-z0-9_$]*(?:password(?:hash)?|passwd|passphrase|credential|secret|authorization|bearer|token|credit_?card|card(?:_?(?:number|no))?|cvv|ssn|date_?of_?birth|dob|email|phone|account_?id|session_?(?:id|token)|cookie|imei|imsi|device_?id|user_?id|username|address)$
+      - metavariable-regex:
+          metavariable: $LOG_METHOD
+          regex: (?i)^(?:v|d|i|w|e|wtf|log|debug|trace|info|warn|error|fatal|audit|record)(?:[A-Za-z0-9_$]*)$

@@ -1,0 +1,17 @@
+rules:
+- id: android-check-uri-permissions
+  languages:
+    - java
+  message: >
+    Verify that URI permissions are checked properly to ensure secure access control.
+    The return value from checkUriPermission must be validated (e.g. compared against PackageManager.PERMISSION_GRANTED)
+    before proceeding.
+  metadata:
+    category: Security
+    references:
+      - https://developer.android.com/reference/android/content/Context#checkUriPermission%28android.net.Uri,%20int,%20int,%20int%29
+    technology: Android
+  severity: ERROR
+  pattern-either:
+    - pattern: $CTX.checkUriPermission($URI, $PID, $UID, $MODEFLAGS);
+    - pattern: $CTX.checkUriPermission($URI, $READPERM, $WRITEPERM, $PID, $UID, $MODEFLAGS);

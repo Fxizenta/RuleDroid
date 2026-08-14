@@ -1,0 +1,16 @@
+rules:
+  - id: android-manifest-missing-exported-attribute
+    languages: [xml]
+    message: Provider is missing 'android:exported' attribute. Explicitly define it to prevent unintended exposure.
+    metadata:
+      category: Security
+      technology: Android
+    severity: WARNING
+    paths:
+      include: ["**/AndroidManifest.xml"]
+    patterns:
+      - pattern-either:
+          - pattern: <provider ... />
+          - pattern: <provider ...> ... </provider>
+      - pattern-not: <provider ... android:exported=$EXPORTED ... />
+      - pattern-not: <provider ... android:exported=$EXPORTED ...> ... </provider>

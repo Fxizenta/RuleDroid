@@ -1,0 +1,58 @@
+rules:
+  - id: hardcoded-api-key-java
+    languages: [java]
+    message: >-
+      A credential-like variable is assigned a non-placeholder string literal.
+      Remove deployable secrets from source control and load them from an
+      appropriate runtime configuration or credential service. Public client
+      identifiers and keys intentionally embedded in a mobile app may be
+      non-secret and should be reviewed rather than blindly rotated.
+    severity: WARNING
+    metadata:
+      category: security
+      technology: android
+      cwe: CWE-798
+      references:
+        - https://developer.android.com/privacy-and-security/risks/hardcoded-cryptographic-secrets
+    pattern-either:
+      - patterns:
+          - pattern-either:
+              - pattern: String $NAME = "$VALUE";
+              - pattern: $NAME = "$VALUE";
+          - metavariable-regex:
+              metavariable: $NAME
+              regex: (?i).*(?:api_?key|auth_?token|secret|password|credential|access_?key|private_?key).*
+          - metavariable-regex:
+              metavariable: $VALUE
+              regex: '(?i)^(?!.*(?:example|sample|dummy|placeholder|changeme|your[_-]?|test[_-]?|localhost))[A-Za-z0-9_+./=-]{16,}$'
+      - patterns:
+          - pattern-either:
+              - pattern: $CLIENT.setApiKey("$VALUE")
+              - pattern: $CLIENT.setToken("$VALUE")
+              - pattern: $CLIENT.setSecret("$VALUE")
+              - pattern: $CLIENT.setPassword("$VALUE")
+          - metavariable-regex:
+              metavariable: $VALUE
+              regex: '(?i)^(?!.*(?:example|sample|dummy|placeholder|changeme|your[_-]?|test[_-]?|localhost))[A-Za-z0-9_+./=-]{16,}$'
+
+  - id: hardcoded-recognizable-token-java
+    languages: [java]
+    message: >-
+      A string literal has the recognizable shape of a deployable access token or
+      private API credential. Verify the provider and scope, revoke it if it is
+      live, and move secret-bearing operations to a trusted backend. Some mobile
+      API identifiers are intentionally public and should be restricted by app or
+      signing identity rather than treated as confidential.
+    severity: WARNING
+    metadata:
+      category: security
+      technology: android
+      cwe: CWE-798
+    patterns:
+      - pattern-either:
+          - pattern: String $NAME = "$VALUE";
+          - pattern: $NAME = "$VALUE";
+          - pattern: $CALL("$VALUE")
+      - metavariable-regex:
+          metavariable: $VALUE
+          regex: '(?i)^(?!.*(?:example|sample|dummy|placeholder|changeme|your[_-]?|test[_-]?))(?:AKIA[0-9A-Z]{16}|ASIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{35}|gh[pousr]_[0-9A-Za-z]{30,255}|sk_live_[0-9A-Za-z]{16,}|xox[baprs]-[0-9A-Za-z-]{16,}|eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,})$'

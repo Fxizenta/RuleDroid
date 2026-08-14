@@ -1,0 +1,12 @@
+rules:
+  - id: android-create-device-protected-storage-context-java
+    languages:
+      - java
+    message: >
+      Device-protected storage is used. Data in this context is available before
+      user unlock, so do not place credential-protected secrets here.
+    metadata:
+      cwe: 'CWE-312: Cleartext Storage of Sensitive Information'
+      owasp: 'M5: Insufficient Cryptography'
+    severity: INFO
+    pattern: $CONTEXT.createDeviceProtectedStorageContext()

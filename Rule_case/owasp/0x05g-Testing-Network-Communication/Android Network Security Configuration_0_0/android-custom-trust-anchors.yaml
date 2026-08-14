@@ -1,0 +1,15 @@
+rules:
+  - id: android-user-trust-anchor-enabled
+    languages:
+      - xml
+    message: The network security configuration trusts user-installed CAs. Limit this to debug-only overrides unless production interception is explicitly required.
+    paths:
+      include:
+        - '**/*.xml'
+    patterns:
+      - pattern-inside: |
+          <trust-anchors>
+            ...
+          </trust-anchors>
+      - pattern: <certificates ... src="user" ... />
+    severity: WARNING

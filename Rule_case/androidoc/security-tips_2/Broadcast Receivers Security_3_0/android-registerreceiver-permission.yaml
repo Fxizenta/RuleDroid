@@ -1,0 +1,16 @@
+rules:
+- id: android-registerreceiver-permission
+  languages:
+  - java
+  - kotlin
+  message: >-
+    A receiver is registered with the legacy two-argument overload. For app-defined
+    broadcasts, use ContextCompat.registerReceiver with RECEIVER_NOT_EXPORTED; if
+    external senders are required, use RECEIVER_EXPORTED plus a suitable permission.
+  metadata:
+    cwe: CWE-200
+    owasp: 'M1: Improper Platform Usage'
+  pattern-either:
+    - pattern: registerReceiver($RECEIVER, $INTENT_FILTER)
+    - pattern: $CONTEXT.registerReceiver($RECEIVER, $INTENT_FILTER)
+  severity: WARNING

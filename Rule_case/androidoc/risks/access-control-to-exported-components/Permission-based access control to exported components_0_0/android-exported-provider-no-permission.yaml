@@ -1,0 +1,24 @@
+rules:
+  - id: android-exported-provider-no-permission
+    languages: [xml]
+    message: >-
+      An explicitly exported ContentProvider has no general, read, or write
+      permission. Unless this provider is deliberately public and validates every
+      operation, set exported=false or protect it with an appropriate permission.
+    metadata:
+      category: security
+      technology: android
+      cwe: CWE-926
+    paths:
+      include: ["**/AndroidManifest.xml"]
+    severity: ERROR
+    patterns:
+      - pattern-either:
+          - pattern: <provider ... android:exported="true" ... />
+          - pattern: <provider ... android:exported="true" ...> ... </provider>
+      - pattern-not: <provider ... android:permission=$PERMISSION ... />
+      - pattern-not: <provider ... android:permission=$PERMISSION ...> ... </provider>
+      - pattern-not: <provider ... android:readPermission=$PERMISSION ... />
+      - pattern-not: <provider ... android:readPermission=$PERMISSION ...> ... </provider>
+      - pattern-not: <provider ... android:writePermission=$PERMISSION ... />
+      - pattern-not: <provider ... android:writePermission=$PERMISSION ...> ... </provider>

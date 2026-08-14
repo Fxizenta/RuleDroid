@@ -1,0 +1,12 @@
+rules:
+  - id: webview-javascript-interface
+    languages:
+      - java
+    message: >
+      Potential XSS vulnerability: Adding a JavaScript interface to WebView can expose the app to malicious scripts.
+      Avoid using addJavascriptInterface unless absolutely necessary, and if used, ensure the interface methods are secure and validate inputs.
+    severity: WARNING
+    metadata:
+      category: security
+      technology: android
+    pattern: $WEBVIEW.addJavascriptInterface($OBJ, $NAME)

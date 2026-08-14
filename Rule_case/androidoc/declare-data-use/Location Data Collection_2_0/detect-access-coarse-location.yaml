@@ -1,0 +1,11 @@
+rules:
+- id: detect-access-coarse-location
+  languages:
+    - java
+  message: Usage of ACCESS_COARSE_LOCATION detected. Ensure that location data is handled securely.
+  severity: INFO
+  pattern-either:
+    - pattern: $X.requestPermissions(new String[] { ..., Manifest.permission.ACCESS_COARSE_LOCATION, ... }, $REQUEST_CODE)
+    - pattern: $X.requestPermissions(new String[] { ..., ACCESS_COARSE_LOCATION, ... }, $REQUEST_CODE)
+    - pattern: ActivityCompat.requestPermissions($ACTIVITY, new String[] { ..., Manifest.permission.ACCESS_COARSE_LOCATION, ... }, $REQUEST_CODE)
+    - pattern: ContextCompat.checkSelfPermission($CONTEXT, Manifest.permission.ACCESS_COARSE_LOCATION)

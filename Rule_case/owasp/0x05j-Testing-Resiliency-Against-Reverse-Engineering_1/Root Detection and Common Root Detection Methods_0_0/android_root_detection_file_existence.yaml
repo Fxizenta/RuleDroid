@@ -1,0 +1,12 @@
+rules:
+  - id: android_root_detection_file_existence
+    languages:
+      - java
+    message: Detects file existence checks for 'su' binaries, which are commonly used for root detection.
+    metadata:
+      cwe: cwe-919
+      masvs: resilience-1
+      owasp-mobile: m8
+    patterns:
+      - pattern: new File($PATH, "su").exists()
+    severity: INFO

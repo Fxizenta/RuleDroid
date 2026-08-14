@@ -1,0 +1,10 @@
+rules:
+  - id: android-collect-phone-number
+    languages: [java]
+    message: The app reads a phone number from telephony APIs. Treat it as personal data and verify that access is necessary and disclosed.
+    severity: INFO
+    metadata:
+      category: Personal Information Data Collection
+    pattern-either:
+      - pattern: ((TelephonyManager) $TM).getLine1Number()
+      - pattern: ((SubscriptionInfo) $INFO).getNumber()

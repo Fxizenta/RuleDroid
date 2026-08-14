@@ -1,0 +1,10 @@
+rules:
+  - id: fingerprint-hardware-detection
+    languages: [java]
+    message: "Ensure fingerprint hardware is available before offering fingerprint authentication."
+    severity: INFO
+    pattern: fingerprintManager.isHardwareDetected()
+    pattern-not-inside: |
+      if (!fingerprintManager.isHardwareDetected()) {
+          ...
+      }

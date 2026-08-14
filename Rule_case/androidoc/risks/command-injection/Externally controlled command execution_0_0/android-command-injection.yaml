@@ -1,0 +1,160 @@
+rules:
+  - id: android-runtime-command-injection
+    languages: [java]
+    mode: taint
+    message: >-
+      Android-controlled input reaches Runtime.exec(). Do not build an operating
+      system command from Intent, URI, Bundle, or UI data. Replace the shell-out
+      with a narrow platform API, or map allowlisted input to fixed commands and
+      arguments.
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: CWE-78
+      references:
+        - https://developer.android.com/privacy-and-security/security-tips#InputValidation
+    pattern-sources:
+      - pattern-either:
+          - pattern: $INTENT.getStringExtra(...)
+          - pattern: $INTENT.getCharSequenceExtra(...)
+          - pattern: $INTENT.getDataString()
+          - pattern: $URI.getQueryParameter(...)
+          - pattern: $URI.getLastPathSegment()
+      - patterns:
+          - pattern: $BUNDLE.getString(...)
+          - metavariable-type:
+              metavariable: $BUNDLE
+              type: android.os.Bundle
+      - patterns:
+          - pattern: $EDIT_TEXT.getText()
+          - metavariable-type:
+              metavariable: $EDIT_TEXT
+              type: android.widget.EditText
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: Runtime.getRuntime().exec($COMMAND)
+              - pattern: Runtime.getRuntime().exec($COMMAND, ...)
+              - pattern: java.lang.Runtime.getRuntime().exec($COMMAND)
+              - pattern: java.lang.Runtime.getRuntime().exec($COMMAND, ...)
+          - focus-metavariable: $COMMAND
+      - patterns:
+          - pattern: $RUNTIME.exec($COMMAND, ...)
+          - metavariable-type:
+              metavariable: $RUNTIME
+              type: java.lang.Runtime
+          - focus-metavariable: $COMMAND
+
+  - id: android-processbuilder-external-command
+    languages: [java]
+    mode: taint
+    message: >-
+      Android-controlled input reaches ProcessBuilder. Even without shell
+      metacharacter expansion, attacker-controlled executables or arguments can
+      trigger unintended operations. Map input to a fixed allowlist of commands
+      and argument values.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-78
+    pattern-sources:
+      - pattern-either:
+          - pattern: $INTENT.getStringExtra(...)
+          - pattern: $INTENT.getCharSequenceExtra(...)
+          - pattern: $INTENT.getDataString()
+          - pattern: $URI.getQueryParameter(...)
+          - pattern: $URI.getLastPathSegment()
+      - patterns:
+          - pattern: $BUNDLE.getString(...)
+          - metavariable-type:
+              metavariable: $BUNDLE
+              type: android.os.Bundle
+      - patterns:
+          - pattern: $EDIT_TEXT.getText()
+          - metavariable-type:
+              metavariable: $EDIT_TEXT
+              type: android.widget.EditText
+    pattern-sinks:
+      - pattern-either:
+          - pattern: new ProcessBuilder(...)
+          - pattern: new java.lang.ProcessBuilder(...)
+      - patterns:
+          - pattern: $BUILDER.command(...)
+          - metavariable-type:
+              metavariable: $BUILDER
+              type: java.lang.ProcessBuilder
+
+  - id: android-runtime-command-injection-kotlin
+    languages: [kotlin]
+    mode: taint
+    message: >-
+      Android-controlled input reaches Runtime.exec(). Replace the shell-out with
+      a narrow platform API, or map allowlisted input to fixed commands and
+      arguments.
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: CWE-78
+    pattern-sources:
+      - pattern-either:
+          - pattern: $INTENT.getStringExtra(...)
+          - pattern: $INTENT.getCharSequenceExtra(...)
+          - pattern: $INTENT.getDataString()
+          - pattern: $URI.getQueryParameter(...)
+          - pattern: $URI.getLastPathSegment()
+      - patterns:
+          - pattern: $BUNDLE.getString(...)
+          - metavariable-type:
+              metavariable: $BUNDLE
+              type: android.os.Bundle
+      - patterns:
+          - pattern: $EDIT_TEXT.getText()
+          - metavariable-type:
+              metavariable: $EDIT_TEXT
+              type: android.widget.EditText
+    pattern-sinks:
+      - pattern-either:
+          - pattern: Runtime.getRuntime().exec(...)
+          - pattern: java.lang.Runtime.getRuntime().exec(...)
+      - patterns:
+          - pattern: $RUNTIME.exec(...)
+          - metavariable-type:
+              metavariable: $RUNTIME
+              type: java.lang.Runtime
+
+  - id: android-processbuilder-external-command-kotlin
+    languages: [kotlin]
+    mode: taint
+    message: >-
+      Android-controlled input reaches ProcessBuilder. Map input to a fixed
+      allowlist of commands and argument values.
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: CWE-78
+    pattern-sources:
+      - pattern-either:
+          - pattern: $INTENT.getStringExtra(...)
+          - pattern: $INTENT.getCharSequenceExtra(...)
+          - pattern: $INTENT.getDataString()
+          - pattern: $URI.getQueryParameter(...)
+          - pattern: $URI.getLastPathSegment()
+      - patterns:
+          - pattern: $BUNDLE.getString(...)
+          - metavariable-type:
+              metavariable: $BUNDLE
+              type: android.os.Bundle
+      - patterns:
+          - pattern: $EDIT_TEXT.getText()
+          - metavariable-type:
+              metavariable: $EDIT_TEXT
+              type: android.widget.EditText
+    pattern-sinks:
+      - pattern-either:
+          - pattern: ProcessBuilder(...)
+          - pattern: java.lang.ProcessBuilder(...)
+      - patterns:
+          - pattern: $BUILDER.command(...)
+          - metavariable-type:
+              metavariable: $BUILDER
+              type: java.lang.ProcessBuilder

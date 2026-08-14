@@ -1,0 +1,26 @@
+rules:
+- id: avoid-securerandom-seed
+  languages:
+  - java
+  - kotlin
+  message: >-
+    SecureRandom is initialized or reseeded with a hard-coded value, making output
+    reproducible. Remove the fixed seed and let the platform seed from system entropy.
+  metadata:
+    cwe: cwe-330
+    masvs: crypto-6
+    owasp-mobile: m5
+    reference: https://github.com/OWASP/owasp-mastg/blob/v1.5.0/Document/0x05e-Testing-Cryptography.md#testing-random-number-generation-mstg-crypto-6
+  paths:
+    exclude:
+    - '**/test/**'
+    - '**/example/**'
+  patterns:
+    - pattern-either:
+        - pattern: new SecureRandom($SEED)
+        - pattern: new java.security.SecureRandom($SEED)
+        - pattern: $RANDOM.setSeed($SEED)
+    - metavariable-regex:
+        metavariable: $SEED
+        regex: '(?s)^(?:-?[0-9]+[lL]?|"[^"]*"\.getBytes\(.*\)|new byte\s*\[\s*\]\s*\{.*\})$'
+  severity: ERROR

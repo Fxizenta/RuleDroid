@@ -1,0 +1,21 @@
+rules:
+  - id: use_tls_traffic_xml
+    languages: [xml]
+    message: A non-local cleartext HTTP URL is embedded in an Android XML resource. Use HTTPS or explicitly document a narrowly scoped exception.
+    severity: ERROR
+    metadata:
+      cwe: CWE-319
+    paths:
+      include:
+        - "**/AndroidManifest.xml"
+        - "**/res/**/*.xml"
+    pattern-either:
+      - pattern-regex: '(?is)<string\b[^>]*\bname\s*=\s*["''][^"'']*(?:url|endpoint|host|api|server|base)[^"'']*["''][^>]*>\s*http://(?!(?:localhost|127\.|10\.|192\.168\.|172\.(?:1[6-9]|2[0-9]|3[0-1])\.)).*?</string>'
+      - patterns:
+          - pattern: $ATTR=$URL
+          - metavariable-regex:
+              metavariable: $ATTR
+              regex: (?i)^(?:url|href|link|endpoint|src)$
+          - metavariable-regex:
+              metavariable: $URL
+              regex: '(?i)^"http://(?!(?:localhost|127\.|10\.|192\.168\.|172\.(?:1[6-9]|2[0-9]|3[0-1])\.)).+"$'

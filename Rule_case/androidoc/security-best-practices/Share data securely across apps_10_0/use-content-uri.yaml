@@ -1,0 +1,16 @@
+rules:
+- id: use-content-uri
+  languages: [java, kotlin]
+  message: When sharing data, use content:// URIs, not file:// URIs.
+  metadata:
+    cwe: CWE-200
+    category: security
+    technology:
+      - android
+  severity: ERROR
+  pattern-either:
+    - pattern: new Intent($ACTION, Uri.fromFile($FILE))
+    - pattern: new Intent($ACTION, Uri.parse("file://..."))
+    - pattern: $INTENT.setData(Uri.fromFile($FILE))
+    - pattern: $INTENT.setDataAndType(Uri.fromFile($FILE), $TYPE)
+    - pattern: $INTENT.putExtra(Intent.EXTRA_STREAM, Uri.fromFile($FILE))

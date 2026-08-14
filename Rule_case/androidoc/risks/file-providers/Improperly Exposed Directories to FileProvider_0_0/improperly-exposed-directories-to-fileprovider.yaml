@@ -1,0 +1,32 @@
+rules:
+  - id: improperly-exposed-directories-to-fileprovider
+    languages:
+      - xml
+    message: >
+      The application has an improperly configured FileProvider that can unintentionally
+      expose files and directories to an attacker. Ensure that sensitive directories
+      are not exposed and paths are explicitly restricted. Avoid using overly permissive
+      configurations such as <root-path> or <external-path>.
+    metadata:
+      area: storage
+      category: security
+      owasp-mobile: M2
+      references:
+        - https://developer.android.com/guide/topics/providers/content-provider-basics
+    paths:
+      include:
+        - '**/*.xml'
+    severity: ERROR
+    pattern-either:
+      - pattern: <root-path ... />
+      - pattern: <external-path ... path="/" ... />
+      - pattern: <external-path ... path="." ... />
+      - pattern: <files-path ... path="/" ... />
+      - pattern: <files-path ... path="." ... />
+      - pattern: <files-path ... path="*" ... />
+      - pattern: <cache-path ... path="/" ... />
+      - pattern: <cache-path ... path="." ... />
+      - pattern: <external-files-path ... path="/" ... />
+      - pattern: <external-files-path ... path="." ... />
+      - pattern: <external-cache-path ... path="/" ... />
+      - pattern: <external-cache-path ... path="." ... />
