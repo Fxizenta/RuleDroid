@@ -1,5 +1,0 @@
-# Local test suite (do not include in outgoing changes)
-/tests/
-
-# Local ruleset audit report
-/RULESET_AUDIT.md
